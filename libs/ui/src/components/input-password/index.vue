@@ -14,7 +14,7 @@ const type = computed(() => (isPasswordDisplayed.value ? 'text' : 'password'));
 </script>
 
 <template>
-  <dsp-input-text :type="type" v-bind="$attrs">
+  <dsp-input-text v-bind="$attrs" :type="type">
     <template #right-icon>
       <dsp-plain-button type="button" @click="toggle">
         <dsp-icon :icon="icon" />

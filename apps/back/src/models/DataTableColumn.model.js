@@ -20,6 +20,8 @@ export class DataTableColumn {
   }
 
   headerElementRef(el) {
+    if (this.headerElement === el) return;
+
     this.headerElement = el;
     setTimeout(() => {
       this.table.setColumnOffsets();
@@ -39,5 +41,11 @@ export class DataTableColumn {
         row: entity,
         value: entity[this.name]
       });
+  }
+
+  togglePinned() {
+    console.log('toggle pinned');
+    this.isPinned = !this.isPinned;
+    this.table.setColumnOffsets();
   }
 }

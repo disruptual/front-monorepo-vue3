@@ -250,4 +250,8 @@ const ordersLink = computed(() => ({
     flex-grow: 1;
   }
 }
+
+a {
+  color: var(--color-brand-500);
+}
 </style>

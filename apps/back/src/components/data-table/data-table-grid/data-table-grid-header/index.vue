@@ -38,7 +38,7 @@ const columnStyle = column => {
           <dsp-icon-button
             icon="pin"
             class="pin-button"
-            @click="column.isPinned = !column.isPinned"
+            @click="column.togglePinned()"
           />
         </dsp-flex>
       </th>

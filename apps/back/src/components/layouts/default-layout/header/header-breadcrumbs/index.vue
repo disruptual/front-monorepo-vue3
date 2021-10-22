@@ -8,7 +8,7 @@ import { CONTEXT_KEYS } from '@/utils/constants';
 import { useDevice, useReadableColor } from '@dsp/ui';
 
 const device = useDevice();
-const [breadcrumbs, { goTo }] = inject(CONTEXT_KEYS.BREADCRUMB);
+const breadcrumbs = inject(CONTEXT_KEYS.BREADCRUMB);
 
 const textColor = useReadableColor('--color-brand-500');
 </script>
@@ -21,11 +21,11 @@ const textColor = useReadableColor('--color-brand-500');
     </router-link>
 
     <router-link
-      v-for="breadcrumb in breadcrumbs"
+      v-for="breadcrumb in breadcrumbs.breadcrumbs"
       :key="breadcrumb.id"
       class="entry"
       :to="breadcrumb.target"
-      @click="goTo(breadcrumb.id)"
+      @click="breadcrumbs.goTo(breadcrumb.id)"
     >
       <dsp-truncated-text width="8ch">
         {{ breadcrumb.label }}

@@ -4,13 +4,13 @@ import { CONTEXT_KEYS } from '@/utils/constants';
 
 export const useBreadCrumbs = label => {
   const { fullPath } = useRoute();
-  const [breadcrumbs, actions] = inject(CONTEXT_KEYS.BREADCRUMB);
+  const breadcrumbs = inject(CONTEXT_KEYS.BREADCRUMB);
   const hasRegistered = ref(false);
 
   const register = () => {
     if (hasRegistered.value) return;
     if (unref(label)) {
-      actions.add({
+      breadcrumbs.add({
         label: unref(label),
         target: fullPath
       });
@@ -26,10 +26,10 @@ export const useBreadCrumbs = label => {
       if (!oldVal) {
         register();
       } else {
-        actions.setActiveBreadcrumbLabel(newVal);
+        breadcrumbs.setActiveBreadcrumbLabel(newVal);
       }
     }
   );
 
-  return [breadcrumbs, { ...actions }];
+  return breadcrumbs;
 };

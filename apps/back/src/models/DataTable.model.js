@@ -55,14 +55,17 @@ export class DataTable {
   }
 
   setColumnOffsets() {
-    this.displayedColumns.forEach(column => {
-      const el = column.headerElement;
-      if (!el) return;
+    const pinnedColumns = this.displayedColumns.filter(
+      column => column.isPinned
+    );
+    if (pinnedColumns.some(column => !column.headerElement)) return;
 
-      el.style.position = 'static';
-      const offset = el.offsetLeft;
-      el.style.position = null;
-      column.pinnedOffset = offset;
+    let totalOffset = 40; // selector column width
+
+    pinnedColumns.forEach(column => {
+      const { width } = column.headerElement.getBoundingClientRect();
+      column.pinnedOffset = totalOffset;
+      totalOffset += width;
     });
   }
 

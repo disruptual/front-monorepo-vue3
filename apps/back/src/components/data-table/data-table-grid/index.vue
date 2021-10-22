@@ -3,17 +3,21 @@ export default { name: 'DataTableGrid' };
 </script>
 
 <script setup>
-import { inject, ref } from 'vue';
+import { inject, ref, computed } from 'vue';
 import { CONTEXT_KEYS } from '@/utils/constants';
 
 import DataTableGridRow from './data-table-grid-row/index.vue';
 import DataTableGridHeader from './data-table-grid-header/index.vue';
+
+const bodyElement = ref(null);
 
 const {
   query: { data, fetchNextPage },
   model
 } = inject(CONTEXT_KEYS.DATATABLE);
 const tableElement = ref(null);
+
+const totalWidth = computed(() => bodyElement.value?.scrollWidth);
 </script>
 
 <template>
@@ -31,7 +35,7 @@ const tableElement = ref(null);
     </tbody>
 
     <dsp-infinite-scroll v-else :root="tableElement" @load-more="fetchNextPage">
-      <tbody>
+      <tbody ref="bodyElement">
         <DataTableGridRow v-for="row in data" :key="row.id" :row="row" />
       </tbody>
     </dsp-infinite-scroll>
@@ -49,6 +53,11 @@ const tableElement = ref(null);
 
   tbody {
     display: block;
+  }
+
+  thead,
+  tbody {
+    width: v-bind('totalWidth + "px"');
   }
 
   tbody tr:last-of-type {

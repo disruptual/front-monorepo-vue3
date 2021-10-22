@@ -31,11 +31,6 @@ const model = reactive(
   })
 );
 
-watch(model.columns, () => model.setColumnOffsets(), {
-  deep: true,
-  immediate: true
-});
-
 provide(CONTEXT_KEYS.DATATABLE, {
   query: props.query,
   model

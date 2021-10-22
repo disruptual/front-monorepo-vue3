@@ -13,8 +13,7 @@ const emit = defineEmits(['update:modelValue']);
 const props = defineProps({
   modelValue: { type: String, default: null },
   leftIcon: { type: String, default: null },
-  rightIcon: { type: String, default: null },
-  type: { type: String, default: 'text' }
+  rightIcon: { type: String, default: null }
 });
 
 const model = computed({
@@ -34,8 +33,7 @@ const textColor = useReadableColor('--color-surface');
     <slot name="left-icon">
       <dsp-icon v-if="props.leftIcon" :icon="props.leftIcon" class="icon" />
     </slot>
-
-    <input v-model="model" v-bind="$attrs" :type="type" />
+    <input v-model="model" v-bind="$attrs" />
 
     <slot name="right-icon">
       <dsp-icon v-if="props.rightIcon" :icon="props.rightIcon" class="icon" />

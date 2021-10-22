@@ -3,7 +3,7 @@ export default { name: 'AdminUserDetailPage' };
 </script>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';

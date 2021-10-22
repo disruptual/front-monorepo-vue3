@@ -40,16 +40,16 @@ const goToDetail = row => {
     >
       <dsp-avatar :user="row" />
     </DataTableColumn>
-    <DataTableColumn name="slug" label="Slug" width="300" />
-    <DataTableColumn name="firstName" label="Prénom" width="300" />
-    <DataTableColumn name="lastName" label="Nom" width="300" />
-    <DataTableColumn name="email" label="Adress E-mail" width="300" />
+    <DataTableColumn name="slug" label="Slug" width="500" />
+    <DataTableColumn name="firstName" label="Prénom" width="600" />
+    <DataTableColumn name="lastName" label="Nom" width="600" />
+    <DataTableColumn name="email" label="Adress E-mail" width="650" />
     <DataTableColumn
       v-slot="{ row }"
       name="created"
       label="Date d'inscription"
       :tooltip-label="({ row }) => row.formatCreated()"
-      width="300"
+      width="1000"
     >
       {{ row.formatCreated('EEEE d MMMM yyyy') }}
     </DataTableColumn>

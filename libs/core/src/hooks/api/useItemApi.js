@@ -32,6 +32,21 @@ export function useItemApi() {
       return useCollectionQuery(queryKey, queryFn, options);
     },
 
+    findAllQuery({ relations = [], itemsPerPage = 30 } = {}) {
+      const queryKey = computed(() => `/users`);
+
+      const options = {
+        model: Item,
+        itemsPerPage,
+        relations
+      };
+
+      const queryFn = ({ pageParam = { page: 1, itemsPerPage } }) =>
+        itemService.findAll({ params: { ...pageParam } });
+
+      return useCollectionQuery(queryKey, queryFn, options);
+    },
+
     findAllByUserIdQuery(userId, { relations = [] } = {}) {
       const queryKey = computed(() => `/users/${userId}/items`);
 

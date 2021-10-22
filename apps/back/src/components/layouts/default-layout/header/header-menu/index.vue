@@ -13,7 +13,7 @@ const isOpened = ref(false);
 const search = ref('');
 
 const { data: currentUser } = useCurrentUser();
-const [, { reset }] = useBreadCrumbs();
+const breadcrumbs = useBreadCrumbs();
 
 const sections = [
   {
@@ -55,7 +55,11 @@ const sections = [
 ];
 
 const allowedSections = computed(() =>
-  sections.filter(section => currentUser.value.hasRoles(...section.permissions))
+  sections.filter(section =>
+    section.permissions.some(permission =>
+      currentUser.value.hasRole(permission)
+    )
+  )
 );
 
 const displayedLinksForSection = section =>
@@ -65,7 +69,7 @@ const displayedLinksForSection = section =>
 
 const onLinkClick = () => {
   isOpened.value = false;
-  reset();
+  breadcrumbs.reset();
 };
 
 const focusedTextColor = useReadableColor('--color-brand-500');
@@ -147,6 +151,7 @@ const focusedTextColor = useReadableColor('--color-brand-500');
   text-decoration: none;
   color: inherit;
   width: 100%;
+  font-size: var(--font-size-sm);
   hyphens: auto;
 
   &:hover {
@@ -161,13 +166,13 @@ const focusedTextColor = useReadableColor('--color-brand-500');
 }
 
 section {
-  padding: 0 var(--spacing-sm);
+  padding: var(--spacing-sm);
 }
 
 .section-list {
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(4, var(--cell-size));
+  grid-template-columns: repeat(3, var(--cell-size));
   gap: var(--spacing-sm);
 
   @include mobile-only {

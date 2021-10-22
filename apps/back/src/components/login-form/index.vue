@@ -36,7 +36,6 @@ const formOptions = {
         v-slot="{ on, ...formControlProps }"
         v-model="slotProps.field.value"
         label="Mot de passe"
-        type="password"
         v-bind="slotProps"
       >
         <dsp-input-password

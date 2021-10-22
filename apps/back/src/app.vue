@@ -23,11 +23,11 @@ import AppLoading from 'client/components/app-loader.vue';
 * {
   /* Firefox */
   scrollbar-color: #666;
-  scrollbar-width: 10px;
+  scrollbar-width: 12px;
   /* Chrome */
   ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     background-color: var(--color-separator);
     border-radius: 4px;
     overflow-x: hidden;
