@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "es6",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@dsp/core/*": ["../../libs/core/src/*"],
+      "@dsp/ui/*": ["../../libs/ui/src/*"],
+      "@dsp/business/*": ["../../libs/business/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

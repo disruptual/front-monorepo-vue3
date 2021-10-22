@@ -1,0 +1,38 @@
+{
+  "name": "@dsp/core",
+  "files": [
+    "dist"
+  ],
+  "module": "./dist/disruptual-core.es.js",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite build --mode development",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "@dsp/business": "*",
+    "@dsp/ui": "*",
+    "color": "^4.0.1",
+    "normalize.css": "^8.0.1",
+    "vue": "^3.2.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.9.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "vite": "^2.5.10"
+  },
+  "peerDependencies": {
+    "@vue/server-renderer": "^3.2.17",
+    "axios": "^0.21.4",
+    "cookie-parser": "^1.4.5",
+    "date-fns": "^2.24.0",
+    "express": "^4.17.1",
+    "jwt-decode": "^3.1.2",
+    "lodash-es": "^4.17.21",
+    "mitt": "^3.0.0",
+    "vue": "3.2.13",
+    "vue-router": "4"
+  }
+}

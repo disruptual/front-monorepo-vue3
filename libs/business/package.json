@@ -1,0 +1,7 @@
+{
+  "name": "@dsp/business",
+  "version": "0.0.0",
+  "dependencies": {
+    "invariant": "^2.2.4"
+  }
+}

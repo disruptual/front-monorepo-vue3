@@ -1,0 +1,26 @@
+{
+  "name": "dsp-monorepo",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "libs/*",
+      "apps/*"
+    ]
+  },
+  "scripts": {
+    "dev:front": "yarn workspace @dsp/front run dev",
+    "build:front": "yarn workspace @dsp/front run build",
+    "serve:front": "yarn workspace @dsp/front run serve",
+    "dev:back": "yarn workspace @dsp/back run dev",
+    "build:back": "yarn workspace @dsp/back run build",
+    "serve:back": "yarn workspace @dsp/back run serve",
+    "test:ui": "yarn workspace @dsp/ui run test",
+    "docs:ui": "yarn workspace @dsp/ui run docs:dev"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.15.7"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "@dsp/docs",
+  "version": "0.0.0",
+  "dependencies": {
+    "@dsp/core": "*",
+    "@dsp/ui": "*",
+    "@dsp/default-theme": "*",
+    "@popperjs/core": "^2.10.2",
+    "camelcase": "^6.2.0",
+    "fast-glob": "^3.2.7",
+    "inert-polyfill": "^0.2.5"
+  }
+}

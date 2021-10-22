@@ -1,0 +1,52 @@
+<script>
+export default { name: 'DspIcon' };
+</script>
+
+<script setup>
+import { computed } from 'vue';
+import { useTheme } from '@dsp/ui/hooks/useTheme';
+import { oneOf, useReactiveQuery } from '@dsp/core';
+
+const props = defineProps({
+  as: { type: String, default: 'div' },
+  icon: { type: String, required: true },
+  size: oneOf(['sm', 'md', 'lg', 'xl', 'xxl'], 'md')
+});
+
+const theme = useTheme();
+const url = computed(() => theme.icons[props.icon]);
+const size = computed(() => `var(--spacing-${props.size})`);
+
+const getSvg = async () => {
+  const resp = await fetch(url.value);
+  return resp.text();
+};
+
+const key = computed(() => `icon-${props.icon}`);
+const { data: svg } = useReactiveQuery(key, getSvg, {
+  staleTime: Infinity
+});
+</script>
+
+<template>
+  <!-- eslint-disable vue/no-v-html-->
+  <component :is="as" class="dsp-icon" v-html="svg" />
+</template>
+
+<style lang="scss" scoped>
+.dsp-icon {
+  width: v-bind(size);
+  height: v-bind(size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:deep(svg) {
+    width: 100%;
+    height: 100%;
+    *.icon__half-opaque {
+      opacity: 0.4;
+    }
+  }
+}
+</style>

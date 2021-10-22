@@ -1,0 +1,42 @@
+{
+  "name": "@dsp/back",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "serve": "vite preview",
+    "build": "vite build",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "@dsp/business": "*",
+    "@dsp/core": "*",
+    "@dsp/default-theme": "*",
+    "@dsp/devtools": "*",
+    "@dsp/ui": "*",
+    "@vitejs/plugin-legacy": "^1.6.2",
+    "axios": "^0.21.4",
+    "date-fns": "^2.24.0",
+    "jwt-decode": "^3.1.2",
+    "lodash-es": "^4.17.21",
+    "mitt": "^3.0.0",
+    "polished": "^4.1.3",
+    "vue": "^3.2.13",
+    "vue-i18n": "^9.2.0-beta.11",
+    "vue-query": "^1.11.0",
+    "vue-router": "4",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@ehutch79/vite-eslint": "^0.0.1",
+    "@vitejs/plugin-vue": "^1.9.0",
+    "dotenv": "^10.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-vue": "^7.18.0",
+    "sass": "^1.42.1",
+    "vite": "^2.5.10",
+    "vite-plugin-html": "^2.1.1",
+    "vue-loader": "^16.8.1"
+  }
+}

@@ -1,0 +1,16 @@
+export const STRING = 'string';
+export const NUMBER = 'number';
+export const BOOLEAN = 'boolean';
+export const ARRAY = 'array';
+export const OBJECT = 'object';
+export const ONE_OF = 'oneOf';
+export const ARRAY_OF = 'arrayOf';
+export const COLOR = 'color';
+export const URL = 'url';
+export const ICON = 'icon';
+export const FONT_FAMILY = 'fontFamily';
+export const SPACING = 'spacing';
+export const FONT_SIZE = 'fontSize';
+export const FONT_WEIGHT = 'fontWeight';
+export const BOX_SHADOW = 'boxShadow';
+export const COMPONENT_VARIANT = 'componentVariant';

@@ -1,0 +1,146 @@
+<script>
+export default { name: 'DataTableGrid' };
+</script>
+
+<script setup>
+import { inject, computed, ref } from 'vue';
+import { CONTEXT_KEYS } from '@/utils/constants';
+import { vOnIntersect, vTooltip } from '@dsp/ui';
+
+import DataTableActionsDropdown from '@/components/data-table/data-table-actions-dropdown/index.vue';
+
+const props = defineProps({
+  row: { type: Object, required: true }
+});
+
+const { model } = inject(CONTEXT_KEYS.DATATABLE);
+const isVisible = ref(false);
+
+const intersectOptions = {
+  rootMargin: '300px'
+};
+
+const onIntersect = entry => {
+  isVisible.value = entry.isIntersecting;
+};
+
+const columnStyle = column => {
+  if (!column.isPinned) return null;
+  return {
+    '--pinned-column-offset': `${column.pinnedOffset}px`
+  };
+};
+
+const isSelected = computed(() => model.isRowSelected(props.row));
+</script>
+
+<template>
+  <tr
+    v-on-intersect:[intersectOptions]="onIntersect"
+    class="data-table-grid-row"
+    :class="isSelected && 'data-table-grid-row--selected'"
+    @dblclick="model.onRowDblClick(row, $event)"
+  >
+    <template v-if="isVisible">
+      <td
+        v-if="model.hasSelectorColumn"
+        class="selector-column column--is-pinned"
+        @click.stop
+      >
+        <dsp-flex align="center" justify="center">
+          <dsp-checkbox
+            v-model="model.selectedRowIds"
+            :value="row.id"
+            :label="row.id"
+          />
+        </dsp-flex>
+      </td>
+      <td
+        v-for="column in model.displayedColumns"
+        :key="column"
+        v-tooltip="column.getTooltip(row)"
+        :class="column.isPinned && 'column--is-pinned'"
+        :style="columnStyle(column)"
+      >
+        <span class="cell-content">
+          <dsp-v-node
+            v-if="column.template && row"
+            :vnode="column.template"
+            :value="row[column.name]"
+            :row="row"
+            :column="column.name"
+          />
+          <span v-else>{{ row[column.name] }}</span>
+        </span>
+      </td>
+      <td
+        v-if="model.rowActions.length > 0"
+        class="column--is-pinned-right"
+        @click.stop
+      >
+        <dsp-flex align="center" justify="center">
+          <DataTableActionsDropdown :row="row" />
+        </dsp-flex>
+      </td>
+    </template>
+  </tr>
+</template>
+
+<style lang="scss" scoped>
+.data-table-grid-row {
+  min-height: v-bind('model.minRowSize + "px"');
+  display: grid;
+  grid-template-columns: v-bind('model.rowTemplate');
+  min-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  border-left: solid 1px var(--color-separator);
+
+  &:nth-of-type(even) td {
+    background: var(--color-background);
+  }
+
+  td {
+    background: var(--color-surface);
+    padding: var(--spacing-xs);
+    border-right: solid 1px var(--color-separator);
+  }
+
+  &.data-table-grid-row--selected td {
+    background-color: var(--color-brand-100);
+  }
+}
+
+.cell-content {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.selector-column {
+  position: sticky;
+  left: 0;
+
+  > * {
+    height: 100%;
+  }
+
+  &:deep(label) {
+    display: none;
+  }
+}
+
+.column--is-pinned {
+  position: sticky;
+  left: var(--pinned-column-offset, 0);
+  background-color: inherit;
+}
+
+.column--is-pinned-right {
+  position: sticky;
+  right: 0;
+  background-color: inherit;
+  border-left: solid 1px var(--color-separator);
+}
+</style>

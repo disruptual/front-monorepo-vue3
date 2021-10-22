@@ -1,0 +1,120 @@
+@import './config.scss';
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--dsp-ui-body-text-color);
+  font-size: var(--font-size-md);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  // These variables are created so that they can be grabbed from javascript to use in matchMedia() calls
+  --breakpoint-mobile: #{$breakpoint-mobile};
+  --breakpoint-tablet: #{$breakpoint-tablet};
+
+  --font-family-primary: Helvetica, Arial, sans serif;
+  --font-family-secondary: Helvetica, Arial, sans serif;
+
+  --font-size-base: 16px;
+
+  --font-size-ratio: 1.2;
+  --font-size-sm: calc(var(--font-size-sm) / (var(--font-size-ratio)));
+  --font-size-sm: calc(var(--font-size-md) / (var(--font-size-ratio)));
+  --font-size-md: var(--font-size-base);
+  --font-size-lg: calc(var(--font-size-md) * (var(--font-size-ratio)));
+  --font-size-xl: calc(var(--font-size-lg) * (var(--font-size-ratio)));
+  --font-size-xxl: calc(var(--font-size-xl) * (var(--font-size-ratio)));
+  --font-size-3xl: calc(var(--font-size-xxl) * (var(--font-size-ratio)));
+
+  --font-weight-light: 300;
+  --font-weight-medium: 400;
+  --font-weight-semibold: 500;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 900;
+
+  --spacing-unit: 1em;
+  --spacing-none: 0;
+  --spacing-xxs: calc(0.25 * var(--spacing-unit));
+  --spacing-xs: calc(0.5 * var(--spacing-unit));
+  --spacing-sm: calc(0.75 * var(--spacing-unit));
+  --spacing-md: calc(1 * var(--spacing-unit));
+  --spacing-lg: calc(2 * var(--spacing-unit));
+  --spacing-xl: calc(3.25 * var(--spacing-unit));
+  --spacing-xxl: calc(5.25 * var(--spacing-unit));
+  --spacing-3xl: calc(8 * var(--spacing-unit));
+
+  --spacing-fixed-unit: 1rem;
+  --spacing-fixed-xxs: calc(0.25 * var(--spacing-fixed-unit));
+  --spacing-fixed-xs: calc(0.5 * var(--spacing-fixed-unit));
+  --spacing-fixed-sm: calc(0.75 * var(--spacing-fixed-unit));
+  --spacing-fixed-md: calc(1 * var(--spacing-fixed-unit));
+  --spacing-fixed-lg: calc(2 * var(--spacing-fixed-unit));
+  --spacing-fixed-xl: calc(3.25 * var(--spacing-fixed-unit));
+  --spacing-fixed-xxl: calc(5.25 * var(--spacing-fixed-unit));
+  --spacing-fixed-3xl: calc(8 * var(--spacing-fixed-unit));
+
+  --border-radius-sm: 6px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 18px;
+  --border-radius-circle: 50%;
+  --border-radius-pill: 99999px;
+
+  --transition-sm: 0.2s;
+  --transition-md: 0.3s;
+  --transition-lg: 0.6s;
+
+  --box-shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  --box-shadow-md: 0 2px 6px 1px rgba(0, 0, 0, 0.2);
+  --box-shadow-lg: 0 2px 9px 1px rgba(0, 0, 0, 0.23);
+
+  --z-index-modal: 50;
+  --z-index-dropdown: 20;
+  --z-index-drawer: 40;
+}
+
+.tooltip {
+  --tooltip-color: var(--color-brand-200);
+  z-index: 9999;
+  background-color: var(--tooltip-color);
+  color: var(--color-text);
+  padding: var(--spacing-xs);
+  box-shadow: var(--box-shadow-sm);
+  transition: opacity var(--transition-md);
+  opacity: 0;
+  pointer-events: none;
+  max-width: 35ch;
+
+  [data-popper-arrow],
+  [data-popper-arrow]::before {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    z-index: -1;
+  }
+
+  [data-popper-arrow]::before {
+    content: '';
+    transform: rotate(45deg);
+    background-color: var(--tooltip-color);
+  }
+
+  &[data-popper-placement^='top'] > [data-popper-arrow] {
+    bottom: -4px;
+  }
+
+  &[data-popper-placement^='bottom'] > [data-popper-arrow] {
+    top: -4px;
+  }
+
+  &[data-popper-placement^='left'] > [data-popper-arrow] {
+    right: -4px;
+  }
+
+  &[data-popper-placement^='right'] > [data-popper-arrow] {
+    left: -4px;
+  }
+}
