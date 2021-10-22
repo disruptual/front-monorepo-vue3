@@ -22,9 +22,9 @@ defineProps({
 
     <figcaption class="item__infos">
       <div class="header">
-        <span class="title">
+        <div class="title">
           <dsp-truncated-text>{{ item.title }}</dsp-truncated-text>
-        </span>
+        </div>
         <div class="colors">
           <div
             v-for="color in item.colors"
@@ -56,12 +56,13 @@ defineProps({
 
 .header {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--spacing-sm);
 }
 .title {
   grid-column: 2;
   text-align: center;
+  max-width: 100%;
 }
 
 .colors {

@@ -17,7 +17,7 @@ export class QueryBuilder {
       ? entityOrCollection.map(entity => this.createBaseQueries(entity)).flat()
       : this.createBaseQueries(entityOrCollection).flat();
 
-    return uniqBy(queries, 'queryKey');
+    return uniqBy(queries.flat(), 'queryKey');
   }
 
   createBaseQueries(entity, prefix = '') {
@@ -47,7 +47,7 @@ export class QueryBuilder {
   createSubQueries(entity, name) {
     if (!entity[name]) return [];
 
-    return this.this.isCollection(entity[name])
+    return this.isCollection(entity[name])
       ? entity[name]
           .map(subEntity => this.createBaseQueries(subEntity, `${name}.`))
           .flat()

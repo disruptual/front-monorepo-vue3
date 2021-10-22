@@ -1,10 +1,10 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { useItems } from '@dsp/core';
+import { useItemApi } from '@dsp/core';
 import ItemCard from '@/components/item-card/index.vue';
 
 const { t } = useI18n();
-const query = useItems({
+const query = useItemApi().searchQuery({
   relations: ['mainMedia', 'category', 'colors']
 });
 </script>
