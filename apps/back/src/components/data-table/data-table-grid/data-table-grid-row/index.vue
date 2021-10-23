@@ -44,16 +44,15 @@ const isSelected = computed(() => model.isRowSelected(props.row));
     <template v-if="isVisible">
       <td
         v-if="model.hasSelectorColumn"
+        as="td"
         class="selector-column column--is-pinned"
         @click.stop
       >
-        <dsp-flex align="center" justify="center">
-          <dsp-checkbox
-            v-model="model.selectedRowIds"
-            :value="row.id"
-            :label="row.id"
-          />
-        </dsp-flex>
+        <dsp-checkbox
+          v-model="model.selectedRowIds"
+          :value="row.id"
+          :label="row.id"
+        />
       </td>
       <td
         v-for="column in model.displayedColumns"
@@ -62,16 +61,14 @@ const isSelected = computed(() => model.isRowSelected(props.row));
         :class="column.isPinned && 'column--is-pinned'"
         :style="columnStyle(column)"
       >
-        <span class="cell-content">
-          <dsp-v-node
-            v-if="column.template && row"
-            :vnode="column.template"
-            :value="row[column.name]"
-            :row="row"
-            :column="column.name"
-          />
-          <span v-else>{{ row[column.name] }}</span>
-        </span>
+        <dsp-v-node
+          v-if="column.template && row"
+          :vnode="column.template"
+          :value="row[column.name]"
+          :row="row"
+          :column="column.name"
+        />
+        <span v-else>{{ row[column.name] }}</span>
       </td>
       <td
         v-if="model.rowActions.length > 0"
@@ -104,6 +101,13 @@ const isSelected = computed(() => model.isRowSelected(props.row));
     background: var(--color-surface);
     padding: var(--spacing-xs);
     border-right: solid 1px var(--color-separator);
+    display: flex;
+    align-items: center;
+
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   &.data-table-grid-row--selected td {
@@ -111,20 +115,12 @@ const isSelected = computed(() => model.isRowSelected(props.row));
   }
 }
 
-.cell-content {
-  display: block;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
 .selector-column {
   position: sticky;
   left: 0;
-
-  > * {
-    height: 100%;
-  }
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
 
   &:deep(label) {
     display: none;

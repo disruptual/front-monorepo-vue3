@@ -30,6 +30,7 @@ const columnStyle = column => {
         :ref="column.headerElementRef"
         :key="column"
         v-tooltip="column.label"
+        scope="col"
         :class="column.isPinned && 'column--is-pinned'"
         :style="columnStyle(column)"
       >

@@ -4,7 +4,7 @@ export default { name: 'UserItems' };
 
 <script setup>
 import { useItemApi } from '@dsp/core';
-
+import { useRouter } from 'vue-router';
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 
@@ -15,6 +15,11 @@ const props = defineProps({
 const query = useItemApi().findAllByUserIdQuery(props.userId, {
   relations: ['mainMedia', 'category']
 });
+
+const { push } = useRouter();
+const goToDetail = row => {
+  push({ name: 'AdminItemDetails', params: { slug: row.slug } });
+};
 </script>
 
 <template>
@@ -23,6 +28,7 @@ const query = useItemApi().findAllByUserIdQuery(props.userId, {
     :min-row-size="50"
     :has-action-bar="false"
     :has-selector-column="false"
+    @row-dbl-click="goToDetail"
   >
     <template #no-result>
       <dsp-center>Cet tilisateur ne possède aucun article.</dsp-center>

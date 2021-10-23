@@ -54,5 +54,14 @@ export const routes = [
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       layout: lazyDefaultLayout
     }
+  },
+  {
+    path: '/admin/annonces/:slug',
+    name: 'AdminItemDetails',
+    component: () => import('@/pages/admin/item-details/index.vue'),
+    meta: {
+      permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      layout: lazyDefaultLayout
+    }
   }
 ];

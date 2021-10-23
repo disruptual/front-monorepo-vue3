@@ -8,7 +8,7 @@ import { makeRandomId } from '@dsp/core';
 
 const props = defineProps({
   label: {
-    type: String,
+    type: [String, Number],
     required: true
   },
   id: {

@@ -16,7 +16,7 @@ const onSuccess = () => {
 
 <template>
   <div class="login-page">
-    <dsp-container is-small>
+    <dsp-container is-small as="section">
       <dsp-surface class="content">
         <h1>Connexion</h1>
         <LoginForm @success="onSuccess" />

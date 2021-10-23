@@ -18,4 +18,28 @@ export class Item extends BaseModel {
   get formatedPrice() {
     return formatPrice(this.price);
   }
+
+  get isPublished() {
+    return this.publicationState === Item.publicationStates.PUBLISHED;
+  }
+
+  get isUnpublished() {
+    return this.publicationState === Item.publicationStates.UNPUBLISHED;
+  }
+
+  get isVacancy() {
+    return this.publicationState === Item.publicationStates.VACANCY;
+  }
+
+  get isOrdered() {
+    return this.publicationState === Item.publicationStates.ORDERED;
+  }
+
+  get isPurchased() {
+    return this.publicationState === Item.publicationStates.PURCHASED;
+  }
+
+  get isDeleted() {
+    return this.publicationState === Item.publicationStates.DELETED;
+  }
 }
