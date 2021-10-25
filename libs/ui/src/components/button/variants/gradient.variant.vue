@@ -3,8 +3,8 @@ export default { name: 'DspButtonGradient' };
 </script>
 
 <script setup>
-import { useButton } from './index.hook';
-import schema from './index.schema';
+import { useButton } from './index';
+import schema from '../index.schema';
 
 const props = defineProps({
   isFullWidth: { type: Boolean, default: false },

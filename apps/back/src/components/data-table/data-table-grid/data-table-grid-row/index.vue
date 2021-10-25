@@ -3,18 +3,20 @@ export default { name: 'DataTableGrid' };
 </script>
 
 <script setup>
-import { inject, computed, ref } from 'vue';
+import { inject, computed, ref, watch } from 'vue';
 import { CONTEXT_KEYS } from '@/utils/constants';
 import { vOnIntersect, vTooltip } from '@dsp/ui';
 
 import DataTableActionsDropdown from '@/components/data-table/data-table-actions-dropdown/index.vue';
 
 const props = defineProps({
-  row: { type: Object, required: true }
+  row: { type: Object, required: true },
+  index: { type: Number, required: true }
 });
 
 const { model } = inject(CONTEXT_KEYS.DATATABLE);
 const isVisible = ref(false);
+const rowElement = ref(null);
 
 const intersectOptions = {
   rootMargin: '300px'
@@ -32,14 +34,26 @@ const columnStyle = column => {
 };
 
 const isSelected = computed(() => model.isRowSelected(props.row));
+watch(
+  () => model.focusedRowIndex,
+  () => {
+    if (model.focusedRowIndex === props.index) {
+      rowElement.value?.focus();
+    }
+  }
+);
 </script>
 
 <template>
   <tr
+    ref="rowElement"
     v-on-intersect:[intersectOptions]="onIntersect"
     class="data-table-grid-row"
     :class="isSelected && 'data-table-grid-row--selected'"
+    tabIndex="0"
     @dblclick="model.onRowDblClick(row, $event)"
+    @focus="model.focusedRowIndex = index"
+    @keyup.enter="model.onRowDblClick(row, $event)"
   >
     <template v-if="isVisible">
       <td
@@ -92,6 +106,15 @@ const isSelected = computed(() => model.isRowSelected(props.row));
   margin-left: auto;
   margin-right: auto;
   border-left: solid 1px var(--color-separator);
+
+  &:focus,
+  &:focus-within {
+    outline: none;
+
+    td {
+      background-color: var(--color-brand-200) !important;
+    }
+  }
 
   &:nth-of-type(even) td {
     background: var(--color-background);

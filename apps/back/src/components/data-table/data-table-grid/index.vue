@@ -27,12 +27,15 @@ watch(
   },
   { immediate: true }
 );
+
+watch(tableElement, () => {
+  model.tableElement = tableElement.value;
+});
 </script>
 
 <template>
   <table ref="tableElement" class="data-table-grid">
     <DataTableGridHeader />
-
     <tbody v-if="data.length === 0">
       <tr class="no-result">
         <div>
@@ -45,7 +48,12 @@ watch(
 
     <dsp-infinite-scroll v-else :root="tableElement" @load-more="fetchNextPage">
       <tbody ref="bodyElement">
-        <DataTableGridRow v-for="row in data" :key="row.id" :row="row" />
+        <DataTableGridRow
+          v-for="(row, index) in data"
+          :key="row.id"
+          :row="row"
+          :index="index"
+        />
       </tbody>
     </dsp-infinite-scroll>
   </table>

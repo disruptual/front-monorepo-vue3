@@ -3,9 +3,8 @@ export default { name: 'DspButtonDefault' };
 </script>
 
 <script setup>
-import { useButton } from './index.hook';
-import schema from './index.schema';
-import { useReadableColor } from '@dsp/ui/hooks';
+import { useButton } from './index';
+import schema from '../index.schema';
 
 const props = defineProps({
   isFullWidth: { type: Boolean, default: false },
@@ -15,11 +14,7 @@ const props = defineProps({
   ...schema.toVariantProps()
 });
 
-const classes = useButton(props);
-
-const textColor = useReadableColor('--color-brand-500');
-const textHoverColor = useReadableColor('--color-brand-600');
-const textFocusColor = useReadableColor('--color-brand-700');
+const { classes, textColor, textHoverColor, textFocusColor } = useButton(props);
 </script>
 
 <template>

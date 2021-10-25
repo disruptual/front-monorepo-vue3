@@ -23,6 +23,7 @@ const isLoading = computed(
 
 const model = reactive(
   new DataTable({
+    query: props.query,
     minRowSize: props.minRowSize,
     hasSelectorColumn: props.hasSelectorColumn,
     onRowDblClick(row) {
@@ -30,6 +31,8 @@ const model = reactive(
     }
   })
 );
+
+model.installListeners();
 
 provide(CONTEXT_KEYS.DATATABLE, {
   query: props.query,

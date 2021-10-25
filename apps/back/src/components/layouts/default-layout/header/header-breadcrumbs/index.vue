@@ -64,21 +64,21 @@ a {
   align-items: center;
   position: relative;
 
-  &:after {
+  &:not(:last-child):after {
     content: '';
-    height: 100%;
-    width: 35px;
+    height: 8px;
+    width: 8px;
     position: absolute;
-    left: calc(100% - 10px);
+    left: 100%;
     z-index: 1;
-    transform: rotateZ(45deg);
+    transform: rotateZ(45deg) translateY(25%);
     border-top: solid 1px v-bind(textColor);
     border-right: solid 1px v-bind(textColor);
     background: inherit;
   }
 
   &:not(:nth-of-type(2)) {
-    padding-left: var(--spacing-xl);
+    padding-left: var(--spacing-lg);
   }
 
   > div {

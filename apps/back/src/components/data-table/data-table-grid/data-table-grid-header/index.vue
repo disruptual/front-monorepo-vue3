@@ -3,7 +3,7 @@ export default { name: 'DataTableGridHeader' };
 </script>
 
 <script setup>
-import { inject } from 'vue';
+import { inject, ref, reactive } from 'vue';
 import { CONTEXT_KEYS } from '@/utils/constants';
 import { vTooltip } from '@dsp/ui';
 
@@ -16,30 +16,100 @@ const columnStyle = column => {
     '--pinned-column-offset': `${column.pinnedOffset}px`
   };
 };
+
+const columnClasses = column => [
+  column.isPinned && 'column--is-pinned',
+  draggedColumn.value?.name === column.name && 'column--is-dragged'
+];
+
+const draggedColumn = ref(null);
+const onDragEnter = index => {
+  model.moveColumn(draggedColumn.value, index);
+};
+
+const onDragStart = column => {
+  draggedColumn.value = column;
+};
+
+const onDragEnd = () => {
+  draggedColumn.value = null;
+};
+
+const tableHeadElement = ref(null);
+const state = reactive({
+  isResizing: false,
+  resizeStartX: 0,
+  resizeStartWidth: 0,
+  resizedColumn: null,
+  totalStartWidth: null
+});
+
+const onResizeStart = (e, column) => {
+  state.resizedColumn = column;
+
+  // @FIXME not clean
+  const normalizedWidth = e.target.parentNode.parentNode.offsetWidth;
+  model.resizeColumn(state.resizedColumn, normalizedWidth);
+
+  state.isResizing = true;
+  state.resizedColumnInitialWidth = column.width;
+  state.resizeStartX = e.clientX;
+  state.totalStartWidth = tableHeadElement.value.parentNode.scrollWidth;
+};
+
+const onResizeEnd = () => {
+  state.isResizing = false;
+  state.resizedColumn = null;
+  state.resizeStartWidth = 0;
+  state.resizeStartX = 0;
+  state.totalStartWidth = 0;
+};
+
+const onResizeMove = e => {
+  if (!state.isResizing) return;
+
+  const diff = state.resizeStartX - e.clientX;
+  const newWidth = state.resizedColumnInitialWidth - diff;
+  model.resizeColumn(state.resizedColumn, newWidth);
+  // model.resizeColumn('update:width', state.totalStartWidth - diff);
+};
 </script>
 
 <template>
-  <thead class="data-table-grid-header">
+  <thead
+    ref="tableHeadElement"
+    class="data-table-grid-header"
+    @mousemove="onResizeMove"
+    @mouseup="onResizeEnd"
+  >
     <tr>
       <th
         v-if="model.hasSelectorColumn"
         class="selector-column column--is-pinned"
       />
       <th
-        v-for="column in model.displayedColumns"
+        v-for="(column, index) in model.displayedColumns"
         :ref="column.headerElementRef"
         :key="column"
         v-tooltip="column.label"
         scope="col"
-        :class="column.isPinned && 'column--is-pinned'"
+        :class="columnClasses(column)"
         :style="columnStyle(column)"
+        draggable="true"
+        @dragstart="onDragStart(column)"
+        @dragend="onDragEnd(column)"
+        @dragenter="onDragEnter(index)"
       >
         <dsp-flex justify="space-between" wrap="nowrap" align="center">
-          <dsp-truncated-text>{{ column.label }}</dsp-truncated-text>
           <dsp-icon-button
             icon="pin"
             class="pin-button"
             @click="column.togglePinned()"
+          />
+          <dsp-truncated-text>{{ column.label }}</dsp-truncated-text>
+          <div
+            class="resize-handle"
+            @mousedown.prevent="onResizeStart($event, column)"
           />
         </dsp-flex>
       </th>
@@ -70,9 +140,11 @@ const columnStyle = column => {
     background-color: var(--color-surface);
     padding: var(--spacing-xs);
     padding-bottom: var(--spacing-md);
+    padding-left: var(--spacing-lg);
     border-right: solid 1px var(--color-separator);
     text-align: left;
     position: relative;
+    cursor: pointer;
   }
 }
 
@@ -99,6 +171,7 @@ const columnStyle = column => {
     transform: rotateZ(45deg);
   }
 }
+
 .column--is-pinned-right {
   position: sticky !important;
   right: 0;
@@ -109,6 +182,15 @@ const columnStyle = column => {
 .pin-button {
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
+}
+
+.resize-handle {
+  margin-left: auto;
+  align-self: stretch;
+  width: 5px;
+  border-left: solid 2px var(--color-separator);
+  border-right: solid 2px var(--color-separator);
+  cursor: col-resize;
 }
 </style>

@@ -14,9 +14,8 @@ const { model } = inject(CONTEXT_KEYS.DATATABLE);
 const isColumnsDropdownOpened = ref(false);
 
 const selectedCount = computed(() => model.selectedRowIds.length);
-const displayedActions = computed(() =>
-  model.rowActions.filter(action => action.canBatch)
-);
+const isActionDisabled = action =>
+  selectedCount.value === 0 || (selectedCount.value > 1 && !action.canBatch);
 </script>
 
 <template>
@@ -30,10 +29,10 @@ const displayedActions = computed(() =>
     </div>
     <dsp-flex gap="sm">
       <dsp-button
-        v-for="action in displayedActions"
+        v-for="action in model.rowActions"
         :key="action.label"
         :left-icon="action.icon"
-        :disabled="selectedCount === 0"
+        :disabled="isActionDisabled(action)"
         is-outlined
         @click="triggerAction(action)"
       >
