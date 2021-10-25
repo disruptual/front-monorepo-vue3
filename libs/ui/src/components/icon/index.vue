@@ -10,7 +10,8 @@ import { oneOf, useReactiveQuery } from '@dsp/core';
 const props = defineProps({
   as: { type: String, default: 'div' },
   icon: { type: String, required: true },
-  size: oneOf(['sm', 'md', 'lg', 'xl', 'xxl'], 'md')
+  size: oneOf(['sm', 'md', 'lg', 'xl', 'xxl'], 'md'),
+  isInline: { type: Boolean, default: false }
 });
 
 const theme = useTheme();
@@ -26,6 +27,7 @@ const key = computed(() => `icon-${props.icon}`);
 const { data: svg } = useReactiveQuery(key, getSvg, {
   staleTime: Infinity
 });
+const display = computed(() => (props.isInline ? 'inline-flex' : 'flex'));
 </script>
 
 <template>
@@ -37,7 +39,7 @@ const { data: svg } = useReactiveQuery(key, getSvg, {
 .dsp-icon {
   width: v-bind(size);
   height: v-bind(size);
-  display: flex;
+  display: v-bind('display');
   justify-content: center;
   align-items: center;
 

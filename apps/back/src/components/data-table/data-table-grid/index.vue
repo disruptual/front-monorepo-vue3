@@ -3,7 +3,7 @@ export default { name: 'DataTableGrid' };
 </script>
 
 <script setup>
-import { inject, ref, computed } from 'vue';
+import { inject, ref, watch, nextTick } from 'vue';
 import { CONTEXT_KEYS } from '@/utils/constants';
 
 import DataTableGridRow from './data-table-grid-row/index.vue';
@@ -17,7 +17,16 @@ const {
 } = inject(CONTEXT_KEYS.DATATABLE);
 const tableElement = ref(null);
 
-const totalWidth = computed(() => bodyElement.value?.scrollWidth);
+const totalWidth = ref(null);
+watch(
+  () => model.displayedColumns,
+  () => {
+    nextTick(() => {
+      totalWidth.value = model.totalWidth;
+    });
+  },
+  { immediate: true }
+);
 </script>
 
 <template>

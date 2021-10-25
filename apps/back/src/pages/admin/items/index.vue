@@ -20,7 +20,7 @@ const query = useItemApi().findAllQuery({
 });
 
 const goToDetail = row => {
-  push({ name: 'AdminItemDetails', params: { slug: row.slug } });
+  push({ name: 'AdminItemDetails', params: { id: row.id } });
 };
 
 const { t } = useI18n();

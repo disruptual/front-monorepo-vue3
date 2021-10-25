@@ -5,6 +5,7 @@ export default { name: 'DspDropdown' };
 <script setup>
 import { nextTick, ref, unref, watch, provide } from 'vue';
 import { createPopper } from '@popperjs/core';
+import { KEYBOARD } from '@dsp/core';
 import { vClickOutside } from '@dsp/ui/directives/clickOutside';
 import { vFocusOutside } from '@dsp/ui/directives/focusOutside';
 import { CONTEXT_KEYS } from '@dsp/ui/utils/constants';
@@ -13,7 +14,9 @@ import { createTeleportHost } from '@dsp/ui/utils/createTeleportHost';
 import { TELEPORT_HOSTS } from '@dsp/ui/utils/constants';
 
 const props = defineProps({
-  isOpened: { type: Boolean, required: true }
+  isOpened: { type: Boolean, required: true },
+  as: { type: String, default: 'ul' },
+  withToggleIcon: { type: Boolean, default: false }
 });
 const emit = defineEmits(['update:isOpened']);
 
@@ -59,7 +62,6 @@ const toggleMenu = isOpened => {
 };
 
 const focusFirstElement = async () => {
-  console.log('...');
   await nextTick();
   focusCurrentItem();
 };
@@ -84,13 +86,13 @@ const focusNextElement = () => {
 
 const onKeyDown = e => {
   switch (e.code) {
-    case 'Escape':
+    case KEYBOARD.ESCAPE:
       e.stopPropagation();
       return close();
-    case 'ArrowDown':
+    case KEYBOARD.ARROW_DOWN:
       e.preventDefault();
       return focusNextElement();
-    case 'ArrowUp':
+    case KEYBOARD.ARROW_UP:
       e.preventDefault();
       return focusPreviousElement();
     default:
@@ -113,11 +115,14 @@ provide(CONTEXT_KEYS.DROPDOWN, { toggle, close });
         @keyup.enter="focusFirstElement"
       >
         <slot name="toggle" />
+
+        <dsp-icon v-if="withToggleIcon" icon="caretDown" as="span" is-inline />
       </dsp-plain-button>
     </div>
 
     <teleport :to="`#${hostID}`">
-      <ul
+      <component
+        :is="as"
         v-if="isOpened"
         ref="menuElement"
         v-click-outside="close"
@@ -126,7 +131,7 @@ provide(CONTEXT_KEYS.DROPDOWN, { toggle, close });
         @keydown="onKeyDown"
       >
         <slot name="menu" />
-      </ul>
+      </component>
     </teleport>
   </div>
 </template>
@@ -148,5 +153,11 @@ provide(CONTEXT_KEYS.DROPDOWN, { toggle, close });
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+.dropdown-toggle {
+  align-items: center;
+  gap: var(--spacing-xs);
+  display: flex;
 }
 </style>

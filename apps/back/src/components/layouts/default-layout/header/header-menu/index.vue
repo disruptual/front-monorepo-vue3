@@ -76,14 +76,14 @@ const focusedTextColor = useReadableColor('--color-brand-500');
 </script>
 
 <template>
-  <dsp-dropdown v-model:isOpened="isOpened" class="header-menu">
+  <dsp-dropdown v-model:isOpened="isOpened" class="header-menu" as="div">
     <template #toggle>
       <dsp-icon size="lg" icon="bars" />
     </template>
 
     <template #menu>
       <nav class="content">
-        <dsp-flex justify="space-between" align="center" class="header">
+        <dsp-flex justify="space-between" align="center" as="header">
           <h2>Menu</h2>
           <dsp-input-search @input="search = $event" />
         </dsp-flex>
@@ -121,8 +121,7 @@ const focusedTextColor = useReadableColor('--color-brand-500');
   padding-right: 0;
 }
 
-.header {
-  /* background-color: var(--color-brand-500); */
+header {
   padding: var(--spacing-sm);
   h2 {
     margin: 0;
@@ -140,17 +139,17 @@ const focusedTextColor = useReadableColor('--color-brand-500');
 }
 
 .menu-item {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  height: var(--cell-size);
   border: solid 1px var(--color-brand-500);
   border-radius: var(--border-radius-md);
   background-color: var(--color-brand-100);
   padding: var(--spacing-xs);
   text-decoration: none;
   color: inherit;
-  width: 100%;
   font-size: var(--font-size-sm);
   hyphens: auto;
 
@@ -173,6 +172,7 @@ section {
   padding: 0;
   display: grid;
   grid-template-columns: repeat(3, var(--cell-size));
+  grid-auto-rows: var(--cell-size);
   gap: var(--spacing-sm);
 
   @include mobile-only {

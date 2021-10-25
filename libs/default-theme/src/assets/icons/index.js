@@ -17,9 +17,11 @@ import speechBubble from './speechBubble.svg';
 import speechBubbleSlash from './speechBubbleSlash.svg';
 import userDelete from './userDelete.svg';
 import edit from './edit.svg';
+import caretDown from './caretDown.svg';
 
 export default {
   bars,
+  caretDown,
   checkbox,
   checkboxLight,
   chevronLeft,

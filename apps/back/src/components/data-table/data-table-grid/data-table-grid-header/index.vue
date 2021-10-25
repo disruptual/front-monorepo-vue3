@@ -35,7 +35,7 @@ const columnStyle = column => {
         :style="columnStyle(column)"
       >
         <dsp-flex justify="space-between" wrap="nowrap" align="center">
-          {{ column.label }}
+          <dsp-truncated-text>{{ column.label }}</dsp-truncated-text>
           <dsp-icon-button
             icon="pin"
             class="pin-button"

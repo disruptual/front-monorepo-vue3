@@ -3,13 +3,16 @@ export default { name: 'DataTableActionBar' };
 </script>
 
 <script setup>
-import { inject, computed } from 'vue';
+import { inject, ref, computed } from 'vue';
 import { CONTEXT_KEYS } from '@/utils/constants';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 
 const { model } = inject(CONTEXT_KEYS.DATATABLE);
+
+const isColumnsDropdownOpened = ref(false);
+
 const selectedCount = computed(() => model.selectedRowIds.length);
 const displayedActions = computed(() =>
   model.rowActions.filter(action => action.canBatch)
@@ -36,6 +39,23 @@ const displayedActions = computed(() =>
       >
         {{ action.label }}
       </dsp-button>
+
+      <dsp-dropdown v-model:isOpened="isColumnsDropdownOpened" with-toggle-icon>
+        <template #toggle>Colonnes</template>
+        <template #menu>
+          <dsp-dropdown-item
+            v-for="column in model.columns"
+            :key="column.name"
+            :auto-close="false"
+          >
+            <dsp-checkbox
+              :label="column.label"
+              :model-value="!column.isHidden"
+              @update:modelValue="column.toggleVisible()"
+            />
+          </dsp-dropdown-item>
+        </template>
+      </dsp-dropdown>
     </dsp-flex>
   </dsp-flex>
 </template>

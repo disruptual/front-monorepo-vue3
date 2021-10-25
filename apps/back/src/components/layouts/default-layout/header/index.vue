@@ -15,29 +15,23 @@ const isUserMenuOpened = ref(false);
 </script>
 
 <template>
-  <div>
-    <dsp-flex justify="space-between" align="center" class="header">
-      <dsp-flex gap="sm">
-        <HeaderMenu />
-        <router-link :to="{ name: 'Home' }" class="logo">
-          <h1>DISRUPTUAL</h1>
-        </router-link>
-      </dsp-flex>
-      <dsp-flex gap="sm" as="ul" align="center">
-        <li v-if="currentUser">
-          <dsp-plain-button
-            class="avatar"
-            @click="isUserMenuOpened = !isUserMenuOpened"
-          >
-            <dsp-avatar :user="currentUser" />
-          </dsp-plain-button>
+  <header>
+    <dsp-flex justify="space-between" align="center" class="header" gap="sm">
+      <HeaderMenu />
+      <router-link :to="{ name: 'Home' }" class="logo">
+        <h1>DISRUPTUAL</h1>
+      </router-link>
+      <dsp-plain-button
+        class="avatar"
+        @click="isUserMenuOpened = !isUserMenuOpened"
+      >
+        <dsp-avatar :user="currentUser" />
+      </dsp-plain-button>
 
-          <UserMenu v-model="isUserMenuOpened" />
-        </li>
-      </dsp-flex>
+      <UserMenu v-model="isUserMenuOpened" />
     </dsp-flex>
     <HeaderBreadcrumbs class="breadcrumbs" />
-  </div>
+  </header>
 </template>
 
 <style lang="scss" scoped>
@@ -84,16 +78,6 @@ const isUserMenuOpened = ref(false);
 
 .avatar {
   padding: 0;
-}
-
-ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-
-  li {
-    display: flex;
-    align-items: center;
-  }
+  margin-left: auto;
 }
 </style>

@@ -46,6 +46,13 @@ export class DataTable {
     return `${selectorWidth} ${columnsWidth} ${actionWidth}`;
   }
 
+  get totalWidth() {
+    return this.displayedColumns.reduce((total, column) => {
+      if (!column.headerElement) return total;
+      return total + column.headerElement.scrollWidth;
+    }, 0);
+  }
+
   addColumn(column) {
     this.columns.push(new DataTableColumn(this, column));
   }

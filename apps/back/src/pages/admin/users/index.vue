@@ -34,7 +34,7 @@ const goToDetail = row => {
     <DataTableColumn
       v-slot="{ row }"
       name="avatar"
-      label=" "
+      label="avatar"
       width="50"
       is-pinned
     >

@@ -46,3 +46,9 @@ export const SORT_ORDERS = {
 export const CURRENCIES = {
   EURO: '€'
 };
+
+export const KEYBOARD = {
+  ESCAPE: 'Escape',
+  ARROW_DOWN: 'ArrowDown',
+  ARROW_UP: 'ArrowUp'
+};

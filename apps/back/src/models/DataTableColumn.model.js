@@ -44,8 +44,12 @@ export class DataTableColumn {
   }
 
   togglePinned() {
-    console.log('toggle pinned');
     this.isPinned = !this.isPinned;
+    this.table.setColumnOffsets();
+  }
+
+  toggleVisible() {
+    this.isHidden = !this.isHidden;
     this.table.setColumnOffsets();
   }
 }

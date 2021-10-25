@@ -47,7 +47,7 @@ const tooltip = () => {
 
 <style lang="scss" scoped>
 .dsp-truncated-text {
-  width: v-bind(computedWidth);
+  max-width: v-bind(computedWidth);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

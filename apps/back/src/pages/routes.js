@@ -56,8 +56,9 @@ export const routes = [
     }
   },
   {
-    path: '/admin/annonces/:slug',
+    path: '/admin/annonces/:id',
     name: 'AdminItemDetails',
+    props: true,
     component: () => import('@/pages/admin/item-details/index.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],

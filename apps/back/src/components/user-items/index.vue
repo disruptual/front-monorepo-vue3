@@ -18,7 +18,7 @@ const query = useItemApi().findAllByUserIdQuery(props.userId, {
 
 const { push } = useRouter();
 const goToDetail = row => {
-  push({ name: 'AdminItemDetails', params: { slug: row.slug } });
+  push({ name: 'AdminItemDetails', params: { id: row.id } });
 };
 </script>
 
