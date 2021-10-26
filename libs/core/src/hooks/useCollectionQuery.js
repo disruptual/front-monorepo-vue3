@@ -1,7 +1,7 @@
-import { useInfiniteQuery } from 'vue-query';
 import { createNormalizer } from '../factories/normalizer.factory';
 import { useBoundedModel } from './useBoundedModel';
 import { computed, unref } from 'vue';
+import { useReactiveInfiniteQuery } from './useReactiveQuery';
 
 const extractPageFromUri = uri => {
   const searchParams = new URLSearchParams(uri.slice(uri.indexOf('?')));
@@ -19,12 +19,16 @@ const defaultGetNextPageParams = (lastPage, itemsPerPage) => {
   return { page: nextPageIndex, itemsPerPage };
 };
 
-export function useCollectionQuery(
-  key,
-  fetcher,
-  { model, relations, itemsPerPage = 30, getNextPageParams, ...options }
-) {
-  const query = useInfiniteQuery(unref(key), fetcher, {
+export function useCollectionQuery(key, fetcher, queryOptions = {}) {
+  const {
+    model,
+    relations,
+    itemsPerPage = 30,
+    getNextPageParams,
+    ...options
+  } = unref(queryOptions);
+
+  const query = useReactiveInfiniteQuery(key, fetcher, {
     ...options,
     getNextPageParam: (lastPage, allPages) => {
       if (getNextPageParams) {

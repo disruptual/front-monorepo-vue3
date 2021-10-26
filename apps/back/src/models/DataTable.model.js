@@ -11,6 +11,7 @@ export class DataTable {
     minRowSize,
     hasSelectorColumn,
     onRowDblClick,
+    onFilterChange,
     tableElement = null
   }) {
     this.query = query;
@@ -20,9 +21,22 @@ export class DataTable {
     this.rowActions = [];
     this.minRowSize = minRowSize;
     this.focusedRowIndex = null;
-    this.onRowDblClick = onRowDblClick;
     this.hasSelectorColumn = hasSelectorColumn;
+
+    this.onRowDblClick = onRowDblClick;
+    this.onFilterChange = onFilterChange;
+
     this.tableElement = tableElement;
+    this._filters = {};
+  }
+
+  get filters() {
+    return this._filters;
+  }
+
+  set filters(value) {
+    this._filters = value;
+    this.onFilterChange(this._filters);
   }
 
   get displayedColumns() {
@@ -34,6 +48,10 @@ export class DataTable {
 
         return 0;
       });
+  }
+
+  get filterableColumns() {
+    return this.columns.filter(c => c.isFilterable);
   }
 
   get rowTemplate() {
@@ -109,6 +127,10 @@ export class DataTable {
 
   isRowSelected(row) {
     return this.selectedRowIds.includes(row.id);
+  }
+
+  resetFilter(name) {
+    this.filters = { ...this.filters, [name]: undefined };
   }
 
   installListeners() {

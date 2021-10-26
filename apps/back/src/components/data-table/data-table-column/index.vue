@@ -13,7 +13,8 @@ const props = defineProps({
   isHidden: { type: Boolean, default: false },
   isPinned: { type: Boolean, default: false },
   tooltipLabel: { type: [Function, String], default: '' },
-  filterable: { type: [String, Boolean], default: null }
+  isFilterable: { type: Boolean, default: null },
+  filterName: { type: String, default: null }
 });
 const { model } = inject(CONTEXT_KEYS.DATATABLE);
 
@@ -26,7 +27,9 @@ model.addColumn({
   tooltipLabel: props.tooltipLabel,
   width: props.width,
   isHidden: props.isHidden,
-  isPinned: props.isPinned
+  isPinned: props.isPinned,
+  isFilterable: props.isFilterable,
+  filterName: props.filterName
 });
 </script>
 

@@ -19,13 +19,13 @@ const tableElement = ref(null);
 
 const totalWidth = ref(null);
 watch(
-  () => model.displayedColumns,
+  model,
   () => {
     nextTick(() => {
       totalWidth.value = model.totalWidth;
     });
   },
-  { immediate: true }
+  { immediate: true, deep: true }
 );
 
 watch(tableElement, () => {

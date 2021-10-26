@@ -3,6 +3,7 @@ export default { name: 'AdminUsersListPage' };
 </script>
 
 <script setup>
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { useUserApi } from '@dsp/core';
@@ -14,7 +15,12 @@ import DataTableRowAction from '@/components/data-table/data-table-row-action/in
 useBreadCrumbs('Utilisateurs');
 const { push } = useRouter();
 
-const query = useUserApi().findAllQuery();
+const filters = ref({});
+const query = useUserApi().findAllQuery({ filters });
+
+const onFilterChange = newFilters => {
+  filters.value = { ...newFilters };
+};
 
 const onSoftDelete = users => {
   console.log(users);
@@ -30,7 +36,12 @@ const goToDetail = row => {
 </script>
 
 <template>
-  <DataTable :query="query" :min-row-size="48" @row-dbl-click="goToDetail">
+  <DataTable
+    :query="query"
+    :min-row-size="48"
+    @row-dbl-click="goToDetail"
+    @filter-change="onFilterChange"
+  >
     <DataTableColumn
       v-slot="{ row }"
       name="avatar"
@@ -40,16 +51,25 @@ const goToDetail = row => {
     >
       <dsp-avatar :user="row" />
     </DataTableColumn>
-    <DataTableColumn name="slug" label="Slug" width="500" />
-    <DataTableColumn name="firstName" label="Prénom" width="600" />
-    <DataTableColumn name="lastName" label="Nom" width="600" />
-    <DataTableColumn name="email" label="Adress E-mail" width="650" />
+    <DataTableColumn name="slug" label="Slug" width="200" is-filterable />
+    <DataTableColumn
+      name="firstName"
+      label="Prénom"
+      width="200"
+      is-filterable
+    />
+    <DataTableColumn name="lastName" label="Nom" width="200" is-filterable />
+    <DataTableColumn
+      name="email"
+      label="Adress E-mail"
+      width="200"
+      is-filterable
+    />
     <DataTableColumn
       v-slot="{ row }"
       name="created"
       label="Date d'inscription"
       :tooltip-label="({ row }) => row.formatCreated()"
-      width="1000"
     >
       {{ row.formatCreated('EEEE d MMMM yyyy') }}
     </DataTableColumn>

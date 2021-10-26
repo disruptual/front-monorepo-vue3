@@ -1,3 +1,4 @@
+import { isUndefinedOrNull } from './assertions';
 import { ENVIRONMENTS, CURRENCIES } from './constants';
 
 export const cloneInstance = instance => {
@@ -66,6 +67,8 @@ export const makeRandomId = (length = 6) => {
 export const serializeQueryString = obj => {
   const searchParams = new URLSearchParams();
   Object.entries(obj).forEach(([key, value]) => {
+    if (isUndefinedOrNull(value)) return;
+
     searchParams.append(key, value);
   });
 

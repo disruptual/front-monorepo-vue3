@@ -7,6 +7,8 @@ import { inject, ref, computed } from 'vue';
 import { CONTEXT_KEYS } from '@/utils/constants';
 import { useI18n } from 'vue-i18n';
 
+import DataTableFilterDrawer from '../data-table-filter-drawer/index.vue';
+
 const { t } = useI18n();
 
 const { model } = inject(CONTEXT_KEYS.DATATABLE);
@@ -16,6 +18,12 @@ const isColumnsDropdownOpened = ref(false);
 const selectedCount = computed(() => model.selectedRowIds.length);
 const isActionDisabled = action =>
   selectedCount.value === 0 || (selectedCount.value > 1 && !action.canBatch);
+
+const activeFilters = computed(() =>
+  Object.entries(model.filters)
+    .filter(([, value]) => value && value !== '')
+    .map(([key, value]) => ({ name: key, value }))
+);
 </script>
 
 <template>
@@ -38,6 +46,7 @@ const isActionDisabled = action =>
       >
         {{ action.label }}
       </dsp-button>
+      <DataTableFilterDrawer />
 
       <dsp-dropdown v-model:isOpened="isColumnsDropdownOpened" with-toggle-icon>
         <template #toggle>Colonnes</template>
@@ -57,11 +66,27 @@ const isActionDisabled = action =>
       </dsp-dropdown>
     </dsp-flex>
   </dsp-flex>
+  <dsp-flex v-show="activeFilters.length > 0" gap="sm" class="active-filters">
+    <dsp-button
+      v-for="filter in activeFilters"
+      :key="filter.name"
+      right-icon="remove"
+      is-rounded
+      @click="model.resetFilter(filter.name)"
+    >
+      {{ filter.name }}: {{ filter.value }}
+    </dsp-button>
+  </dsp-flex>
 </template>
 
 <style lang="scss" scoped>
 .data-table-action-bar {
   padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--color-surface);
+}
+
+.active-filters {
+  padding: var(--spacing-xs);
   background-color: var(--color-surface);
 }
 </style>

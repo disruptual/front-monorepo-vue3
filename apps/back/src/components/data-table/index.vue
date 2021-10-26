@@ -16,7 +16,7 @@ const props = defineProps({
   hasActionBar: { type: Boolean, default: true },
   hasSelectorColumn: { type: Boolean, default: true }
 });
-const emit = defineEmits(['rowDblClick']);
+const emit = defineEmits(['rowDblClick', 'filterChange']);
 const isLoading = computed(
   () => props.query.isLoading.value || props.query.isRelationLoading.value
 );
@@ -28,6 +28,9 @@ const model = reactive(
     hasSelectorColumn: props.hasSelectorColumn,
     onRowDblClick(row) {
       emit('rowDblClick', row);
+    },
+    onFilterChange(filters) {
+      emit('filterChange', filters);
     }
   })
 );

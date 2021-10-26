@@ -3,7 +3,17 @@ import { isFunction } from '@dsp/core';
 export class DataTableColumn {
   constructor(
     table,
-    { name, label, template, tooltipLabel, width, isHidden, isPinned }
+    {
+      name,
+      label,
+      template,
+      tooltipLabel,
+      width,
+      isHidden,
+      isPinned,
+      isFilterable,
+      filterName
+    }
   ) {
     this.table = table;
     this.name = name;
@@ -13,6 +23,8 @@ export class DataTableColumn {
     this.width = width;
     this.isHidden = isHidden;
     this.isPinned = isPinned;
+    this.isFilterable = isFilterable;
+    this.filterName = filterName;
     this.pinnedOffset = 0;
     this.headerElement = null;
 

@@ -18,6 +18,8 @@ import speechBubbleSlash from './speechBubbleSlash.svg';
 import userDelete from './userDelete.svg';
 import edit from './edit.svg';
 import caretDown from './caretDown.svg';
+import filter from './filter.svg';
+import remove from './delete.svg';
 
 export default {
   bars,
@@ -27,10 +29,12 @@ export default {
   chevronLeft,
   circleRegular,
   circleSolid,
+  remove,
   edit,
   ellipsisH,
   eye,
   eyeSlash,
+  filter,
   home,
   loader,
   search,

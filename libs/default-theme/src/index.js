@@ -26,6 +26,7 @@ export default {
     background: '#f0f0f0',
     surface: '#fff',
     separator: '#c0c0c0',
-    disabled: '#cccccc'
+    disabled: '#cccccc',
+    primary: 'var(--color-brand-400)'
   }
 };
