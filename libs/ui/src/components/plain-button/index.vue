@@ -32,7 +32,7 @@ defineProps({
   text-decoration: none;
 
   &:hover {
-    color: var(--color-brand-500);
+    color: var(--color-primary);
   }
 
   &:focus {

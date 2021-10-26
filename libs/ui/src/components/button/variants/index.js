@@ -1,5 +1,4 @@
 import { computed } from 'vue';
-import { useReadableColor } from '@dsp/ui/hooks';
 
 export const useButton = props => {
   const classes = computed(() => ({
@@ -8,9 +7,5 @@ export const useButton = props => {
     'dsp-button--is-rounded': props.isRounded
   }));
 
-  const textColor = useReadableColor('--color-brand-500');
-  const textHoverColor = useReadableColor('--color-brand-600');
-  const textFocusColor = useReadableColor('--color-brand-700');
-
-  return { classes, textColor, textHoverColor, textFocusColor };
+  return { classes };
 };

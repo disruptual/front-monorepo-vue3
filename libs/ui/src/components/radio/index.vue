@@ -62,7 +62,7 @@ input {
 
   &:focus ~ .input__inner,
   &:focus ~ .input__inner--checked {
-    color: var(--color-brand-500);
+    color: var(--color-primary);
   }
 
   &:checked ~ .input__inner--checked {

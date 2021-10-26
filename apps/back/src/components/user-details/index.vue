@@ -252,6 +252,6 @@ const ordersLink = computed(() => ({
 }
 
 a {
-  color: var(--color-brand-500);
+  color: var(--color-primary);
 }
 </style>

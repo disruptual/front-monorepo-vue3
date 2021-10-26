@@ -5,6 +5,7 @@ export default { name: 'DspButtonDefault' };
 <script setup>
 import { useButton } from './index';
 import schema from '../index.schema';
+import { vReadableColor } from '@dsp/ui/directives';
 
 const props = defineProps({
   isFullWidth: { type: Boolean, default: false },
@@ -14,11 +15,11 @@ const props = defineProps({
   ...schema.toVariantProps()
 });
 
-const { classes, textColor, textHoverColor, textFocusColor } = useButton(props);
+const { classes } = useButton(props);
 </script>
 
 <template>
-  <button class="dsp-button" :class="classes">
+  <button v-readable-color class="dsp-button" :class="classes">
     <slot name="left-icon">
       <dsp-icon v-if="props.leftIcon" class="icon-left" :icon="leftIcon" />
     </slot>
@@ -36,23 +37,20 @@ const { classes, textColor, textHoverColor, textFocusColor } = useButton(props);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: v-bind(textColor);
   padding: var(--spacing-xs) var(--spacing-sm);
   cursor: pointer;
   border: solid 1px transparent;
   font-family: var(--font-body);
   user-select: none;
   text-decoration: none;
-  background-color: var(--color-brand-500);
+  background-color: var(--color-primary);
 
   &:hover {
     background-color: var(--color-brand-600);
-    color: v-bind(textHoverColor);
   }
 
   &:focus {
     background-color: var(--color-brand-700);
-    color: v-bind(textFocusColor);
     outline: none;
   }
 
