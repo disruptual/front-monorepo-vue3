@@ -57,7 +57,7 @@ const model = computed({
   --checkbox-color: var(--color-text);
 
   &:focus-within {
-    --checkbox-color: var(--color-primary);
+    --checkbox-color: var(--color-brand-500);
   }
 }
 

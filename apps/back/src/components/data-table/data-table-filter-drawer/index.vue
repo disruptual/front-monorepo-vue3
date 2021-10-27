@@ -19,7 +19,11 @@ const formOptions = {
 </script>
 
 <template>
-  <dsp-button is-outlined left-icon="filter" @click="isOpened = true">
+  <dsp-button
+    color-scheme="success"
+    left-icon="filter"
+    @click="isOpened = true"
+  >
     Filtres
   </dsp-button>
 

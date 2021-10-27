@@ -55,7 +55,7 @@ input[type='search']::-webkit-search-results-decoration {
   overflow: hidden;
 
   &:focus-within {
-    border-color: var(--color-primary);
+    border-color: var(--color-brand-500);
     border-width: 2px;
   }
 }

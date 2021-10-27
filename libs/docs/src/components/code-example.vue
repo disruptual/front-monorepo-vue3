@@ -49,7 +49,7 @@ const isJs = computed(() => activePanel.value === 'js');
 
 .toolbar {
   --color-brand-100: var(--c-bg-accent);
-  --color-primary: var(--c-brand);
+  --color-brand-500: var(--c-brand);
   padding: var(--spacing-sm);
   border-bottom: solid 1px var(--color-separator);
 }

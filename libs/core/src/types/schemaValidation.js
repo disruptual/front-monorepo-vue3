@@ -2,16 +2,35 @@ import { typeValidators as validators } from './validators';
 import { transformers } from './transformers';
 import { types as helpers } from './helpers';
 import { isUndefinedOrNull } from '@dsp/core/';
+import * as types from './types';
+import { merge } from 'lodash-es';
+
+function _getDefaultValue(schema) {
+  if (schema.type === types.OBJECT) {
+    return Object.fromEntries(
+      Object.entries(schema.shape).map(([key, value]) => [
+        key,
+        _getDefaultValue(value)
+      ])
+    );
+  }
+
+  return schema.default;
+}
 
 function _normalizeValue(name, key, schema, value) {
   const transformer = transformers[schema.type];
-  if (isUndefinedOrNull(value)) return transformer(schema.default, schema);
+  if (isUndefinedOrNull(value))
+    return transformer(_getDefaultValue(schema), schema);
 
   const isValid = _validateValue(name, key, schema, value);
 
-  return isValid
-    ? transformer(value, schema)
-    : transformer(schema.default, schema);
+  if (!isValid) return transformer(_getDefaultValue(schema), schema);
+
+  if (schema.type === types.OBJECT)
+    return transformer(merge({}, _getDefaultValue(schema), value), schema);
+
+  return transformer(value, schema);
 }
 
 function _validateValue(name, key, schema, value) {

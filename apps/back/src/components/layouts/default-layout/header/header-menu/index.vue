@@ -72,7 +72,7 @@ const onLinkClick = () => {
   breadcrumbs.reset();
 };
 
-const focusedTextColor = useReadableColor('--color-primary');
+const focusedTextColor = useReadableColor('--color-brand-500');
 </script>
 
 <template>
@@ -144,7 +144,7 @@ header {
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  border: solid 1px var(--color-primary);
+  border: solid 1px var(--color-brand-500);
   border-radius: var(--border-radius-md);
   background-color: var(--color-brand-100);
   padding: var(--spacing-xs);
@@ -159,7 +159,7 @@ header {
 
   &:focus {
     outline: none;
-    background-color: var(--color-primary);
+    background-color: var(--color-brand-500);
     color: v-bind(focusedTextColor);
   }
 }

@@ -49,8 +49,8 @@ const textColor = useReadableColor('--color-surface');
   border: solid 1px var(--color-separator);
 
   &:focus-within {
-    border-color: var(--color-primary);
-    outline: solid 1px var(--color-primary);
+    border-color: var(--color-brand-500);
+    outline: solid 1px var(--color-brand-500);
   }
 
   input {

@@ -14,7 +14,7 @@ export default {
   },
   palettes: {
     brand: '#F06305',
-    success: '#56A25C',
+    success: '#338855',
     error: '#C95242',
     warning: '#EBBE5E'
   },

@@ -12,10 +12,11 @@ const props = defineProps({
   isOutlined: { type: Boolean, default: false },
   leftIcon: { type: String, default: null },
   rightIcon: { type: String, default: null },
+  colorScheme: { type: String, default: 'brand' },
   ...schema.toVariantProps()
 });
 
-const { classes } = useButton(props);
+const { classes, colors } = useButton(props);
 </script>
 
 <template>
@@ -43,14 +44,14 @@ const { classes } = useButton(props);
   font-family: var(--font-body);
   user-select: none;
   text-decoration: none;
-  background-color: var(--color-primary);
+  background-color: v-bind('colors.normal');
 
   &:hover {
-    background-color: var(--color-brand-600);
+    background-color: v-bind('colors.hover');
   }
 
   &:focus {
-    background-color: var(--color-brand-700);
+    background-color: v-bind('colors.focus');
     outline: none;
   }
 
@@ -67,14 +68,14 @@ const { classes } = useButton(props);
 }
 
 .dsp-button--is-outlined {
-  color: black;
-  border-color: black;
+  --dsp-button-outlined-color: v-bind('colors.normal');
+  color: var(--dsp-button-outlined-color);
+  border-color: var(--dsp-button-outlined-color);
   background-color: transparent;
 
   &:disabled {
+    --dsp-button-outlined-color: var(--color-text-disabled);
     background-color: transparent;
-    color: var(--color-text-disabled);
-    border-color: var(--color-text-disabled);
   }
 }
 

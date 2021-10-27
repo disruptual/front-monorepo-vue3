@@ -26,7 +26,7 @@ const classes = useButton(props, schema);
   background: linear-gradient(
     130deg,
     var(--color-brand-300),
-    var(--color-primary)
+    var(--color-brand-500)
   );
   color: var(--color-text-lighter);
   padding: 1em;

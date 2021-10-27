@@ -10,7 +10,7 @@ import { useDevice, useReadableColor } from '@dsp/ui';
 const device = useDevice();
 const breadcrumbs = inject(CONTEXT_KEYS.BREADCRUMB);
 
-const textColor = useReadableColor('--color-primary');
+const textColor = useReadableColor('--color-brand-500');
 </script>
 
 <template>
@@ -36,7 +36,7 @@ const textColor = useReadableColor('--color-primary');
 
 <style lang="scss" scoped>
 .header-breadcrumbs {
-  background-color: var(--color-primary);
+  background-color: var(--color-brand-500);
   color: v-bind(textColor);
   overflow: hidden;
 }
@@ -45,7 +45,7 @@ a {
   color: inherit;
   text-decoration: none;
   padding: var(--spacing-xs);
-  background-color: var(--color-primary);
+  background-color: var(--color-brand-500);
 
   &:hover {
     background-color: var(--color-brand-600);

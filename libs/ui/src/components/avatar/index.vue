@@ -19,7 +19,7 @@ const initials = computed(
 
 const computedSize = computed(() => `var(--avatar-size-${props.size}`);
 
-const textColor = useReadableColor('--color-primary');
+const textColor = useReadableColor('--color-brand-500');
 </script>
 
 <template>
@@ -51,7 +51,7 @@ const textColor = useReadableColor('--color-primary');
 }
 
 .initials {
-  background-color: var(--color-primary);
+  background-color: var(--color-brand-500);
   color: v-bind(textColor);
   width: 100%;
   height: 100%;

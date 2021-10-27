@@ -87,6 +87,6 @@ provide(CONTEXT_KEYS.TABS, tabsContext);
 }
 
 .menu-item--is-active {
-  border-bottom: 2px solid var(--color-primary);
+  border-bottom: 2px solid var(--color-brand-500);
 }
 </style>

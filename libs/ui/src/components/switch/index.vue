@@ -55,7 +55,7 @@ const model = computed({
   cursor: pointer;
 
   &:hover {
-    border-color: var(--color-primary);
+    border-color: var(--color-brand-500);
   }
 
   &::after {
