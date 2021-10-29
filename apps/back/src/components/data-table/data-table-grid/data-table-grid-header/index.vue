@@ -55,6 +55,7 @@ const onResizeStart = (e, column) => {
   state.resizedColumnInitialWidth = column.width;
   state.resizeStartX = e.clientX;
   state.totalStartWidth = tableHeadElement.value.parentNode.scrollWidth;
+  window.addEventListener('mouseup', onResizeEnd);
 };
 
 const onResizeEnd = () => {
@@ -63,6 +64,7 @@ const onResizeEnd = () => {
   state.resizeStartWidth = 0;
   state.resizeStartX = 0;
   state.totalStartWidth = 0;
+  window.removeEventListener('mouseup', onResizeEnd);
 };
 
 const onResizeMove = e => {
@@ -71,7 +73,6 @@ const onResizeMove = e => {
   const diff = state.resizeStartX - e.clientX;
   const newWidth = state.resizedColumnInitialWidth - diff;
   model.resizeColumn(state.resizedColumn, newWidth);
-  // model.resizeColumn('update:width', state.totalStartWidth - diff);
 };
 </script>
 
@@ -80,7 +81,6 @@ const onResizeMove = e => {
     ref="tableHeadElement"
     class="data-table-grid-header"
     @mousemove="onResizeMove"
-    @mouseup="onResizeEnd"
   >
     <tr>
       <th
