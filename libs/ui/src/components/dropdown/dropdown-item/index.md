@@ -16,6 +16,10 @@ DropdownItem description.
 
 <props-parser :props="component.props" />
 
+## Emits
+
+<emits-parser :emits="component.emits" />
+
 ## Example
 
 <code-example>

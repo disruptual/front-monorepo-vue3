@@ -2,7 +2,14 @@
 import { ref } from 'vue';
 import component from './index.vue'
 
-const isOpened = ref(false);
+const user1 = {
+  avatar: { url: 'https://mcdn.wallpapersafari.com/medium/73/77/pAPo1m.jpg' }
+}
+
+const user2 = {
+   firstName: 'John', lastName: 'Doe' 
+}
+
 </script>
 
 # Avatar
@@ -11,21 +18,30 @@ const isOpened = ref(false);
 
 ## Description
 
-Component description
-
+Ce composant affiche l'avatar d'un utililsateur ou, si celui-ci n'en possède pas, ses initiales.
 ## Props
 
 <props-parser :props="component.props" />
 
+## Emits
+
+<emits-parser :emits="component.emits" />
 ## Example
 
 
 <code-example>
-<p>Example</p>
+<dsp-flex gap="md">
+  <dsp-avatar :user="user1"/>
+  <dsp-avatar :user="user2"/>
+</dsp-flex>
+
 <template v-slot:html>
 
 ```html
-<p>Example</p>
+<dsp-flex gap="md">
+  <dsp-avatar :user="user1"/>
+  <dsp-avatar :user="user2"/>
+</dsp-flex>
 ```
 
 </template>
@@ -33,7 +49,13 @@ Component description
 <template v-slot:js>
 
 ```js
-const isOpened = ref(false);
+const user1 = {
+  avatar: { url: 'https://mcdn.wallpapersafari.com/medium/73/77/pAPo1m.jpg' }
+}
+
+const user2 = {
+   firstName: 'John', lastName: 'Doe' 
+}
 ```
 
 </template>

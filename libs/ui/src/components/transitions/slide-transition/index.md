@@ -9,3 +9,7 @@ import component from './index.vue'
 ## Props
 
 <props-parser :props="component.props" />
+
+## Emits
+
+<emits-parser :emits="component.emits" />

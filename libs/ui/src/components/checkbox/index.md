@@ -17,6 +17,10 @@ Le composant `<dsp-checkbox />` est utilisé dans un formulaire pour selectionne
 
 <props-parser :props="component.props" />
 
+## Emits
+
+<emits-parser :emits="component.emits" />
+
 ## Example
 
 <code-example>

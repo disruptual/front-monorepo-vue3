@@ -16,6 +16,10 @@ Ce composant affiche son contenu centré, avec une largeur maximum sur tablette 
 
 <props-parser :props="component.props" />
 
+## Emits
+
+<emits-parser :emits="component.emits" />
+
 ## Example
 
 <code-example>

@@ -18,6 +18,14 @@ const values = [
 
 Le composant `<dsp-aspect-ratio>` sert à assurer que la hauteur de ses enfants respectera un certain ratio. Il est utilisé pour wrapper des images, embeds de video ou un slider d'images type carousel, par exemple.
 
+## Props
+
+<props-parser :props="component.props" />
+
+## Emits
+
+<emits-parser :emits="component.emits" />
+
 ## Example
 
 <code-example>
@@ -50,7 +58,3 @@ const values = [
 
 </template>
 </code-example>
-
-## Props
-
-<props-parser :props="component.props" />
