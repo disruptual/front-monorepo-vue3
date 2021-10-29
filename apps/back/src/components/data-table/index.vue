@@ -14,15 +14,16 @@ const props = defineProps({
   query: { type: Object, required: true },
   minRowSize: { type: Number, default: 40 },
   hasActionBar: { type: Boolean, default: true },
-  hasSelectorColumn: { type: Boolean, default: true }
+  hasSelectorColumn: { type: Boolean, default: true },
+  id: { type: String, required: true }
 });
 const emit = defineEmits(['rowDblClick', 'filterChange']);
 const isLoading = computed(
   () => props.query.isLoading.value || props.query.isRelationLoading.value
 );
-
 const model = reactive(
   new DataTable({
+    id: props.id,
     query: props.query,
     minRowSize: props.minRowSize,
     hasSelectorColumn: props.hasSelectorColumn,

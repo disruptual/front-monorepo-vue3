@@ -19,6 +19,7 @@ const query = useOrderApi().findAllByUserIdQuery(props.userId, {
 
 <template>
   <DataTable
+    id="user-items"
     :query="query"
     :min-row-size="40"
     :has-action-bar="false"

@@ -1,12 +1,14 @@
+import { debounce } from 'lodash-es';
 import { DataTableColumn } from './DataTableColumn.model';
-import { KEYBOARD } from '@dsp/core';
-import { isNumber } from '@dsp/core';
+import { KEYBOARD, isNumber } from '@dsp/core';
+import { EVENTS } from '@/utils/constants';
 
 const SELECTOR_COLUMN_WIDTH = 40;
 const ACTIONS_COLUMN_WIDTH = 50;
 
 export class DataTable {
   constructor({
+    id,
     query,
     minRowSize,
     hasSelectorColumn,
@@ -14,6 +16,10 @@ export class DataTable {
     onFilterChange,
     tableElement = null
   }) {
+    if (!id) {
+      throw new Error('DataTable id is required');
+    }
+    this.id = id;
     this.query = query;
     this.columns = [];
     this.selectedRowIds = [];
@@ -27,7 +33,27 @@ export class DataTable {
     this.onFilterChange = onFilterChange;
 
     this.tableElement = tableElement;
+
+    this._debouncedSavePreferences = debounce(
+      this._savePreferences.bind(this),
+      1000
+    );
     this._filters = {};
+    this.filters = this.userPreferences?.filters || {};
+  }
+
+  get storageKey() {
+    return `dsp-data-table-${this.id}`;
+  }
+
+  get userPreferences() {
+    const raw = localStorage.getItem(this.storageKey);
+
+    return raw ? JSON.parse(raw) : null;
+  }
+
+  set userPreferences(prefs) {
+    localStorage.setItem(this.storageKey, JSON.stringify(prefs));
   }
 
   get filters() {
@@ -37,6 +63,7 @@ export class DataTable {
   set filters(value) {
     this._filters = value;
     this.onFilterChange(this._filters);
+    this._debouncedSavePreferences();
   }
 
   get displayedColumns() {
@@ -46,7 +73,7 @@ export class DataTable {
         if (a.isPinned && !b.isPinned) return -1;
         if (!a.isPinned && b.isPinned) return 1;
 
-        return 0;
+        return a.position - b.position;
       });
   }
 
@@ -86,8 +113,39 @@ export class DataTable {
     return this.query.data?.length;
   }
 
-  addColumn(column) {
-    this.columns.push(new DataTableColumn(this, column));
+  _onColumnUpdate() {
+    this.setColumnOffsets();
+    this._debouncedSavePreferences();
+  }
+
+  _savePreferences() {
+    this.userPreferences = {
+      filters: this.filters,
+      columns: this.columns.map(column => ({
+        name: column.name,
+        width: column.width,
+        isHidden: column.isHidden,
+        isPinned: column.isPinned,
+        position: column.position
+      }))
+    };
+  }
+
+  addColumn(columnDefinition) {
+    const savedColumn = this.userPreferences?.columns?.find?.(
+      c => c.name === columnDefinition.name
+    );
+
+    const column = new DataTableColumn(this, {
+      ...columnDefinition,
+      position: this.columns.length,
+      ...(savedColumn || {})
+    });
+
+    console.log(column.name, column.position);
+
+    column.on(EVENTS.DATA_TABLE.COLUMN_UPDATE, this._onColumnUpdate.bind(this));
+    this.columns.push(column);
   }
 
   addRowAction(action) {
@@ -99,6 +157,11 @@ export class DataTable {
     if (oldIndex === newIndex) return;
     this.columns.splice(oldIndex, 1);
     this.columns.splice(newIndex, 0, column);
+    this.columns.forEach((col, index) => {
+      col.position = index;
+    });
+
+    this._onColumnUpdate();
   }
 
   setColumnOffsets() {
@@ -118,7 +181,7 @@ export class DataTable {
 
   resizeColumn(column, newWidth) {
     column.width = newWidth;
-    this.setColumnOffsets();
+    this._onColumnUpdate();
   }
 
   setRowElement(id, element) {

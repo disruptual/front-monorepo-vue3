@@ -1,4 +1,6 @@
 import { isFunction } from '@dsp/core';
+import { EVENTS } from '@/utils/constants';
+import mitt from 'mitt';
 
 export class DataTableColumn {
   constructor(
@@ -6,6 +8,7 @@ export class DataTableColumn {
     {
       name,
       label,
+      position,
       template,
       tooltipLabel,
       width,
@@ -15,9 +18,9 @@ export class DataTableColumn {
       filterName
     }
   ) {
-    this.table = table;
     this.name = name;
     this.label = label;
+    this.position = position;
     this.template = template;
     this.tooltipLabel = tooltipLabel;
     this.width = width;
@@ -29,6 +32,19 @@ export class DataTableColumn {
     this.headerElement = null;
 
     this.headerElementRef = this.headerElementRef.bind(this);
+    this._emitter = mitt();
+  }
+
+  _onUpdate() {
+    return this._emitter.emit(EVENTS.DATA_TABLE.COLUMN_UPDATE);
+  }
+
+  on(...args) {
+    return this._emitter.on(...args);
+  }
+
+  off(...args) {
+    this._emitter.off(...args);
   }
 
   headerElementRef(el) {
@@ -36,7 +52,7 @@ export class DataTableColumn {
 
     this.headerElement = el;
     setTimeout(() => {
-      this.table.setColumnOffsets();
+      this._onUpdate();
     });
   }
 
@@ -57,11 +73,11 @@ export class DataTableColumn {
 
   togglePinned() {
     this.isPinned = !this.isPinned;
-    this.table.setColumnOffsets();
+    this._onUpdate();
   }
 
   toggleVisible() {
     this.isHidden = !this.isHidden;
-    this.table.setColumnOffsets();
+    this._onUpdate();
   }
 }

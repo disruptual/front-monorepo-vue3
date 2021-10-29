@@ -24,6 +24,7 @@ const goToDetail = row => {
 
 <template>
   <DataTable
+    id="user-items"
     :query="query"
     :min-row-size="50"
     :has-action-bar="false"

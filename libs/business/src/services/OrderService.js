@@ -7,7 +7,6 @@ export class OrderService extends BaseCRUDService {
   }
 
   async findAllByUserId(userId, options) {
-    console.log('findallbyuserid');
     return this._http.get(`users/${userId}/orders`, options);
   }
 }

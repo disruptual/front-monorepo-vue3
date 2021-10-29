@@ -37,6 +37,7 @@ const goToDetail = row => {
 
 <template>
   <DataTable
+    id="users-list"
     :query="query"
     :min-row-size="48"
     @row-dbl-click="goToDetail"

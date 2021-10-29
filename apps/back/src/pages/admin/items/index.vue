@@ -27,7 +27,12 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <DataTable :query="query" :min-row-size="50" @row-dbl-click="goToDetail">
+  <DataTable
+    id="items-list"
+    :query="query"
+    :min-row-size="50"
+    @row-dbl-click="goToDetail"
+  >
     <DataTableColumn name="id" label="Id" width="80" />
     <DataTableColumn
       v-slot="{ row }"

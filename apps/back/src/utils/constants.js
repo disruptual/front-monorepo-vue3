@@ -8,3 +8,9 @@ export const USER_DETAILS_TABS = {
   ORDERS: 'orders',
   ITEMS: 'items'
 };
+
+export const EVENTS = {
+  DATA_TABLE: {
+    COLUMN_UPDATE: 'DataTableColumn:update'
+  }
+};
