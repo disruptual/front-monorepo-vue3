@@ -1,8 +1,5 @@
-import { useStore } from 'vuex';
-import { computed } from 'vue';
-
+import { inject } from 'vue';
+import { PROVIDER_KEYS } from '@dsp/core/utils/constants';
 export const useAppContext = () => {
-  const store = useStore();
-
-  return computed(() => store.getters.appContext);
+  return inject(PROVIDER_KEYS.APP_CONTEXT);
 };

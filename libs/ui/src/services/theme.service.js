@@ -33,12 +33,14 @@ export class ThemeService {
       );
     });
     Object.entries(palettes).forEach(([name, baseValue]) => {
-      this.generateColorScale(baseValue).forEach(([variant, value]) => {
-        document.documentElement.style.setProperty(
-          `--color-${camelToKebabCase(name)}-${variant}`,
-          value
-        );
-      });
+      Object.entries(this.generateColorScale(baseValue)).forEach(
+        ([variant, value]) => {
+          document.documentElement.style.setProperty(
+            `--color-${camelToKebabCase(name)}-${variant}`,
+            value
+          );
+        }
+      );
     });
 
     Object.entries(colors).forEach(([name, value]) => {
@@ -64,17 +66,46 @@ export class ThemeService {
   }
 
   generateColorScale(baseColor) {
-    return [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]
-      .map(unit => [
-        unit,
-        Color(baseColor)
-          .lightness(100 - unit / 10)
-          .hsl()
-          .string()
-      ])
-      .concat([
-        ['half', Color(baseColor).fade(0.5).hsl().string()],
-        ['quarter', Color(baseColor).fade(0.75).hsl().string()]
-      ]);
+    const MAX_LUMINOSITY = 95;
+    const MIN_LUMINOSITY = 10;
+    const LIGHT_VALUES = 5;
+    const DARK_VALUES = 4;
+
+    const [, , luminosity] = Color(baseColor).hsl().array();
+    const lightStep = (MAX_LUMINOSITY - luminosity) / LIGHT_VALUES;
+    const darkStep = (luminosity - MIN_LUMINOSITY) / DARK_VALUES;
+
+    return {
+      50: Color(baseColor)
+        .lightness(luminosity + 5 * lightStep)
+        .hex(),
+      100: Color(baseColor)
+        .lightness(luminosity + 4 * lightStep)
+        .hex(),
+      200: Color(baseColor)
+        .lightness(luminosity + 3 * lightStep)
+        .hex(),
+      300: Color(baseColor)
+        .lightness(luminosity + 2 * lightStep)
+        .hex(),
+      400: Color(baseColor)
+        .lightness(luminosity + lightStep)
+        .hex(),
+      500: Color(baseColor).hex(),
+      600: Color(baseColor)
+        .lightness(luminosity - darkStep)
+        .hex(),
+      700: Color(baseColor)
+        .lightness(luminosity - 2 * darkStep)
+        .hex(),
+      800: Color(baseColor)
+        .lightness(luminosity - 3 * darkStep)
+        .hex(),
+      900: Color(baseColor)
+        .lightness(luminosity - 4 * darkStep)
+        .hex(),
+      half: Color(baseColor).fade(0.5).hsl().string(),
+      quarter: Color(baseColor).fade(0.75).hsl().string()
+    };
   }
 }

@@ -1,7 +1,7 @@
 const clones = new WeakMap();
 
 export const vLazyText = {
-  mounted(el, binding) {
+  mounted(el) {
     const childNodes = [...el.childNodes];
     if (childNodes.every(node => !node.textContent)) {
       if (clones.get(el)) return;

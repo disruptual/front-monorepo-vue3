@@ -19,14 +19,9 @@ const formOptions = {
 </script>
 
 <template>
-  <dsp-button
-    color-scheme="success"
-    left-icon="filter"
-    @click="isOpened = true"
-  >
+  <dsp-button is-outlined left-icon="filter" @click="isOpened = true">
     Filtres
   </dsp-button>
-
   <dsp-drawer :is-opened="isOpened" position="right" @close="isOpened = false">
     <dsp-smart-form
       :form-options="formOptions"

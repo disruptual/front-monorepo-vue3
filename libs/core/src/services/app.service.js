@@ -17,6 +17,7 @@ export class DisruptualApp {
     plugins
   }) {
     this.routes = routes;
+    this.appContext = appContext;
 
     this.http = new HttpService({ baseURL: apiBaseUrl });
     this.queryClient = createQueryClient();
@@ -47,6 +48,7 @@ export class DisruptualApp {
 
   addProviders() {
     this.vueApp.provide(PROVIDER_KEYS.APP, this);
+    this.vueApp.provide(PROVIDER_KEYS.APP_CONTEXT, this.appContext);
     this.vueApp.provide(PROVIDER_KEYS.HTTP_SERVICE, this.http);
     this.vueApp.provide(PROVIDER_KEYS.AUTH_SERVICE, this.auth);
     this.vueApp.provide(PROVIDER_KEYS.VUE_QUERY_CLIENT, this.queryClient);

@@ -68,10 +68,18 @@ const { classes, colors } = useButton(props);
 }
 
 .dsp-button--is-outlined {
-  --dsp-button-outlined-color: v-bind('colors.normal');
+  --dsp-button-outlined-color: var(--color-text);
   color: var(--dsp-button-outlined-color);
   border-color: var(--dsp-button-outlined-color);
   background-color: transparent;
+
+  &:hover {
+    background-color: v-bind('colors.normal');
+  }
+
+  &:focus {
+    background-color: v-bind('colors.hover');
+  }
 
   &:disabled {
     --dsp-button-outlined-color: var(--color-text-disabled);
@@ -81,6 +89,7 @@ const { classes, colors } = useButton(props);
 
 .dsp-button--is-rounded {
   border-radius: var(--border-radius-pill);
+  padding: var(--spacing-xs) var(--spacing-md);
 }
 
 .icon-left {

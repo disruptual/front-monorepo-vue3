@@ -6,6 +6,7 @@ export default {
 
 <script setup>
 import schema from './index.schema';
+import { vReadableColor } from '@dsp/ui/directives/readableColor';
 
 defineEmits(['click']);
 const props = defineProps({
@@ -17,7 +18,12 @@ const context = schema.toContext(props);
 </script>
 
 <template>
-  <dsp-flex class="back-link" align="center" justify="space-between">
+  <dsp-flex
+    v-readable-color
+    class="back-link"
+    align="center"
+    justify="space-between"
+  >
     <dsp-plain-button @click="$emit('click')">
       <dsp-flex align="center" gap="sm">
         <dsp-icon icon="chevronLeft" />
@@ -32,7 +38,6 @@ const context = schema.toContext(props);
 .back-link {
   padding: var(--spacing-sm);
   background-color: v-bind('context.bgColor');
-  color: v-bind('context.color');
 
   > button {
     color: inherit;

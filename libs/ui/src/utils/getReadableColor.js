@@ -21,6 +21,5 @@ export const getReadableColor = color => {
   const bg = isCssVariable(color) ? getCssVarValue(color) : color;
 
   if (TRANSPARENT_VALUES.includes(bg)) return null;
-
   return readableColor(bg, dark, light);
 };

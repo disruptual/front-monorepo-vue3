@@ -3,15 +3,17 @@ import {
   toConfig
 } from '@dsp/core/types/schemaValidation';
 import { types } from '@dsp/core/types/helpers';
-import { useStore } from 'vuex';
+import { useAppContext } from '@dsp/core/hooks';
 import { useAttrs, computed, shallowRef, watchEffect } from 'vue';
 
 export const createComponentSchema = (name, schema) => {
   function toContext(props) {
-    const store = useStore();
-    const context = computed(() => store.getters.componentContext(name));
+    const appContext = useAppContext();
+    const componentContext = computed(() => appContext[name]);
 
-    return computed(() => toConfig(name, schema, context.value, props));
+    return computed(() =>
+      toConfig(name, schema, componentContext.value, props)
+    );
   }
 
   function toProps() {

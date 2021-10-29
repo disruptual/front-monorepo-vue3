@@ -13,10 +13,11 @@ export default {
     }
   },
   palettes: {
-    brand: '#F06305',
-    success: '#338855',
+    brand: '#FF6600',
+    success: '#1e7a3a',
     error: '#C95242',
-    warning: '#EBBE5E'
+    warning: '#EBBE5E',
+    gray: '#777'
   },
   colors: {
     text: '#000',

@@ -41,7 +41,6 @@ const activeFilters = computed(() =>
         :key="action.label"
         :left-icon="action.icon"
         :disabled="isActionDisabled(action)"
-        is-outlined
         @click="triggerAction(action)"
       >
         {{ action.label }}
