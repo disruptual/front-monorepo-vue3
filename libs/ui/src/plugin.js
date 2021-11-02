@@ -1,4 +1,5 @@
 import 'normalize.css';
+import 'focus-visible/dist/focus-visible';
 import './styles/main.scss';
 
 import * as components from './components';

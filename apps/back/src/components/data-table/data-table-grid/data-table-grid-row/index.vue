@@ -33,7 +33,10 @@ const columnStyle = column => {
   };
 };
 
-const isSelected = computed(() => model.isRowSelected(props.row));
+const isSelected = computed(() => model.selectedRowIds.includes(props.row.id));
+const highlight = computed(() => model.getRowHighlight(props.row));
+const isHighlighted = computed(() => !!highlight.value);
+
 watch(
   () => model.focusedRowIndex,
   () => {
@@ -49,7 +52,10 @@ watch(
     ref="rowElement"
     v-on-intersect:[intersectOptions]="onIntersect"
     class="data-table-grid-row"
-    :class="isSelected && 'data-table-grid-row--selected'"
+    :class="[
+      isSelected && 'data-table-grid-row--selected',
+      isHighlighted && 'data-table-grid-row--highlighted'
+    ]"
     tabIndex="0"
     @dblclick="model.onRowDblClick(row, $event)"
     @focus="model.focusedRowIndex = index"
@@ -135,6 +141,10 @@ watch(
 
   &.data-table-grid-row--selected td {
     background-color: var(--color-brand-100);
+  }
+  &.data-table-grid-row--highlighted td {
+    background-color: v-bind('highlight?.color?.bg');
+    color: v-bind('highlight?.color?.text');
   }
 }
 

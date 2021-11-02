@@ -34,6 +34,7 @@ const goToDetail = row => {
     <template #no-result>
       <dsp-center>Cet tilisateur ne possède aucun article.</dsp-center>
     </template>
+
     <DataTableColumn name="id" label="Id" width="80" />
     <DataTableColumn
       v-slot="{ row }"

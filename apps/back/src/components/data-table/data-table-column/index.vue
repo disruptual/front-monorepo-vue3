@@ -4,7 +4,8 @@ export default { name: 'DataTableColumn' };
 
 <script setup>
 import { inject, useSlots } from 'vue';
-import { CONTEXT_KEYS } from '@/utils/constants';
+import { CONTEXT_KEYS, DATATABLE_COLUMN_TYPES } from '@/utils/constants';
+import { oneOf } from '@dsp/core';
 
 const props = defineProps({
   name: { type: String, required: true },
@@ -13,15 +14,26 @@ const props = defineProps({
   isHidden: { type: Boolean, default: false },
   isPinned: { type: Boolean, default: false },
   tooltipLabel: { type: [Function, String], default: '' },
-  isFilterable: { type: Boolean, default: null },
-  filterName: { type: String, default: null }
+  isFilterable: { type: Boolean, default: false },
+  filterName: { type: String, default: null },
+  isHighlightable: { type: Boolean, default: false },
+  highlightOptions: { type: Object, default: () => ({}) },
+  type: oneOf(
+    Object.values(DATATABLE_COLUMN_TYPES),
+    DATATABLE_COLUMN_TYPES.STRING
+  )
 });
 const { model } = inject(CONTEXT_KEYS.DATATABLE);
 
 const slots = useSlots();
+const highlightOptions = {
+  predicate: props.name,
+  ...props.highlightOptions
+};
 
 model.addColumn({
   name: props.name,
+  type: props.type,
   label: props.label ?? props.name,
   template: slots.default,
   tooltipLabel: props.tooltipLabel,
@@ -29,7 +41,9 @@ model.addColumn({
   isHidden: props.isHidden,
   isPinned: props.isPinned,
   isFilterable: props.isFilterable,
-  filterName: props.filterName
+  filterName: props.filterName,
+  isHighlightable: props.isHighlightable,
+  highlightOptions: highlightOptions
 });
 </script>
 

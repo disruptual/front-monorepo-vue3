@@ -5,6 +5,7 @@ export default { name: 'DataTableFilterDrawer' };
 <script setup>
 import { inject, ref } from 'vue';
 import { CONTEXT_KEYS } from '@/utils/constants';
+import { vTooltip } from '@dsp/ui';
 
 const { model } = inject(CONTEXT_KEYS.DATATABLE);
 
@@ -19,9 +20,11 @@ const formOptions = {
 </script>
 
 <template>
-  <dsp-button is-outlined left-icon="filter" @click="isOpened = true">
-    Filtres
-  </dsp-button>
+  <dsp-plain-button is-outlined left-icon="filter" @click="isOpened = true">
+    <span v-tooltip="'Filtres'">
+      <dsp-icon icon="filter" />
+    </span>
+  </dsp-plain-button>
   <dsp-drawer :is-opened="isOpened" position="right" @close="isOpened = false">
     <dsp-smart-form
       :form-options="formOptions"

@@ -1,24 +1,26 @@
+import mitt from 'mitt';
 import { isFunction } from '@dsp/core';
 import { EVENTS } from '@/utils/constants';
-import mitt from 'mitt';
+import { DataTableHighlight } from './DataTableHighlight.model';
 
 export class DataTableColumn {
-  constructor(
-    table,
-    {
-      name,
-      label,
-      position,
-      template,
-      tooltipLabel,
-      width,
-      isHidden,
-      isPinned,
-      isFilterable,
-      filterName
-    }
-  ) {
+  constructor({
+    name,
+    type,
+    label,
+    position,
+    template,
+    tooltipLabel,
+    width,
+    isHidden,
+    isPinned,
+    isFilterable,
+    filterName,
+    isHighlightable,
+    highlightOptions
+  }) {
     this.name = name;
+    this.type = type;
     this.label = label;
     this.position = position;
     this.template = template;
@@ -28,6 +30,10 @@ export class DataTableColumn {
     this.isPinned = isPinned;
     this.isFilterable = isFilterable;
     this.filterName = filterName;
+    this.isHighlightable = isHighlightable;
+    this.highlightOptions = highlightOptions;
+    this._highlights = [];
+
     this.pinnedOffset = 0;
     this.headerElement = null;
 
@@ -79,5 +85,16 @@ export class DataTableColumn {
   toggleVisible() {
     this.isHidden = !this.isHidden;
     this._onUpdate();
+  }
+
+  resize(newWidth) {
+    this.width = newWidth;
+    this._onUpdate();
+  }
+
+  getHighlightPredicate(row) {
+    return isFunction(this.highlightOptions.predicate)
+      ? this.highlightOptions.predicate(this.row)
+      : row[this.highlightOptions.predicate];
   }
 }

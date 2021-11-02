@@ -3,9 +3,7 @@ export default { name: 'DspFormError' };
 </script>
 
 <script setup>
-import { computed } from 'vue';
-
-const props = defineProps({
+defineProps({
   error: { type: [String, null], required: true }
 });
 </script>

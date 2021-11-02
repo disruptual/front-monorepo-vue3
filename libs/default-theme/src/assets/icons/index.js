@@ -20,6 +20,10 @@ import edit from './edit.svg';
 import caretDown from './caretDown.svg';
 import filter from './filter.svg';
 import remove from './delete.svg';
+import userSlash from './userSlash.svg';
+import plus from './plus.svg';
+import columns from './columns.svg';
+import highlight from './highlight.svg';
 
 export default {
   bars,
@@ -29,19 +33,23 @@ export default {
   chevronLeft,
   circleRegular,
   circleSolid,
+  columns,
   remove,
   edit,
   ellipsisH,
   eye,
   eyeSlash,
   filter,
+  highlight,
   home,
   loader,
+  pin,
+  plus,
   search,
   speechBubble,
   speechBubbleSlash,
+  userDelete,
   user,
-  warning,
-  pin,
-  userDelete
+  userSlash,
+  warning
 };

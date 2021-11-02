@@ -3,7 +3,7 @@ export default { name: 'DspTabs' };
 </script>
 
 <script setup>
-import { provide, ref, computed, watch } from 'vue';
+import { provide, ref, computed } from 'vue';
 import { CONTEXT_KEYS } from '@dsp/ui/utils/constants';
 import { isUndefinedOrNull } from '@dsp/core';
 import { useReadableColor } from '@dsp/ui/hooks/useReadableColor';
@@ -46,30 +46,26 @@ provide(CONTEXT_KEYS.TABS, tabsContext);
 </script>
 
 <template>
-  <div class="dsp-tabs">
-    <div class="menu">
-      <dsp-swiper gap="md" wrap="nowrap">
-        <dsp-swiper-item v-for="tab in orderedTabs" :key="tab.name">
-          <dsp-flex
-            align="center"
-            :class="
-              tabsContext.activeTab === tab.name && 'menu-item--is-active'
-            "
-          >
-            <slot
-              name="menuItem"
-              v-bind="{ tab, setActive: () => tabsContext.changeTab(tab.name) }"
-            >
-              <dsp-plain-button @click="tabsContext.changeTab(tab.name)">
-                {{ tab.label }}
-              </dsp-plain-button>
-            </slot>
-          </dsp-flex>
-        </dsp-swiper-item>
-      </dsp-swiper>
-    </div>
-    <slot />
-  </div>
+  <nav class="menu">
+    <dsp-swiper as="ul">
+      <dsp-swiper-item
+        v-for="tab in orderedTabs"
+        :key="tab.name"
+        as="li"
+        :class="tabsContext.activeTab === tab.name && 'menu-item--is-active'"
+      >
+        <slot
+          name="menuItem"
+          v-bind="{ tab, setActive: () => tabsContext.changeTab(tab.name) }"
+        >
+          <dsp-plain-button @click="tabsContext.changeTab(tab.name)">
+            {{ tab.label }}
+          </dsp-plain-button>
+        </slot>
+      </dsp-swiper-item>
+    </dsp-swiper>
+  </nav>
+  <slot />
 </template>
 
 <style lang="scss" scoped>
@@ -83,10 +79,12 @@ provide(CONTEXT_KEYS.TABS, tabsContext);
 
   li {
     border-bottom: 2px solid var(--color-disabled);
-  }
-}
+    display: flex;
+    align-items: center;
 
-.menu-item--is-active {
-  border-bottom: 2px solid var(--color-brand-500);
+    &.menu-item--is-active {
+      border-color: var(--color-brand-500);
+    }
+  }
 }
 </style>

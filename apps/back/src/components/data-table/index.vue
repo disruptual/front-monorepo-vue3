@@ -3,9 +3,11 @@ export default { name: 'DataTable' };
 </script>
 
 <script setup>
-import { computed, provide, reactive, watch } from 'vue';
+import { computed, provide, reactive } from 'vue';
 import { CONTEXT_KEYS } from '@/utils/constants';
 import { DataTable } from '@/models/DataTable.model';
+import { KEYBOARD, isNumber } from '@dsp/core';
+import { useEventListener } from '@dsp/ui';
 
 import DataTableGrid from './data-table-grid/index.vue';
 import DataTableActionBar from './data-table-action-bar/index.vue';
@@ -18,9 +20,11 @@ const props = defineProps({
   id: { type: String, required: true }
 });
 const emit = defineEmits(['rowDblClick', 'filterChange']);
+
 const isLoading = computed(
   () => props.query.isLoading.value || props.query.isRelationLoading.value
 );
+
 const model = reactive(
   new DataTable({
     id: props.id,
@@ -36,7 +40,25 @@ const model = reactive(
   })
 );
 
-model.installListeners();
+const onKeyPress = e => {
+  if (!isNumber(model.focusedRowIndex)) return;
+
+  switch (e.key) {
+    case KEYBOARD.ARROW_DOWN:
+      if (model.focusedRowIndex === model.currentRowCount) return;
+      e.preventDefault();
+      model.focusedRowIndex++;
+      break;
+    case KEYBOARD.ARROW_UP:
+      if (model.focusedRowIndex === 0) return;
+      e.preventDefault();
+      model.focusedRowIndex--;
+      break;
+    default:
+      return;
+  }
+};
+useEventListener('keydown', onKeyPress);
 
 provide(CONTEXT_KEYS.DATATABLE, {
   query: props.query,

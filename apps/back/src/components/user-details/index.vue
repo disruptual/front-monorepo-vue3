@@ -4,7 +4,6 @@ export default { name: 'UserDetails' };
 
 <script setup>
 import { ref, unref, computed } from 'vue';
-import { useRoute } from 'vue-router';
 import { User, USER_ROLES } from '@dsp/business';
 import { useForm } from '@dsp/ui';
 import { useI18n } from 'vue-i18n';
@@ -17,13 +16,13 @@ const props = defineProps({
 
 const { t } = useI18n();
 const userApi = useUserApi();
-const { mutateAsync } = userApi.updateMutation();
+const { mutateAsync: updateUser } = userApi.updateMutation();
 
 const isEditing = ref(false);
 
 const form = useForm({
   onSubmit(values) {
-    return mutateAsync(values);
+    return updateUser(values);
   }
 });
 const [, formActions] = form;
@@ -44,7 +43,6 @@ const formattedRoles = computed(() =>
   props.user.roles.map(role => t(`user.roles.${role}`)).join(' - ')
 );
 
-const route = useRoute();
 const itemsLink = computed(() => ({
   query: { section: TABS.ITEMS }
 }));

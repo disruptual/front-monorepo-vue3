@@ -58,13 +58,21 @@ const goToDetail = row => {
       label="Prénom"
       width="200"
       is-filterable
+      is-highlightable
     />
-    <DataTableColumn name="lastName" label="Nom" width="200" is-filterable />
     <DataTableColumn
-      name="email"
-      label="Adress E-mail"
+      name="lastName"
+      label="Nom"
       width="200"
       is-filterable
+      is-highlightable
+    />
+    <DataTableColumn
+      name="email"
+      label="Adresse E-mail"
+      width="200"
+      is-filterable
+      is-highlightable
     />
     <DataTableColumn
       v-slot="{ row }"
@@ -79,6 +87,7 @@ const goToDetail = row => {
       name="mute"
       label="Anonymiser"
       :can-batch="false"
+      icon="userSlash"
       @action="onMute"
     />
     <DataTableRowAction

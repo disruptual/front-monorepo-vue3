@@ -6,6 +6,10 @@ export default { name: 'DspSwperItem' };
 import { inject, ref, onMounted } from 'vue';
 import { CONTEXT_KEYS } from '@dsp/ui/utils/constants';
 
+defineProps({
+  as: { type: String, default: 'div' }
+});
+
 const swiperContext = inject(CONTEXT_KEYS.SWIPER);
 const swiperElement = ref(null);
 const position = ref(0);
@@ -51,14 +55,15 @@ const onSwipeEnd = () => {
 </script>
 
 <template>
-  <div
+  <component
+    :is="as"
     ref="swiperElement"
     class="dsp-swiper-item"
     @mousedown="onSwipeStart"
     @touchstart="onSwipeStart"
   >
     <slot />
-  </div>
+  </component>
 </template>
 
 <style>

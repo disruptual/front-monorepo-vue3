@@ -49,7 +49,7 @@ const onResizeStart = (e, column) => {
 
   // @FIXME not clean
   const normalizedWidth = e.target.parentNode.parentNode.offsetWidth;
-  model.resizeColumn(state.resizedColumn, normalizedWidth);
+  state.resizedColumn.resize(normalizedWidth);
 
   state.isResizing = true;
   state.resizedColumnInitialWidth = column.width;
@@ -72,7 +72,7 @@ const onResizeMove = e => {
 
   const diff = state.resizeStartX - e.clientX;
   const newWidth = state.resizedColumnInitialWidth - diff;
-  model.resizeColumn(state.resizedColumn, newWidth);
+  state.resizedColumn.resize(newWidth);
 };
 </script>
 
@@ -166,6 +166,7 @@ const onResizeMove = e => {
   left: var(--pinned-column-offset, 0);
   background-color: inherit;
   z-index: 1;
+  border-left: solid 1px var(--color-separator);
 
   .pin-button:deep(svg) {
     transform: rotateZ(45deg);

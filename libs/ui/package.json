@@ -11,18 +11,19 @@
     "@popperjs/core": "^2.10.2",
     "@vue/test-utils": "^2.0.0-rc.16",
     "camelcase": "^6.2.0",
+    "focus-visible": "^5.2.0",
     "inert-polyfill": "^0.2.5"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
-    "@babel/preset-env": "^7.15.8",
-    "jest": "^27.3.1",
-    "babel-jest": "^27.3.1",
-    "babel-preset-vite": "^1.0.4",
     "@babel/plugin-transform-runtime": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
     "@testing-library/jest-dom": "^5.14.1",
     "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^27.3.1",
+    "babel-preset-vite": "^1.0.4",
     "dotenv": "^10.0.0",
+    "jest": "^27.3.1",
     "vitepress": "^0.20.0",
     "vue3-jest": "^27.0.0-alpha.1"
   }

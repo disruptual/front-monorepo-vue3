@@ -6,6 +6,10 @@ export default { name: 'DspSwiper' };
 import { reactive, ref, provide } from 'vue';
 import { CONTEXT_KEYS } from '@dsp/ui/utils/constants';
 
+defineProps({
+  as: { type: String, default: 'div' }
+});
+
 const state = reactive({ slides: [] });
 const rootElement = ref(null);
 const innerElement = ref(null);
@@ -25,6 +29,7 @@ provide(CONTEXT_KEYS.SWIPER, { root: rootElement, register, move });
   <div ref="rootElement" class="dsp-swiper">
     <dsp-flex
       ref="innerElement"
+      :as="as"
       class="dsp-swiper__inner"
       gap="xs"
       wrap="nowrap"
@@ -42,5 +47,7 @@ provide(CONTEXT_KEYS.SWIPER, { root: rootElement, register, move });
 
 .dsp-swiper__inner {
   /* transform: translateX(var(--dsp-swiper-offset)); */
+  padding: 0;
+  margin: 0;
 }
 </style>

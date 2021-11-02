@@ -1,6 +1,6 @@
 import { debounce } from 'lodash-es';
 import { DataTableColumn } from './DataTableColumn.model';
-import { KEYBOARD, isNumber } from '@dsp/core';
+import { DataTableHighlight } from './DataTableHighlight.model';
 import { EVENTS } from '@/utils/constants';
 
 const SELECTOR_COLUMN_WIDTH = 40;
@@ -25,6 +25,7 @@ export class DataTable {
     this.selectedRowIds = [];
     this.visibleRowIds = [];
     this.rowActions = [];
+    this.highlights = [];
     this.minRowSize = minRowSize;
     this.focusedRowIndex = null;
     this.hasSelectorColumn = hasSelectorColumn;
@@ -38,7 +39,6 @@ export class DataTable {
       this._savePreferences.bind(this),
       1000
     );
-    this._filters = {};
     this.filters = this.userPreferences?.filters || {};
   }
 
@@ -81,6 +81,10 @@ export class DataTable {
     return this.columns.filter(c => c.isFilterable);
   }
 
+  get highlightableColumns() {
+    return this.columns.filter(c => c.isHighlightable);
+  }
+
   get rowTemplate() {
     const selectorWidth = this.hasSelectorColumn
       ? `${SELECTOR_COLUMN_WIDTH}px`
@@ -114,7 +118,7 @@ export class DataTable {
   }
 
   _onColumnUpdate() {
-    this.setColumnOffsets();
+    this._setColumnOffsets();
     this._debouncedSavePreferences();
   }
 
@@ -131,18 +135,31 @@ export class DataTable {
     };
   }
 
+  _setColumnOffsets() {
+    const pinnedColumns = this.displayedColumns.filter(
+      column => column.isPinned
+    );
+    if (pinnedColumns.some(column => !column.headerElement)) return;
+
+    let totalOffset = this.hasSelectorColumn ? 40 : 0;
+
+    pinnedColumns.forEach(column => {
+      const { width } = column.headerElement.getBoundingClientRect();
+      column.pinnedOffset = totalOffset;
+      totalOffset += width;
+    });
+  }
+
   addColumn(columnDefinition) {
     const savedColumn = this.userPreferences?.columns?.find?.(
       c => c.name === columnDefinition.name
     );
 
-    const column = new DataTableColumn(this, {
+    const column = new DataTableColumn({
       ...columnDefinition,
       position: this.columns.length,
       ...(savedColumn || {})
     });
-
-    console.log(column.name, column.position);
 
     column.on(EVENTS.DATA_TABLE.COLUMN_UPDATE, this._onColumnUpdate.bind(this));
     this.columns.push(column);
@@ -164,58 +181,36 @@ export class DataTable {
     this._onColumnUpdate();
   }
 
-  setColumnOffsets() {
-    const pinnedColumns = this.displayedColumns.filter(
-      column => column.isPinned
-    );
-    if (pinnedColumns.some(column => !column.headerElement)) return;
-
-    let totalOffset = this.hasSelectorColumn ? 40 : 0;
-
-    pinnedColumns.forEach(column => {
-      const { width } = column.headerElement.getBoundingClientRect();
-      column.pinnedOffset = totalOffset;
-      totalOffset += width;
-    });
-  }
-
-  resizeColumn(column, newWidth) {
-    column.width = newWidth;
-    this._onColumnUpdate();
-  }
-
-  setRowElement(id, element) {
-    this._rowElements.set(element, id);
-  }
-
-  isRowSelected(row) {
-    return this.selectedRowIds.includes(row.id);
-  }
-
   resetFilter(name) {
     this.filters = { ...this.filters, [name]: undefined };
   }
 
-  installListeners() {
-    window.addEventListener('keydown', this._onRowKeyPress.bind(this));
+  addHighlight(highlight) {
+    this.highlights.push(new DataTableHighlight(highlight));
   }
 
-  _onRowKeyPress(e) {
-    if (!isNumber(this.focusedRowIndex)) return;
+  removeHighlight(highlight) {
+    this.highlights.splice(this.highlights.indexOf(highlight), 1);
+  }
 
-    switch (e.key) {
-      case KEYBOARD.ARROW_DOWN:
-        if (this.focusedRowIndex === this.currentRowCount) return;
-        e.preventDefault();
-        this.focusedRowIndex++;
-        break;
-      case KEYBOARD.ARROW_UP:
-        if (this.focusedRowIndex === 0) return;
-        e.preventDefault();
-        this.focusedRowIndex--;
-        break;
-      default:
-        return;
+  getRowHighlight(row) {
+    return this.columns
+      .map(column => this.getHighlightMatch(column, row))
+      .filter(Boolean)[0];
+  }
+
+  getHighlightMatch(column, row) {
+    const highlights = this.highlights.filter(
+      h => h.column.name === column.name && h.isActive
+    );
+    const predicate = column.getHighlightPredicate(row);
+    let result = null;
+
+    for (let highlight of highlights) {
+      if (highlight.isMatch(predicate)) {
+        result = highlight;
+      }
     }
+    return result;
   }
 }

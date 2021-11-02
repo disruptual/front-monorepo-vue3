@@ -17,7 +17,14 @@ export default {
     success: '#1e7a3a',
     error: '#C95242',
     warning: '#EBBE5E',
-    gray: '#777'
+    gray: '#777',
+    blue: '#4287f5',
+    red: '#f54242',
+    orange: '#ed9c2b',
+    yellow: '#f0de16',
+    green: '#4be620',
+    teal: '#13f0cf',
+    purple: '#8913f0'
   },
   colors: {
     text: '#000',
