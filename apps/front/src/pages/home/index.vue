@@ -5,7 +5,7 @@ import ItemCard from '@/components/item-card/index.vue';
 
 const { t } = useI18n();
 const query = useItemApi().searchQuery({
-  relations: ['mainMedia', 'category', 'colors']
+  relations: ['mainMedia', 'category', 'category.root', 'colors']
 });
 </script>
 

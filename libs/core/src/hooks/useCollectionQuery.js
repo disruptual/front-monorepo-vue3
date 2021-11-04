@@ -1,4 +1,4 @@
-import { createNormalizer } from '../factories/normalizer.factory';
+import { createEntityNormalizer } from '../factories/entityNormalizer.factory';
 import { useBoundedModel } from './useBoundedModel';
 import { computed, unref } from 'vue';
 import { useReactiveInfiniteQuery } from './useReactiveQuery';
@@ -37,7 +37,7 @@ export function useCollectionQuery(key, fetcher, queryOptions = {}) {
 
       return defaultGetNextPageParams(lastPage, itemsPerPage);
     },
-    select: createNormalizer(model)
+    select: createEntityNormalizer(model)
   });
 
   const boundedQuery = useBoundedModel(query, {

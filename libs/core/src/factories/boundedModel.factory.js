@@ -1,10 +1,15 @@
 import { Collection } from '@dsp/business';
-import { createNormalizer } from './normalizer.factory';
+import { createEntityNormalizer } from './entityNormalizer.factory';
+import { createRelationsNormalizer } from './relationsNormalizer.factory';
 
 class BoundModelFactory {
   constructor(queryClient, relations) {
     this.queryClient = queryClient;
-    this.relations = relations;
+    this.relations = createRelationsNormalizer().normalize(relations);
+  }
+
+  hasRelation(relationName) {
+    return this.relations.some(r => r.name === relationName);
   }
 
   buildRelations(resource, prefix = '') {
@@ -24,7 +29,7 @@ class BoundModelFactory {
   }
 
   buildRelation(entity, prefix, { name, getUri, model }) {
-    const isEnabled = this.relations.includes(`${prefix}${name}`);
+    const isEnabled = this.hasRelation(`${prefix}${name}`);
     if (!isEnabled) return;
 
     const uri = getUri(entity);
@@ -33,7 +38,7 @@ class BoundModelFactory {
       name,
       uri,
       prefix,
-      normalizer: createNormalizer(model)
+      normalizer: createEntityNormalizer(model)
     };
 
     if (Array.isArray(uri)) {
@@ -71,7 +76,7 @@ export const createBoundedModel = (
   const rawEntity = queryClient.getQueryData(modelQueryKey);
   if (!rawEntity) return null;
 
-  const normalizer = createNormalizer(model);
+  const normalizer = createEntityNormalizer(model);
   const normalizedEntity = normalizer(rawEntity);
 
   return Array.isArray(normalizedEntity)

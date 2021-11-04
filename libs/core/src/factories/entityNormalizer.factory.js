@@ -1,6 +1,6 @@
 import { Collection } from '@dsp/business';
 
-export const createNormalizer = model => data => {
+export const createEntityNormalizer = model => data => {
   if (!data) return null;
 
   if (data.pages) {

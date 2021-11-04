@@ -38,6 +38,9 @@ defineProps({
       <dsp-truncated-text v-lazy-text>
         {{ item.category?.name }}
       </dsp-truncated-text>
+      <dsp-truncated-text v-lazy-text>
+        {{ item.category?.root?.name }}
+      </dsp-truncated-text>
       <div class="price">{{ item.formatedPrice }}</div>
     </figcaption>
   </figure>

@@ -1,11 +1,16 @@
 import { uniqBy } from 'lodash-es';
 import { Collection } from '@dsp/business';
+import { createRelationsNormalizer } from './relationsNormalizer.factory';
 
 export class QueryBuilder {
   constructor({ fetcher, onSettled, relations }) {
     this.fetcher = fetcher;
     this.onSettled = onSettled;
-    this.relations = relations;
+    this.relations = createRelationsNormalizer().normalize(relations);
+  }
+
+  getRelation(relationName) {
+    return this.relations.some(r => r.name === relationName);
   }
 
   isCollection(element) {
@@ -28,15 +33,16 @@ export class QueryBuilder {
         uris = [uris];
       }
 
-      const ownQueries = uris.map(uri => ({
-        queryKey: uri,
-        queryFn: () => this.fetcher(uri),
-        enabled: this.relations
-          .filter(r => r.startsWith(prefix))
-          .map(r => r.replace(prefix, ''))
-          .includes(name),
-        onSettled: this.onSettled
-      }));
+      const ownQueries = uris.map(uri => {
+        const relation = this.getRelation(`${prefix}${name}`);
+        return {
+          queryKey: uri,
+          queryFn: () => this.fetcher(uri),
+          enabled: !!relation,
+          onSettled: this.onSettled,
+          ...(relation?.queryOptions || {})
+        };
+      });
 
       const subQueries = this.createSubQueries(entity, name);
 
