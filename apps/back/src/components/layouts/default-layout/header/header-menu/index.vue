@@ -22,7 +22,7 @@ const sections = [
     links: [
       { target: { name: 'AdminItems' }, label: 'Annonces' },
       { target: { name: 'AdminUsers' }, label: 'Utilisateurs' },
-      { target: '/', label: 'Commandes' },
+      { target: { name: 'AdminOrders' }, label: 'Commandes' },
       { target: '/', label: 'Support client' },
       { target: '/', label: "Bons d'achat" },
       { target: '/', label: 'Magasins' },

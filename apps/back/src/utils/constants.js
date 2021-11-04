@@ -43,3 +43,8 @@ export const DATATABLE_HIGHLIGHT_OPERATORS = {
     AFTER: 'AFTER'
   }
 };
+
+export const ORDER_DETAILS_TABS = {
+  INFOS: 'infos',
+  ITEMS: 'items'
+};

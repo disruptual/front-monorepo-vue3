@@ -7,3 +7,4 @@ export { User } from './User.model';
 export { Delivery } from './Delivery.model';
 export { Iban } from './Iban.model';
 export { Order } from './Order.model';
+export { OrderItem } from './OrderItem.model';

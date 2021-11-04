@@ -1,5 +1,6 @@
 import { BaseModel } from './Base.model';
 import { User } from './User.model';
+import { OrderItem } from './OrderItem.model';
 import { formatPrice } from '@dsp/core';
 
 export class Order extends BaseModel {
@@ -14,6 +15,11 @@ export class Order extends BaseModel {
         name: 'buyer',
         getUri: entity => entity._buyer,
         model: User
+      },
+      {
+        name: 'orderItems',
+        getUri: entity => `/orders/${entity.id}/order_items`,
+        model: OrderItem
       }
     ];
   }
