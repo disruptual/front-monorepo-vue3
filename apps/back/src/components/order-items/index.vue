@@ -3,10 +3,8 @@ export default { name: 'OrderItems' };
 </script>
 
 <script setup>
-import { computed } from 'vue-demi';
 import { useOrderItemApi } from '@dsp/core';
-import { useI18n } from 'vue-i18n';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
@@ -15,15 +13,11 @@ const props = defineProps({
   orderId: { type: String, required: true }
 });
 
-const { t } = useI18n();
 const { push } = useRouter();
-const route = useRoute();
 
 const query = useOrderItemApi().findAllByOrderIdQuery(props.orderId, {
   relations: ['item', 'item.mainMedia', 'item.category']
 });
-
-console.log(query);
 
 const goToDetail = row => {
   push({ name: 'AdminItemDetails', params: { id: row.id } });
@@ -32,6 +26,7 @@ const goToDetail = row => {
 
 <template>
   <DataTable
+    id="order-items"
     :query="query"
     :min-row-size="50"
     :has-action-bar="false"

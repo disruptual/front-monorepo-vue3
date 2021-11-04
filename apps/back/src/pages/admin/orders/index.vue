@@ -37,16 +37,11 @@ const goToDetail = row => {
 
 <template>
   <DataTable
+    id="orders-list"
     :query="query"
     :min-row-size="40"
-    :has-action-bar="true"
-    :has-selector-column="true"
     @row-dbl-click="goToDetail"
   >
-    <template #no-result>
-      <dsp-center>Cet utilisateur n'a réalisé aucune commande.</dsp-center>
-    </template>
-
     <DataTableColumn name="id" label="Id" width="100" is-filterable />
     <DataTableColumn
       v-slot="{ row }"
