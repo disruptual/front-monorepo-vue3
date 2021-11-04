@@ -83,11 +83,5 @@ const goToDetail = row => {
     </DataTableColumn>
     <DataTableColumn name="moneyBox" label="Montant" width="150" />
     <DataTableColumn name="orderState" label="Statut" width="300" />
-    <DataTableRowAction
-      name="block"
-      label="Supprimer"
-      icon="userDelete"
-      @action="onSoftDelete"
-    />
   </DataTable>
 </template>

@@ -11,7 +11,6 @@ import { useRoute, useRouter } from 'vue-router';
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 
-
 const props = defineProps({
   orderId: { type: String, required: true }
 });
@@ -21,7 +20,7 @@ const { push } = useRouter();
 const route = useRoute();
 
 const query = useOrderItemApi().findAllByOrderIdQuery(props.orderId, {
-    relations: ['item', 'item.mainMedia', 'item.category']
+  relations: ['item', 'item.mainMedia', 'item.category']
 });
 
 console.log(query);
@@ -29,11 +28,10 @@ console.log(query);
 const goToDetail = row => {
   push({ name: 'AdminItemDetails', params: { id: row.id } });
 };
-
 </script>
 
 <template>
-<DataTable
+  <DataTable
     :query="query"
     :min-row-size="50"
     :has-action-bar="false"
@@ -67,9 +65,22 @@ const goToDetail = row => {
       {{ row.item.formatedPrice }}
     </DataTableColumn>
 
-    <DataTableColumn v-slot="{ row }" name="category" label="Catégorie" width="250">
+    <DataTableColumn
+      v-slot="{ row }"
+      name="category"
+      label="Catégorie"
+      width="250"
+    >
       {{ row.item?.category?.name }}
     </DataTableColumn>
   </DataTable>
 </template>
 
+<style lang="scss" scoped>
+.photo {
+  display: block;
+  height: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
