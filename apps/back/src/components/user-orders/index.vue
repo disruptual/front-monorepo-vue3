@@ -13,7 +13,7 @@ const props = defineProps({
 });
 
 const query = useOrderApi().findAllByUserIdQuery(props.userId, {
-  relations: ['buyer', 'seller']
+  relations: ['buyer', 'seller', 'orderItems']
 });
 </script>
 
@@ -62,7 +62,7 @@ const query = useOrderApi().findAllByUserIdQuery(props.userId, {
       label="Nb d'articles"
       width="80"
     >
-      {{ row.orderItems.length }}
+      {{ row.orderItems?.length }}
     </DataTableColumn>
   </DataTable>
 </template>

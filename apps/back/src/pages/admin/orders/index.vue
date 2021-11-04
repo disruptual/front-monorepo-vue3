@@ -19,7 +19,7 @@ const { push } = useRouter();
 const filters = ref({});
 const query = useOrderApi().findAllQuery({
   filters,
-  relations: ['seller', 'buyer']
+  relations: ['seller', 'buyer', 'orderItems']
 });
 
 const onFilterChange = newFilters => {
