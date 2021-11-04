@@ -35,3 +35,4 @@ export { default as DspIconButton } from './icon-button/index.vue';
 export { default as DspAvatar } from './avatar/index.vue';
 export { default as DspQueryLoader } from './query-loader/index.vue';
 export { default as DspCenter } from './center/index.vue';
+export { default as DspDatePicker } from './date-picker/index.vue';

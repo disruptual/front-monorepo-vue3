@@ -3,7 +3,7 @@ export default { name: 'DspDropdown' };
 </script>
 
 <script setup>
-import { nextTick, ref, unref, watch, provide } from 'vue';
+import { nextTick, ref, unref, watch, provide, computed } from 'vue';
 import { createPopper } from '@popperjs/core';
 import { KEYBOARD } from '@dsp/core';
 import { vClickOutside } from '@dsp/ui/directives/clickOutside';
@@ -15,6 +15,9 @@ import { TELEPORT_HOSTS } from '@dsp/ui/utils/constants';
 
 const props = defineProps({
   isOpened: { type: Boolean, required: true },
+  isTeleport: { type: Boolean, default: true },
+  closeOnFocusOutside: { type: Boolean, default: true },
+  closeOnClickOutside: { type: Boolean, default: true },
   as: { type: String, default: 'ul' },
   withToggleIcon: { type: Boolean, default: false }
 });
@@ -100,6 +103,18 @@ const onKeyDown = e => {
   }
 };
 
+const menuProps = computed(() =>
+  props.isTeleport ? { to: `#${hostID}` } : {}
+);
+
+const onClickOutside = () => {
+  if (props.closeOnClickOutside) close();
+};
+
+const onFocusOutside = () => {
+  if (props.closeOnFocusOutside) close();
+};
+
 watch(() => unref(props.isOpened), toggleMenu);
 watch(focusedMenuElementIndex, focusCurrentItem);
 
@@ -111,6 +126,7 @@ provide(CONTEXT_KEYS.DROPDOWN, { toggle, close });
     <div ref="toggleElement">
       <dsp-plain-button
         class="dropdown-toggle"
+        type="button"
         @click="toggle"
         @keyup.enter="focusFirstElement"
       >
@@ -120,19 +136,32 @@ provide(CONTEXT_KEYS.DROPDOWN, { toggle, close });
       </dsp-plain-button>
     </div>
 
-    <teleport :to="`#${hostID}`">
+    <teleport v-if="isTeleport" :to="`#${hostID}`">
       <component
         :is="as"
         v-if="isOpened"
         ref="menuElement"
-        v-click-outside="close"
-        v-focus-outside="close"
+        v-click-outside="onClickOutside"
+        v-focus-outside="onFocusOutside"
         class="menu"
         @keydown="onKeyDown"
       >
         <slot name="menu" />
       </component>
     </teleport>
+    <template v-else>
+      <component
+        :is="as"
+        v-if="isOpened"
+        ref="menuElement"
+        v-click-outside="onClickOutside"
+        v-focus-outside="onFocusOutside"
+        class="menu"
+        @keydown="onKeyDown"
+      >
+        <slot name="menu" />
+      </component>
+    </template>
   </div>
 </template>
 

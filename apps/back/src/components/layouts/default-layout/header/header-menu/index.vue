@@ -24,6 +24,8 @@ const sections = [
       { target: { name: 'AdminUsers' }, label: 'Utilisateurs' },
       { target: '/', label: 'Commandes' },
       { target: '/', label: 'Support client' },
+      { target: '/', label: "Bons d'achat" },
+      { target: '/', label: 'Magasins' },
       { target: '/', label: 'Mails' }
     ]
   },

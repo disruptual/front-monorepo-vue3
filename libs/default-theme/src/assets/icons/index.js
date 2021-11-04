@@ -18,6 +18,8 @@ import speechBubbleSlash from './speechBubbleSlash.svg';
 import userDelete from './userDelete.svg';
 import edit from './edit.svg';
 import caretDown from './caretDown.svg';
+import caretLeft from './caretLeft.svg';
+import caretRight from './caretRight.svg';
 import filter from './filter.svg';
 import remove from './delete.svg';
 import userSlash from './userSlash.svg';
@@ -28,6 +30,8 @@ import highlight from './highlight.svg';
 export default {
   bars,
   caretDown,
+  caretLeft,
+  caretRight,
   checkbox,
   checkboxLight,
   chevronLeft,

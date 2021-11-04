@@ -1,3 +1,4 @@
+import { isBefore, isAfter } from 'date-fns';
 import { DATATABLE_HIGHLIGHT_OPERATORS } from '@/utils/constants';
 
 const matchers = {
@@ -25,13 +26,14 @@ const matchers = {
   [DATATABLE_HIGHLIGHT_OPERATORS.BOOLEAN.TRUE](predicate) {
     return predicate === true;
   },
-  [DATATABLE_HIGHLIGHT_OPERATORS.DATE.BEFORE](predicate) {
-    // @TODO
-    return false;
+  [DATATABLE_HIGHLIGHT_OPERATORS.DATE.FALSE](predicate) {
+    return predicate === false;
   },
-  [DATATABLE_HIGHLIGHT_OPERATORS.BOOLEAN.AFTER](predicate) {
-    // @TODO
-    return false;
+  [DATATABLE_HIGHLIGHT_OPERATORS.DATE.BEFORE](predicate, value) {
+    return isBefore(new Date(predicate), new Date(value));
+  },
+  [DATATABLE_HIGHLIGHT_OPERATORS.BOOLEAN.AFTER](predicate, value) {
+    return isAfter(new Date(predicate), new Date(value));
   }
 };
 

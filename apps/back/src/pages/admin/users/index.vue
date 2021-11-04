@@ -7,6 +7,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { useUserApi } from '@dsp/core';
+import { DATATABLE_COLUMN_TYPES } from '@/utils/constants';
 
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
@@ -52,25 +53,28 @@ const goToDetail = row => {
     >
       <dsp-avatar :user="row" />
     </DataTableColumn>
-    <DataTableColumn name="slug" label="Slug" width="200" is-filterable />
+    <DataTableColumn
+      name="slug"
+      label="Slug"
+      width="200"
+      is-filterable
+      is-highlightable
+    />
     <DataTableColumn
       name="firstName"
       label="Prénom"
-      width="200"
       is-filterable
       is-highlightable
     />
     <DataTableColumn
       name="lastName"
       label="Nom"
-      width="200"
       is-filterable
       is-highlightable
     />
     <DataTableColumn
       name="email"
       label="Adresse E-mail"
-      width="200"
       is-filterable
       is-highlightable
     />
@@ -79,6 +83,8 @@ const goToDetail = row => {
       name="created"
       label="Date d'inscription"
       :tooltip-label="({ row }) => row.formatCreated()"
+      :type="DATATABLE_COLUMN_TYPES.DATE"
+      is-highlightable
     >
       {{ row.formatCreated('EEEE d MMMM yyyy') }}
     </DataTableColumn>

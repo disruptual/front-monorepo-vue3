@@ -18,7 +18,8 @@
     "build:back": "yarn workspace @dsp/back run build",
     "serve:back": "yarn workspace @dsp/back run serve",
     "test:ui": "yarn workspace @dsp/ui run test",
-    "docs:ui": "yarn workspace @dsp/ui run docs:dev"
+    "docs:ui": "yarn workspace @dsp/ui run docs:dev",
+    "docs:back": "yarn workspace @dsp/back run docs:dev"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.15.7"

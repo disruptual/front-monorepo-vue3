@@ -74,3 +74,5 @@ export const serializeQueryString = obj => {
 
   return searchParams.toString();
 };
+
+export const range = n => [...Array(n).keys()];

@@ -20,3 +20,13 @@ export const TELEPORT_HOSTS = {
   MODAL: 'modal-root',
   DROPDOWN: 'dropdown-root'
 };
+
+export const DAYS = {
+  SUNDAY: 0,
+  MONDAY: 1,
+  TUESDAY: 2,
+  WEDNESDAY: 3,
+  THURSDAY: 4,
+  FRIDAY: 5,
+  SATURDAY: 6
+};

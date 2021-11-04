@@ -19,6 +19,7 @@ const { model } = inject(CONTEXT_KEYS.DATATABLE);
 const isColumnsDropdownOpened = ref(false);
 const isHighlightDropdownOpened = ref(false);
 const isHighlightManagerOpened = ref(false);
+const selectedHighlight = ref(null);
 
 const selectedCount = computed(() => model.selectedRowIds.length);
 const isActionDisabled = action =>
@@ -29,6 +30,16 @@ const activeFilters = computed(() =>
     .filter(([, value]) => value && value !== '')
     .map(([key, value]) => ({ name: key, value }))
 );
+
+const addHighlight = () => {
+  selectedHighlight.value = null;
+  isHighlightManagerOpened.value = true;
+};
+
+const editHighlight = highlight => {
+  selectedHighlight.value = highlight;
+  isHighlightManagerOpened.value = true;
+};
 </script>
 
 <template>
@@ -100,16 +111,10 @@ const activeFilters = computed(() =>
                 icon="remove"
                 @click="model.removeHighlight(highlight)"
               />
-              <dsp-icon-button
-                icon="edit"
-                @click="isHighlightManagerOpened = true"
-              />
+              <dsp-icon-button icon="edit" @click="editHighlight(highlight)" />
             </dsp-flex>
           </dsp-dropdown-item>
-          <dsp-dropdown-item
-            :auto-close="false"
-            @click="isHighlightManagerOpened = true"
-          >
+          <dsp-dropdown-item @click="addHighlight">
             <dsp-flex align="center" gap="sm">
               <dsp-icon icon="plus" />
               Ajouter
@@ -119,7 +124,6 @@ const activeFilters = computed(() =>
       </dsp-dropdown>
     </dsp-flex>
   </dsp-flex>
-
   <dsp-flex v-show="activeFilters.length > 0" gap="sm" class="active-filters">
     <dsp-button
       v-for="filter in activeFilters"
@@ -132,7 +136,10 @@ const activeFilters = computed(() =>
     </dsp-button>
   </dsp-flex>
 
-  <DataTableHighlightManager v-model:isOpened="isHighlightManagerOpened" />
+  <DataTableHighlightManager
+    v-model:isOpened="isHighlightManagerOpened"
+    :highlight="selectedHighlight"
+  />
 </template>
 
 <style lang="scss" scoped>

@@ -15,7 +15,10 @@ const { close } = inject(CONTEXT_KEYS.DROPDOWN);
 </script>
 
 <template>
-  <li class="dsp-dropdown-item">
+  <li
+    class="dsp-dropdown-item"
+    :class="autoClose && 'dsp-dropdown-item--actionable'"
+  >
     <component :is="is" v-bind="$attrs" @click="autoClose && close()">
       <slot />
     </component>
@@ -29,6 +32,10 @@ const { close } = inject(CONTEXT_KEYS.DROPDOWN);
     width: 100%;
     text-align: left;
     padding: var(--spacing-xs) var(--spacing-md);
+  }
+
+  &.dsp-dropdown-item--actionable {
+    cursor: pointer;
   }
 }
 </style>

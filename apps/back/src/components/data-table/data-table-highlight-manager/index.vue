@@ -4,13 +4,20 @@ export default { name: 'DataTableHighlightManager' };
 
 <script setup>
 import { inject, toRaw, computed } from 'vue';
-import { CONTEXT_KEYS, DATATABLE_HIGHLIGHT_OPERATORS } from '@/utils/constants';
+import { useI18n } from 'vue-i18n';
+import {
+  CONTEXT_KEYS,
+  DATATABLE_COLUMN_TYPES,
+  DATATABLE_HIGHLIGHT_OPERATORS
+} from '@/utils/constants';
 import { useForm } from '@dsp/ui';
 
+const { t } = useI18n();
 const { model } = inject(CONTEXT_KEYS.DATATABLE);
 
-defineProps({
-  isOpened: { type: Boolean, required: true }
+const props = defineProps({
+  isOpened: { type: Boolean, required: true },
+  highlight: { type: [Object, null], default: null }
 });
 
 const emit = defineEmits(['update:isOpened']);
@@ -29,25 +36,49 @@ const colors = [
   { text: 'var(--color-purple-600)', bg: 'var(--color-purple-100)' },
   { text: 'var(--color-purple-50)', bg: 'var(--color-purple-600)' }
 ];
+
 const form = useForm({
   onSubmit(values) {
-    model.addHighlight(toRaw({ ...values, column: selectedColumn.value }));
+    const highlight = toRaw({ ...values, column: selectedColumn.value });
+    if (props.highlight) {
+      Object.assign(props.highlight, highlight);
+    } else {
+      model.addHighlight(highlight);
+    }
     emit('update:isOpened', false);
   }
 });
 
-const formValues = computed(() => form[1].values.value);
+const highlightableColumns = computed(() =>
+  model.highlightableColumns.map(column => ({
+    label: column.label,
+    value: column.name
+  }))
+);
+
+const initialValue = computed(() => ({
+  color: props.highlight?.color ?? null,
+  column: props.highlight?.column
+    ? highlightableColumns.value.find(
+        c => c.value === props.highlight.column.name
+      ).value
+    : null,
+  name: props.highlight?.name ?? null,
+  operator: props.highlight?.operator ?? null,
+  value: props.highlight?.value ?? null
+}));
+
+const [, formActions] = form;
+const formValues = computed(() => formActions.values.value);
 const selectedColumn = computed(() =>
   model.columns.find(col => col.name === formValues.value.column)
 );
 const operators = computed(() =>
   Object.values(DATATABLE_HIGHLIGHT_OPERATORS[selectedColumn.value.type])
 );
-const highlightableColumns = computed(() =>
-  model.highlightableColumns.map(column => ({
-    label: column.label,
-    value: column.name
-  }))
+
+const isDateHighlight = computed(
+  () => selectedColumn.value.type === DATATABLE_COLUMN_TYPES.DATE
 );
 </script>
 
@@ -57,7 +88,8 @@ const highlightableColumns = computed(() =>
       <dsp-smart-form-field
         v-slot="slotProps"
         name="name"
-        :initial-value="null"
+        :initial-value="initialValue.name"
+        required
       >
         <dsp-form-control
           v-model="slotProps.field.value"
@@ -65,11 +97,12 @@ const highlightableColumns = computed(() =>
           label="Titre du surlignage"
         />
       </dsp-smart-form-field>
-      <dsp-flex align="center" gap="sm">
+      <dsp-flex align="flex-start" gap="sm">
         <dsp-smart-form-field
           v-slot="slotProps"
           name="column"
-          :initial-value="null"
+          :initial-value="initialValue.column"
+          required
         >
           <dsp-form-control
             v-slot="{ on, formControlProps }"
@@ -97,7 +130,8 @@ const highlightableColumns = computed(() =>
           v-if="selectedColumn"
           v-slot="slotProps"
           name="operator"
-          :initial-value="null"
+          :initial-value="initialValue.operator"
+          required
         >
           <dsp-form-control
             v-slot="{ on, formControlProps }"
@@ -116,7 +150,7 @@ const highlightableColumns = computed(() =>
                 :key="operator"
                 :value="operator"
               >
-                {{ operator }}
+                {{ t(`dataTable.highlights.${operator}`) }}
               </option>
             </select>
           </dsp-form-control>
@@ -126,19 +160,37 @@ const highlightableColumns = computed(() =>
           v-if="selectedColumn"
           v-slot="slotProps"
           name="value"
+          :initial-value="initialValue.value"
+          required
         >
           <dsp-form-control
+            v-slot="{ on, formControlProps }"
             v-model="slotProps.field.value"
             v-bind="slotProps"
             label=""
-          />
+          >
+            <dsp-date-picker
+              v-if="isDateHighlight"
+              v-model="slotProps.field.value"
+              v-bind="formControlProps"
+              v-on="on"
+              @click.stop
+            />
+            <dsp-input-text
+              v-else
+              v-model="slotProps.field.value"
+              v-bind="formControlProps"
+              v-on="on"
+            />
+          </dsp-form-control>
         </dsp-smart-form-field>
 
         <dsp-smart-form-field
           v-if="selectedColumn"
           v-slot="slotProps"
           name="color"
-          :initial-value="null"
+          :initial-value="initialValue.color"
+          required
         >
           <dsp-form-control
             v-slot="{ on, formControlProps }"
@@ -185,7 +237,7 @@ const highlightableColumns = computed(() =>
 }
 
 form {
-  min-width: 55vw;
+  min-width: 60vw;
 }
 
 select {

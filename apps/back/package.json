@@ -5,8 +5,7 @@
     "dev": "vite",
     "serve": "vite preview",
     "build": "vite build",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "docs:dev": "vitepress dev src"
   },
   "dependencies": {
     "@dsp/business": "*",
