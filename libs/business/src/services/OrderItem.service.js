@@ -3,7 +3,7 @@ import { BaseCRUDService } from './BaseCRUD.service';
 export class OrderItemService extends BaseCRUDService {
   constructor(...args) {
     super(...args);
-    this.endpoint = '/items';
+    this.endpoint = '/order_items';
   }
 
   async findAllByOrderId(orderId, options) {

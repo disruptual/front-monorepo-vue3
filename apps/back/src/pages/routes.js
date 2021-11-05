@@ -84,5 +84,25 @@ export const routes = [
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       layout: lazyDefaultLayout
     }
+  },
+  {
+    path: '/admin/contact',
+    name: 'AdminContact',
+    props: true,
+    component: () => import('@/pages/admin/contact/index.vue'),
+    meta: {
+      permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      layout: lazyDefaultLayout
+    }
+  },
+  {
+    path: '/admin/contact/:id',
+    name: 'AdminContactDetails',
+    props: true,
+    component: () => import('@/pages/admin/contact-details/index.vue'),
+    meta: {
+      permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      layout: lazyDefaultLayout
+    }
   }
 ];
