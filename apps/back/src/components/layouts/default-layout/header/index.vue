@@ -5,11 +5,13 @@ export default { name: 'DefaultLayoutHeader' };
 <script setup>
 import { ref } from 'vue';
 import { useCurrentUser } from '@dsp/core';
+import { useDevice } from '@dsp/ui';
 import HeaderMenu from './header-menu/index.vue';
 import HeaderBreadcrumbs from './header-breadcrumbs/index.vue';
 import UserMenu from '@/components/user-menu/index.vue';
 
 const { data: currentUser } = useCurrentUser();
+const device = useDevice();
 
 const isUserMenuOpened = ref(false);
 </script>
@@ -17,7 +19,7 @@ const isUserMenuOpened = ref(false);
 <template>
   <header>
     <dsp-flex justify="space-between" align="center" class="header" gap="sm">
-      <HeaderMenu />
+      <HeaderMenu v-if="device.isMobile" />
       <router-link :to="{ name: 'Home' }" class="logo">
         <h1>DISRUPTUAL</h1>
       </router-link>
@@ -37,7 +39,8 @@ const isUserMenuOpened = ref(false);
 <style lang="scss" scoped>
 .header {
   background-color: var(--color-surface);
-  padding: var(--spacing-sm) var(--spacing-xl);
+  padding: var(--spacing-sm) var(--spacing-xl) var(--spacing-sm)
+    var(--spacing-md);
 
   @include mobile-only {
     padding: var(--spacing-xs) var(--spacing-sm);
@@ -70,10 +73,7 @@ const isUserMenuOpened = ref(false);
 }
 
 .breadcrumbs {
-  padding: 0 var(--spacing-xl);
-  @include mobile-only {
-    padding: 0;
-  }
+  padding: 0;
 }
 
 .avatar {

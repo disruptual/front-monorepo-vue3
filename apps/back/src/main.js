@@ -1,5 +1,5 @@
 import { reactive } from 'vue';
-import { DisruptualApp, makeRandomId } from '@dsp/core';
+import { DisruptualApp } from '@dsp/core';
 import { DisruptualUi } from '@dsp/ui';
 import config from 'client/config.js';
 import theme from 'client/theme.js';

@@ -1,40 +1,31 @@
 import { getReadableColor } from '@dsp/ui/utils/getReadableColor';
+import { nextTick } from 'vue';
 
 const observers = new WeakMap();
 
-function setColor(el) {
-  const computedStyle = window.getComputedStyle(el);
-  if (!computedStyle.backgroundColor) return;
-
-  el.style.color = getReadableColor(computedStyle.backgroundColor);
-}
-
 export const vReadableColor = {
   mounted(el) {
-    setColor(el);
+    function setColor() {
+      const computedStyle = window.getComputedStyle(el);
+      if (!computedStyle.backgroundColor) return;
 
-    const observer = new window.MutationObserver(() => setColor(el));
+      el.style.color = getReadableColor(computedStyle.backgroundColor);
+    }
+
+    setColor();
+
+    const observer = new window.MutationObserver(setColor);
     observer.observe(el, {
       attributes: true,
       childList: false,
       subtree: false
     });
     observers.set(el, observer);
-    el.addEventListener('mouseenter', () => {
-      setColor(el);
-    });
-
-    el.addEventListener('mouseleave', () => {
-      setColor(el);
-    });
-
-    el.addEventListener('focus', () => {
-      setColor(el);
-    });
-
-    el.addEventListener('blur', () => {
-      setColor(el);
-    });
+    el.addEventListener('mouseenter', setColor);
+    el.addEventListener('mouseleave', setColor);
+    el.addEventListener('focus', setColor);
+    el.addEventListener('blur', setColor);
+    el.addEventListener('transitionend', setColor);
   },
 
   unmounted(el) {

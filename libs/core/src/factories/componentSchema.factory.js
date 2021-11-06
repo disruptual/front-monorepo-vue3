@@ -1,10 +1,11 @@
+import { useAttrs, computed, shallowRef, watchEffect } from 'vue';
 import {
   toProps as toMappedProps,
   toConfig
 } from '@dsp/core/types/schemaValidation';
+import * as foo from '@dsp/core/types/schemaValidation';
 import { types } from '@dsp/core/types/helpers';
 import { useAppContext } from '@dsp/core/hooks';
-import { useAttrs, computed, shallowRef, watchEffect } from 'vue';
 
 export const createComponentSchema = (name, schema) => {
   function toContext(props) {

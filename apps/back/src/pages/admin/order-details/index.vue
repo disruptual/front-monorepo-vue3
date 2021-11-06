@@ -9,8 +9,8 @@ import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
-import OrderItems from '@/components/order-items/index.vue'
-import OrderDetails from '@/components/order-details/index.vue'
+import OrderItems from '@/components/order-items/index.vue';
+import OrderDetails from '@/components/order-details/index.vue';
 
 const props = defineProps({
   id: { type: String, required: true }
@@ -22,8 +22,6 @@ const route = useRoute();
 const query = useOrderApi().findByOrderIdQuery(props.id, {
   relations: ['seller', 'buyer', 'orderItems']
 });
-
-console.log(query);
 
 const activeTab = computed({
   get() {
@@ -45,10 +43,10 @@ const activeTab = computed({
         :name="TABS.INFOS"
         :label="t(`order.details.tabs.${TABS.INFOS}`)"
       >
-      <dsp-container>
+        <dsp-container>
           <dsp-surface>
             <dsp-container is-small>
-              <OrderDetails :order="order"/>
+              <OrderDetails :order="order" />
             </dsp-container>
           </dsp-surface>
         </dsp-container>
@@ -59,8 +57,8 @@ const activeTab = computed({
         :label="t(`order.details.tabs.${TABS.ITEMS}`)"
       >
         <dsp-container>
-          <OrderItems :order-id="props.id"/>
-          </dsp-container>
+          <OrderItems :order-id="props.id" />
+        </dsp-container>
       </dsp-tab>
     </dsp-tabs>
   </dsp-query-loader>

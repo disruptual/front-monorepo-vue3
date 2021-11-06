@@ -26,12 +26,16 @@ import userSlash from './userSlash.svg';
 import plus from './plus.svg';
 import columns from './columns.svg';
 import highlight from './highlight.svg';
+import store from './store.svg';
+import chart from './chart.svg';
+import handshake from './handshake.svg';
 
 export default {
   bars,
   caretDown,
   caretLeft,
   caretRight,
+  chart,
   checkbox,
   checkboxLight,
   chevronLeft,
@@ -44,6 +48,7 @@ export default {
   eye,
   eyeSlash,
   filter,
+  handshake,
   highlight,
   home,
   loader,
@@ -52,6 +57,7 @@ export default {
   search,
   speechBubble,
   speechBubbleSlash,
+  store,
   userDelete,
   user,
   userSlash,

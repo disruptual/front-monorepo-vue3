@@ -86,7 +86,6 @@ provide(CONTEXT_KEYS.DATATABLE, {
 <style lang="scss" scoped>
 .data-table {
   max-height: calc(100vh - var(--header-height));
-  width: 100vw;
   max-width: 100%;
   overflow: hidden;
   display: grid;

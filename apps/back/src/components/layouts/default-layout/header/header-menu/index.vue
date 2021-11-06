@@ -78,43 +78,50 @@ const focusedTextColor = useReadableColor('--color-brand-500');
 </script>
 
 <template>
-  <dsp-dropdown v-model:isOpened="isOpened" class="header-menu" as="div">
-    <template #toggle>
-      <dsp-icon size="lg" icon="bars" />
-    </template>
+  <dsp-plain-button @click="isOpened = true">
+    <dsp-icon size="lg" icon="bars" />
+  </dsp-plain-button>
+  <dsp-drawer
+    v-model:isOpened="isOpened"
+    class="header-menu"
+    @close="isOpened = false"
+  >
+    <nav class="content">
+      <dsp-flex justify="space-between" align="center" as="header">
+        <h2>Menu</h2>
+        <dsp-input-search class="search" @input="search = $event" />
+        <dsp-icon-button
+          class="close-button"
+          icon="remove"
+          size="lg"
+          @click="isOpened = false"
+        />
+      </dsp-flex>
 
-    <template #menu>
-      <nav class="content">
-        <dsp-flex justify="space-between" align="center" as="header">
-          <h2>Menu</h2>
-          <dsp-input-search @input="search = $event" />
-        </dsp-flex>
-
-        <dsp-flex
-          v-for="section in allowedSections"
-          :key="section.name"
-          as="section"
-          direction="column"
-        >
-          <h3>{{ section.name }}</h3>
-          <ul class="section-list">
-            <li
-              v-for="link in displayedLinksForSection(section)"
-              :key="link.label"
+      <dsp-flex
+        v-for="section in allowedSections"
+        :key="section.name"
+        as="section"
+        direction="column"
+      >
+        <h3>{{ section.name }}</h3>
+        <ul class="section-list">
+          <li
+            v-for="link in displayedLinksForSection(section)"
+            :key="link.label"
+          >
+            <router-link
+              :to="link.target"
+              class="menu-item"
+              @click="onLinkClick"
             >
-              <router-link
-                :to="link.target"
-                class="menu-item"
-                @click="onLinkClick"
-              >
-                {{ link.label }}
-              </router-link>
-            </li>
-          </ul>
-        </dsp-flex>
-      </nav>
-    </template>
-  </dsp-dropdown>
+              {{ link.label }}
+            </router-link>
+          </li>
+        </ul>
+      </dsp-flex>
+    </nav>
+  </dsp-drawer>
 </template>
 
 <style lang="scss" scoped>
@@ -128,10 +135,19 @@ header {
   h2 {
     margin: 0;
   }
+
+  @include mobile-only {
+    .close-button {
+      order: 2;
+    }
+
+    .search {
+      order: 3;
+    }
+  }
 }
 
 .content {
-  max-height: 450px;
   overflow: auto;
   --cell-size: 7em;
   @include mobile-only {
@@ -154,6 +170,7 @@ header {
   color: inherit;
   font-size: var(--font-size-sm);
   hyphens: auto;
+  text-align: right;
 
   &:hover {
     background-color: var(--color-brand-200);

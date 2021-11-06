@@ -51,13 +51,15 @@ export class QueryBuilder {
   }
 
   createSubQueries(entity, name) {
-    if (!entity[name]) return [];
+    let value = entity[name];
 
-    return this.isCollection(entity[name])
-      ? entity[name]
+    if (!value) return [];
+
+    return this.isCollection(value)
+      ? value
           .map(subEntity => this.createBaseQueries(subEntity, `${name}.`))
           .flat()
-      : this.createBaseQueries(entity[name], `${name}.`).flat();
+      : this.createBaseQueries(value, `${name}.`).flat();
   }
 }
 
