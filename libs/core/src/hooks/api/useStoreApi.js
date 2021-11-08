@@ -1,17 +1,16 @@
-import { computed, reactive, unref } from 'vue';
-import { useMutation } from 'vue-query';
-import { Contact, ContactService } from '@dsp/business';
+import { computed, unref } from 'vue';
+import { Store, StoreService } from '@dsp/business';
 import { useHttp } from '@dsp/core/hooks/useHttp';
 import { useCollectionQuery } from '@dsp/core/hooks/useCollectionQuery';
 import { serializeQueryString } from '@dsp/core/utils/helpers';
-import { useModelQuery } from '@dsp/core';
+import { useMutation } from 'vue-query';
 
-export function useContactApi() {
+export function useStoreApi() {
   const http = useHttp();
-  const contactService = new ContactService({ http });
+  const storeService = new StoreService({ http });
   const defaultFilters = {
-    'sort[created]': 'desc',
-    'root[exists]': false
+    'sort[createdDate]': 'desc',
+    display: 'all'
   };
 
   return {
@@ -25,18 +24,18 @@ export function useContactApi() {
       }));
 
       const queryKey = computed(
-        () => `/contacts?${serializeQueryString(mergedFilters.value)}`
+        () => `/locations?${serializeQueryString(mergedFilters.value)}`
       );
 
       const queryOptions = computed(() => ({
-        model: Contact,
+        model: Store,
         itemsPerPage,
         relations,
         ...options
       }));
 
       const queryFn = ({ pageParam = { page: 1, itemsPerPage } }) => {
-        return contactService.findAll({
+        return storeService.findAll({
           params: { ...pageParam, ...unref(mergedFilters) }
         });
       };
@@ -44,19 +43,10 @@ export function useContactApi() {
       return useCollectionQuery(queryKey, queryFn, queryOptions);
     },
 
-    findContactByIdQuery(id, { relations = [] } = {}) {
-      const queryKey = computed(() => `/contacts/${id}`);
-
-      return useModelQuery(queryKey, () => contactService.findById(id), {
-        model: Contact,
-        relations
+    updateMutation() {
+      return useMutation('updateStore', ({ id, dto }) => {
+        storeService.update(id, dto);
       });
-    },
-
-    createMutation() {
-      return useMutation('createContact', dto =>
-        contactService.create(unref(dto))
-      );
     }
   };
 }

@@ -104,5 +104,25 @@ export const routes = [
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       layout: lazyDefaultLayout
     }
+  },
+  {
+    path: '/admin/email',
+    name: 'AdminEmail',
+    props: true,
+    component: () => import('@/pages/admin/email/index.vue'),
+    meta: {
+      permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      layout: lazyDefaultLayout
+    }
+  },
+  {
+    path: '/admin/store',
+    name: 'AdminStore',
+    props: true,
+    component: () => import('@/pages/admin/store/index.vue'),
+    meta: {
+      permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      layout: lazyDefaultLayout
+    }
   }
 ];

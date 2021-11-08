@@ -25,8 +25,8 @@ const sections = [
       { target: { name: 'AdminOrders' }, label: 'Commandes' },
       { target: { name: 'AdminContact' }, label: 'Support client' },
       { target: '/', label: "Bons d'achat" },
-      { target: '/', label: 'Magasins' },
-      { target: '/', label: 'Mails' }
+      { target: { name: 'AdminStore' }, label: 'Magasins' },
+      { target: { name: 'AdminEmail' }, label: 'Mails' }
     ]
   },
   {
@@ -98,17 +98,8 @@ const focusedTextColor = useReadableColor('--color-brand-500');
         >
           <h3>{{ section.name }}</h3>
           <ul class="section-list">
-            <li
-              v-for="link in displayedLinksForSection(section)"
-              :key="link.label"
-            >
-              <router-link
-                :to="link.target"
-                class="menu-item"
-                @click="onLinkClick"
-              >
-                {{ link.label }}
-              </router-link>
+            <li v-for="link in displayedLinksForSection(section)" :key="link.label">
+              <router-link :to="link.target" class="menu-item" @click="onLinkClick">{{ link.label }}</router-link>
             </li>
           </ul>
         </dsp-flex>

@@ -22,6 +22,7 @@ const isEditing = ref(false);
 
 const form = useForm({
   onSubmit(values) {
+    console.log(values);
     return updateUser(values);
   }
 });
@@ -56,12 +57,7 @@ const ordersLink = computed(() => ({
     <h2>
       <dsp-flex justify="space-between" align="center">
         {{ user.fullName }}
-        <dsp-icon-button
-          icon="edit"
-          size="sm"
-          class="edit-button"
-          @click="isEditing = !isEditing"
-        />
+        <dsp-icon-button icon="edit" size="sm" class="edit-button" @click="isEditing = !isEditing" />
       </dsp-flex>
     </h2>
     <dsp-avatar :user="user" size="lg" />
@@ -123,21 +119,14 @@ const ordersLink = computed(() => ({
       name="phone"
       :initial-value="user.phone"
     >
-      <dsp-input-text
-        v-model="slotProps.field.value"
-        type="phone"
-        v-bind="slotProps"
-      />
+      <dsp-input-text v-model="slotProps.field.value" type="phone" v-bind="slotProps" />
     </dsp-smart-form-field>
     <div v-else>{{ user.phone }}</div>
 
     <template v-if="isEditing">
       <div>Mot de passe</div>
       <dsp-smart-form-field v-slot="slotProps" name="password">
-        <dsp-input-password
-          v-model="slotProps.field.value"
-          v-bind="slotProps"
-        />
+        <dsp-input-password v-model="slotProps.field.value" v-bind="slotProps" />
       </dsp-smart-form-field>
 
       <div>Confirmer le Mot de passe</div>
@@ -146,18 +135,16 @@ const ordersLink = computed(() => ({
         name="passwordConfirm"
         :validators="passwordConfirmValidators"
       >
-        <dsp-input-password
-          v-model="slotProps.field.value"
-          v-bind="slotProps"
-        />
+        <dsp-input-password v-model="slotProps.field.value" v-bind="slotProps" />
       </dsp-smart-form-field>
     </template>
 
     <div>Modes de livraison activés</div>
     <dsp-flex>
-      <div v-for="delivery in user.deliveries" :key="delivery">
-        {{ t(`delivery.modes.${delivery.tag}`) }}
-      </div>
+      <div
+        v-for="delivery in user.deliveries"
+        :key="delivery"
+      >{{ t(`delivery.modes.${delivery.tag}`) }}</div>
     </dsp-flex>
 
     <div>Nombre d'ibans</div>
@@ -193,22 +180,11 @@ const ordersLink = computed(() => ({
         />
       </div>
     </dsp-smart-form-field>
-    <div v-else>
-      {{ formattedRoles }}
-    </div>
+    <div v-else>{{ formattedRoles }}</div>
 
-    <dsp-flex
-      v-if="isEditing"
-      justify="space-between"
-      class="form-actions"
-      gap="sm"
-    >
-      <dsp-button type="button" is-outlined @click="formActions.reset">
-        Annuler
-      </dsp-button>
-      <dsp-smart-form-submit v-if="isEditing">
-        Enregistrer
-      </dsp-smart-form-submit>
+    <dsp-flex v-if="isEditing" justify="space-between" class="form-actions" gap="sm">
+      <dsp-button type="button" is-outlined @click="formActions.reset">Annuler</dsp-button>
+      <dsp-smart-form-submit v-if="isEditing">Enregistrer</dsp-smart-form-submit>
     </dsp-flex>
   </dsp-smart-form>
 </template>

@@ -1,8 +1,8 @@
 import { BaseCRUDService } from './BaseCRUD.service';
 
-export class ContactService extends BaseCRUDService {
+export class EmailService extends BaseCRUDService {
   constructor(...args) {
     super(...args);
-    this.endpoint = '/contacts';
+    this.endpoint = '/mails';
   }
 }
