@@ -86,8 +86,8 @@ export class DataTable {
   }
 
   get rowTemplate() {
-    const selectorWidth = this.hasSelectorColumn
-      ? `${SELECTOR_COLUMN_WIDTH}px`
+    const selectorWidth = this.selectorColumnWidth
+      ? `${this.selectorColumnWidth}px`
       : ' ';
 
     const columnsWidth = this.displayedColumns
@@ -100,17 +100,27 @@ export class DataTable {
       })
       .join(' ');
 
-    const actionWidth =
-      this.rowActions.length > 0 ? `${ACTIONS_COLUMN_WIDTH}px` : ' ';
+    const actionWidth = this.actionColumnWidth
+      ? `${ACTIONS_COLUMN_WIDTH}px`
+      : ' ';
 
     return `${selectorWidth} ${columnsWidth} ${actionWidth}`;
+  }
+
+  get selectorColumnWidth() {
+    return this.hasSelectorColumn ? SELECTOR_COLUMN_WIDTH : 0;
+  }
+
+  get actionColumnWidth() {
+    return this.rowActions.length > 0 ? ACTIONS_COLUMN_WIDTH : 0;
   }
 
   get totalWidth() {
     return this.displayedColumns.reduce((total, column) => {
       if (!column.headerElement) return total;
-      return total + column.headerElement.scrollWidth;
-    }, 0);
+
+      return total + column.headerElement.offsetWidth;
+    }, this.selectorColumnWidth + this.actionColumnWidth);
   }
 
   get currentRowCount() {
