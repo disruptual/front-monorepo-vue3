@@ -160,8 +160,8 @@ const ordersLink = computed(() => ({
       </div>
     </dsp-flex>
 
-    <div>Nombre d'ibans</div>
-    <div>{{ user.ibans?.length }}</div>
+    <!-- <div>Nombre d'ibans</div>
+    <div>{{ user.ibans?.length }}</div> -->
 
     <div>Nombre d'articles</div>
     <div>

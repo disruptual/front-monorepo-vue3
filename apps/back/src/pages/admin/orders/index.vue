@@ -42,7 +42,7 @@ const goToDetail = row => {
     :min-row-size="40"
     @row-dbl-click="goToDetail"
   >
-    <DataTableColumn name="id" label="Id" width="100" is-filterable />
+    <DataTableColumn name="id" label="Id" width="100" />
     <DataTableColumn
       v-slot="{ row }"
       name="created"

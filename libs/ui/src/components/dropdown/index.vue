@@ -103,10 +103,6 @@ const onKeyDown = e => {
   }
 };
 
-const menuProps = computed(() =>
-  props.isTeleport ? { to: `#${hostID}` } : {}
-);
-
 const onClickOutside = () => {
   if (props.closeOnClickOutside) close();
 };
@@ -149,6 +145,7 @@ provide(CONTEXT_KEYS.DROPDOWN, { toggle, close });
         <slot name="menu" />
       </component>
     </teleport>
+
     <template v-else>
       <component
         :is="as"

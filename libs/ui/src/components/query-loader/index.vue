@@ -11,14 +11,10 @@ const props = defineProps({
 });
 
 const isLoading = computed(() => {
-  return props.query.isLoading.value;
+  return props.query.isLoading.value || props.query.isRelationLoading.value;
 });
 const data = computed(() => props.query.data.value);
 const error = computed(() => props.query.error.value);
-
-const onLoadMore = () => {
-  props.query.fetchNextPage.value();
-};
 </script>
 
 <template>
@@ -35,7 +31,9 @@ const onLoadMore = () => {
 
     <slot v-else-if="!data" name="no-result">No Result.</slot>
 
-    <slot v-else-if="data" :entity="data" />
+    <dsp-fade-transition v-else-if="data" is-visible appear :duration="100">
+      <slot :entity="data" />
+    </dsp-fade-transition>
   </div>
 </template>
 

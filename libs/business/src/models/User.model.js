@@ -32,11 +32,6 @@ export class User extends BaseModel {
         name: 'sales',
         getUri: entity => `${entity.uri}/sales`,
         model: Item
-      },
-      {
-        name: 'purchases',
-        getUri: entity => `${entity.uri}/purchases`,
-        model: Item
       }
     ];
   }

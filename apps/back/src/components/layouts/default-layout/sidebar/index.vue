@@ -23,7 +23,6 @@ const openedSections = ref([]);
 const isSectionOpened = sectionName =>
   openedSections.value.includes(sectionName);
 const toggleSection = sectionName => {
-  console.log(sectionName);
   if (isSectionOpened(sectionName)) {
     openedSections.value.splice(openedSections.value.indexOf(sectionName), 1);
   } else {

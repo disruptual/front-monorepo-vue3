@@ -16,7 +16,7 @@ useBreadCrumbs('Annonces');
 const { push } = useRouter();
 
 const query = useItemApi().findAllQuery({
-  relations: ['mainMedia', 'category', 'user']
+  relations: []
 });
 
 const goToDetail = row => {

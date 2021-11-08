@@ -23,7 +23,7 @@ const { replace } = useRouter();
 const route = useRoute();
 
 const query = useUserApi().findBySlugQuery(props.slug, {
-  relations: ['deliveries', 'ibans', 'items', 'orders']
+  relations: []
 });
 
 const breadCrumbLabel = computed(
