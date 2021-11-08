@@ -44,9 +44,9 @@ export function useUserApi() {
       });
     },
 
-    updateMutation(id) {
-      return useMutation('updateUser', dto =>
-        userService.update(unref(id, dto))
+    updateMutation() {
+      return useMutation('updateUser', ({ id, entity }) =>
+        userService.update(id, entity)
       );
     }
   };

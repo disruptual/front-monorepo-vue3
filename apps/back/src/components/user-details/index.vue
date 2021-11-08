@@ -22,7 +22,7 @@ const isEditing = ref(false);
 
 const form = useForm({
   onSubmit(values) {
-    return updateUser(values);
+    return updateUser({ id: props.user.id, entity: values });
   }
 });
 const [, formActions] = form;
@@ -160,8 +160,8 @@ const ordersLink = computed(() => ({
       </div>
     </dsp-flex>
 
-    <!-- <div>Nombre d'ibans</div>
-    <div>{{ user.ibans?.length }}</div> -->
+    <div>Nombre d'ibans</div>
+    <div>{{ user.ibans?.length }}</div>
 
     <div>Nombre d'articles</div>
     <div>

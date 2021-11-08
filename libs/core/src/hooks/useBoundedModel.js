@@ -1,5 +1,5 @@
 import { useHttp } from './useHttp';
-import { computed, ref, unref, watch } from 'vue';
+import { computed, ref, unref, watch, nextTick } from 'vue';
 import { useQueries, useQueryClient } from 'vue-query';
 import { debounce } from 'lodash-es';
 import { createBoundedModel } from '../factories/boundedModel.factory';
@@ -26,7 +26,9 @@ export function useBoundedModel(query, { queryKey, model, relations = [] }) {
       relations: unref(allRelations),
       onLazyRelationDetected(relation) {
         if (lazyRelations.value.includes(relation)) return;
-        lazyRelations.value.push(relation);
+        nextTick(() => {
+          lazyRelations.value.push(relation);
+        });
       }
     });
   };

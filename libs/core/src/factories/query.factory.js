@@ -51,7 +51,9 @@ export class QueryBuilder {
   }
 
   createSubQueries(entity, name) {
+    entity.__isLazyDetectionDisabled = true;
     let value = entity[name];
+    delete entity.__isLazyDetectionDisabled;
 
     if (!value) return [];
 

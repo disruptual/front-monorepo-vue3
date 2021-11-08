@@ -3,6 +3,27 @@ import { noop } from '@dsp/core/utils/helpers';
 import { createEntityNormalizer } from './entityNormalizer.factory';
 import { createRelationsNormalizer } from './relationsNormalizer.factory';
 
+class LazyRelationsProxyHandler {
+  constructor(prefix = '', onLazyRelationDetected = noop) {
+    this.prefix = prefix;
+    this.onLazyRelationDetected = onLazyRelationDetected;
+  }
+
+  _detectLazyRelation(target, prop) {
+    if (target.__isLazyDetectionDisabled) return;
+    if (!target.constructor) return;
+    if (prop?.startsWith?.('__v')) return;
+    if (!target.constructor.isRelation?.(prop)) return;
+
+    this.onLazyRelationDetected(`${this.prefix}${prop}`);
+  }
+
+  get(target, prop) {
+    this._detectLazyRelation(target, prop);
+    return target[prop];
+  }
+}
+
 class BoundModelFactory {
   constructor(queryClient, relations, onLazyRelationDetected) {
     this.queryClient = queryClient;
@@ -76,47 +97,24 @@ export const createBoundedModel = (
   modelQueryKey,
   { model, queryClient, relations = [], onLazyRelationDetected }
 ) => {
-  let shouldTrack = false;
-  const lazyCb = relation => {
-    if (!shouldTrack) return;
-    return onLazyRelationDetected(relation);
-  };
+  const builder = new BoundModelFactory(
+    queryClient,
+    relations,
+    onLazyRelationDetected
+  );
 
-  const builder = new BoundModelFactory(queryClient, relations, lazyCb);
-
-  const rawEntity = queryClient.getQueryData(modelQueryKey);
-  if (!rawEntity) return null;
+  const entity = queryClient.getQueryData(modelQueryKey);
+  if (!entity) return null;
 
   const normalizer = createEntityNormalizer(
     model,
-    new LazyRelationsProxyHandler('', lazyCb)
+    new LazyRelationsProxyHandler('', onLazyRelationDetected)
   );
-  const normalizedEntity = normalizer(rawEntity);
+  const normalizedEntity = normalizer(entity);
 
   const boundModel = Array.isArray(normalizedEntity)
     ? normalizedEntity.map(entity => builder.buildRelations(entity))
     : builder.buildRelations(normalizedEntity);
 
-  shouldTrack = true;
-  console.log(modelQueryKey, 'start tracking');
   return boundModel;
 };
-
-class LazyRelationsProxyHandler {
-  constructor(prefix = '', onLazyRelationDetected = noop) {
-    this.prefix = prefix;
-    this.onLazyRelationDetected = onLazyRelationDetected;
-  }
-
-  _detectLazyRelation(target, prop) {
-    if (!target.constructor) return;
-    if (prop?.startsWith?.('__v')) return;
-    if (!target.constructor.isRelation?.(prop)) return;
-    this.onLazyRelationDetected(`${this.prefix}${prop}`);
-  }
-
-  get(target, prop, receiver) {
-    this._detectLazyRelation(target, prop);
-    return target[prop];
-  }
-}
