@@ -45,6 +45,7 @@ const goToEdit = row => {
         :has-action-bar="true"
         :has-selector-column="true"
         @row-dbl-click="goToEdit"
+        @filter-change="onFilterChange"
     >
         <template #no-result>
             <dsp-center>Il n'y a aucun Email</dsp-center>

@@ -62,7 +62,7 @@ const goToDetail = orders => {
 
         <DataTableColumn name="storeCode" label="Code store" width="100" is-filterable />
         <DataTableColumn name="name" label="Nom" width="200" is-highlightable is-filterable />
-        <DataTableColumn v-slot="{ row }" name="open" label="Etat" width="200">
+        <DataTableColumn v-slot="{ row }" name="open" label="Etat" width="200" is-filterable>
             <dsp-center>
                 <dsp-button
                     :class="[row.open ? 'store-open' : 'store-closed']"
@@ -70,7 +70,13 @@ const goToDetail = orders => {
                 >{{ row.open ? 'Ouvert' : 'Fermé' }}</dsp-button>
             </dsp-center>
         </DataTableColumn>
-        <DataTableColumn v-slot="{ row }" name="enabled" label="Visibilité" width="200">
+        <DataTableColumn
+            v-slot="{ row }"
+            name="enabled"
+            label="Visibilité"
+            width="200"
+            is-filterable
+        >
             <dsp-center>
                 <dsp-checkbox
                     label="visibilité"

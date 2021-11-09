@@ -32,6 +32,7 @@ const goToDetail = row => {
 
 <template>
   <DataTable
+    id="order-items"
     :query="query"
     :min-row-size="50"
     :has-action-bar="false"
@@ -57,22 +58,21 @@ const goToDetail = row => {
       label="Date de création"
       :tooltip-label="({ row }) => row.formatCreated()"
       width="200"
-    >
-      {{ row.formatCreated() }}
-    </DataTableColumn>
+    >{{ row.formatCreated() }}</DataTableColumn>
 
-    <DataTableColumn v-slot="{ row }" name="price" label="Prix" width="120">
-      {{ row.item.formatedPrice }}
-    </DataTableColumn>
+    <DataTableColumn
+      v-slot="{ row }"
+      name="price"
+      label="Prix"
+      width="120"
+    >{{ row.item.formatedPrice }}</DataTableColumn>
 
     <DataTableColumn
       v-slot="{ row }"
       name="category"
       label="Catégorie"
       width="250"
-    >
-      {{ row.item?.category?.name }}
-    </DataTableColumn>
+    >{{ row.item?.category?.name }}</DataTableColumn>
   </DataTable>
 </template>
 

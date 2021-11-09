@@ -13,7 +13,7 @@ import DataTableColumn from '@/components/data-table/data-table-column/index.vue
 import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 
-useBreadCrumbs('Utilisateurs');
+useBreadCrumbs('Bon d\'achats');
 const { push } = useRouter();
 
 const filters = ref({});
