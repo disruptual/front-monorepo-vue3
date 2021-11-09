@@ -5,3 +5,4 @@ export * from './useUserApi';
 export * from './useContactApi';
 export * from './useEmailApi';
 export * from './useStoreApi';
+export * from './useVoucherApi';

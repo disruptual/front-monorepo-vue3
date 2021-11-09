@@ -54,33 +54,25 @@ const goToDetail = row => {
       label="Date de création"
       width="200"
       :tooltip-label="({ row }) => row.formatCreated()"
-    >
-      {{ row.formatCreated() }}
-    </DataTableColumn>
+    >{{ row.formatCreated() }}</DataTableColumn>
     <DataTableColumn v-slot="{ row }" name="seller" label="Vendeur" width="200">
       <router-link
         v-if="row.seller"
         :to="{ name: 'AdminUserDetails', params: { slug: row.seller?.slug } }"
-      >
-        {{ row.seller?.email }}
-      </router-link>
+      >{{ row.seller?.email }}</router-link>
     </DataTableColumn>
     <DataTableColumn v-slot="{ row }" name="buyer" label="Acheteur" width="200">
       <router-link
         v-if="row.buyer"
         :to="{ name: 'AdminUserDetails', params: { slug: row.buyer?.slug } }"
-      >
-        {{ row.buyer?.email }}
-      </router-link>
+      >{{ row.buyer?.email }}</router-link>
     </DataTableColumn>
     <DataTableColumn
       v-slot="{ row }"
       name="itemCount"
       label="Nb d'articles"
       width="80"
-    >
-      {{ row.orderItems.length }}
-    </DataTableColumn>
+    >{{ row.orderItems.length }}</DataTableColumn>
     <DataTableColumn name="moneyBox" label="Montant" width="150" />
     <DataTableColumn name="orderState" label="Statut" width="300" />
   </DataTable>

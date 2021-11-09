@@ -41,10 +41,7 @@ const activeTab = computed({
       <h2>Détails commande n°{{ order.id }}</h2>
     </dsp-center>
     <dsp-tabs v-model="activeTab">
-      <dsp-tab
-        :name="TABS.INFOS"
-        :label="t(`order.details.tabs.${TABS.INFOS}`)"
-      >
+      <dsp-tab :name="TABS.INFOS" :label="t(`order.details.tabs.${TABS.INFOS}`)">
         <dsp-container>
           <dsp-surface>
             <dsp-container is-small>
@@ -54,10 +51,7 @@ const activeTab = computed({
         </dsp-container>
       </dsp-tab>
 
-      <dsp-tab
-        :name="TABS.ITEMS"
-        :label="t(`order.details.tabs.${TABS.ITEMS}`)"
-      >
+      <dsp-tab :name="TABS.ITEMS" :label="t(`order.details.tabs.${TABS.ITEMS}`)">
         <dsp-container>
           <OrderItems :order-id="props.id" />
         </dsp-container>

@@ -48,7 +48,7 @@ const goToDetail = orders => {
 
 <template>
     <DataTable
-        id="order_list"
+        id="store_list"
         :query="query"
         :min-row-size="40"
         :has-action-bar="true"
@@ -62,7 +62,7 @@ const goToDetail = orders => {
 
         <DataTableColumn name="storeCode" label="Code store" width="100" is-filterable />
         <DataTableColumn name="name" label="Nom" width="200" is-highlightable is-filterable />
-        <DataTableColumn v-slot="{ row }" name="enabled" label="Etat" width="200">
+        <DataTableColumn v-slot="{ row }" name="open" label="Etat" width="200">
             <dsp-center>
                 <dsp-button
                     :class="[row.open ? 'store-open' : 'store-closed']"

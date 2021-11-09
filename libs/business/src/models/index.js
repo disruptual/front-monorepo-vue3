@@ -11,3 +11,4 @@ export { OrderItem } from './OrderItem.model';
 export { Contact } from './Contact.model';
 export { Email } from './Email.model';
 export { Store } from './Store.model';
+export { Voucher } from './Voucher.model';

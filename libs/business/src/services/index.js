@@ -5,3 +5,4 @@ export * from './OrderItem.service';
 export * from './Contact.service';
 export * from './Email.service';
 export * from './Store.service';
+export * from './Voucher.service';

@@ -124,5 +124,15 @@ export const routes = [
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       layout: lazyDefaultLayout
     }
+  },
+  {
+    path: '/admin/voucher',
+    name: 'AdminVoucher',
+    props: true,
+    component: () => import('@/pages/admin/voucher/index.vue'),
+    meta: {
+      permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      layout: lazyDefaultLayout
+    }
   }
 ];
