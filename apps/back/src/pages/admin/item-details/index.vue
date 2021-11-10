@@ -27,12 +27,12 @@ useBreadCrumbs(breadCrumbLabel);
 
 <template>
   <dsp-query-loader v-slot="{ entity: item }" :query="query">
-    <dsp-center>
-      <h2>{{ item.title }}</h2>
-    </dsp-center>
-    <dsp-container>
+    <dsp-container class="items-details">
       <dsp-surface>
         <dsp-container is-small>
+          <dsp-center>
+            <h2>{{ item.title }}</h2>
+          </dsp-center>
           <dsp-swiper as="ul">
             <dsp-swiper-item v-for="media in item.medias" :key="media.id" as="li">
               <dsp-image class="photo" :src="media.thumbnails?.avatar" />
@@ -40,7 +40,7 @@ useBreadCrumbs(breadCrumbLabel);
           </dsp-swiper>
         </dsp-container>
         <dsp-container is-small>
-          <div class="color">
+          <div v-if="item.colors" class="color">
             <strong>Couleurs :</strong>
             <dsp-flex>
               <div
@@ -59,7 +59,7 @@ useBreadCrumbs(breadCrumbLabel);
 
           <div v-if="item.condition" class="state">
             <strong>Etat :</strong>
-            <!-- <span>{{ item.condition.stateName }}</span> -->
+            <span>{{ item.condition.stateName }}</span>
           </div>
 
           <div v-if="item.size" class="size">
@@ -105,11 +105,12 @@ useBreadCrumbs(breadCrumbLabel);
 </template>
 
 <style lang="scss">
-.color-preview {
-  width: var(--spacing-lg);
-  height: var(--spacing-lg);
-  background-color: var(--color);
-  margin-right: 0.5rem;
-  border: solid 1px #aaa;
+.items-details {
+  .color-preview {
+    width: var(--spacing-lg);
+    height: var(--spacing-lg);
+    background-color: var(--color);
+    margin-right: 0.5rem;
+  }
 }
 </style>
