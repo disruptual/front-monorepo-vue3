@@ -24,7 +24,7 @@ export class BaseCRUDService {
     return this._http.get(`${this.endpoint}/${id}`, options);
   }
 
-  create(id, data, options) {
+  create(data, options) {
     this._checkEndpoint();
 
     return this._http.post(`${this.endpoint}`, { data, ...options });

@@ -29,7 +29,7 @@ const onIntersect = entries => {
   });
 };
 
-const root = computed(() => props.root || window);
+const root = computed(() => props.root || document);
 
 const initObserver = () => {
   observer.value = new window.IntersectionObserver(onIntersect, {

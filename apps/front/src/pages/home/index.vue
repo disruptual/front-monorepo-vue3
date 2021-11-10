@@ -4,9 +4,7 @@ import { useItemApi } from '@dsp/core';
 import ItemCard from '@/components/item-card/index.vue';
 
 const { t } = useI18n();
-const query = useItemApi().searchQuery({
-  relations: ['mainMedia', 'category', 'category.root', 'colors']
-});
+const query = useItemApi().searchQuery({});
 </script>
 
 <template>
