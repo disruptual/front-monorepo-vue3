@@ -35,7 +35,9 @@ const onSidebarResize = entries => {
       v-on-resize="onSidebarResize"
       class="layout__sidebar"
     />
-    <main><slot /></main>
+    <main>
+      <slot />
+    </main>
   </div>
 </template>
 
@@ -44,6 +46,7 @@ const onSidebarResize = entries => {
   min-height: 100vh;
   display: grid;
   grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr;
   width: 100vw;
   max-width: 100%;
 
