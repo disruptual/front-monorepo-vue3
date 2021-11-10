@@ -76,6 +76,6 @@ export function useCRUDApi({ model, service }, cb = () => ({})) {
         options
       );
     },
-    ...cb(service, http)
+    ...cb(serviceInstance, http)
   };
 }
