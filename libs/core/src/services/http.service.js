@@ -1,8 +1,10 @@
 import axios, { CancelToken } from 'axios';
 import { HTTP_VERBS } from '../utils/constants';
+import { createLogger } from '@dsp/core/factories/logger.factory';
 
 export class HttpService {
   constructor({ baseURL }) {
+    this.logger = createLogger('http');
     this.axios = axios.create({
       baseURL,
       responseType: 'json',
@@ -20,6 +22,7 @@ export class HttpService {
   }
 
   async makeRequest(url, config) {
+    this.logger.debug(`${config.method.toUpperCase()}${url}`);
     const { cancel, token } = CancelToken.source();
 
     const promise = this.axios(url, { cancelToken: token, ...config });

@@ -53,3 +53,11 @@ export const KEYBOARD = {
   ARROW_DOWN: 'ArrowDown',
   ARROW_UP: 'ArrowUp'
 };
+
+export const LOG_LEVELS = {
+  VERBOSE: 0,
+  DEBUG: 1,
+  INFO: 2,
+  WARNING: 3,
+  ERROR: 4
+};
