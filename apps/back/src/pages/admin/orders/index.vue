@@ -11,7 +11,6 @@ import { useOrderApi } from '@dsp/core';
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
-import { filter } from 'lodash-es';
 
 useBreadCrumbs('Commandes');
 const { push } = useRouter();

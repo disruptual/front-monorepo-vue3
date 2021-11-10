@@ -193,9 +193,7 @@ const ordersLink = computed(() => ({
         />
       </div>
     </dsp-smart-form-field>
-    <div v-else>
-      {{ formattedRoles }}
-    </div>
+    <div v-else>{{ formattedRoles }}</div>
 
     <dsp-flex
       v-if="isEditing"

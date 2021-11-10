@@ -45,8 +45,8 @@ const onMouseMove = e => {
 
 const onSwipeEnd = () => {
   const root = swiperContext.root.value;
-  root.removeEventListener('mousemove', onSwipeMove);
-  root.removeEventListener('touchmove', onSwipeMove);
+  root.removeEventListener('mousemove', onMouseMove);
+  root.removeEventListener('touchmove', onMouseMove);
   window.removeEventListener('mouseup', onSwipeEnd);
   window.removeEventListener('touchend', onSwipeEnd);
   window.removeEventListener('touchleave', onSwipeEnd);

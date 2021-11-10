@@ -14,6 +14,7 @@ export { default as DspSurface } from './surface/index.vue';
 export { default as DspButton } from './button/index.vue';
 export { default as DspPlainButton } from './plain-button/index.vue';
 export { default as DspInputText } from './input-text/index.vue';
+export { default as DspInputTextarea } from './input-textarea/index.vue';
 export { default as DspFormControl } from './form-control/index.vue';
 export { default as DspFormError } from './form-error/index.vue';
 export { default as DspCheckbox } from './checkbox/index.vue';
