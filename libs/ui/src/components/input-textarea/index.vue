@@ -28,7 +28,7 @@ const textColor = useReadableColor('--color-surface');
 
 <template>
   <div class="dsp-input-text">
-     <textarea v-model="model" v-bind="$attrs" ></textarea>
+    <textarea v-model="model" v-bind="$attrs"></textarea>
   </div>
 </template>
 
@@ -39,14 +39,12 @@ const textColor = useReadableColor('--color-surface');
   background-color: var(--color-surface);
 
   textarea {
-  border: solid 1px var(--color-separator);
-&:focus-within {
-    border-color: var(--color-brand-500);
-    outline: solid 1px var(--color-brand-500);
+    border: solid 1px var(--color-separator);
+    &:focus-within {
+      border-color: var(--color-brand-500);
+      outline: solid 1px var(--color-brand-500);
+    }
   }
-  }
-
-  
 
   input {
     padding: var(--spacing-xs);

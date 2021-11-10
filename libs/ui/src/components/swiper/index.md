@@ -3,7 +3,6 @@ import { ref } from 'vue';
 import component from './index.vue'
 const content = 'Example'
 const items = new Array(10).fill({content});
-
 </script>
 
 # Swiper
@@ -12,7 +11,8 @@ const items = new Array(10).fill({content});
 
 ## Description
 
-Component description
+Swiper est un composant permettant de faire glisser une liste horizontalement. <br/>   
+Peut être utilisé pour les tabs de tableau / liste d'item.
 
 ## Props
 
@@ -25,7 +25,7 @@ Component description
 ## Example
 
 <code-example>
-<p>An example of an swiper :</p>
+<p>Une exemple d'utilisation du swiper :</p>
 <dsp-swiper as="ul">
         <dsp-swiper-item class="items-list" v-for="(item, index) in items" as="li">
             <dsp-flex class="item" align="center" justify="center">
@@ -46,8 +46,10 @@ Component description
 </template>
 
 <template v-slot:js>
+
 ```js
-Your JS code example here
+const content = 'Example'
+const items = new Array(10).fill({content});
 ```
 
 </template>
