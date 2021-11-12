@@ -1,16 +1,17 @@
 <script setup>
 import { ref } from 'vue';
 import component from './index.vue'
+const myDate = ref(null)
 
 </script>
 
-# DropdownItem
+# DatePicker
 
 [[toc]]
 
 ## Description
 
-DatePicker description.
+Le composant Datepicker permet de choisir une date dans un champs de saisie.
 
 ## Props
 
@@ -23,11 +24,12 @@ DatePicker description.
 ## Example
 
 <code-example>
-<p>Your preview code example here</p>
+<p>Un example de date picker :</p>
+<dsp-date-picker v-model="myDate"/>
 <template v-slot:html>
 
 ```html
-Your HTML code example here
+<dsp-date-picker v-model="myDate"/>
 ```
 
 </template>
@@ -35,7 +37,7 @@ Your HTML code example here
 <template v-slot:js>
 
 ```js
-Your JS code example here
+const myDate = ref(null)
 ```
 
 </template>

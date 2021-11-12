@@ -11,7 +11,7 @@ const isOpened = ref(false);
 
 ## Description
 
-Component description
+Le composant Dropdown permet de créer une liste déroulante vers le bas.
 
 ## Props
 
