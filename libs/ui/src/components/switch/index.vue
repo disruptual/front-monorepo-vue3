@@ -27,17 +27,25 @@ const model = computed({
 </script>
 
 <template>
-  <dsp-visually-hidden>
-    <input
-      :id="id"
-      v-model="model"
-      type="checkbox"
-      class="input"
-      v-bind="$attrs"
-      :disabled="disabled"
-    />
-  </dsp-visually-hidden>
-  <label :for="id" class="dsp-switch" />
+  <div class="dsp-switch-container">
+    <dsp-visually-hidden>
+      <input
+        :id="id"
+        v-model="model"
+        type="checkbox"
+        class="input"
+        v-bind="$attrs"
+        :disabled="disabled"
+      />
+    </dsp-visually-hidden>
+
+    <dsp-flex v-if="$slots.default" class="wrapper-label" align="center">
+      <slot />
+      <label :for="id" class="dsp-switch" />
+    </dsp-flex>
+
+    <label v-else :for="id" class="dsp-switch" />
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -72,17 +80,17 @@ const model = computed({
   }
 }
 
-.input:checked + .dsp-switch {
+.input:checked + .wrapper-label .dsp-switch {
   background: var(--color-brand-300);
   --dsp-switch-slider-left: calc(3rem - 9px - 1rem);
 }
 
-.input:disabled + .dsp-switch {
+.input:disabled + .wrapper-label .dsp-switch {
   background: var(--color-disabled);
   cursor: default;
 }
 
-.input:focus + .dsp-switch {
+.input:focus + .wrapper-label .dsp-switch {
   border-color: var(--color-brand-600);
 }
 </style>

@@ -40,18 +40,28 @@ const goToDetail = row => {
     :query="query"
     :min-row-size="40"
     @row-dbl-click="goToDetail"
+    @filter-change="onFilterChange"
   >
-    <DataTableColumn name="id" label="Id" width="100" />
+    <DataTableColumn name="id" label="Id" width="100" is-filterable />
     <DataTableColumn
       v-slot="{ row }"
       name="created"
       label="Date de création"
       width="200"
       :tooltip-label="({ row }) => row.formatCreated()"
+      is-filterable
+      is-highlightable
     >
       {{ row.formatCreated() }}
     </DataTableColumn>
-    <DataTableColumn v-slot="{ row }" name="seller" label="Vendeur" width="200">
+    <DataTableColumn
+      v-slot="{ row }"
+      name="seller"
+      label="Vendeur"
+      width="200"
+      is-filterable
+      is-highlightable
+    >
       <router-link
         v-if="row.seller"
         :to="{ name: 'AdminUserDetails', params: { slug: row.seller?.slug } }"
@@ -59,7 +69,14 @@ const goToDetail = row => {
         {{ row.seller?.email }}
       </router-link>
     </DataTableColumn>
-    <DataTableColumn v-slot="{ row }" name="buyer" label="Acheteur" width="200">
+    <DataTableColumn
+      v-slot="{ row }"
+      name="buyer"
+      label="Acheteur"
+      width="200"
+      is-filterable
+      is-highlightable
+    >
       <router-link
         v-if="row.buyer"
         :to="{ name: 'AdminUserDetails', params: { slug: row.buyer?.slug } }"
@@ -72,10 +89,24 @@ const goToDetail = row => {
       name="itemCount"
       label="Nb d'articles"
       width="80"
+      is-filterable
+      is-highlightable
     >
       {{ row.orderItems.length }}
     </DataTableColumn>
-    <DataTableColumn name="moneyBox" label="Montant" width="150" />
-    <DataTableColumn name="orderState" label="Statut" width="300" />
+    <DataTableColumn
+      name="moneyBox"
+      label="Montant"
+      width="150"
+      is-filterable
+      is-highlightable
+    />
+    <DataTableColumn
+      name="orderState"
+      label="Statut"
+      width="300"
+      is-filterable
+      is-highlightable
+    />
   </DataTable>
 </template>

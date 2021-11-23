@@ -52,16 +52,13 @@ const ordersLink = computed(() => ({
 </script>
 
 <template>
+  <dsp-switch v-model="isEditing" class="editing-switch">
+    <p>Mode édition</p>
+  </dsp-switch>
   <dsp-center>
     <h2>
       <dsp-flex justify="space-between" align="center">
         {{ user.fullName }}
-        <dsp-icon-button
-          icon="edit"
-          size="sm"
-          class="edit-button"
-          @click="isEditing = !isEditing"
-        />
       </dsp-flex>
     </h2>
     <dsp-avatar :user="user" size="lg" />
@@ -234,10 +231,6 @@ const ordersLink = computed(() => ({
       margin-top: var(--spacing-md);
     }
   }
-}
-
-.edit-button {
-  transform: translateY(-50%);
 }
 
 .form-actions {
