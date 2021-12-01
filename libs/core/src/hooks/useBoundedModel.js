@@ -26,9 +26,7 @@ export function useBoundedModel(query, { queryKey, model, relations = [] }) {
       relations: unref(allRelations),
       onLazyRelationDetected(relation) {
         if (lazyRelations.value.includes(relation)) return;
-        nextTick(() => {
-          lazyRelations.value.push(relation);
-        });
+        lazyRelations.value.push(relation);
       }
     });
   };
@@ -47,9 +45,21 @@ export function useBoundedModel(query, { queryKey, model, relations = [] }) {
     });
   });
 
-  const queries = useQueries(queriesDefinitions);
-  const isRelationLoading = computed(() =>
-    queries.some(query => query.isLoading)
+  useQueries(queriesDefinitions);
+
+  const isRelationLoading = relationName =>
+    queriesDefinitions.value
+      .filter(def => def.relation === relationName)
+      .map(def => queryClient.getQueryState(def.queryKey))
+      .some(query => query.isLoading);
+
+  const isRelationsLoading = (...relationNames) =>
+    relationNames.some(relation => isRelationLoading(relation));
+
+  const isLoading = computed(
+    () =>
+      query.isLoading.value ||
+      relations.some(relation => isRelationLoading(relation))
   );
 
   watch(() => unref(queryKey), debouncedBindQuery);
@@ -57,5 +67,11 @@ export function useBoundedModel(query, { queryKey, model, relations = [] }) {
   watch(() => unref(allRelations), debouncedBindQuery, { deep: true });
   debouncedBindQuery();
 
-  return { ...query, isRelationLoading, data: instance };
+  return {
+    ...query,
+    isLoading,
+    isRelationLoading,
+    isRelationsLoading,
+    data: instance
+  };
 }

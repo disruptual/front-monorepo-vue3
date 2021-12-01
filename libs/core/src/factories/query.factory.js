@@ -33,16 +33,19 @@ export class QueryBuilder {
         uris = [uris];
       }
 
-      const ownQueries = uris.map(uri => {
-        const relation = this.getRelation(`${prefix}${name}`);
-        return {
-          queryKey: uri,
-          queryFn: () => this.fetcher(uri),
-          enabled: !!relation,
-          onSettled: this.onSettled,
-          ...(relation?.queryOptions || {})
-        };
-      });
+      const ownQueries = uris
+        .map(uri => {
+          const relation = this.getRelation(`${prefix}${name}`);
+          if (!relation) return;
+          return {
+            relation: `${prefix}${name}`,
+            queryKey: uri,
+            queryFn: () => this.fetcher(uri),
+            onSettled: this.onSettled,
+            ...(relation?.queryOptions || {})
+          };
+        })
+        .filter(Boolean);
 
       const subQueries = this.createSubQueries(entity, name);
 

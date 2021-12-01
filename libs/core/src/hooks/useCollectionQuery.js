@@ -47,10 +47,11 @@ export function useCollectionQuery(key, fetcher, queryOptions = {}) {
   });
 
   const isLoadingFirstPage = computed(() => {
-    const { isLoading, isRelationLoading, data } = boundedQuery;
-    if (isLoading.value) return true;
+    const { isLoading, data } = boundedQuery;
 
-    return isRelationLoading.value && data.value.length <= itemsPerPage;
+    return (
+      isLoading.value && (!data.value || data.value?.length <= itemsPerPage)
+    );
   });
 
   return {

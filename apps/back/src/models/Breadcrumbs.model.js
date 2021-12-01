@@ -22,7 +22,11 @@ export class Breadcrumbs {
     });
   }
 
+  get lastCrumb() {
+    return this.breadcrumbs[this.breadcrumbs.length - 1];
+  }
+
   setActiveBreadcrumbLabel(label) {
-    this.breadcrumbs[this.breadcrumbs.length - 1].label = label;
+    this.lastCrumb.label = label;
   }
 }

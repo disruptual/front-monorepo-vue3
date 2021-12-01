@@ -11,7 +11,7 @@ const device = useDevice();
 
 const headerHeight = ref(null);
 
-useCssVar('--header-height', headerHeight);
+// useCssVar('--header-height', headerHeight);
 const onHeaderResize = entries => {
   for (let entry of entries) {
     headerHeight.value = `${entry.target.offsetHeight}px`;
@@ -44,6 +44,7 @@ const onSidebarResize = entries => {
   min-height: 100vh;
   display: grid;
   grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr;
   width: 100vw;
   max-width: 100%;
 

@@ -12,9 +12,7 @@ const props = defineProps({
   userId: { type: String, required: true }
 });
 
-const query = useItemApi().findAllByUserIdQuery(props.userId, {
-  relations: ['mainMedia', 'category']
-});
+const query = useItemApi().findAllByUserIdQuery(props.userId);
 
 const { push } = useRouter();
 const goToDetail = row => {

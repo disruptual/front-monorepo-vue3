@@ -18,10 +18,11 @@ const app = new DisruptualApp({
   routes
 });
 
-if (import.meta.env.VITE_DEVTOOLS) {
-  import('@dsp/devtools').then(module => {
-    module.createDevtools(app);
-  });
+async function setupDevtools() {
+  if (!import.meta.env.VITE_DEVTOOLS) return;
+
+  const devtools = await import('@dsp/devtools');
+  devtools.createDevtools(app);
 }
 
 function setupBreadcrumbs() {
@@ -30,8 +31,9 @@ function setupBreadcrumbs() {
   app.vueApp.provide(CONTEXT_KEYS.BREADCRUMB, breadcrumbs);
 
   app.router.beforeEach((to, from, next) => {
-    const [toDomain] = to.fullPath.split('/').filter(Boolean);
-    const [fromDomain] = from.fullPath.split('/').filter(Boolean);
+    const getDomain = route => route.fullPath.split('/').filter(Boolean);
+    const [toDomain] = getDomain(to);
+    const [fromDomain] = getDomain(from);
 
     if (toDomain !== fromDomain) breadcrumbs.reset();
     if (to.name === 'Home') breadcrumbs.reset();
@@ -40,5 +42,6 @@ function setupBreadcrumbs() {
   });
 }
 
+setupDevtools();
 setupBreadcrumbs();
 app.bootstrap('#app');

@@ -52,7 +52,7 @@ class Logger {
     return this.log(LOG_LEVELS.INFO, '#1f70f2', ...args);
   }
 
-  warning(...args) {
+  warn(...args) {
     return this.log(LOG_LEVELS.WARNING, '#dda71f', ...args);
   }
 

@@ -19,14 +19,13 @@ export function useOrderApi() {
       );
     },
 
-    findByOrderIdQuery(orderId, { relations = [] } = {}) {
+    findByIdQuery(orderId, { relations = [] } = {}) {
       const queryKey = computed(() => `orders/${orderId}`);
 
-      return useModelQuery(
-        queryKey,
-        () => orderService.findByOrderId(orderId),
-        { model: Order, relations }
-      );
+      return useModelQuery(queryKey, () => orderService.findById(orderId), {
+        model: Order,
+        relations
+      });
     },
 
     findAllQuery(

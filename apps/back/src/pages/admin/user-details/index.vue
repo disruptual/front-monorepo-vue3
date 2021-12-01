@@ -22,9 +22,7 @@ const { t } = useI18n();
 const { replace } = useRouter();
 const route = useRoute();
 
-const query = useUserApi().findBySlugQuery(props.slug, {
-  relations: []
-});
+const query = useUserApi().findBySlugQuery(props.slug);
 
 const breadCrumbLabel = computed(
   () => query.data.value?.fullName ?? t('breadcrumb.userDetails')

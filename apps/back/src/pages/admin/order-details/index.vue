@@ -19,7 +19,7 @@ const { t } = useI18n();
 const { replace } = useRouter();
 const route = useRoute();
 
-const query = useOrderApi().findByOrderIdQuery(props.id, {
+const query = useOrderApi().findByIdQuery(props.id, {
   relations: ['seller', 'buyer', 'orderItems']
 });
 

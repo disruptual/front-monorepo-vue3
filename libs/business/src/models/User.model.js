@@ -36,6 +36,10 @@ export class User extends BaseModel {
     ];
   }
 
+  hasIbans() {
+    return this.detectUnloadedRelations(() => this.ibans.length > 0);
+  }
+
   hasRole(role) {
     return this.roles.includes(role);
   }
@@ -57,7 +61,6 @@ export class User extends BaseModel {
   }
 
   get isProjectManager() {
-    console.log(USER_ROLES.PROJECT_MANAGER, this.roles);
     return this.hasRole(USER_ROLES.PROJECT_MANAGER);
   }
 

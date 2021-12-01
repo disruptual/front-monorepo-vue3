@@ -1,10 +1,19 @@
 import { mapKeys, pickBy } from 'lodash-es';
 import frLocale from 'date-fns/locale/fr';
 import { format as formatDate } from 'date-fns';
+import { DEFAULT_DATE_FORMAT } from '../utils/constants';
 
 export class BaseModel {
+  static get relations() {
+    return [];
+  }
+
   static isRelation(key) {
     return this.relations.some(r => r.name === key);
+  }
+
+  static getRelation(key) {
+    return this.relations.find(r => r.name === key);
   }
 
   constructor(dto) {
@@ -16,7 +25,6 @@ export class BaseModel {
 
     const ctor = this.constructor.prototype.constructor;
     const relationKeys = Object.keys(rest).filter(key => ctor.isRelation(key));
-    this.uri = uri;
 
     return {
       uri,
@@ -42,10 +50,25 @@ export class BaseModel {
     };
   }
 
-  formatCreated(format = 'dd-MM-yyyy') {
+  formatCreated(format = DEFAULT_DATE_FORMAT) {
     return formatDate(new Date(this.created), format, {
       locale: frLocale
     });
   }
+
+  detectUnloadedRelations(cb) {
+    this._warnOnUnloadedRelations = true;
+    const returnValue = cb();
+
+    if (returnValue.then) {
+      return returnValue.then(result => {
+        this._warnOnUnloadedRelations = false;
+
+        return result;
+      });
+    }
+
+    this._warnOnUnloadedRelations = false;
+    return returnValue;
+  }
 }
-BaseModel.relations = [];

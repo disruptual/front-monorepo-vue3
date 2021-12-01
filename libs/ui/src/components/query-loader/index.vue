@@ -11,7 +11,7 @@ const props = defineProps({
 });
 
 const isLoading = computed(() => {
-  return props.query.isLoading.value || props.query.isRelationLoading.value;
+  return props.query.isLoading.value;
 });
 const data = computed(() => props.query.data.value);
 const error = computed(() => props.query.error.value);
@@ -31,9 +31,7 @@ const error = computed(() => props.query.error.value);
 
     <slot v-else-if="!data" name="no-result">No Result.</slot>
 
-    <dsp-fade-transition v-else-if="data" is-visible appear :duration="100">
-      <slot :entity="data" />
-    </dsp-fade-transition>
+    <slot v-else-if="data" :entity="data" />
   </div>
 </template>
 

@@ -73,7 +73,7 @@ const goToDetail = row => {
       label="Nb d'articles"
       width="80"
     >
-      {{ row.orderItems.length }}
+      {{ row.orderItems?.length }}
     </DataTableColumn>
     <DataTableColumn name="moneyBox" label="Montant" width="150" />
     <DataTableColumn name="orderState" label="Statut" width="300" />

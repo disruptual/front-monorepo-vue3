@@ -16,7 +16,7 @@ const isLoadingFirstPage = computed(() => {
 const isLoadingSubsequentPage = computed(() => {
   if (props.query.isLoadingFirstPage.value) return false;
 
-  return props.query.isFetching.value || props.query.isRelationLoading.value;
+  return props.query.isFetching.value;
 });
 
 const data = computed(() => props.query.data.value);
