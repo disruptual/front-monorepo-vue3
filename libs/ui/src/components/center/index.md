@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import component from './index.vue'
 </script>
 
@@ -9,7 +9,8 @@ import component from './index.vue'
 
 ## Description
 
-Description BackLink
+DspCenter permet de centrer du contenu en utilisant les flexboxs <br/> 
+et plus particulièrement le component [DspFlex](../flex/index).
 
 ## Props
 

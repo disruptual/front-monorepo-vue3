@@ -35,7 +35,9 @@ const onSidebarResize = entries => {
       v-on-resize="onSidebarResize"
       class="layout__sidebar"
     />
-    <main><slot /></main>
+    <main>
+      <slot />
+    </main>
   </div>
 </template>
 

@@ -55,10 +55,7 @@ const activeTab = computed({
         </dsp-container>
       </dsp-tab>
 
-      <dsp-tab
-        :name="TABS.ORDERS"
-        :label="t(`user.details.tabs.${TABS.ORDERS}`)"
-      >
+      <dsp-tab :name="TABS.ORDERS" :label="t(`user.details.tabs.${TABS.ORDERS}`)">
         <dsp-container>
           <UserOrders :user-id="user.id" />
         </dsp-container>

@@ -1,12 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import component from './index.vue'
-let isToggledContent = ref(false)
-const content1 = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-const content2 = "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-const getContent = computed(() => {
-    return isToggledContent.value ? content1 : content2
-})
+const content = ref("")
 
 </script>
 
@@ -29,16 +24,15 @@ InputTextarea est un composant permettant de taper du texte dans un champs de sa
 ## Example
 
 <code-example>
-<p>Une exemple d'utilisation de textearea :</p>
-<dsp-flex align="center"> 
-    <p>Changer de contenu : </p>  
-    <dsp-switch class="switch" v-model="isToggledContent"/>
-</dsp-flex>
-<dsp-input-textarea v-model="getContent" />
+<h3>Une exemple d'utilisation de textearea :</h3>
+    <p>Pas de resize manuelle, ni auto</p>
+    <dsp-input-textarea v-model="content" :isAutoResizable="false" :isResizable="false"/>
+    <p>resize manuelle et auto activé</p>
+    <dsp-input-textarea v-model="content" :isAutoResizable="true" :isResizable="true"/>
 <template v-slot:html>
 
 ```html
-Your HTML code example here
+<dsp-input-textarea v-model="content" :isAutoResizable="false" :isResizable="false"/>
 ```
 
 </template>
@@ -46,14 +40,8 @@ Your HTML code example here
 <template v-slot:js>
 
 ```js
-Your JS code example here
+const content = ref("")
 ```
 
 </template>
 </code-example>
-
-<style lang="scss" scoped>
-    .dsp-switch {
-        margin-left: var(--spacing-md)
-    }
-</style>

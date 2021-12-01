@@ -10,7 +10,7 @@ import component from './index.vue'
 
 ## Description
 
-Component description
+DspFlex permet de conteneuriser un élément avec un élément html utilisant flexbox.
 
 ## Props
 
@@ -23,11 +23,12 @@ Component description
 ## Example
 
 <code-example>
-<p>Your preview code example here</p>
+<p>Un exemple de contenu :</p>
+<dsp-flex as="div" direction="row" justify="center">contenu</dsp-flex>
 <template v-slot:html>
 
 ```html
-Your HTML code example here
+<dsp-flex as="div" direction="row" justify="center">contenu</dsp-flex>
 ```
 
 </template>
