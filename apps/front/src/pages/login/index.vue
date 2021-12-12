@@ -15,10 +15,18 @@ const onSuccess = () => {
 </script>
 
 <template>
-  <dsp-container is-small>
-    <dsp-surface>
-      <h1>Login page</h1>
-      <LoginForm @success="onSuccess" />
-    </dsp-surface>
-  </dsp-container>
+  <dsp-center class="login-page">
+    <dsp-container is-small>
+      <dsp-surface>
+        <h1>Login page</h1>
+        <LoginForm @success="onSuccess" />
+      </dsp-surface>
+    </dsp-container>
+  </dsp-center>
 </template>
+
+<style scoped>
+.login-page {
+  height: 100%;
+}
+</style>

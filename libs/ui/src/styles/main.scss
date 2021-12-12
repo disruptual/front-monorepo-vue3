@@ -11,6 +11,12 @@ body {
   box-sizing: border-box;
 }
 
+button,
+input,
+textarea {
+  color: inherit;
+}
+
 :root {
   // These variables are created so that they can be grabbed from javascript to use in matchMedia() calls
   --breakpoint-mobile: #{$breakpoint-mobile};

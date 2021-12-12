@@ -29,6 +29,6 @@ export const useReactiveInfiniteQuery = (queryKey, queryFn, queryOptions) => {
     state.queryFn = unref(queryFn);
     Object.assign(state, queryOptions);
   });
-  console.log(state.queryKey);
+
   return useInfiniteQuery(state);
 };

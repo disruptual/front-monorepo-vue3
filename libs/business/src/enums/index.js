@@ -10,6 +10,8 @@ export const USER_ROLES = {
 export const DELIVERY_MODES = {
   MONDIAL_RELAY: 'mondialrelay',
   COLISSIMO: 'colissimo',
+  LAPOSTE_COLISSIMO: 'lapostecolissimo',
+  LAPOSTE_LETTER: 'lapostecourriersuivi',
   LOCATION: 'locationdelivery',
   HAND: 'handdelivery',
   RELAIS_COLIS: 'relaiscolis',

@@ -31,7 +31,7 @@ export class User extends BaseModel {
       {
         name: 'sales',
         getUri: entity => `${entity.uri}/sales`,
-        model: Item
+        model: Order
       }
     ];
   }

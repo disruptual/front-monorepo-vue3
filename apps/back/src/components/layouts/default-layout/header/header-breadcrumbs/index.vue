@@ -27,7 +27,7 @@ const textColor = useReadableColor('--color-brand-500');
       :to="breadcrumb.target"
       @click="breadcrumbs.goTo(breadcrumb.id)"
     >
-      <dsp-truncated-text width="8ch">
+      <dsp-truncated-text width="15ch">
         {{ breadcrumb.label }}
       </dsp-truncated-text>
     </router-link>

@@ -13,7 +13,8 @@ const props = defineProps({
     required: true
   },
   id: { type: String, default: () => makeRandomId(6) },
-  disabled: { type: Boolean, default: false }
+  disabled: { type: Boolean, default: false },
+  label: { type: String, default: '' }
 });
 
 const model = computed({
@@ -39,12 +40,12 @@ const model = computed({
       />
     </dsp-visually-hidden>
 
-    <dsp-flex v-if="$slots.default" class="wrapper-label" align="center">
-      <slot />
-      <label :for="id" class="dsp-switch" />
+    <dsp-flex as="label" gap="sm" align="center" :for="id">
+      <slot>
+        {{ props.label }}
+      </slot>
+      <div class="dsp-switch" />
     </dsp-flex>
-
-    <label v-else :for="id" class="dsp-switch" />
   </div>
 </template>
 
@@ -80,17 +81,17 @@ const model = computed({
   }
 }
 
-.input:checked + .wrapper-label .dsp-switch {
+.input:checked + label .dsp-switch {
   background: var(--color-brand-300);
   --dsp-switch-slider-left: calc(3rem - 9px - 1rem);
 }
 
-.input:disabled + .wrapper-label .dsp-switch {
+.input:disabled + label .dsp-switch {
   background: var(--color-disabled);
   cursor: default;
 }
 
-.input:focus + .wrapper-label .dsp-switch {
+.input:focus + label .dsp-switch {
   border-color: var(--color-brand-600);
 }
 </style>

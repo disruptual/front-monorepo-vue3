@@ -6,14 +6,46 @@ class Logger {
     window.setDspLoggerLevel = lvl => {
       this.logLevel = lvl;
     };
+
+    window.muteChannel = channelName => {
+      this.mutechannel(channelName);
+    };
+
+    window.unmuteChannel = channelName => {
+      this.unmutechannel(channelName);
+    };
+
+    window.unmuteAllChannels = channelName => {
+      this.unmuteAllchannels(channelName);
+    };
   }
 
-  get localStorageKey() {
+  unmuteAllChannels() {
+    this.mutedChannels = [];
+  }
+
+  mutechannel(channelName) {
+    if (this.mutedChannels.includes(channelName)) {
+      this.mutedChannels = [...this.mutedChannels, channelName];
+    }
+  }
+
+  unmutechannel(channelName) {
+    this.mutedChannels = this.mutedChannels.filter(
+      channel => channel !== channelName
+    );
+  }
+
+  get localStorageLevelKey() {
+    return 'dsp-loger-level';
+  }
+
+  get localStorageMutedchannelsKey() {
     return 'dsp-loger-level';
   }
 
   get logLevel() {
-    const lvl = localStorage.getItem(this.localStorageKey);
+    const lvl = localStorage.getItem(this.localStorageLevelKey);
 
     if (!lvl) return 0;
 
@@ -26,12 +58,25 @@ class Logger {
       return;
     }
 
-    localStorage.setItem(this.localStorageKey, lvl);
+    localStorage.setItem(JSON.stringify(this.localStorageLevelKey, lvl));
+  }
+
+  get mutedChannels() {
+    const channels = localStorage.getItem(this.localStorageMutedChannelsKey);
+
+    return JSON.parse(channels) || [];
+  }
+
+  set mutedChannels(channels) {
+    localStorage.setItem(
+      JSON.stringify(this.localStorageMutedChannelsKey, channels)
+    );
   }
 
   log(level, color, ...args) {
     if (import.meta.env.PROD) return;
     if (level < this.logLevel) return;
+    if (this.mutedChannels.includes(this.label)) return;
 
     console.log(
       `%c${this.label.toUpperCase()}`,

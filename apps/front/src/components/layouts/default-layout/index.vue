@@ -35,10 +35,9 @@ const onHeaderResize = entries => {
 .default-layout {
   min-height: 100vh;
   display: grid;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: auto 1fr auto;
 
   > main {
-    padding-top: var(--header-height);
     display: flex;
     flex-direction: column;
     scroll-behavior: smooth;
@@ -46,7 +45,7 @@ const onHeaderResize = entries => {
 }
 
 .header-wrapper {
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
   z-index: 3;

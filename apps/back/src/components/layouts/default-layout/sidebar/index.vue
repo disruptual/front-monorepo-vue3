@@ -3,7 +3,7 @@ export default { name: 'DefaultLayoutSidebar' };
 </script>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, nextTick } from 'vue';
 import { vReadableColor } from '@dsp/ui';
 import { useCurrentUser } from '@dsp/core';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
@@ -33,6 +33,9 @@ const toggleSection = sectionName => {
 const breadcrumbs = useBreadCrumbs();
 const onLinkClick = () => {
   breadcrumbs.reset();
+  nextTick(() => {
+    document.activeElement.blur();
+  });
 };
 </script>
 

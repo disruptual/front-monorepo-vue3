@@ -12,21 +12,22 @@ const props = defineProps({
   id: { type: String, required: true }
 });
 
-useBreadCrumbs(`${props.id}`)
+useBreadCrumbs(`${props.id}`);
 
 const { t } = useI18n();
 const query = useContactApi().findContactByIdQuery(props.id, {
   relations: []
 });
 
-console.log('query contact by ID ==> ', query);
-const { mutateAsync } = useContactApi().createMutation()
+const { mutateAsync } = useContactApi().createMutation();
 
 const onSubmit = async values => {
   try {
-    const contact = query.data.value
-    const { firstName, lastName, uri, service } = contact
-    const email = service ? service.email[0] : import.meta.env.VITE_CONTACT_EMAIL
+    const contact = query.data.value;
+    const { firstName, lastName, uri, service } = contact;
+    const email = service
+      ? service.email[0]
+      : import.meta.env.VITE_CONTACT_EMAIL;
     const data = {
       email,
       firstName,
@@ -34,10 +35,10 @@ const onSubmit = async values => {
       content: values.response,
       root: uri,
       service
-    }
-    const result = await mutateAsync(data)
-    query.data.value.sheets.push(result.content)
-    return result
+    };
+    const result = await mutateAsync(data);
+    query.data.value.sheets.push(result.content);
+    return result;
   } catch (err) {
     console.log(err);
   }

@@ -13,6 +13,7 @@ defineProps({
 
 <template>
   <figure class="item">
+    <div>{{ item.user?.firstName }}</div>
     <dsp-aspect-ratio>
       <dsp-image
         :src="item.mainMedia?.thumbnails?.itemList"

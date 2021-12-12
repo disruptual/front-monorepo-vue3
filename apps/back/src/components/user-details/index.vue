@@ -52,9 +52,7 @@ const ordersLink = computed(() => ({
 </script>
 
 <template>
-  <dsp-switch v-model="isEditing" class="editing-switch">
-    <p>Mode édition</p>
-  </dsp-switch>
+  <dsp-switch v-model="isEditing" class="editing-switch" label="Mode Edition" />
   <dsp-center>
     <h2>
       <dsp-flex justify="space-between" align="center">
@@ -242,5 +240,11 @@ const ordersLink = computed(() => ({
 
 a {
   color: var(--color-brand-500);
+}
+
+.editing-switch {
+  margin-left: auto;
+  width: fit-content;
+  font-size: var(--font-size-sm);
 }
 </style>
