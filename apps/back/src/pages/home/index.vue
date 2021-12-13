@@ -1,9 +1,5 @@
-<script setup>
-import { inject } from 'vue';
-
-const myContext = inject('myContext');
-</script>
+<script setup></script>
 
 <template>
-  <div>{{ myContext }}</div>
+  <h2>Home Page</h2>
 </template>

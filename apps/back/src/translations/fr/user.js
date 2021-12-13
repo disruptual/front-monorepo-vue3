@@ -17,6 +17,24 @@ export default {
         [USER_DETAILS_TABS.INFOS]: 'Informations',
         [USER_DETAILS_TABS.ITEMS]: 'Articles',
         [USER_DETAILS_TABS.ORDERS]: 'Commandes'
+      },
+      editModeSwitchLabel: 'Mode édition',
+      lastName: 'Nom',
+      firstName: 'Prénom',
+      email: 'E-mail',
+      bio: 'Description',
+      phone: 'N° de téléphone',
+      password: 'Mot de passe',
+      passordConfirm: 'Confirmer le mot de passe',
+      deliveries: 'Modes de livraison activés',
+      ibanCount: "Nombre d'ibans",
+      itemCount: "Nombre d'articles",
+      orderCount: 'Nombre de commandes',
+      roles: 'Roles',
+      seeDetails: 'Voir le détail',
+      form: {
+        cancel: 'Aannuler',
+        submit: 'Enregistrer'
       }
     }
   }

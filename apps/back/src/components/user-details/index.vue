@@ -52,7 +52,11 @@ const ordersLink = computed(() => ({
 </script>
 
 <template>
-  <dsp-switch v-model="isEditing" class="editing-switch" label="Mode Edition" />
+  <dsp-switch
+    v-model="isEditing"
+    class="editing-switch"
+    :label="t('user.details.editModeSwitchLabel')"
+  />
   <dsp-center>
     <h2>
       <dsp-flex justify="space-between" align="center">
@@ -63,7 +67,7 @@ const ordersLink = computed(() => ({
   </dsp-center>
 
   <dsp-smart-form :form="form" class="infos">
-    <div>Nom</div>
+    <div>{{ t('user.details.lastName') }}</div>
     <dsp-smart-form-field
       v-if="isEditing"
       v-slot="slotProps"
@@ -75,7 +79,7 @@ const ordersLink = computed(() => ({
     </dsp-smart-form-field>
     <div v-else>{{ user.lastName }}</div>
 
-    <div>Prénom</div>
+    <div>{{ t('user.details.firstName') }}</div>
     <dsp-smart-form-field
       v-if="isEditing"
       v-slot="slotProps"
@@ -87,7 +91,7 @@ const ordersLink = computed(() => ({
     </dsp-smart-form-field>
     <div v-else>{{ user.firstName }}</div>
 
-    <div>E-mail</div>
+    <div>{{ t('user.details.email') }}</div>
     <dsp-smart-form-field
       v-if="isEditing"
       v-slot="slotProps"
@@ -100,7 +104,7 @@ const ordersLink = computed(() => ({
     </dsp-smart-form-field>
     <div v-else>{{ user.email }}</div>
 
-    <div>Description</div>
+    <div>{{ t('user.details.bio') }}</div>
     <dsp-smart-form-field
       v-if="isEditing"
       v-slot="slotProps"
@@ -111,7 +115,7 @@ const ordersLink = computed(() => ({
     </dsp-smart-form-field>
     <div v-else>{{ user.content }}</div>
 
-    <div>N° de Téléphone</div>
+    <div>{{ t('user.details.phone') }}</div>
     <dsp-smart-form-field
       v-if="isEditing"
       v-slot="slotProps"
@@ -127,7 +131,7 @@ const ordersLink = computed(() => ({
     <div v-else>{{ user.phone }}</div>
 
     <template v-if="isEditing">
-      <div>Mot de passe</div>
+      <div>{{ t('user.details.password') }}</div>
       <dsp-smart-form-field v-slot="slotProps" name="password">
         <dsp-input-password
           v-model="slotProps.field.value"
@@ -135,7 +139,7 @@ const ordersLink = computed(() => ({
         />
       </dsp-smart-form-field>
 
-      <div>Confirmer le Mot de passe</div>
+      <div>{{ t('user.details.passwordConfirm') }}</div>
       <dsp-smart-form-field
         v-slot="slotProps"
         name="passwordConfirm"
@@ -148,30 +152,34 @@ const ordersLink = computed(() => ({
       </dsp-smart-form-field>
     </template>
     <template v-else>
-      <div>Modes de livraison activés</div>
+      <div>{{ t('user.details.deliveries') }}</div>
       <dsp-flex>
         <div v-for="delivery in user.deliveries" :key="delivery">
           {{ t(`delivery.modes.${delivery.tag}`) }}
         </div>
       </dsp-flex>
 
-      <div>Nombre d'ibans</div>
+      <div>{{ t('user.details.ibanCount') }}</div>
       <div>{{ user.ibans?.length }}</div>
 
-      <div>Nombre d'articles</div>
+      <div>{{ t('user.details.itemCount') }}</div>
       <div>
         {{ user.items?.length }}
-        <router-link :to="itemsLink">(voir le détail)</router-link>
+        <router-link :to="itemsLink">
+          ({{ t('user.details.seeDetails') }})
+        </router-link>
       </div>
 
-      <div>Nombre de commandes</div>
+      <div>{{ t('user.details.orderCount') }}</div>
       <div>
         {{ user.orders?.length }}
-        <router-link :to="ordersLink">(voir le détail)</router-link>
+        <router-link :to="ordersLink">
+          ({{ t('user.details.seeDetails') }})
+        </router-link>
       </div>
     </template>
 
-    <div>Permissions</div>
+    <div>{{ t('user.details.roles') }}</div>
     <dsp-smart-form-field
       v-if="isEditing"
       v-slot="slotProps"
@@ -198,10 +206,10 @@ const ordersLink = computed(() => ({
       gap="sm"
     >
       <dsp-button type="button" is-outlined @click="formActions.reset">
-        Annuler
+        {{ t('user.details.form.cancel') }}
       </dsp-button>
       <dsp-smart-form-submit v-if="isEditing">
-        Enregistrer
+        {{ t('user.details.form.submit') }}
       </dsp-smart-form-submit>
     </dsp-flex>
   </dsp-smart-form>

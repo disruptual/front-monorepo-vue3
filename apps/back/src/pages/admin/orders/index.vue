@@ -10,7 +10,6 @@ import { useOrderApi } from '@dsp/core';
 
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
-import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
 
 useBreadCrumbs('Commandes');
 const { push } = useRouter();
@@ -23,10 +22,6 @@ const query = useOrderApi().findAllQuery({
 
 const onFilterChange = newFilters => {
   filters.value = { ...newFilters };
-};
-
-const onSoftDelete = orders => {
-  console.log(orders);
 };
 
 const goToDetail = row => {

@@ -33,7 +33,7 @@ const goToDetail = row => {
       <dsp-center>Cet tilisateur ne possède aucun article.</dsp-center>
     </template>
 
-    <DataTableColumn name="id" label="Id" width="80" />
+    <DataTableColumn name="id" label="Id" width="40" />
     <DataTableColumn
       v-slot="{ row }"
       name="photo"
@@ -52,7 +52,7 @@ const goToDetail = row => {
       {{ row.formatCreated() }}
     </DataTableColumn>
 
-    <DataTableColumn v-slot="{ row }" name="price" label="Prix" width="100">
+    <DataTableColumn v-slot="{ row }" name="price" label="Prix">
       {{ row.formatedPrice }}
     </DataTableColumn>
 
