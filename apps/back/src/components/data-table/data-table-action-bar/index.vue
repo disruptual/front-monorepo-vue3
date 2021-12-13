@@ -29,7 +29,8 @@ const activeFilters = computed(() =>
   Object.entries(model.filters)
     .filter(([, value]) => value && value !== '')
     .map(([key, value]) => ({
-      name: model.columns.find(col => col.name === key).label,
+      name: key,
+      label: model.columns.find(col => col.name === key).label,
       value
     }))
 );
@@ -135,7 +136,7 @@ const editHighlight = highlight => {
       is-rounded
       @click="model.resetFilter(filter.name)"
     >
-      {{ filter.name }}: {{ filter.value }}
+      {{ filter.label }}: {{ filter.value }}
     </dsp-button>
   </dsp-flex>
 
