@@ -12,3 +12,8 @@ export { Contact } from './Contact.model';
 export { Email } from './Email.model';
 export { Store } from './Store.model';
 export { Voucher } from './Voucher.model';
+export { Brand } from './Brand.model';
+export { Size } from './Size.model';
+export { Condition } from './Condition.model';
+export { Cart } from './Cart.model';
+export { CartItem } from './CartItem.model';

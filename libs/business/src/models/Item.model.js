@@ -6,13 +6,19 @@ import { Media } from './Media.model';
 import { formatPrice } from '@dsp/core';
 import { Size } from './Size.model';
 import { Brand } from './Brand.model';
+import { Condition } from './Condition.model';
 
 export class Item extends BaseModel {
   static get relations() {
     return [
       { name: 'category', getUri: entity => entity._category, model: Category },
+      {
+        name: 'condition',
+        getUri: entity => entity._condition,
+        model: Condition
+      },
       { name: 'colors', getUri: entity => entity._colors, model: Color },
-      { name: 'size', getUri: entity => entity.size, model: Size },
+      { name: 'size', getUri: entity => entity._size, model: Size },
       { name: 'user', getUri: entity => entity._user, model: User },
       { name: 'mainMedia', getUri: entity => entity._mainMedia, model: Media },
       { name: 'brand', getUri: entity => entity._brand, model: Brand }

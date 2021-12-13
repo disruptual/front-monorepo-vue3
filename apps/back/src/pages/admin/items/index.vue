@@ -27,7 +27,12 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <DataTable id="items-list" :query="query" :min-row-size="50" @row-dbl-click="goToDetail">
+  <DataTable
+    id="items-list"
+    :query="query"
+    :min-row-size="50"
+    @row-dbl-click="goToDetail"
+  >
     <DataTableColumn name="id" label="Id" width="80" />
     <DataTableColumn
       v-slot="{ row }"
@@ -43,25 +48,30 @@ const { t } = useI18n();
       name="created"
       label="Date de création"
       :tooltip-label="({ row }) => row.formatCreated()"
-    >{{ row.formatCreated() }}</DataTableColumn>
+    >
+      {{ row.formatCreated() }}
+    </DataTableColumn>
 
-    <DataTableColumn v-slot="{ row }" name="price" label="Prix" width="100">{{ row.formatedPrice }}</DataTableColumn>
+    <DataTableColumn v-slot="{ row }" name="price" label="Prix" width="80">
+      {{ row.formatedPrice }}
+    </DataTableColumn>
 
-    <DataTableColumn v-slot="{ row }" name="category" label="Catégorie">{{ row.category?.name }}</DataTableColumn>
+    <DataTableColumn v-slot="{ row }" name="category" label="Catégorie">
+      {{ row.category?.name }}
+    </DataTableColumn>
 
     <DataTableColumn v-slot="{ row }" name="seller" label="Vendeur">
       <router-link
         v-if="row.user"
         :to="{ name: 'AdminUserDetails', params: { slug: row.user?.slug } }"
-      >{{ row.user?.email }}</router-link>
+      >
+        {{ row.user?.email }}
+      </router-link>
     </DataTableColumn>
 
-    <DataTableColumn
-      v-slot="{ row }"
-      name="publicationState"
-      label="status"
-      width="100"
-    >{{ t(`item.publicationState.${row.publicationState}`) }}</DataTableColumn>
+    <DataTableColumn v-slot="{ row }" name="publicationState" label="status">
+      {{ t(`item.publicationState.${row.publicationState}`) }}
+    </DataTableColumn>
   </DataTable>
 </template>
 

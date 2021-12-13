@@ -153,7 +153,7 @@ const ordersLink = computed(() => ({
     </template>
     <template v-else>
       <div>{{ t('user.details.deliveries') }}</div>
-      <dsp-flex>
+      <dsp-flex gap="sm" wrap="wrap">
         <div v-for="delivery in user.deliveries" :key="delivery">
           {{ t(`delivery.modes.${delivery.tag}`) }}
         </div>

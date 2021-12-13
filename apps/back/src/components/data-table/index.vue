@@ -109,7 +109,7 @@ provide(CONTEXT_KEYS.DATATABLE, {
 }
 
 .reset-preferences {
-  --offset: var(--spacing-xl);
+  --offset: var(--spacing-lg);
   position: fixed;
   bottom: var(--offset);
   right: var(--offset);

@@ -28,7 +28,10 @@ const isActionDisabled = action =>
 const activeFilters = computed(() =>
   Object.entries(model.filters)
     .filter(([, value]) => value && value !== '')
-    .map(([key, value]) => ({ name: key, value }))
+    .map(([key, value]) => ({
+      name: model.columns.find(col => col.name === key).label,
+      value
+    }))
 );
 
 const addHighlight = () => {

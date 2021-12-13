@@ -1,5 +1,5 @@
 import { BaseModel } from './Base.model';
-import { CartItem } from './CartItem';
+import { CartItem } from './CartItem.model';
 import { User } from './User.model';
 
 export class Cart extends BaseModel {
