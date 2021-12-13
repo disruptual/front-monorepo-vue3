@@ -75,6 +75,11 @@ provide(CONTEXT_KEYS.DATATABLE, {
       <DataTableGrid>
         <template #no-result><slot name="no-result" /></template>
       </DataTableGrid>
+      <div class="reset-preferences">
+        <dsp-button @click="model.resetPreferences">
+          <dsp-icon icon="reset" />
+        </dsp-button>
+      </div>
     </template>
 
     <slot />
@@ -100,6 +105,17 @@ provide(CONTEXT_KEYS.DATATABLE, {
 
   @include not-desktop {
     padding: var(--spacing-xl) var(--spacing-md);
+  }
+}
+
+.reset-preferences {
+  --offset: var(--spacing-xl);
+  position: fixed;
+  bottom: var(--offset);
+  right: var(--offset);
+
+  @include not-desktop {
+    --offset: var(--spacing-sm);
   }
 }
 </style>

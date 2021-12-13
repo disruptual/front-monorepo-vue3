@@ -29,6 +29,7 @@ import highlight from './highlight.svg';
 import store from './store.svg';
 import chart from './chart.svg';
 import handshake from './handshake.svg';
+import reset from './reset.svg';
 
 export default {
   bars,
@@ -54,6 +55,7 @@ export default {
   loader,
   pin,
   plus,
+  reset,
   search,
   speechBubble,
   speechBubbleSlash,

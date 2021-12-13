@@ -40,6 +40,7 @@ export class DataTable {
       1000
     );
     this.filters = this.userPreferences?.filters || {};
+    this.resetPreferences = this.resetPreferences.bind(this);
   }
 
   get storageKey() {
@@ -158,6 +159,12 @@ export class DataTable {
       column.pinnedOffset = totalOffset;
       totalOffset += width;
     });
+  }
+
+  resetPreferences() {
+    console.log('?');
+    localStorage.removeItem(this.storageKey);
+    window.location.reload();
   }
 
   addColumn(columnDefinition) {
