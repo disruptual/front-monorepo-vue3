@@ -87,6 +87,9 @@ aside {
   width: 50px;
   transition: width var(--transition-sm);
   overflow-x: hidden;
+  max-height: 100vh;
+  position: sticky;
+  top: 0;
 
   &:hover,
   &:focus-within {

@@ -133,7 +133,6 @@ watch(
     display: flex;
     align-items: center;
 
-    display: block;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

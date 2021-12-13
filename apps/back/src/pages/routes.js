@@ -77,7 +77,7 @@ export const routes = [
   },
   {
     path: '/admin/commandes/:id',
-    name: 'AdminOrdersDetails',
+    name: 'AdminOrderDetails',
     props: true,
     component: () => import('@/pages/admin/order-details/index.vue'),
     meta: {

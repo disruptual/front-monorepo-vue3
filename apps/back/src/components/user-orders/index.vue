@@ -3,6 +3,7 @@ export default { name: 'UserOrders' };
 </script>
 
 <script setup>
+import { useRouter } from 'vue-router';
 import { useOrderApi } from '@dsp/core';
 
 import DataTable from '@/components/data-table/index.vue';
@@ -15,6 +16,11 @@ const props = defineProps({
 const query = useOrderApi().findAllByUserIdQuery(props.userId, {
   relations: ['buyer', 'seller', 'orderItems']
 });
+
+const { push } = useRouter();
+const goToDetail = row => {
+  push({ name: 'AdminOrderDetails', params: { id: row.id } });
+};
 </script>
 
 <template>
@@ -24,6 +30,7 @@ const query = useOrderApi().findAllByUserIdQuery(props.userId, {
     :min-row-size="40"
     :has-action-bar="false"
     :has-selector-column="false"
+    @row-dbl-click="goToDetail"
   >
     <template #no-result>
       <dsp-center>Cet utilisateur n'a réalisé aucune commande.</dsp-center>

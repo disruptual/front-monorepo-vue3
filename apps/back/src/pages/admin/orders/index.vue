@@ -30,7 +30,7 @@ const onSoftDelete = orders => {
 };
 
 const goToDetail = row => {
-  push({ name: 'AdminOrdersDetails', params: { id: row.id } });
+  push({ name: 'AdminOrderDetails', params: { id: row.id } });
 };
 </script>
 

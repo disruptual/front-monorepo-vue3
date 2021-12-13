@@ -1,5 +1,5 @@
 import { useHttp } from './useHttp';
-import { computed, ref, unref, watch, nextTick } from 'vue';
+import { computed, ref, unref, watch } from 'vue';
 import { useQueries, useQueryClient } from 'vue-query';
 import { debounce } from 'lodash-es';
 import { createBoundedModel } from '../factories/boundedModel.factory';
@@ -50,20 +50,22 @@ export function useBoundedModel(query, { queryKey, model, relations = [] }) {
 
   useQueries(queriesDefinitions);
 
-  const isRelationLoading = relationName =>
-    queriesDefinitions.value
+  const isRelationLoading = relationName => {
+    return queriesDefinitions.value
       .filter(def => def.relation === relationName)
       .map(def => queryClient.getQueryState(def.queryKey))
-      .some(query => query.isLoading);
+      .some(query => query.isFetching && !query.data);
+  };
 
   const isRelationsLoading = (...relationNames) =>
     relationNames.some(relation => isRelationLoading(relation));
 
-  const isLoading = computed(
-    () =>
+  const isLoading = computed(() => {
+    return (
       query.isLoading.value ||
       relations.some(relation => isRelationLoading(relation))
-  );
+    );
+  });
 
   watch(() => unref(queryKey), debouncedBindQuery);
   watch(query.data, debouncedBindQuery);
