@@ -1,43 +1,8 @@
 import { Collection } from '@dsp/business';
-import { noop } from '@dsp/core/utils/helpers';
 import { createEntityNormalizer } from './entityNormalizer.factory';
 import { createRelationsNormalizer } from './relationsNormalizer.factory';
-import { createLogger } from '@dsp/core/factories/logger.factory';
-
-class LazyRelationsProxyHandler {
-  constructor({ prefix = '', onLazyRelationDetected = noop, queryClient }) {
-    this.prefix = prefix;
-    this.onLazyRelationDetected = onLazyRelationDetected;
-    this.queryClient = queryClient;
-  }
-
-  _detectLazyRelation(target, prop) {
-    if (target.__isLazyDetectionDisabled) return;
-    if (!target.constructor) return;
-    if (prop?.startsWith?.('_')) return;
-    if (!target.constructor.isRelation?.(prop)) return;
-
-    const relation = target.constructor.getRelation(prop);
-    const uri = relation.getUri(target);
-    const queryState = this.queryClient.getQueryState(uri);
-    if (!queryState && target._warnOnUnloadedRelations) {
-      const name = target.constructor.name;
-      const logger = createLogger(name);
-
-      logger.warn(
-        `Unloaded relation access: ${prop}. You might want to declare it explicitely when passing relations to useModelQuery, or delay accessing it until the lazy relation is loaded`
-      );
-    }
-
-    this.onLazyRelationDetected(`${this.prefix}${prop}`);
-  }
-
-  get(target, prop) {
-    this._detectLazyRelation(target, prop);
-
-    return target[prop];
-  }
-}
+import { LazyRelationsProxyHandler } from '@dsp/core/models/LazyRelationsProxyHandler.model';
+import { noop } from '@dsp/core/utils/helpers';
 
 class BoundModelFactory {
   constructor(queryClient, relations, onLazyRelationDetected) {
@@ -53,8 +18,7 @@ class BoundModelFactory {
   getProxyHandler(prefix) {
     return new LazyRelationsProxyHandler({
       prefix,
-      onLazyRelationDetected: this.onLazyRelationDetected,
-      queryClient: this.queryClient
+      onLazyRelationDetected: this.onLazyRelationDetected
     });
   }
 
@@ -84,6 +48,7 @@ class BoundModelFactory {
       name,
       uri,
       prefix,
+      model,
       normalizer: createEntityNormalizer(model, this.getProxyHandler(prefix))
     };
 
@@ -94,28 +59,44 @@ class BoundModelFactory {
     }
   }
 
-  buildOneToOne(entity, { name, uri, prefix, normalizer }) {
+  buildOneToOne(entity, { name, uri, prefix, normalizer, model }) {
     const child = this.queryClient.getQueryData(uri);
     if (!child) return;
 
-    entity[name] = this.buildRelations(normalizer(child), `${prefix}${name}.`);
+    entity.__isLazyDetectionDisabled = true;
+    const normalized =
+      entity[name] instanceof model ? entity[name] : normalizer(child);
+    entity.__isLazyDetectionDisabled = false;
+
+    entity[name] = this.buildRelations(normalized, `${prefix}${name}.`);
   }
 
-  buildOneToMany(entity, { uri: uris, name, prefix, normalizer }) {
+  buildOneToMany(entity, { uri: uris, name, prefix, normalizer, model }) {
     const children = uris
       .map(uri => this.queryClient.getQueryData(uri))
       .filter(Boolean)
       .map(normalizer);
 
-    entity[name] = children.map(child =>
-      this.buildRelations(child, `${prefix}${name}.`)
-    );
+    entity[name] = children.map((child, i) => {
+      entity.__isLazyDetectionDisabled = true;
+      const normalizedChild =
+        child instanceof model ? child : normalizer(child);
+      entity.__isLazyDetectionDisabled = false;
+
+      return this.buildRelations(normalizedChild, `${prefix}${name}.`);
+    });
   }
 }
 
 export const createBoundedModel = (
   modelQueryKey,
-  { model, queryClient, relations = [], onLazyRelationDetected }
+  {
+    modelClass,
+    queryClient,
+    initialValue,
+    relations = [],
+    onLazyRelationDetected = noop
+  }
 ) => {
   const builder = new BoundModelFactory(
     queryClient,
@@ -126,14 +107,18 @@ export const createBoundedModel = (
   const entity = queryClient.getQueryData(modelQueryKey);
   if (!entity) return null;
 
-  const normalizer = createEntityNormalizer(
-    model,
-    new LazyRelationsProxyHandler({
-      onLazyRelationDetected,
-      queryClient
-    })
-  );
-  const normalizedEntity = normalizer(entity);
+  let normalizedEntity;
+  if (initialValue) {
+    normalizedEntity = initialValue;
+  } else {
+    const normalizer = createEntityNormalizer(
+      modelClass,
+      new LazyRelationsProxyHandler({
+        onLazyRelationDetected
+      })
+    );
+    normalizedEntity = initialValue ?? normalizer(entity);
+  }
 
   const boundModel = Array.isArray(normalizedEntity)
     ? normalizedEntity.map(entity => builder.buildRelations(entity))

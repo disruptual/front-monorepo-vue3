@@ -17,7 +17,10 @@ export class BaseModel {
   }
 
   constructor(dto) {
+    // console.log('ctor', this.constructor.name);
+    this.__isLazyDetectionDisabled = true;
     Object.assign(this, this.fromJSON(dto));
+    this.__isLazyDetectionDisabled = false;
   }
 
   fromJSON(dto) {
@@ -54,21 +57,5 @@ export class BaseModel {
     return formatDate(new Date(this.created), format, {
       locale: frLocale
     });
-  }
-
-  detectUnloadedRelations(cb) {
-    this._warnOnUnloadedRelations = true;
-    const returnValue = cb();
-
-    if (returnValue.then) {
-      return returnValue.then(result => {
-        this._warnOnUnloadedRelations = false;
-
-        return result;
-      });
-    }
-
-    this._warnOnUnloadedRelations = false;
-    return returnValue;
   }
 }

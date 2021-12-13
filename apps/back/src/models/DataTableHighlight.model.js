@@ -26,13 +26,13 @@ const matchers = {
   [DATATABLE_HIGHLIGHT_OPERATORS.BOOLEAN.TRUE](predicate) {
     return predicate === true;
   },
-  [DATATABLE_HIGHLIGHT_OPERATORS.DATE.FALSE](predicate) {
+  [DATATABLE_HIGHLIGHT_OPERATORS.BOOLEAN.FALSE](predicate) {
     return predicate === false;
   },
   [DATATABLE_HIGHLIGHT_OPERATORS.DATE.BEFORE](predicate, value) {
     return isBefore(new Date(predicate), new Date(value));
   },
-  [DATATABLE_HIGHLIGHT_OPERATORS.BOOLEAN.AFTER](predicate, value) {
+  [DATATABLE_HIGHLIGHT_OPERATORS.DATE.AFTER](predicate, value) {
     return isAfter(new Date(predicate), new Date(value));
   }
 };
@@ -48,6 +48,7 @@ export class DataTableHighlight {
   }
 
   isMatch(predicate) {
+    console.log(this.operator, matchers);
     return matchers[this.operator](predicate, this.value);
   }
 }

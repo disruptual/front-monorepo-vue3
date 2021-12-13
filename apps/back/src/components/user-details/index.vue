@@ -147,28 +147,29 @@ const ordersLink = computed(() => ({
         />
       </dsp-smart-form-field>
     </template>
+    <template v-else>
+      <div>Modes de livraison activés</div>
+      <dsp-flex>
+        <div v-for="delivery in user.deliveries" :key="delivery">
+          {{ t(`delivery.modes.${delivery.tag}`) }}
+        </div>
+      </dsp-flex>
 
-    <div>Modes de livraison activés</div>
-    <dsp-flex>
-      <div v-for="delivery in user.deliveries" :key="delivery">
-        {{ t(`delivery.modes.${delivery.tag}`) }}
+      <div>Nombre d'ibans</div>
+      <div>{{ user.ibans?.length }}</div>
+
+      <div>Nombre d'articles</div>
+      <div>
+        {{ user.items?.length }}
+        <router-link :to="itemsLink">(voir le détail)</router-link>
       </div>
-    </dsp-flex>
 
-    <div>Nombre d'ibans</div>
-    <div>{{ user.ibans?.length }}</div>
-
-    <div>Nombre d'articles</div>
-    <div>
-      {{ user.items?.length }}
-      <router-link :to="itemsLink">(voir le détail)</router-link>
-    </div>
-
-    <div>Nombre de commandes</div>
-    <div>
-      {{ user.orders?.length }}
-      <router-link :to="ordersLink">(voir le détail)</router-link>
-    </div>
+      <div>Nombre de commandes</div>
+      <div>
+        {{ user.orders?.length }}
+        <router-link :to="ordersLink">(voir le détail)</router-link>
+      </div>
+    </template>
 
     <div>Permissions</div>
     <dsp-smart-form-field

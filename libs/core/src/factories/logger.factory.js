@@ -58,7 +58,7 @@ class Logger {
       return;
     }
 
-    localStorage.setItem(JSON.stringify(this.localStorageLevelKey, lvl));
+    localStorage.setItem(this.localStorageLevelKey, lvl);
   }
 
   get mutedChannels() {

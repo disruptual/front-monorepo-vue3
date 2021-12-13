@@ -37,7 +37,12 @@ export class User extends BaseModel {
   }
 
   hasIbans() {
-    return this.detectUnloadedRelations(() => this.ibans.length > 0);
+    return this.ibans?.length > 0;
+  }
+
+  async getIbanCount() {
+    const ibans = await this.ibans;
+    console.log(ibans);
   }
 
   hasRole(role) {

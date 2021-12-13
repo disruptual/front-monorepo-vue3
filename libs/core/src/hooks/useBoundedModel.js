@@ -20,15 +20,18 @@ export function useBoundedModel(query, { queryKey, model, relations = [] }) {
   });
 
   const bindQuery = () => {
-    instance.value = createBoundedModel(unref(queryKey), {
-      model,
+    const newValue = createBoundedModel(unref(queryKey), {
+      modelClass: model,
       queryClient,
+      initialValue: instance.value,
       relations: unref(allRelations),
       onLazyRelationDetected(relation) {
         if (lazyRelations.value.includes(relation)) return;
         lazyRelations.value.push(relation);
       }
     });
+
+    instance.value = newValue;
   };
 
   const debouncedBindQuery = debounce(

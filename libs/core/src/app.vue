@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue';
+import { reactive, provide } from 'vue';
 import { useAuth, useCurrentUser } from './hooks';
 
 const { login, logout } = useAuth();
