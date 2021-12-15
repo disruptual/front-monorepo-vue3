@@ -1,4 +1,8 @@
-import { WithSSO } from '@/services/auth.service';
+import {
+  AuthService,
+  AuthServiceOptions,
+  WithSSO
+} from '@/services/auth.service';
 import { DisruptualClient } from '@/services/client.service';
 import { HttpService } from '@/services/http.service';
 
@@ -12,6 +16,8 @@ export const createClient = ({
   ssoOptions
 }: CreateClientOptions) => {
   const http = new HttpService({ baseURL });
+  // @FIXME how to make WithSSO typings work ?
+  const auth = new AuthService({ http, sso, ssoOptions } as AuthServiceOptions);
 
-  return new DisruptualClient({ http, sso, ssoOptions });
+  return new DisruptualClient({ http, auth });
 };

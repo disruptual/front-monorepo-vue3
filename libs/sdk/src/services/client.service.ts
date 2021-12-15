@@ -1,30 +1,32 @@
 import { IAuth } from '@/interfaces/auth.interface';
 import { IHttp } from '@/interfaces/http.interface';
-import { SSOOptions } from '@/strategies/sso-auth.strategy';
-import { AuthService, LoginCredentials, WithSSO } from './auth.service';
+import { AxiosRequestConfig } from 'axios';
+import { Endpoint, URI } from '..';
+import { LoginCredentials } from './auth.service';
 
 export type DisruptualClientOptions = {
   http: IHttp;
-  sso: boolean;
-  ssoOptions?: SSOOptions;
+  auth: IAuth;
 };
 
 export class DisruptualClient {
   private http: IHttp;
-  private authInstance: IAuth;
+  private auth: IAuth;
 
-  constructor({ http, sso, ssoOptions }: DisruptualClientOptions) {
+  constructor({ http, auth }: DisruptualClientOptions) {
     this.http = http;
+    this.auth = auth;
+  }
 
-    // @ts-ignore
-    this.authInstance = new AuthService({ http, sso, ssoOptions });
+  httpRequest<T>(url: Endpoint, config: AxiosRequestConfig) {
+    return this.http.get<T>(url, config);
   }
 
   login(credentials: LoginCredentials) {
-    return this.authInstance.login(credentials);
+    return this.auth.login(credentials);
   }
 
   logout() {
-    return this.authInstance.logout();
+    return this.auth.logout();
   }
 }

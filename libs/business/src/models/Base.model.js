@@ -17,7 +17,6 @@ export class BaseModel {
   }
 
   constructor(dto) {
-    // console.log('ctor', this.constructor.name);
     this.__isLazyDetectionDisabled = true;
     Object.assign(this, this.fromJSON(dto));
     this.__isLazyDetectionDisabled = false;

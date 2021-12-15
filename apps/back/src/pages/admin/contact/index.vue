@@ -21,8 +21,6 @@ useBreadCrumbs('Contacts');
 const filters = ref({});
 const query = useContactApi().findAllQuery({ filters });
 
-console.log('query CONTACT ==> ', query);
-
 const onFilterChange = newFilters => {
   filters.value = { ...newFilters };
 };
@@ -56,10 +54,22 @@ const goToDetail = row => {
       label="Date de création"
       width="100"
       :tooltip-label="({ row }) => row.formatCreated()"
-    >{{ row.formatCreated() }}</DataTableColumn>
+    >
+      {{ row.formatCreated() }}
+    </DataTableColumn>
     <DataTableColumn name="service" label="Service" width="100" is-filterable />
-    <DataTableColumn name="firstName" label="Firstname" width="150" is-filterable />
-    <DataTableColumn name="lastName" label="Lastname" width="150" is-filterable />
+    <DataTableColumn
+      name="firstName"
+      label="Firstname"
+      width="150"
+      is-filterable
+    />
+    <DataTableColumn
+      name="lastName"
+      label="Lastname"
+      width="150"
+      is-filterable
+    />
     <DataTableColumn name="email" label="Email" width="200" is-filterable />
     <DataTableColumn name="content" label="Content" width="200" is-filterable />
   </DataTable>

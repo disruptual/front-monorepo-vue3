@@ -10,16 +10,14 @@ export type SSOAuthStrategyOptions = {
 };
 
 export type SSOOptions = {
-  payloadParser(payload: any): { accessToken: JWT; refreshToken: JWT };
-  onLogin?: (payload: any) => MaybeAsync<any>;
-  onLogout?: (payload: any) => MaybeAsync<any>;
-  onRefresh?: (payload: any) => MaybeAsync<any>;
+  onLogin?: () => MaybeAsync<any>;
+  onLogout?: () => MaybeAsync<any>;
+  onRefresh?: () => MaybeAsync<any>;
 };
 
 export class SSOAuthStrategy implements IAuthStrategy<SSOToken> {
   protected http: IHttp;
   protected SSOToken: Maybe<SSOToken> = null;
-  protected SSOPayload: Maybe<any> = null;
   protected options: SSOOptions;
 
   constructor({ http, options }: SSOAuthStrategyOptions) {
@@ -29,17 +27,19 @@ export class SSOAuthStrategy implements IAuthStrategy<SSOToken> {
 
   async handleLogin(token: SSOToken) {
     this.SSOToken = token;
-    this.SSOPayload = await this.http.post(endpoints.SSO_LOGIN, {
-      data: { token }
-    });
 
-    await this.options.onLogin?.(this.SSOPayload);
+    const { token: accessToken, refresh_token: refreshToken } =
+      await this.http.post(endpoints.SSO_LOGIN, {
+        data: { token }
+      });
 
-    return this.options.payloadParser(this.SSOPayload);
+    await this.options.onLogin?.();
+
+    return { accessToken, refreshToken };
   }
 
   async handleLogout() {
-    await this.options.onLogout?.(this.SSOPayload);
+    await this.options.onLogout?.();
   }
 
   async handleRefresh(refreshToken: JWT) {
@@ -50,7 +50,7 @@ export class SSOAuthStrategy implements IAuthStrategy<SSOToken> {
       }
     );
 
-    await this.options.onRefresh?.(this.SSOPayload);
+    await this.options.onRefresh?.();
 
     return { accessToken: token, refreshToken: refresh_token };
   }

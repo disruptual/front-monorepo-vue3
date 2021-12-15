@@ -8,14 +8,13 @@ export default {
 <script setup>
 import { computed, ref, watch, onMounted } from 'vue';
 
-const shadow = ref(null)
-const inputSize = ref('var(--spacing-lg)')
+const shadow = ref(null);
+const inputSize = ref('var(--spacing-lg)');
 const resize = () => {
   if (props.isAutoResizable) {
-    console.log(`${shadow.value?.scrollHeight}px`);
-    inputSize.value = `${shadow.value?.scrollHeight}px`
+    inputSize.value = `${shadow.value?.scrollHeight}px`;
   }
-}
+};
 const emit = defineEmits(['update:modelValue']);
 const props = defineProps({
   modelValue: { type: String, default: null },
@@ -33,18 +32,22 @@ const model = computed({
 });
 
 onMounted(() => {
-  resize()
-})
+  resize();
+});
 watch(model, () => {
-  resize()
-})
-
+  resize();
+});
 </script>
 
 <template>
   <div class="dsp-input-text">
     <textarea v-model="model" v-bind="$attrs" class="textarea"></textarea>
-    <textarea ref="shadow" v-model="model" class="shadow" tabindex="0"></textarea>
+    <textarea
+      ref="shadow"
+      v-model="model"
+      class="shadow"
+      tabindex="0"
+    ></textarea>
   </div>
 </template>
 

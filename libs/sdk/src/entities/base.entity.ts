@@ -3,17 +3,18 @@ import { endpoints } from '@/utils/enums';
 import { BaseDto, IBaseEntity } from '@/interfaces/base-entity.interface';
 
 export abstract class BaseEntity<T extends Endpoint> implements IBaseEntity<T> {
-  public uri!: URI<T>;
+  public uri: URI<T>;
 
-  public id!: UUID;
+  public id: UUID;
 
-  public createdAt!: Date;
+  public createdAt: Date;
 
-  public updatedAt!: Date;
+  public updatedAt: Date;
 
   constructor(dto: BaseDto<T>) {
     const { '@id': uri, created, updated, createdAt, updatedAt } = dto;
     this.uri = uri;
+    this.id = dto.id;
     this.createdAt = new Date(created || createdAt);
     this.updatedAt = new Date(updated || updatedAt);
   }

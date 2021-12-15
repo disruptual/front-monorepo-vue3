@@ -40,7 +40,7 @@ const onSubmit = async values => {
     query.data.value.sheets.push(result.content);
     return result;
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 

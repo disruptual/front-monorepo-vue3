@@ -1,7 +1,7 @@
 import { Endpoint, MaybeAsync } from '@/utils/types';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-type HttpRequest = <T = any>(
+export type HttpRequest = <T = any>(
   url: Endpoint,
   config?: AxiosRequestConfig
 ) => Promise<T>;

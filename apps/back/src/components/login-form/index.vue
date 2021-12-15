@@ -11,7 +11,7 @@ const onSubmit = async values => {
     await authenticate();
     emit('success');
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 

@@ -13,7 +13,6 @@ const isOpened = ref(false);
 
 const formOptions = {
   onSubmit(values) {
-    console.log(values);
     model.filters = values;
     isOpened.value = false;
   }

@@ -19,11 +19,11 @@ export type WithSSO<T> =
       ssoOptions: never;
     } & T)
   | ({
-      sso: true;
+      sso: 'foo';
       ssoOptions: SSOOptions;
     } & T);
 
-type AuthServiceOptions = WithSSO<{
+export type AuthServiceOptions = WithSSO<{
   http: IHttp;
 }>;
 
@@ -41,6 +41,7 @@ type AuthTokens = {
 
 const REFRESH_EXCLUDED_URLS: string[] = [
   endpoints.LOGIN,
+  endpoints.SSO_LOGIN,
   endpoints.REFRESH_TOKEN
 ];
 
