@@ -1,5 +1,12 @@
 module.exports = {
-  extends: ['eslint:recommended', 'plugin:vue/vue3-recommended', 'prettier'],
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:vue/vue3-recommended',
+    'prettier'
+  ],
   rules: {
     'no-unused-vars': 'off',
     'vue/script-setup-uses-vars': 1
