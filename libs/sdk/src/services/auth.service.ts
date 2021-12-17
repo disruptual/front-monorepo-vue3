@@ -2,7 +2,7 @@ import jwtDecode from 'jwt-decode';
 import { isBefore } from 'date-fns';
 
 import { LoginDto } from '@/dtos/login.dto';
-import { User, UserDto } from '@/entities/user.entity';
+import { User } from '@/entities/user.entity';
 import { IAuthStrategy } from '@/interfaces/auth-strategy.interface';
 import { IAuth } from '@/interfaces/auth.interface';
 import { IHttp } from '@/interfaces/http.interface';
@@ -12,6 +12,7 @@ import { JWT, Maybe, SSOToken, Timestamp, UUID } from '@/utils/types';
 import { endpoints } from '@/utils/enums';
 import { autoBind } from '@/utils/decorators';
 import { AxiosRequestConfig } from 'axios';
+import { UserDto } from '@/dtos/user.dto';
 
 export type WithSSO<T> =
   | ({
@@ -19,7 +20,7 @@ export type WithSSO<T> =
       ssoOptions: never;
     } & T)
   | ({
-      sso: 'foo';
+      sso: true;
       ssoOptions: SSOOptions;
     } & T);
 
@@ -53,6 +54,8 @@ export class AuthService implements IAuth {
   private tokens: Maybe<AuthTokens> = null;
 
   private refreshPromise: Maybe<Promise<any>> = null;
+
+  private currentUser: Maybe<User> = null;
 
   constructor({ http, sso, ssoOptions }: AuthServiceOptions) {
     this.http = http;
@@ -127,7 +130,15 @@ export class AuthService implements IAuth {
       `${endpoints.USERS}/${this.jwtPayload.id}`
     );
 
-    return new User(userDto);
+    this.currentUser = new User(userDto);
+
+    return this.currentUser;
+  }
+
+  async getCurrentUser() {
+    if (this.currentUser) return this.currentUser;
+
+    return this.authenticate();
   }
 
   @autoBind()

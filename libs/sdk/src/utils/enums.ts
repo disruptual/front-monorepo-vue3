@@ -10,5 +10,7 @@ export enum endpoints {
   USERS = '/users',
   LOGIN = '/login',
   REFRESH_TOKEN = '/token/refresh',
-  SSO_LOGIN = '/sso/login'
+  SSO_LOGIN = '/sso/login',
+  CARTS = '/carts',
+  CART_ITEMS = '/cart_items'
 }

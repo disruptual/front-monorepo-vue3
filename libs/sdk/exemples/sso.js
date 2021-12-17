@@ -3,7 +3,8 @@ const { createClient } = require('../dist/cjs');
 const main = async () => {
   const client = createClient({
     baseURL: 'https://cdiscount.api.sandbox2.disruptual.com',
-    sso: true
+    sso: true,
+    ssoOptions: {}
   });
 
   const myToken =

@@ -6,4 +6,5 @@ export interface IAuth {
   login: (credentials: SSOToken | LoginDto) => Promise<User>;
   logout: () => Promise<void>;
   authenticate: () => Promise<Maybe<User>>;
+  getCurrentUser: () => Promise<Maybe<User>>;
 }

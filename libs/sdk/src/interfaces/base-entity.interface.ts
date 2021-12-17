@@ -7,7 +7,7 @@ export interface IBaseEntity<T extends Endpoint> {
   updatedAt: Date;
 }
 
-type WithCreated =
+export type WithCreated =
   | {
       created: string;
       createdAt: never;
@@ -17,7 +17,7 @@ type WithCreated =
       createdAt: string;
     };
 
-type WithUpdated =
+export type WithUpdated =
   | {
       updated: string;
       updatedAt: never;
@@ -26,9 +26,3 @@ type WithUpdated =
       updated: never;
       updatedAt: string;
     };
-
-export type BaseDto<T extends Endpoint> = WithCreated &
-  WithUpdated & {
-    '@id': URI<T>;
-    id: UUID;
-  };

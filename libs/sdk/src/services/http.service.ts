@@ -27,6 +27,7 @@ export class HttpService implements IHttp {
     url: string,
     config: AxiosRequestConfig
   ): Promise<T> {
+    console.log(`DEBUG: ${config.method?.toUpperCase()} ${url}`);
     const response = await this.axios(url, { ...config });
 
     return response.data;

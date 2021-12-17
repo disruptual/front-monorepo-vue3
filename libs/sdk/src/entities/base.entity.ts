@@ -1,6 +1,6 @@
 import { Endpoint, URI, UUID } from '@/utils/types';
-import { endpoints } from '@/utils/enums';
-import { BaseDto, IBaseEntity } from '@/interfaces/base-entity.interface';
+import { IBaseEntity } from '@/interfaces/base-entity.interface';
+import { BaseDto } from '@/dtos/base.dto';
 
 export abstract class BaseEntity<T extends Endpoint> implements IBaseEntity<T> {
   public uri: URI<T>;

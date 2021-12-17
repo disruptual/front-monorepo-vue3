@@ -4,7 +4,7 @@ export type MaybeAsync<T> = T | Promise<T>;
 
 export type Endpoint<T extends string = string> = `/${T}`;
 
-export type URI<T extends Endpoint> = `${T}/${UUID}`;
+export type URI<T extends Endpoint> = T | `${T}/${UUID}`;
 
 export type UUID = number | string;
 

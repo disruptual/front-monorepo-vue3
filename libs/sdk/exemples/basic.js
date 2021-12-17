@@ -6,13 +6,13 @@ const main = async () => {
     sso: false
   });
 
-  // Pass an email address and a password to the method
-  // The values could come from an HTML form, etc...
-  const user = await client.login({
+  await client.login({
     username: 'loic@disruptual.com',
     password: 'Toto1234'
   });
-  console.log(user);
+
+  const carts = await client.getCarts();
+  console.log(carts);
 };
 
 main();
