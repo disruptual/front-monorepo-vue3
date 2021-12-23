@@ -2,7 +2,7 @@ import { Endpoint, URI, UUID } from '@/utils/types';
 import { IBaseEntity } from '@/interfaces/base-entity.interface';
 import { BaseDto } from '@/dtos/base.dto';
 
-export abstract class BaseEntity<T extends Endpoint> implements IBaseEntity<T> {
+export class BaseEntity<T extends Endpoint> implements IBaseEntity<T> {
   public uri: URI<T>;
 
   public id: UUID;

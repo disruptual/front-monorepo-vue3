@@ -13,3 +13,5 @@ export type JWT = string;
 export type SSOToken = string;
 
 export type Timestamp = number;
+
+export type Constructor<T> = new (...args: any[]) => T;

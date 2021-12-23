@@ -11,8 +11,9 @@ const main = async () => {
     password: 'Toto1234'
   });
 
-  const carts = await client.getCarts();
-  console.log(carts);
+  const { data: carts } = await client.getCarts();
+  const seller = await client.httpRequest(carts[0].seller);
+  console.log(seller);
 };
 
 main();
