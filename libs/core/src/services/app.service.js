@@ -13,9 +13,10 @@ export class DisruptualApp {
     appContext,
     rootComponent,
     routes,
+    routerBase = '/',
     translations,
     plugins
-  }) {
+  } = {}) {
     this.routes = routes;
     this.appContext = appContext;
 
@@ -23,7 +24,7 @@ export class DisruptualApp {
     this.queryClient = createQueryClient();
     this.store = createStore(appContext);
     this.router = createRouter({
-      history: createWebHistory(),
+      history: createWebHistory(routerBase),
       routes: routes
     });
     this.auth = createAuthProvider({

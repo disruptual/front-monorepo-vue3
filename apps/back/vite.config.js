@@ -9,6 +9,7 @@ import path from 'path';
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 
 export default defineConfig({
+  base: process.env.VITE_BASE_PATH || '/',
   plugins: [
     legacy({
       targets: ['defaults', 'not IE 11']

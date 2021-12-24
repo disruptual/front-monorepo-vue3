@@ -12,7 +12,6 @@ import AppLoading from 'client/components/app-loader.vue';
     <template #loading>
       <AppLoading />
     </template>
-
     <component :is="$route?.meta.layout">
       <router-view :key="$route.path" />
     </component>

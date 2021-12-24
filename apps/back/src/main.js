@@ -14,6 +14,7 @@ const app = new DisruptualApp({
   apiBaseUrl: import.meta.env.VITE_API_URL,
   appContext: config,
   plugins: [DisruptualUi(theme)],
+  routerBase: import.meta.env.VITE_BASE_PATH,
   translations,
   routes
 });
