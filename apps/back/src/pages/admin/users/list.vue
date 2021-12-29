@@ -80,7 +80,9 @@ const goToDetail = row => {
       :type="DATATABLE_COLUMN_TYPES.DATE"
       is-highlightable
     >
-      {{ row.formatCreated('EEEE d MMMM yyyy') }}
+      <dsp-truncated-text :has-tooltip="false">
+        {{ row.formatCreated('EEEE d MMMM yyyy') }}
+      </dsp-truncated-text>
     </DataTableColumn>
 
     <DataTableRowAction
@@ -90,6 +92,7 @@ const goToDetail = row => {
       icon="userSlash"
       @action="onMute"
     />
+
     <DataTableRowAction
       name="block"
       label="Bloquer"

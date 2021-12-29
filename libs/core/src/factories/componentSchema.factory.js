@@ -3,7 +3,6 @@ import {
   toProps as toMappedProps,
   toConfig
 } from '@dsp/core/types/schemaValidation';
-import * as foo from '@dsp/core/types/schemaValidation';
 import { types } from '@dsp/core/types/helpers';
 import { useAppContext } from '@dsp/core/hooks';
 

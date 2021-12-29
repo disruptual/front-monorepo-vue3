@@ -8,7 +8,8 @@ import { vTooltip } from '@dsp/ui/directives/tooltip';
 
 const props = defineProps({
   as: { type: String, default: 'div' },
-  width: { type: String, default: null }
+  width: { type: String, default: null },
+  hasTooltip: { type: Boolean, default: false }
 });
 const element = ref(null);
 
@@ -27,6 +28,7 @@ const computedWidth = computed(() => {
 
 const tooltip = () => {
   if (!element.value) return;
+  if (!props.hasTooltip) return;
 
   if (element.value.offsetWidth < element.value.scrollWidth) {
     return element.value.textContent;

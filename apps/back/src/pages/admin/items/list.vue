@@ -63,9 +63,7 @@ const publicationStatesHighlightOptions = {
       {{ row.formatCreated() }}
     </DataTableColumn>
 
-    <DataTableColumn v-slot="{ row }" name="price" label="Prix" width="80">
-      {{ row.formatedPrice }}
-    </DataTableColumn>
+    <DataTableColumn name="formatedPrice" label="Prix" width="80" />
 
     <DataTableColumn
       v-slot="{ row }"
