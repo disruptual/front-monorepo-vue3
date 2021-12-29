@@ -21,7 +21,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['rowDblClick', 'filterChange']);
 
-const isLoading = computed(() => props.query.isLoading.value);
+const isLoading = computed(() => props.query.isLoadingFirstPage.value);
 
 const model = reactive(
   new DataTable({

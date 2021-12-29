@@ -1,3 +1,5 @@
+export * from './order.enums';
+
 export const USER_ROLES = {
   USER: 'ROLE_USER',
   ADMIN: 'ROLE_ADMIN',

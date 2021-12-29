@@ -54,6 +54,7 @@ export function useBoundedModel(query, { queryKey, model, relations = [] }) {
     return queriesDefinitions.value
       .filter(def => def.relation === relationName)
       .map(def => queryClient.getQueryState(def.queryKey))
+      .filter(Boolean)
       .some(query => query.isFetching && !query.data);
   };
 

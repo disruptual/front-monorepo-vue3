@@ -5,19 +5,23 @@ export default { name: 'AdminOrdersListPage' };
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
+import { useI18n } from 'vue-i18n';
 import { useOrderApi } from '@dsp/core';
+import { ORDER_STATE_TRANSITIONS } from '@dsp/business';
+import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
+import { DATATABLE_COLUMN_TYPES } from '@/utils/constants';
 
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 
 useBreadCrumbs('Commandes');
 const { push } = useRouter();
+const { t } = useI18n();
 
 const filters = ref({});
 const query = useOrderApi().findAllQuery({
   filters,
-  relations: ['seller', 'buyer', 'orderItems']
+  relations: ['seller', 'buyer', 'orderItems', 'delivery']
 });
 
 const onFilterChange = newFilters => {
@@ -26,6 +30,17 @@ const onFilterChange = newFilters => {
 
 const goToDetail = row => {
   push({ name: 'AdminOrderDetails', params: { id: row.id } });
+};
+
+const statusHighlightOptions = {
+  values: Object.values(ORDER_STATE_TRANSITIONS).map(state => ({
+    value: state,
+    label: t(`order.status.${state}`)
+  }))
+};
+
+const itemCountHighlightOptions = {
+  predicate: row => row?.orderItems?.length
 };
 </script>
 
@@ -44,7 +59,6 @@ const goToDetail = row => {
       label="Date de création"
       width="200"
       :tooltip-label="({ row }) => row.formatCreated()"
-      is-filterable
       is-highlightable
     >
       {{ row.formatCreated() }}
@@ -54,14 +68,15 @@ const goToDetail = row => {
       name="seller"
       label="Vendeur"
       width="200"
-      is-filterable
       is-highlightable
     >
       <router-link
         v-if="row.seller"
         :to="{ name: 'AdminUserDetails', params: { slug: row.seller?.slug } }"
       >
-        {{ row.seller?.email }}
+        <dsp-truncated-text>
+          {{ row.seller?.email }}
+        </dsp-truncated-text>
       </router-link>
     </DataTableColumn>
     <DataTableColumn
@@ -69,14 +84,13 @@ const goToDetail = row => {
       name="buyer"
       label="Acheteur"
       width="200"
-      is-filterable
       is-highlightable
     >
       <router-link
         v-if="row.buyer"
         :to="{ name: 'AdminUserDetails', params: { slug: row.buyer?.slug } }"
       >
-        {{ row.buyer?.email }}
+        <dsp-truncated-text>{{ row.buyer?.email }}</dsp-truncated-text>
       </router-link>
     </DataTableColumn>
     <DataTableColumn
@@ -84,24 +98,30 @@ const goToDetail = row => {
       name="itemCount"
       label="Nb d'articles"
       width="80"
+      :type="DATATABLE_COLUMN_TYPES.NUMBER"
+      :highlight-options="itemCountHighlightOptions"
       is-filterable
       is-highlightable
     >
       {{ row.orderItems?.length }}
     </DataTableColumn>
     <DataTableColumn
-      name="moneyBox"
+      name="formatedPrice"
       label="Montant"
       width="150"
-      is-filterable
+      :type="DATATABLE_COLUMN_TYPES.NUMBER"
       is-highlightable
     />
     <DataTableColumn
-      name="orderState"
+      v-slot="{ row }"
+      name="status"
       label="Statut"
-      width="300"
-      is-filterable
+      width="250"
+      :type="DATATABLE_COLUMN_TYPES.ENUM"
+      :highlight-options="statusHighlightOptions"
       is-highlightable
-    />
+    >
+      {{ t(`order.status.${row.status}`) }}
+    </DataTableColumn>
   </DataTable>
 </template>

@@ -11,7 +11,7 @@ const device = useDevice();
 
 const headerHeight = ref(null);
 
-// useCssVar('--header-height', headerHeight);
+useCssVar('--header-height', headerHeight);
 const onHeaderResize = entries => {
   for (let entry of entries) {
     headerHeight.value = `${entry.target.offsetHeight}px`;

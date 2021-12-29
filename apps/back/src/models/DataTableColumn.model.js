@@ -94,7 +94,7 @@ export class DataTableColumn {
 
   getHighlightPredicate(row) {
     return isFunction(this.highlightOptions.predicate)
-      ? this.highlightOptions.predicate(this.row)
+      ? this.highlightOptions.predicate(row)
       : row[this.highlightOptions.predicate];
   }
 }
