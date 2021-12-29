@@ -14,7 +14,7 @@ import DataTableHighlightManager from '../data-table-highlight-manager/index.vue
 const { t } = useI18n();
 const device = useDevice();
 
-const { model } = inject(CONTEXT_KEYS.DATATABLE);
+const { model, query } = inject(CONTEXT_KEYS.DATATABLE);
 
 const isColumnsDropdownOpened = ref(false);
 const isHighlightDropdownOpened = ref(false);
@@ -44,6 +44,14 @@ const editHighlight = highlight => {
   selectedHighlight.value = highlight;
   isHighlightManagerOpened.value = true;
 };
+
+const triggerAction = action => {
+  action.action(
+    model.selectedRowIds.map(id =>
+      query.data.value.find(entity => entity.id === id)
+    )
+  );
+};
 </script>
 
 <template>
@@ -61,7 +69,6 @@ const editHighlight = highlight => {
         v-for="action in model.rowActions"
         :key="action.label"
         v-tooltip="action.label"
-        :left-icon="action.icon"
         :disabled="isActionDisabled(action)"
         @click="triggerAction(action)"
       >

@@ -93,6 +93,7 @@ aside {
 
   &:hover,
   &:focus-within {
+    transition-delay: 200ms;
     width: 270px; // @FIXME how to keep transition with auto width ?
   }
 
