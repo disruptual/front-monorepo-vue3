@@ -11,15 +11,12 @@
     ]
   },
   "scripts": {
-    "dev:front": "yarn workspace @dsp/front run dev",
-    "build:front": "yarn workspace @dsp/front run build",
-    "serve:front": "yarn workspace @dsp/front run serve",
-    "dev:back": "yarn workspace @dsp/back run dev",
-    "build:back": "yarn workspace @dsp/back run build",
-    "serve:back": "yarn workspace @dsp/back run serve",
-    "test:ui": "yarn workspace @dsp/ui run test",
-    "docs:ui": "yarn workspace @dsp/ui run docs:dev",
-    "docs:back": "yarn workspace @dsp/back run docs:dev"
+    "front": "yarn workspace @dsp/front",
+    "back": "yarn workspace @dsp/back",
+    "ui": "yarn workspace @dsp/ui",
+    "core": "yarn workspace @dsp/core",
+    "business": "yarn workspace @dsp/business",
+    "devtools": "yarn workspace @dsp/devtools"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.15.7"

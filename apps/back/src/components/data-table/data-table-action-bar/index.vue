@@ -55,6 +55,7 @@ const editHighlight = highlight => {
     <div v-if="model.hasSelectorColumn && !device.isMobile">
       {{ t('dataTable.actionBar.selectedCount', { count: selectedCount }) }}
     </div>
+
     <dsp-flex gap="xs">
       <dsp-plain-button
         v-for="action in model.rowActions"
@@ -128,16 +129,19 @@ const editHighlight = highlight => {
       </dsp-dropdown>
     </dsp-flex>
   </dsp-flex>
+
   <dsp-flex v-show="activeFilters.length > 0" gap="sm" class="active-filters">
-    <dsp-button
-      v-for="filter in activeFilters"
-      :key="filter.name"
-      right-icon="remove"
-      is-rounded
-      @click="model.resetFilter(filter.name)"
-    >
-      {{ filter.label }}: {{ filter.value }}
-    </dsp-button>
+    <dsp-swiper>
+      <dsp-swiper-item v-for="filter in activeFilters" :key="filter.name">
+        <dsp-button
+          right-icon="remove"
+          is-rounded
+          @click="model.resetFilter(filter.name)"
+        >
+          {{ filter.label }}: {{ filter.value }}
+        </dsp-button>
+      </dsp-swiper-item>
+    </dsp-swiper>
   </dsp-flex>
 
   <DataTableHighlightManager

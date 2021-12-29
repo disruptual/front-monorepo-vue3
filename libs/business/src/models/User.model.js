@@ -40,11 +40,6 @@ export class User extends BaseModel {
     return this.ibans?.length > 0;
   }
 
-  async getIbanCount() {
-    const ibans = await this.ibans;
-    console.log(ibans);
-  }
-
   hasRole(role) {
     return this.roles.includes(role);
   }

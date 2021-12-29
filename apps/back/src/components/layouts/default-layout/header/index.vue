@@ -23,14 +23,15 @@ const isUserMenuOpened = ref(false);
       <router-link :to="{ name: 'Home' }" class="logo">
         <h1>DISRUPTUAL</h1>
       </router-link>
-      <dsp-plain-button
-        class="avatar"
-        @click="isUserMenuOpened = !isUserMenuOpened"
-      >
-        <dsp-avatar :user="currentUser" />
-      </dsp-plain-button>
-
-      <UserMenu v-model="isUserMenuOpened" />
+      <div class="menu">
+        <UserMenu v-model="isUserMenuOpened" class="user-menu" />
+        <dsp-plain-button
+          class="avatar"
+          @click="isUserMenuOpened = !isUserMenuOpened"
+        >
+          <dsp-avatar :user="currentUser" />
+        </dsp-plain-button>
+      </div>
     </dsp-flex>
     <HeaderBreadcrumbs class="breadcrumbs" />
   </header>
@@ -39,8 +40,7 @@ const isUserMenuOpened = ref(false);
 <style lang="scss" scoped>
 .header {
   background-color: var(--color-surface);
-  padding: var(--spacing-sm) var(--spacing-xl) var(--spacing-sm)
-    var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
 
   @include mobile-only {
     padding: var(--spacing-xs) var(--spacing-sm);
@@ -48,7 +48,11 @@ const isUserMenuOpened = ref(false);
 }
 
 .menu {
-  justify-self: end;
+  display: grid;
+  > * {
+    grid-column: 1;
+    grid-row: 1;
+  }
 }
 
 .logo {
@@ -79,5 +83,11 @@ const isUserMenuOpened = ref(false);
 .avatar {
   padding: 0;
   margin-left: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.user-menu {
+  margin-top: var(--spacing-lg);
 }
 </style>

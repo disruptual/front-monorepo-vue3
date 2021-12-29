@@ -18,6 +18,7 @@ const itemsLink = computed(() => ({
 
 <template>
   <div>Date de commande</div>
+
   <div>{{ order.formatCreated() }}</div>
   <br />
   <div>Nombre d'articles commandés</div>

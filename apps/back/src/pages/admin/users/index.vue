@@ -53,13 +53,7 @@ const goToDetail = row => {
     >
       <dsp-avatar :user="row" />
     </DataTableColumn>
-    <DataTableColumn
-      name="slug"
-      label="Slug"
-      width="200"
-      is-filterable
-      is-highlightable
-    />
+    <DataTableColumn name="slug" label="Slug" is-filterable is-highlightable />
     <DataTableColumn
       name="firstName"
       label="Prénom"

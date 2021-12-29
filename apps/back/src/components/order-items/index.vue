@@ -20,7 +20,7 @@ const query = useOrderItemApi().findAllByOrderIdQuery(props.orderId, {
 });
 
 const goToDetail = row => {
-  push({ name: 'AdminItemDetails', params: { id: row.id } });
+  push({ name: 'AdminItemDetails', params: { id: row.item.id } });
 };
 </script>
 
@@ -36,7 +36,9 @@ const goToDetail = row => {
     <template #no-result>
       <dsp-center>Cet tilisateur ne possède aucun article.</dsp-center>
     </template>
-    <DataTableColumn name="id" label="Id" width="100" />
+    <DataTableColumn name="id" label="Id" width="100" v-slot="{ row }">
+      {{ row.item.id }}
+    </DataTableColumn>
     <DataTableColumn
       v-slot="{ row }"
       name="photo"

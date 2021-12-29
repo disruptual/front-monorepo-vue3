@@ -48,7 +48,6 @@ export class DataTableHighlight {
   }
 
   isMatch(predicate) {
-    console.log(this.operator, matchers);
     return matchers[this.operator](predicate, this.value);
   }
 }

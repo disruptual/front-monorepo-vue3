@@ -26,7 +26,7 @@ const isOpened = computed({
     return props.modelValue;
   },
   set(val) {
-    emit('update:modelValue');
+    emit('update:modelValue', val);
   }
 });
 </script>

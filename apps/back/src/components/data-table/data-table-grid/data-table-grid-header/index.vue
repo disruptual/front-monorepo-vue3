@@ -47,9 +47,9 @@ const state = reactive({
 const onResizeStart = (e, column) => {
   state.resizedColumn = column;
 
-  // @FIXME not clean
-  const normalizedWidth = e.target.parentNode.parentNode.offsetWidth;
-  state.resizedColumn.resize(normalizedWidth);
+  model.columns.forEach(column => {
+    column.resize(column.headerElement.offsetWidth);
+  });
 
   state.isResizing = true;
   state.resizedColumnInitialWidth = column.width;

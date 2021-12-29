@@ -15,6 +15,7 @@ export function useCRUDApi({ model, service }, cb = () => ({})) {
       relations = [],
       itemsPerPage = 30,
       filters = {},
+      requestOptions = {},
       ...options
     } = {}) {
       const queryKey = computed(
@@ -22,7 +23,7 @@ export function useCRUDApi({ model, service }, cb = () => ({})) {
       );
 
       const queryOptions = computed(() => ({
-        model: model,
+        model,
         itemsPerPage,
         relations,
         ...options
@@ -30,49 +31,53 @@ export function useCRUDApi({ model, service }, cb = () => ({})) {
 
       const queryFn = ({ pageParam = { page: 1, itemsPerPage } }) => {
         return serviceInstance.findAll({
-          params: { ...pageParam, ...unref(filters) }
+          ...requestOptions,
+          params: { ...requestOptions.params, ...pageParam, ...unref(filters) }
         });
       };
 
       return useCollectionQuery(queryKey, queryFn, queryOptions);
     },
 
-    findByIdQuery(id, { relations = [], ...options } = {}) {
+    findByIdQuery(
+      id,
+      { relations = [], requestOptions = {}, ...options } = {}
+    ) {
       const queryKey = computed(() => `${baseQueryKey}/${id}`);
 
       const queryOptions = computed(() => ({
-        model: model,
+        model,
         relations,
         ...options
       }));
 
       return useModelQuery(
         queryKey,
-        () => serviceInstance.findById(id),
+        () => serviceInstance.findById(id, requestOptions),
         queryOptions
       );
     },
 
-    updateMutation(options) {
+    updateMutation({ requestOptions = {}, ...options } = {}) {
       return useMutation(
         `update:${baseQueryKey}`,
-        ({ id, entity }) => serviceInstance.update(id, entity),
+        ({ id, entity }) => serviceInstance.update(id, entity, requestOptions),
         options
       );
     },
 
-    createMutation(options) {
+    createMutation({ requestOptions = {}, ...options } = {}) {
       return useMutation(
         `create:${baseQueryKey}`,
-        entity => serviceInstance.create(entity),
+        entity => serviceInstance.create(entity, requestOptions),
         options
       );
     },
 
-    deleteMutation(options) {
+    deleteMutation({ requestOptions = {}, ...options } = {}) {
       return useMutation(
         `delete:${baseQueryKey}`,
-        id => serviceInstance.delete(id),
+        id => serviceInstance.delete(id, requestOptions),
         options
       );
     },

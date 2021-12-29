@@ -1,6 +1,8 @@
 export default {
   breadcrumb: {
     userDetails: 'Détails utilisateur',
-    itemDetails: "Détails d'annonce"
+    itemDetails: "Détails d'annonce",
+    orderDetails: 'Détails de commande',
+    orderNumber: 'Commande n°{id}'
   }
 };

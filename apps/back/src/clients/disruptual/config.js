@@ -6,6 +6,6 @@ export default {
   },
   logo,
   DspButton: {
-    isRounded: false
+    isRounded: true
   }
 };

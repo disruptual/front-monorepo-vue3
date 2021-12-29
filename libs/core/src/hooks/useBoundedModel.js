@@ -11,13 +11,13 @@ const QUERY_BINDING_DEBOUNCE_OPTIONS = { leading: true, trailing: true };
 export function useBoundedModel(query, { queryKey, model, relations = [] }) {
   const queryClient = useQueryClient();
   const http = useHttp();
-
   const instance = ref(null);
 
   const lazyRelations = ref([]);
-  const allRelations = computed(() => {
-    return [...unref(relations), ...unref(lazyRelations)];
-  });
+  const allRelations = computed(() => [
+    ...unref(relations),
+    ...unref(lazyRelations)
+  ]);
 
   const bindQuery = () => {
     const newValue = createBoundedModel(unref(queryKey), {

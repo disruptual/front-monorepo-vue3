@@ -13,7 +13,9 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
-const query = useItemApi().findByIdQuery(props.id);
+const query = useItemApi().findByIdQuery(props.id, {
+  requestOptions: { params: { display: 'all' } }
+});
 
 const breadCrumbLabel = computed(
   () => query.data.value?.title ?? t('breadcrumb.itemDetail')

@@ -1,16 +1,14 @@
 import { computed, reactive } from 'vue';
 import { Item, ItemService } from '@dsp/business';
-import { useHttp } from '@dsp/core/hooks/useHttp';
+
 import { useCollectionQuery } from '@dsp/core/hooks/useCollectionQuery';
-import { useModelQuery } from '@dsp/core/hooks/useModelQuery';
+
 import { SORT_ORDERS } from '@dsp/core/utils/constants';
 import { serializeQueryString } from '@dsp/core/utils/helpers';
+import { useCRUDApi } from '../useCRUDApi';
 
 export function useItemApi() {
-  const http = useHttp();
-  const itemService = new ItemService({ http });
-
-  return {
+  return useCRUDApi({ model: Item, service: ItemService }, itemService => ({
     searchQuery({ relations = [], itemsPerPage = 30 } = {}) {
       const filters = reactive({
         'sort[created]': SORT_ORDERS.DESC
@@ -33,32 +31,6 @@ export function useItemApi() {
       return useCollectionQuery(queryKey, queryFn, options);
     },
 
-    findAllQuery({ relations = [], itemsPerPage = 30 } = {}) {
-      const queryKey = computed(() => `/users`);
-
-      const options = {
-        model: Item,
-        itemsPerPage,
-        relations
-      };
-
-      const queryFn = ({ pageParam = { page: 1, itemsPerPage } }) =>
-        itemService.findAll({ params: { ...pageParam } });
-
-      return useCollectionQuery(queryKey, queryFn, options);
-    },
-
-    findByIdQuery(id, { relations = [] } = {}) {
-      const queryKey = computed(() => `/items/${id}`);
-
-      const options = {
-        model: Item,
-        relations
-      };
-
-      return useModelQuery(queryKey, () => itemService.findById(id), options);
-    },
-
     findAllByUserIdQuery(userId, { relations = [] } = {}) {
       const queryKey = computed(() => `/users/${userId}/items`);
 
@@ -68,5 +40,5 @@ export function useItemApi() {
         { model: Item, relations }
       );
     }
-  };
+  }));
 }

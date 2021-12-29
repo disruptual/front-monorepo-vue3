@@ -5,12 +5,6 @@ export const CONTEXT_KEYS = {
   DATATABLE: 'dataTable'
 };
 
-export const USER_DETAILS_TABS = {
-  INFOS: 'infos',
-  ORDERS: 'orders',
-  ITEMS: 'items'
-};
-
 export const EVENTS = {
   DATA_TABLE: {
     COLUMN_UPDATE: 'DataTableColumn:update'
@@ -48,6 +42,12 @@ export const DATATABLE_HIGHLIGHT_OPERATORS = {
 
 export const ORDER_DETAILS_TABS = {
   INFOS: 'infos',
+  ITEMS: 'items'
+};
+
+export const USER_DETAILS_TABS = {
+  INFOS: 'infos',
+  ORDERS: 'orders',
   ITEMS: 'items'
 };
 
