@@ -19,11 +19,11 @@ export function useBoundedModel(query, { queryKey, model, relations = [] }) {
     ...unref(lazyRelations)
   ]);
 
-  const bindQuery = () => {
+  const bindQuery = (reuseInstance = true) => {
     const newValue = createBoundedModel(unref(queryKey), {
       modelClass: model,
       queryClient,
-      initialValue: instance.value,
+      initialValue: reuseInstance ? instance.value : null,
       relations: unref(allRelations),
       onLazyRelationDetected(relation) {
         if (lazyRelations.value.includes(relation)) return;
@@ -67,8 +67,11 @@ export function useBoundedModel(query, { queryKey, model, relations = [] }) {
     );
   });
 
-  watch(() => unref(queryKey), debouncedBindQuery);
-  watch(query.data, debouncedBindQuery);
+  watch(
+    () => unref(queryKey),
+    () => debouncedBindQuery(false)
+  );
+  watch(query.data, () => debouncedBindQuery(false));
   watch(() => unref(allRelations), debouncedBindQuery, { deep: true });
   debouncedBindQuery();
 

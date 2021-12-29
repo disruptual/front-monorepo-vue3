@@ -5,7 +5,7 @@ export default [
   {
     path: '/admin/utilisateurs',
     name: 'AdminUsers',
-    component: () => import('@/pages/admin/users/index.vue'),
+    component: () => import('@/pages/admin/users/list.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       layout: layouts.default
@@ -14,7 +14,7 @@ export default [
   {
     path: '/admin/utilisateurs/:slug',
     name: 'AdminUserDetails',
-    component: () => import('@/pages/admin/user-details/index.vue'),
+    component: () => import('@/pages/admin/users/detail.vue'),
     props: true,
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
@@ -24,7 +24,7 @@ export default [
   {
     path: '/admin/annonces',
     name: 'AdminItems',
-    component: () => import('@/pages/admin/items/index.vue'),
+    component: () => import('@/pages/admin/items/list.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       layout: layouts.default
@@ -34,7 +34,7 @@ export default [
     path: '/admin/annonces/:id',
     name: 'AdminItemDetails',
     props: true,
-    component: () => import('@/pages/admin/item-details/index.vue'),
+    component: () => import('@/pages/admin/items/detail.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       layout: layouts.default
@@ -44,7 +44,7 @@ export default [
     path: '/admin/commandes',
     name: 'AdminOrders',
     props: true,
-    component: () => import('@/pages/admin/orders/index.vue'),
+    component: () => import('@/pages/admin/orders/list.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       layout: layouts.default
@@ -54,7 +54,7 @@ export default [
     path: '/admin/commandes/:id',
     name: 'AdminOrderDetails',
     props: true,
-    component: () => import('@/pages/admin/order-details/index.vue'),
+    component: () => import('@/pages/admin/orders/detail.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       layout: layouts.default
@@ -64,7 +64,7 @@ export default [
     path: '/admin/contact',
     name: 'AdminContact',
     props: true,
-    component: () => import('@/pages/admin/contact/index.vue'),
+    component: () => import('@/pages/admin/contact/list.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       layout: layouts.default
@@ -74,7 +74,7 @@ export default [
     path: '/admin/contact/:id',
     name: 'AdminContactDetails',
     props: true,
-    component: () => import('@/pages/admin/contact-details/index.vue'),
+    component: () => import('@/pages/admin/contact/detail.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       layout: layouts.default

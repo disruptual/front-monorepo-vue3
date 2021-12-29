@@ -80,6 +80,10 @@ const operators = computed(() =>
 const isDateHighlight = computed(
   () => selectedColumn.value.type === DATATABLE_COLUMN_TYPES.DATE
 );
+
+const isEnumHighlight = computed(
+  () => selectedColumn.value.type === DATATABLE_COLUMN_TYPES.ENUM
+);
 </script>
 
 <template>
@@ -176,6 +180,22 @@ const isDateHighlight = computed(
               v-on="on"
               @click.stop
             />
+            <select
+              v-else-if="isEnumHighlight"
+              v-model="slotProps.field.value"
+              v-bind="formControlProps"
+              v-on="on"
+            >
+              <option disabled :value="null">Valeur</option>
+              <option
+                v-for="(option, index) in selectedColumn.highlightOptions
+                  .values"
+                :key="index"
+                :value="option.value"
+              >
+                {{ option.label }}
+              </option>
+            </select>
             <dsp-input-text
               v-else
               v-model="slotProps.field.value"

@@ -7,16 +7,20 @@ import { useRouter } from 'vue-router';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { useItemApi } from '@dsp/core';
 import { useI18n } from 'vue-i18n';
+import { ITEM_PUBLICATION_STATES } from '@dsp/business';
+import { DATATABLE_COLUMN_TYPES } from '@/utils/constants';
 
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
-import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
 
 useBreadCrumbs('Annonces');
 const { push } = useRouter();
 
 const query = useItemApi().findAllQuery({
-  relations: []
+  relations: [],
+  requestOptions: {
+    params: { display: 'all' }
+  }
 });
 
 const goToDetail = row => {
@@ -24,6 +28,13 @@ const goToDetail = row => {
 };
 
 const { t } = useI18n();
+
+const publicationStatesHighlightOptions = {
+  values: Object.values(ITEM_PUBLICATION_STATES).map(state => ({
+    value: state,
+    label: t(`item.publicationState.${state}`)
+  }))
+};
 </script>
 
 <template>
@@ -56,7 +67,12 @@ const { t } = useI18n();
       {{ row.formatedPrice }}
     </DataTableColumn>
 
-    <DataTableColumn v-slot="{ row }" name="category" label="Catégorie">
+    <DataTableColumn
+      v-slot="{ row }"
+      name="category"
+      label="Catégorie"
+      is-highlightable
+    >
       {{ row.category?.name }}
     </DataTableColumn>
 
@@ -69,7 +85,14 @@ const { t } = useI18n();
       </router-link>
     </DataTableColumn>
 
-    <DataTableColumn v-slot="{ row }" name="publicationState" label="status">
+    <DataTableColumn
+      v-slot="{ row }"
+      name="publicationState"
+      label="status"
+      :highlight-options="publicationStatesHighlightOptions"
+      :type="DATATABLE_COLUMN_TYPES.ENUM"
+      is-highlightable
+    >
       {{ t(`item.publicationState.${row.publicationState}`) }}
     </DataTableColumn>
   </DataTable>

@@ -8,6 +8,7 @@ import { useCurrentUser } from '@dsp/core';
 import { USER_ROLES } from '@dsp/business';
 import { useReadableColor } from '@dsp/ui';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
+import { MENU } from '@/utils/constants';
 
 const isOpened = ref(false);
 const search = ref('');
@@ -15,49 +16,8 @@ const search = ref('');
 const { data: currentUser } = useCurrentUser();
 const breadcrumbs = useBreadCrumbs();
 
-const sections = [
-  {
-    name: 'Administration',
-    permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
-    links: [
-      { target: { name: 'AdminItems' }, label: 'Annonces' },
-      { target: { name: 'AdminUsers' }, label: 'Utilisateurs' },
-      { target: { name: 'AdminOrders' }, label: 'Commandes' },
-      { target: { name: 'AdminContact' }, label: 'Support client' },
-      { target: { name: 'AdminVoucher' }, label: "Bons d'achat" },
-      { target: { name: 'AdminStore' }, label: 'Magasins' },
-      { target: { name: 'AdminEmail' }, label: 'Mails' }
-    ]
-  },
-  {
-    name: 'Interface Magasin',
-    permissions: [
-      USER_ROLES.ADMIN,
-      USER_ROLES.PROJECT_MANAGER,
-      USER_ROLES.STORE
-    ],
-    links: [
-      { target: '/', label: 'Dépôt / retrait' },
-      { target: '/', label: 'Rechercher un utilisateur' },
-      { target: '/', label: 'Gestion des stocks' }
-    ]
-  },
-  {
-    name: 'Interface Evenements',
-    permissions: [
-      USER_ROLES.ADMIN,
-      USER_ROLES.PROJECT_MANAGER,
-      USER_ROLES.EVENT_MANAGER
-    ],
-    links: [
-      { target: '/', label: 'Dépôt' },
-      { target: '/', label: 'Vente' }
-    ]
-  }
-];
-
 const allowedSections = computed(() =>
-  sections.filter(section =>
+  MENU.filter(section =>
     section.permissions.some(permission =>
       currentUser.value.hasRole(permission)
     )

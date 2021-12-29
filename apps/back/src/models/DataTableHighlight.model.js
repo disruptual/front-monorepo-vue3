@@ -34,6 +34,9 @@ const matchers = {
   },
   [DATATABLE_HIGHLIGHT_OPERATORS.DATE.AFTER](predicate, value) {
     return isAfter(new Date(predicate), new Date(value));
+  },
+  [DATATABLE_HIGHLIGHT_OPERATORS.ENUM.EQUALS](predicate, value) {
+    return predicate === value;
   }
 };
 
