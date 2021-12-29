@@ -93,7 +93,7 @@ aside {
 
   &:hover,
   &:focus-within {
-    transition-delay: 200ms;
+    transition-delay: 100ms;
     width: 270px; // @FIXME how to keep transition with auto width ?
   }
 
@@ -101,10 +101,9 @@ aside {
     ul,
     .section__name,
     .section__caret {
-      display: none;
+      visibility: hidden;
     }
     .section__toggle {
-      padding-left: 0;
       background-color: transparent;
     }
   }
@@ -115,7 +114,6 @@ section {
 }
 
 .section__toggle {
-  background: transparent;
   border: transparent;
   margin-top: 0;
   margin-bottom: 0;
@@ -124,6 +122,7 @@ section {
   overflow: hidden;
   transition: background-color var(--transition-sm);
   padding: var(--spacing-sm);
+  padding-left: 0;
   cursor: pointer;
   background-color: var(--color-brand-500);
 

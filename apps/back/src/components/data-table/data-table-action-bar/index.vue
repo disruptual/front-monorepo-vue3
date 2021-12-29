@@ -30,7 +30,8 @@ const activeFilters = computed(() =>
     .filter(([, value]) => value && value !== '')
     .map(([key, value]) => ({
       name: key,
-      label: model.columns.find(col => col.name === key).label,
+      label: model.columns.find(col => [col.filterName, col.name].includes(key))
+        .label,
       value
     }))
 );

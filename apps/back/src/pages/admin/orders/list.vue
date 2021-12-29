@@ -19,14 +19,14 @@ const { push } = useRouter();
 const { t } = useI18n();
 
 const filters = ref({});
+const onFilterChange = newFilters => {
+  filters.value = { ...newFilters };
+};
+
 const query = useOrderApi().findAllQuery({
   filters,
   relations: ['seller', 'buyer', 'orderItems', 'delivery']
 });
-
-const onFilterChange = newFilters => {
-  filters.value = { ...newFilters };
-};
 
 const goToDetail = row => {
   push({ name: 'AdminOrderDetails', params: { id: row.id } });
@@ -38,10 +38,14 @@ const statusHighlightOptions = {
     label: t(`order.status.${state}`)
   }))
 };
-
 const itemCountHighlightOptions = {
   predicate: row => row?.orderItems?.length
 };
+
+const getStatusClass = order => ({
+  'order-status--cancelled': order.isCancelled,
+  'order-status--finished': order.isFinished
+});
 </script>
 
 <template>
@@ -65,9 +69,24 @@ const itemCountHighlightOptions = {
     </DataTableColumn>
     <DataTableColumn
       v-slot="{ row }"
+      name="status"
+      label="Statut"
+      width="250"
+      :type="DATATABLE_COLUMN_TYPES.ENUM"
+      :highlight-options="statusHighlightOptions"
+      is-highlightable
+    >
+      <span class="order-status" :class="getStatusClass(row)">
+        {{ t(`order.status.${row.status}`) }}
+      </span>
+    </DataTableColumn>
+    <DataTableColumn
+      v-slot="{ row }"
       name="seller"
       label="Vendeur"
       width="200"
+      is-filterable
+      filter-name="orderSeller.user.email"
       is-highlightable
     >
       <router-link
@@ -84,6 +103,8 @@ const itemCountHighlightOptions = {
       name="buyer"
       label="Acheteur"
       width="200"
+      is-filterable
+      filter-name="orderUser.email"
       is-highlightable
     >
       <router-link
@@ -100,7 +121,6 @@ const itemCountHighlightOptions = {
       width="80"
       :type="DATATABLE_COLUMN_TYPES.NUMBER"
       :highlight-options="itemCountHighlightOptions"
-      is-filterable
       is-highlightable
     >
       {{ row.orderItems?.length }}
@@ -112,16 +132,22 @@ const itemCountHighlightOptions = {
       :type="DATATABLE_COLUMN_TYPES.NUMBER"
       is-highlightable
     />
-    <DataTableColumn
-      v-slot="{ row }"
-      name="status"
-      label="Statut"
-      width="250"
-      :type="DATATABLE_COLUMN_TYPES.ENUM"
-      :highlight-options="statusHighlightOptions"
-      is-highlightable
-    >
-      {{ t(`order.status.${row.status}`) }}
-    </DataTableColumn>
   </DataTable>
 </template>
+
+<style lang="scss" scoped>
+a {
+  color: inherit;
+}
+
+.order-status {
+  font-weight: var(--font-weight-bold);
+}
+.order-status--cancelled {
+  color: var(--color-red-500);
+}
+
+.order-status--finished {
+  color: var(--color-green-600);
+}
+</style>
