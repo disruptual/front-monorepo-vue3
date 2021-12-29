@@ -19,8 +19,12 @@ const { push } = useRouter();
 const { t } = useI18n();
 
 const filters = ref({});
-const onFilterChange = newFilters => {
-  filters.value = { ...newFilters };
+const onFilterChange = ({ created, ...newFilters }) => {
+  filters.value = {
+    ...newFilters,
+    'created[before]': created?.before,
+    'created[after]': created?.after
+  };
 };
 
 const query = useOrderApi().findAllQuery({
@@ -62,8 +66,10 @@ const getStatusClass = order => ({
       name="created"
       label="Date de création"
       width="200"
+      :type="DATATABLE_COLUMN_TYPES.DATE"
       :tooltip-label="({ row }) => row.formatCreated()"
       is-highlightable
+      is-filterable
     >
       {{ row.formatCreated() }}
     </DataTableColumn>
