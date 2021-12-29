@@ -10,6 +10,7 @@ import { useDevice, vTooltip } from '@dsp/ui';
 
 import DataTableFilterDrawer from '../data-table-filter-drawer/index.vue';
 import DataTableHighlightManager from '../data-table-highlight-manager/index.vue';
+import DataTableFilterTags from './filter-tags.vue';
 
 const { t } = useI18n();
 const device = useDevice();
@@ -24,17 +25,6 @@ const selectedHighlight = ref(null);
 const selectedCount = computed(() => model.selectedRowIds.length);
 const isActionDisabled = action =>
   selectedCount.value === 0 || (selectedCount.value > 1 && !action.canBatch);
-
-const activeFilters = computed(() =>
-  Object.entries(model.filters)
-    .filter(([, value]) => value && value !== '')
-    .map(([key, value]) => ({
-      name: key,
-      label: model.columns.find(col => [col.filterName, col.name].includes(key))
-        .label,
-      value
-    }))
-);
 
 const addHighlight = () => {
   selectedHighlight.value = null;
@@ -138,19 +128,7 @@ const triggerAction = action => {
     </dsp-flex>
   </dsp-flex>
 
-  <dsp-flex v-show="activeFilters.length > 0" gap="sm" class="active-filters">
-    <dsp-swiper>
-      <dsp-swiper-item v-for="filter in activeFilters" :key="filter.name">
-        <dsp-button
-          right-icon="remove"
-          is-rounded
-          @click="model.resetFilter(filter.name)"
-        >
-          {{ filter.label }}: {{ filter.value }}
-        </dsp-button>
-      </dsp-swiper-item>
-    </dsp-swiper>
-  </dsp-flex>
+  <DataTableFilterTags />
 
   <DataTableHighlightManager
     v-model:isOpened="isHighlightManagerOpened"
