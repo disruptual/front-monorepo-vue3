@@ -12,6 +12,7 @@ import { useI18n } from 'vue-i18n';
 
 import OrderItems from '@/components/order-items/index.vue';
 import OrderDetails from '@/components/order-details/index.vue';
+import OrderHistory from '@/components/order-history/index.vue';
 
 const props = defineProps({
   id: { type: String, required: true }
@@ -21,7 +22,14 @@ const { replace } = useRouter();
 const route = useRoute();
 
 const query = useOrderApi().findByIdQuery(props.id, {
-  relations: ['seller', 'buyer', 'orderItems']
+  relations: [
+    'seller',
+    'buyer',
+    'orderItems',
+    'delivery',
+    'remuneration',
+    'location'
+  ]
 });
 
 const activeTab = computed({
@@ -51,11 +59,9 @@ useBreadCrumbs(breadCrumbLabel);
         :name="TABS.INFOS"
         :label="t(`order.details.tabs.${TABS.INFOS}`)"
       >
-        <dsp-container>
+        <dsp-container as="section">
           <dsp-surface>
-            <dsp-container is-small>
-              <OrderDetails :order="order" />
-            </dsp-container>
+            <OrderDetails :order="order" />
           </dsp-surface>
         </dsp-container>
       </dsp-tab>
@@ -64,8 +70,19 @@ useBreadCrumbs(breadCrumbLabel);
         :name="TABS.ITEMS"
         :label="t(`order.details.tabs.${TABS.ITEMS}`)"
       >
-        <dsp-container>
+        <dsp-container as="section">
           <OrderItems :order-id="props.id" />
+        </dsp-container>
+      </dsp-tab>
+
+      <dsp-tab
+        :name="TABS.HISTORY"
+        :label="t(`order.details.tabs.${TABS.HISTORY}`)"
+      >
+        <dsp-container as="section">
+          <dsp-surface>
+            <OrderHistory :order-id="props.id" />
+          </dsp-surface>
         </dsp-container>
       </dsp-tab>
     </dsp-tabs>

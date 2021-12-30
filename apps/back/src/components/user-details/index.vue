@@ -66,7 +66,7 @@ const ordersLink = computed(() => ({
     <dsp-avatar :user="user" size="lg" />
   </dsp-center>
 
-  <dsp-smart-form :form="form" class="infos">
+  <dsp-smart-form :form="form">
     <div>{{ t('user.details.lastName') }}</div>
     <dsp-smart-form-field
       v-if="isEditing"
@@ -216,7 +216,7 @@ const ordersLink = computed(() => ({
 </template>
 
 <style lang="scss" scoped>
-.infos {
+form {
   margin-top: var(--spacing-sm);
   line-height: 1.5;
 

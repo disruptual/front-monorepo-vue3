@@ -182,6 +182,6 @@ a {
 }
 
 .order-status--finished {
-  color: var(--color-green-600);
+  color: var(--color-green-700);
 }
 </style>

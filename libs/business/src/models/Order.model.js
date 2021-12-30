@@ -5,10 +5,13 @@ import { formatPrice } from '@dsp/core';
 import {
   ORDER_STATE_TRANSITIONS,
   ORDER_STATES,
-  ORDER_PROBLEM_STATES
-} from '../enums/order.enums';
+  ORDER_PROBLEM_STATES,
+  DELIVERY_MODES
+} from '../enums';
 import { OrderStatus } from './OrderStatus.model';
 import { Delivery } from './Delivery.model';
+import { Remuneration } from './Remuneration.model';
+import { Store } from './Store.model';
 
 export class Order extends BaseModel {
   static get relations() {
@@ -32,6 +35,16 @@ export class Order extends BaseModel {
         name: 'delivery',
         getUri: entity => entity._delivery,
         model: Delivery
+      },
+      {
+        name: 'remuneration',
+        getUri: entity => entity._remuneration,
+        model: Remuneration
+      },
+      {
+        name: 'location',
+        getUri: entity => entity._location,
+        model: Store
       }
     ];
   }
@@ -93,5 +106,50 @@ export class Order extends BaseModel {
 
   get status() {
     return new OrderStatus(this).getValue();
+  }
+
+  get isNegotiated() {
+    const amount = this.totalAmountBeforeNegotiation;
+
+    return amount > this.totalAmount && amount > this.moneyBox;
+  }
+
+  get totalAmountBeforeNegotiation() {
+    return this.orderItems?.reduce?.(
+      (total, current) => total + current.price,
+      this.serviceFeeAmount + this.deliveryPrice
+    );
+  }
+
+  get isMondialRelay() {
+    return this.delivery.tag === DELIVERY_MODES.MONDIAL_RELAY;
+  }
+
+  get isHandDelivery() {
+    return this.delivery.tag === DELIVERY_MODES.HAND;
+  }
+
+  get isLocationDelivery() {
+    return this.delivery.tag === DELIVERY_MODES.LOCATION;
+  }
+
+  get isCocolis() {
+    return this.delivery.tag === DELIVERY_MODES.COCOLIS;
+  }
+
+  get isRelaisColis() {
+    return this.delivery.tag === DELIVERY_MODES.RELAIS_COLIS;
+  }
+
+  get isColissimo() {
+    return this.delivery.tag === DELIVERY_MODES.RELAIS_COLISSIMO;
+  }
+
+  get isLaposteColissimo() {
+    return this.delivery.tag === DELIVERY_MODES.LAPOSTE_COLISSIMO;
+  }
+
+  get isLaposteLetter() {
+    return this.delivery.tag === DELIVERY_MODES.LAPOSTE_LETTER;
   }
 }

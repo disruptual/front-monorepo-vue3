@@ -6,7 +6,8 @@ export default {
     details: {
       tabs: {
         [ORDER_DETAILS_TABS.INFOS]: 'Informations',
-        [ORDER_DETAILS_TABS.ITEMS]: 'Articles'
+        [ORDER_DETAILS_TABS.ITEMS]: 'Articles',
+        [ORDER_DETAILS_TABS.HISTORY]: 'Suivi de commande'
       }
     },
     status: {
