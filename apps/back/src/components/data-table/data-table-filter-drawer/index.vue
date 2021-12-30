@@ -68,6 +68,22 @@ const getInitialValue = column => {
             />
           </div>
 
+          <select
+            v-else-if="column.type === DATATABLE_COLUMN_TYPES.ENUM"
+            v-model="slotProps.field.value"
+            v-bind="formControlProps"
+            v-on="on"
+          >
+            <option disabled :value="null">Valeur</option>
+            <option
+              v-for="(option, index) in column.enumValues"
+              :key="index"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+
           <dsp-input-text
             v-else
             v-model="slotProps.field.value"

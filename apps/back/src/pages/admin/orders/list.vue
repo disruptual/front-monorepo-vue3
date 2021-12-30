@@ -45,8 +45,8 @@ const statuses = Object.values(ORDER_STATE_TRANSITIONS).map(state => ({
 const deliveryModes = computed(() => {
   if (!deliveries.value) return [];
 
-  return deliveries.value.map(({ tag }) => ({
-    value: tag,
+  return deliveries.value.map(({ tag, id }) => ({
+    value: id,
     label: t(`delivery.modes.${tag}`)
   }));
 });
@@ -152,7 +152,7 @@ const getStatusClass = order => ({
       :type="DATATABLE_COLUMN_TYPES.ENUM"
       :enum-values="deliveryModes"
       is-highlightable
-      is-filterable
+      :highlight-options="{ predicate: row => row.delivery.id }"
     >
       <dsp-truncated-text>
         {{ t(`delivery.modes.${row.delivery.tag}`) }}
