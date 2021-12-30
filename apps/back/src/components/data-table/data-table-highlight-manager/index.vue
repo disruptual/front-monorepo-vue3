@@ -188,8 +188,7 @@ const isEnumHighlight = computed(
             >
               <option disabled :value="null">Valeur</option>
               <option
-                v-for="(option, index) in selectedColumn.highlightOptions
-                  .values"
+                v-for="(option, index) in selectedColumn.enumValues"
                 :key="index"
                 :value="option.value"
               >

@@ -5,7 +5,10 @@ import { useModelQuery } from '@dsp/core/hooks/useModelQuery';
 import { useCollectionQuery } from '@dsp/core/hooks/useCollectionQuery';
 import { serializeQueryString } from '@dsp/core/utils/helpers';
 
-export function useCRUDApi({ model, service }, cb = () => ({})) {
+export function useCRUDApi(
+  { model, service, defaultQueryOptions = {}, defaultMutationOptions = {} },
+  cb = () => ({})
+) {
   const http = useHttp();
   const serviceInstance = new service({ http });
   const baseQueryKey = serviceInstance.endpoint;
@@ -31,6 +34,7 @@ export function useCRUDApi({ model, service }, cb = () => ({})) {
 
       const queryFn = ({ pageParam = { page: 1, itemsPerPage } }) => {
         return serviceInstance.findAll({
+          ...defaultQueryOptions,
           ...requestOptions,
           params: { ...requestOptions.params, ...pageParam, ...unref(filters) }
         });
@@ -48,6 +52,7 @@ export function useCRUDApi({ model, service }, cb = () => ({})) {
       const queryOptions = computed(() => ({
         model,
         relations,
+        ...defaultQueryOptions,
         ...options
       }));
 
@@ -62,7 +67,7 @@ export function useCRUDApi({ model, service }, cb = () => ({})) {
       return useMutation(
         `update:${baseQueryKey}`,
         ({ id, entity }) => serviceInstance.update(id, entity, requestOptions),
-        options
+        { ...defaultMutationOptions, ...options }
       );
     },
 
@@ -70,7 +75,7 @@ export function useCRUDApi({ model, service }, cb = () => ({})) {
       return useMutation(
         `create:${baseQueryKey}`,
         entity => serviceInstance.create(entity, requestOptions),
-        options
+        { ...defaultMutationOptions, ...options }
       );
     },
 
@@ -78,7 +83,7 @@ export function useCRUDApi({ model, service }, cb = () => ({})) {
       return useMutation(
         `delete:${baseQueryKey}`,
         id => serviceInstance.delete(id, requestOptions),
-        options
+        { ...defaultMutationOptions, ...options }
       );
     },
     ...cb(serviceInstance, http)

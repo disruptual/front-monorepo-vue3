@@ -15,15 +15,16 @@ const element = ref(null);
 
 const computedWidth = computed(() => {
   const { width } = props;
-  if (width) return width;
-  if (!element.value) return 'auto';
+  return width || '100%';
+  // if (width) return width;
+  // if (!element.value) return 'auto';
 
-  const { parentNode } = element.value;
-  const { paddingLeft, paddingRight } = getComputedStyle(parentNode);
-  const totalWidth =
-    parentNode.clientWidth - parseInt(paddingLeft) - parseInt(paddingRight);
+  // const { parentNode } = element.value;
+  // const { paddingLeft, paddingRight } = getComputedStyle(parentNode);
+  // const totalWidth =
+  //   parentNode.clientWidth - parseInt(paddingLeft) - parseInt(paddingRight);
 
-  return `${totalWidth}px`;
+  // return `${totalWidth}px`;
 });
 
 const tooltip = () => {

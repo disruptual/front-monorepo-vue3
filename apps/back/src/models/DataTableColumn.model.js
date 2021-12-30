@@ -17,7 +17,8 @@ export class DataTableColumn {
     isFilterable,
     filterName,
     isHighlightable,
-    highlightOptions
+    highlightOptions,
+    enumValues
   }) {
     this.name = name;
     this.type = type;
@@ -33,6 +34,7 @@ export class DataTableColumn {
     this.isHighlightable = isHighlightable;
     this.highlightOptions = highlightOptions;
     this._highlights = [];
+    this.enumValues = enumValues;
 
     this.pinnedOffset = 0;
     this.headerElement = null;

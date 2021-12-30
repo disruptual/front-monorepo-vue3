@@ -8,6 +8,7 @@ import {
   ORDER_PROBLEM_STATES
 } from '../enums/order.enums';
 import { OrderStatus } from './OrderStatus.model';
+import { Delivery } from './Delivery.model';
 
 export class Order extends BaseModel {
   static get relations() {
@@ -26,6 +27,11 @@ export class Order extends BaseModel {
         name: 'orderItems',
         getUri: entity => `/orders/${entity.id}/order_items`,
         model: OrderItem
+      },
+      {
+        name: 'delivery',
+        getUri: entity => entity._delivery,
+        model: Delivery
       }
     ];
   }

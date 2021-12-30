@@ -3,11 +3,11 @@ export default { name: 'AdminOrdersListPage' };
 </script>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { useOrderApi } from '@dsp/core';
-import { ORDER_STATE_TRANSITIONS } from '@dsp/business';
+import { useOrderApi, useDeliveryApi } from '@dsp/core';
+import { ORDER_STATE_TRANSITIONS, DELIVERY_MODES } from '@dsp/business';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { DATATABLE_COLUMN_TYPES } from '@/utils/constants';
 
@@ -31,20 +31,25 @@ const query = useOrderApi().findAllQuery({
   filters,
   relations: ['seller', 'buyer', 'orderItems', 'delivery']
 });
+const { data: deliveries } = useDeliveryApi().findAllQuery();
 
 const goToDetail = row => {
   push({ name: 'AdminOrderDetails', params: { id: row.id } });
 };
 
-const statusHighlightOptions = {
-  values: Object.values(ORDER_STATE_TRANSITIONS).map(state => ({
-    value: state,
-    label: t(`order.status.${state}`)
-  }))
-};
-const itemCountHighlightOptions = {
-  predicate: row => row?.orderItems?.length
-};
+const statuses = Object.values(ORDER_STATE_TRANSITIONS).map(state => ({
+  value: state,
+  label: t(`order.status.${state}`)
+}));
+
+const deliveryModes = computed(() => {
+  if (!deliveries.value) return [];
+
+  return deliveries.value.map(({ tag }) => ({
+    value: tag,
+    label: t(`delivery.modes.${tag}`)
+  }));
+});
 
 const getStatusClass = order => ({
   'order-status--cancelled': order.isCancelled,
@@ -61,11 +66,12 @@ const getStatusClass = order => ({
     @filter-change="onFilterChange"
   >
     <DataTableColumn name="id" label="Id" width="100" is-filterable />
+
     <DataTableColumn
       v-slot="{ row }"
       name="created"
       label="Date de création"
-      width="200"
+      width="160"
       :type="DATATABLE_COLUMN_TYPES.DATE"
       :tooltip-label="({ row }) => row.formatCreated()"
       is-highlightable
@@ -73,19 +79,21 @@ const getStatusClass = order => ({
     >
       {{ row.formatCreated() }}
     </DataTableColumn>
+
     <DataTableColumn
       v-slot="{ row }"
       name="status"
       label="Statut"
       width="250"
       :type="DATATABLE_COLUMN_TYPES.ENUM"
-      :highlight-options="statusHighlightOptions"
+      :enum-values="statuses"
       is-highlightable
     >
-      <span class="order-status" :class="getStatusClass(row)">
+      <dsp-truncated-text class="order-status" :class="getStatusClass(row)">
         {{ t(`order.status.${row.status}`) }}
-      </span>
+      </dsp-truncated-text>
     </DataTableColumn>
+
     <DataTableColumn
       v-slot="{ row }"
       name="seller"
@@ -95,15 +103,16 @@ const getStatusClass = order => ({
       filter-name="orderSeller.user.email"
       is-highlightable
     >
-      <router-link
-        v-if="row.seller"
-        :to="{ name: 'AdminUserDetails', params: { slug: row.seller?.slug } }"
-      >
-        <dsp-truncated-text>
+      <dsp-truncated-text>
+        <router-link
+          v-if="row.seller"
+          :to="{ name: 'AdminUserDetails', params: { slug: row.seller?.slug } }"
+        >
           {{ row.seller?.email }}
-        </dsp-truncated-text>
-      </router-link>
+        </router-link>
+      </dsp-truncated-text>
     </DataTableColumn>
+
     <DataTableColumn
       v-slot="{ row }"
       name="buyer"
@@ -113,24 +122,43 @@ const getStatusClass = order => ({
       filter-name="orderUser.email"
       is-highlightable
     >
-      <router-link
-        v-if="row.buyer"
-        :to="{ name: 'AdminUserDetails', params: { slug: row.buyer?.slug } }"
-      >
-        <dsp-truncated-text>{{ row.buyer?.email }}</dsp-truncated-text>
-      </router-link>
+      <dsp-truncated-text>
+        <router-link
+          v-if="row.buyer"
+          :to="{ name: 'AdminUserDetails', params: { slug: row.buyer?.slug } }"
+        >
+          {{ row.buyer?.email }}
+        </router-link>
+      </dsp-truncated-text>
     </DataTableColumn>
+
     <DataTableColumn
       v-slot="{ row }"
       name="itemCount"
       label="Nb d'articles"
       width="80"
       :type="DATATABLE_COLUMN_TYPES.NUMBER"
-      :highlight-options="itemCountHighlightOptions"
+      :highlight-options="{ predicate: row => row?.orderItems?.length }"
       is-highlightable
+      is-hidden
     >
       {{ row.orderItems?.length }}
     </DataTableColumn>
+
+    <DataTableColumn
+      v-slot="{ row }"
+      name="delivery"
+      label="Mode de livraison"
+      :type="DATATABLE_COLUMN_TYPES.ENUM"
+      :enum-values="deliveryModes"
+      is-highlightable
+      is-filterable
+    >
+      <dsp-truncated-text>
+        {{ t(`delivery.modes.${row.delivery.tag}`) }}
+      </dsp-truncated-text>
+    </DataTableColumn>
+
     <DataTableColumn
       name="formatedPrice"
       label="Montant"
