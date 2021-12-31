@@ -17,3 +17,4 @@ export { Size } from './Size.model';
 export { Condition } from './Condition.model';
 export { Cart } from './Cart.model';
 export { CartItem } from './CartItem.model';
+export { Announcement } from './Announcement.model';
