@@ -45,14 +45,12 @@ const style = computed(() => ({
   &.slide-enter-active,
   &.slide-leave-active {
     transition: transform v-bind('style.duration');
-    transition: opacity 2s;
   }
 
   &.slide-transition--horizontal {
     &.slide-enter-from,
     &.slide-leave-to {
       transform: translateX(v-bind('style.distance'));
-      opacity: 0;
     }
   }
 
