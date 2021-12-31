@@ -30,6 +30,8 @@ import store from './store.svg';
 import chart from './chart.svg';
 import handshake from './handshake.svg';
 import reset from './reset.svg';
+import info from './info.svg';
+import fastForward from './fastForward.svg';
 
 export default {
   bars,
@@ -43,18 +45,20 @@ export default {
   circleRegular,
   circleSolid,
   columns,
-  remove,
   edit,
   ellipsisH,
   eye,
   eyeSlash,
+  fastForward,
   filter,
   handshake,
   highlight,
   home,
+  info,
   loader,
   pin,
   plus,
+  remove,
   reset,
   search,
   speechBubble,

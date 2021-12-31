@@ -1,5 +1,11 @@
 import { ORDER_DETAILS_TABS } from '@/utils/constants';
-import { ORDER_STATE_TRANSITIONS } from '@dsp/business/';
+import {
+  ORDER_STATE_TRANSITIONS,
+  ORDER_PROBLEM_STATE_TRANSITIONS,
+  ORDER_STATES,
+  ORDER_PROBLEM_STATES,
+  ORDER_DELIVERY_STATES
+} from '@dsp/business/';
 
 export default {
   order: {
@@ -11,6 +17,16 @@ export default {
       }
     },
     status: {
+      [ORDER_STATES.DELIVERED]: 'Récupérée',
+      [ORDER_STATES.DISTRIBUTED]: 'Reçue',
+      [ORDER_STATES.END]: 'Finalisée',
+      [ORDER_STATES.ORDERED]: 'En attente de validation',
+      [ORDER_STATES.ORDER_ACCEPTED]: 'Validée par le vendeur',
+      [ORDER_STATES.DELIVERY_IN_PROGRESS]: 'En cours de livraison',
+      [ORDER_STATES.SENT]: 'Envoyée',
+      [ORDER_STATES.STORE_TO_STORE_VALIDATED]: 'Acceptée par le magasin',
+      [ORDER_STATE_TRANSITIONS.ORDERED]: 'Commandée',
+      [ORDER_STATE_TRANSITIONS.ORDER_ACCEPTED_BY_SELLER]: 'A envoyer',
       [ORDER_STATE_TRANSITIONS.BUYER_IN_STORE_ACCEPT]:
         "Récupérée en magasin par l'acheteur",
       [ORDER_STATE_TRANSITIONS.BUYER_IN_STORE_REFUSE]:
@@ -21,10 +37,10 @@ export default {
         'Annuléeautomatiquement',
       [ORDER_STATE_TRANSITIONS.CANCEL_AUTOMATIC_BY_ORDER_ACCEPTED]:
         'Annulée automatiquement',
-      [ORDER_STATE_TRANSITIONS.DELIVERY]: "Récupéré par l'acheteur",
+      [ORDER_STATE_TRANSITIONS.DELIVERY]: "Récupérée par l'acheteur",
       [ORDER_STATE_TRANSITIONS.DELIVERY_BY_ORDER_ACCEPTED]:
-        "Récupéré par l'acheteur",
-      [ORDER_STATE_TRANSITIONS.DELIVERY_BY_SENT]: "Récupéré par l'acheteur",
+        "Récupérée par l'acheteur",
+      [ORDER_STATE_TRANSITIONS.DELIVERY_BY_SENT]: "Récupérée par l'acheteur",
       [ORDER_STATE_TRANSITIONS.DELIVERY_CANCELLED]: 'Livraison annulée',
       [ORDER_STATE_TRANSITIONS.DELIVERY_COMPLETED]: 'Livraison terminée',
       [ORDER_STATE_TRANSITIONS.DISTRIBUTION_BY_ORDER_ACCEPTED]:
@@ -52,7 +68,19 @@ export default {
         'Finalisée automatiquement',
       [ORDER_STATE_TRANSITIONS.VALIDATION_BY_DELIVERED]: 'Finalisée',
       [ORDER_STATE_TRANSITIONS.VALIDATION_BY_ORDER_ACCEPTED]: 'Finalisée',
-      [ORDER_STATE_TRANSITIONS.VALIDATION_BY_SENT]: 'Finalisée'
+      [ORDER_STATE_TRANSITIONS.VALIDATION_BY_SENT]: 'Finalisée',
+      [ORDER_PROBLEM_STATES.PROBLEM]: 'Litige en cours',
+      [ORDER_PROBLEM_STATES.DISPUTED]: 'Litige en cours',
+      [ORDER_PROBLEM_STATE_TRANSITIONS.INIT_PROBLEM]: 'Litige en cours',
+      [ORDER_PROBLEM_STATE_TRANSITIONS.PROBLEM_IS_SOLVED_BY_USERS]:
+        'Litige résolu',
+      [ORDER_PROBLEM_STATE_TRANSITIONS.PROBLEM_NEED_CUSTOMER_SERVICE]:
+        'Litige en cours (service client)',
+      [ORDER_PROBLEM_STATE_TRANSITIONS.PROBLEM_IS_SOLVED_BY_CUSTOMER_SERVICE]:
+        'Litige résolu',
+      [ORDER_PROBLEM_STATE_TRANSITIONS.PROBLEM_IS_SOLVED_AUTOMATICALLY]:
+        'Litige résolu',
+      [ORDER_DELIVERY_STATES.START]: 'A envoyer'
     }
   }
 };

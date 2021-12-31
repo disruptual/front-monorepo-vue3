@@ -68,8 +68,7 @@ const initialValue = computed(() => ({
   value: props.highlight?.value ?? null
 }));
 
-const [, formActions] = form;
-const formValues = computed(() => formActions.values.value);
+const [, { values: formValues }] = form;
 const selectedColumn = computed(() =>
   model.columns.find(col => col.name === formValues.value.column)
 );

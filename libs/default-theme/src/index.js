@@ -16,7 +16,7 @@ export default {
     brand: '#FF6600',
     success: '#1e7a3a',
     error: '#C95242',
-    warning: '#EBBE5E',
+    warning: '#efd037',
     gray: '#777',
     blue: '#4287f5',
     red: '#f54242',

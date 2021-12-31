@@ -65,5 +65,7 @@ export class FormField {
       ...(options || {}),
       formContext
     });
+
+    return this;
   }
 }

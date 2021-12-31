@@ -26,7 +26,7 @@ export const createComponentSchema = (name, schema) => {
     return props;
   }
 
-  function toVariant(props) {
+  function toVariant({ variant, ...props }) {
     const attrs = useAttrs();
     const config = toContext(props);
     const variantComponent = shallowRef(null);

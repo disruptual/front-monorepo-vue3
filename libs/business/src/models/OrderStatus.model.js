@@ -19,7 +19,7 @@ export class OrderStatus {
     }
 
     if (
-      this.delivery.tag === DELIVERY_MODES.LOCATION &&
+      this.order.delivery.tag === DELIVERY_MODES.LOCATION &&
       this.order.isEnded &&
       this.orderproblemState === ORDER_PROBLEM_STATES.NONE &&
       this.orderproblemStateTransition === ORDER_PROBLEM_STATE_TRANSITIONS.NONE
@@ -65,23 +65,23 @@ export class OrderStatus {
       );
     }
 
-    if (this.shouldUseOrderStateTransition) {
+    if (this.shouldUseOrderStateTransition()) {
       return this.order.orderStateTransition;
     }
 
-    if (this.shouldUseProblemState) {
+    if (this.shouldUseProblemState()) {
       return this.order.problemState;
     }
 
-    if (this.shouldUseProblemStateTransition) {
+    if (this.shouldUseProblemStateTransition()) {
       return this.order.problemStateTransition;
     }
 
-    if (this.shouldUseDeliveryStateTransition) {
+    if (this.shouldUseDeliveryStateTransition()) {
       return this.order.deliveryStateTransition;
     }
 
-    if (this.shouldUseDeliveryState) {
+    if (this.shouldUseDeliveryState()) {
       return this.order.deliveryState;
     }
 

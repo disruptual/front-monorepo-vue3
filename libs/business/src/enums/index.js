@@ -9,6 +9,11 @@ export const USER_ROLES = {
   DAF: 'ROLE_DAF'
 };
 
+export const USER_GENDERS = {
+  MALE: 'M',
+  FEMALE: 'F'
+};
+
 export const DELIVERY_MODES = {
   MONDIAL_RELAY: 'mondialrelay',
   COLISSIMO: 'colissimo',

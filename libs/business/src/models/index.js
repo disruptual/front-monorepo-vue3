@@ -18,3 +18,5 @@ export { Condition } from './Condition.model';
 export { Cart } from './Cart.model';
 export { CartItem } from './CartItem.model';
 export { Remuneration } from './Remuneration.model';
+export { OrderStateHisto } from './OrderStateHisto.model';
+export { DeliveryStateHisto } from './DeliveryStateHisto.model';

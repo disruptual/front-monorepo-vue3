@@ -21,6 +21,10 @@ const breadCrumbLabel = computed(
   () => query.data.value?.title ?? t('breadcrumb.itemDetail')
 );
 useBreadCrumbs(breadCrumbLabel);
+
+const sliderUrls = computed(() =>
+  query.data.value.medias.map(media => media.url)
+);
 </script>
 
 <template>
@@ -30,11 +34,14 @@ useBreadCrumbs(breadCrumbLabel);
         <dsp-center>
           <h2>{{ item.title }}</h2>
         </dsp-center>
-        <dsp-swiper as="ul">
+        <!-- <dsp-swiper as="ul">
           <dsp-swiper-item v-for="media in item.medias" :key="media.id" as="li">
             <dsp-image class="photo" :src="media.thumbnails?.avatar" />
           </dsp-swiper-item>
-        </dsp-swiper>
+        </dsp-swiper> -->
+
+        <dsp-slider :image-urls="sliderUrls" />
+
         <div v-if="item.colors" class="color">
           <strong>Couleurs :</strong>
           <dsp-flex>

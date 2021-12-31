@@ -16,7 +16,7 @@ const activeFilters = computed(() =>
     .map(([key, value]) => ({
       name: key,
       label: model.columns.find(col => [col.filterName, col.name].includes(key))
-        .label,
+        ?.label,
       value
     }))
 );

@@ -28,7 +28,9 @@ const query = useOrderApi().findByIdQuery(props.id, {
     'orderItems',
     'delivery',
     'remuneration',
-    'location'
+    'location',
+    'orderStateHistos',
+    'deliveryStateHistos'
   ]
 });
 
@@ -60,9 +62,7 @@ useBreadCrumbs(breadCrumbLabel);
         :label="t(`order.details.tabs.${TABS.INFOS}`)"
       >
         <dsp-container as="section">
-          <dsp-surface>
-            <OrderDetails :order="order" />
-          </dsp-surface>
+          <OrderDetails :order="order" />
         </dsp-container>
       </dsp-tab>
 
@@ -81,7 +81,7 @@ useBreadCrumbs(breadCrumbLabel);
       >
         <dsp-container as="section">
           <dsp-surface>
-            <OrderHistory :order-id="props.id" />
+            <OrderHistory :order="order" @rollback="query.refetch()" />
           </dsp-surface>
         </dsp-container>
       </dsp-tab>

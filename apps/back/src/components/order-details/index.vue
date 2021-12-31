@@ -5,13 +5,15 @@ export default { name: 'OrderDetails' };
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { Order } from '@dsp/business';
+import { Order, USER_GENDERS } from '@dsp/business';
 import { formatPrice } from '@dsp/core';
 import { ORDER_DETAILS_TABS as TABS } from '@/utils/constants';
 
 const props = defineProps({
   order: { type: Order, required: true }
 });
+
+const { t } = useI18n();
 
 const itemsLink = computed(() => ({
   query: { section: TABS.ITEMS }
@@ -22,12 +24,17 @@ const statusClass = computed(() => ({
   'order-status--finished': props.order.isFinished
 }));
 
-const { t } = useI18n();
+const sellerLabel = computed(() =>
+  props.order.seller?.gender === USER_GENDERS.FEMALE ? 'Vendeuse' : 'Vendeur'
+);
+const buyerLabel = computed(() =>
+  props.order.buyer?.gender === USER_GENDERS.FEMALE ? 'Acheteuse' : 'Acheteur'
+);
 </script>
 
 <template>
   <div class="order-details">
-    <section class="order-details__general">
+    <dsp-surface as="section" class="order-details__general">
       <h3>Informations générales</h3>
       <dl>
         <dt>Statut</dt>
@@ -38,7 +45,7 @@ const { t } = useI18n();
         <dt>Date de commande</dt>
         <dd>{{ order.formatCreated() }}</dd>
 
-        <dt>Nombre d'articles commandés</dt>
+        <dt>Nombre d'articles</dt>
         <dd>
           {{ order.orderItems?.length }}
           <router-link :to="itemsLink">(voir le détail)</router-link>
@@ -92,9 +99,9 @@ const { t } = useI18n();
           </dd>
         </template>
       </dl>
-    </section>
+    </dsp-surface>
 
-    <section class="order-details__remuneration">
+    <dsp-surface as="section" class="order-details__remuneration">
       <h3>Rémuneration</h3>
       <dl>
         <dt>Mode de rémuneration</dt>
@@ -120,47 +127,39 @@ const { t } = useI18n();
           <dd>{{ formatPrice(order.totalAmount || order.moneyBox) }}</dd>
         </template>
       </dl>
-    </section>
+    </dsp-surface>
 
-    <dsp-flex
-      as="section"
-      direction="column"
-      align="center"
-      gap="sm"
-      class="order-details__buyer"
-    >
-      <h3>Acheteur</h3>
+    <dsp-surface as="section" class="order-details__buyer">
+      <h3>{{ buyerLabel }}</h3>
       <router-link
-        :to="{ name: 'AdminUserDetails', params: { slug: order.buyer.slug } }"
+        v-if="order.buyer"
+        :to="{ name: 'AdminUserDetails', params: { slug: order.buyer?.slug } }"
         class="user-card"
       >
-        <dsp-center gap="sm">
-          <dsp-avatar :user="order.buyer" size="lg" />
-          <span>{{ order.buyer.fullName }}</span>
-          <span>{{ order.buyer.email }}</span>
-        </dsp-center>
+        <dsp-avatar :user="order.buyer" size="lg" />
+        <span>{{ order.buyer.fullName }}</span>
+        <span>{{ order.buyer.email }}</span>
       </router-link>
-    </dsp-flex>
+      <span v-else>Informations de l'acheteur non disponibles.</span>
+    </dsp-surface>
 
-    <dsp-flex
-      as="section"
-      direction="column"
-      align="center"
-      gap="sm"
-      class="order-details__seller"
-    >
-      <h3>Vendeur</h3>
+    <dsp-surface as="section" class="order-details__seller">
+      <h3>{{ sellerLabel }}</h3>
       <router-link
-        :to="{ name: 'AdminUserDetails', params: { slug: order.seller.slug } }"
+        v-if="order.seller"
+        :to="{
+          name: 'AdminUserDetails',
+          params: { slug: order.seller?.slug }
+        }"
         class="user-card"
       >
-        <dsp-center gap="sm">
-          <dsp-avatar :user="order.seller" size="lg" />
-          <span>{{ order.seller.fullName }}</span>
-          <span>{{ order.seller.email }}</span>
-        </dsp-center>
+        <dsp-avatar :user="order.seller" size="lg" />
+        <span>{{ order.seller.fullName }}</span>
+        <span>{{ order.seller.email }}</span>
       </router-link>
-    </dsp-flex>
+
+      <span v-else>Informations du vendeur non disponibles.</span>
+    </dsp-surface>
   </div>
 </template>
 
@@ -170,27 +169,37 @@ a {
 }
 
 .order-details {
-  @include desktop-only {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+  display: grid;
+  grid-gap: var(--spacing-md);
+
+  @include not-mobile {
+    grid-template-columns: 6fr 4fr;
     grid-template-areas: 'general buyer' 'remuneration seller';
   }
 }
 
 .order-details__general {
-  grid-area: general;
+  @include not-mobile {
+    grid-area: general;
+  }
 }
 
 .order-details__remuneration {
-  grid-area: remuneration;
+  @include not-mobile {
+    grid-area: remuneration;
+  }
 }
 
 .order-details__buyer {
-  grid-area: buyer;
+  @include not-mobile {
+    grid-area: buyer;
+  }
 }
 
 .order-details__seller {
-  grid-area: seller;
+  @include not-mobile {
+    grid-area: seller;
+  }
 }
 
 dl {
@@ -198,30 +207,29 @@ dl {
     display: grid;
     grid-template-columns: minmax(15em, auto) 1fr;
     grid-column-gap: var(--spacing-md);
-    grid-row-gap: var(--spacing-sm);
-  }
-
-  @include not-desktop {
-    line-height: 1.5;
   }
 
   > *:nth-child(odd) {
     font-weight: var(--font-weight-light);
   }
 }
+
 dd {
   margin-left: 0;
+  margin-bottom: var(--spacing-sm);
+}
+
+h3 {
+  margin-top: 0;
 }
 
 .user-card {
   color: inherit;
   text-decoration: none;
   transition: transform var(--transition-sm);
-
-  &:hover,
-  &:focus {
-    transform: scale(1.05);
-  }
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
 }
 
 .order-status {

@@ -1,14 +1,11 @@
-import { computed, unref } from 'vue';
+import { computed } from 'vue';
+import { useMutation } from 'vue-query';
 import { Order, OrderService } from '@dsp/business';
-import { useHttp } from '@dsp/core/hooks/useHttp';
 import { useCollectionQuery } from '@dsp/core/hooks/useCollectionQuery.js';
-import { serializeQueryString, useModelQuery } from '@dsp/core/index';
+import { useCRUDApi } from '../useCRUDApi';
 
 export function useOrderApi() {
-  const http = useHttp();
-  const orderService = new OrderService({ http });
-
-  return {
+  return useCRUDApi({ model: Order, service: OrderService }, orderService => ({
     findAllByUserIdQuery(userId, { relations = [] } = {}) {
       const queryKey = computed(() => `/users/${userId}/orders`);
 
@@ -19,37 +16,22 @@ export function useOrderApi() {
       );
     },
 
-    findByIdQuery(orderId, { relations = [] } = {}) {
-      const queryKey = computed(() => `orders/${orderId}`);
-
-      return useModelQuery(queryKey, () => orderService.findById(orderId), {
-        model: Order,
-        relations
-      });
+    rollbackMutation(requestOptions) {
+      return useMutation(
+        `rollBackOrder`,
+        ({ id, orderState, orderStateTransition }) =>
+          orderService.rollback(id, { orderState, orderStateTransition }),
+        requestOptions
+      );
     },
 
-    findAllQuery(
-      { relations = [], itemsPerPage = 30, filters = {} } = {},
-      ...options
-    ) {
-      const queryKey = computed(
-        () => `/orders?${serializeQueryString(unref(filters))}`
+    forwardMutation(requestOptions) {
+      return useMutation(
+        `rollBackOrder`,
+        ({ id, deliveryTag, transition }) =>
+          orderService.forward(id, { deliveryTag, transition }),
+        requestOptions
       );
-
-      const queryOptions = computed(() => ({
-        model: Order,
-        itemsPerPage,
-        relations,
-        ...options
-      }));
-
-      const queryFn = ({ pageParam = { page: 1, itemsPerPage } }) => {
-        return orderService.findAll({
-          params: { ...pageParam, ...unref(filters) }
-        });
-      };
-
-      return useCollectionQuery(queryKey, queryFn, queryOptions);
     }
-  };
+  }));
 }
