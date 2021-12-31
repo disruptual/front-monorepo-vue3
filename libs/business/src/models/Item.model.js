@@ -7,6 +7,7 @@ import { formatPrice } from '@dsp/core';
 import { Size } from './Size.model';
 import { Brand } from './Brand.model';
 import { Condition } from './Condition.model';
+import {PackageDelivery} from './PackageDelivery.model'
 
 export class Item extends BaseModel {
   static get relations() {
@@ -21,7 +22,9 @@ export class Item extends BaseModel {
       { name: 'size', getUri: entity => entity._size, model: Size },
       { name: 'user', getUri: entity => entity._user, model: User },
       { name: 'mainMedia', getUri: entity => entity._mainMedia, model: Media },
-      { name: 'brand', getUri: entity => entity._brand, model: Brand }
+      { name: 'brand', getUri: entity => entity._brand, model: Brand },
+      { name: 'packageDelivery', getUri: entity => entity._packageDelivery, model: PackageDelivery }
+
     ];
   }
 

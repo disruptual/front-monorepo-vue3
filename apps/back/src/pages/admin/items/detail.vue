@@ -3,7 +3,7 @@ export default { name: 'AdminItemDetailPage' };
 </script>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { useItemApi } from '@dsp/core';
@@ -11,7 +11,6 @@ import { useItemApi } from '@dsp/core';
 const props = defineProps({
   id: { type: String, required: true }
 });
-
 const { t } = useI18n();
 const query = useItemApi().findByIdQuery(props.id, {
   requestOptions: { params: { display: 'all' } }
@@ -19,6 +18,9 @@ const query = useItemApi().findByIdQuery(props.id, {
 
 const breadCrumbLabel = computed(
   () => query.data.value?.title ?? t('breadcrumb.itemDetail')
+);
+const SliderUrls = computed(() =>
+  query.data.value?.medias.map(media => media.url)
 );
 useBreadCrumbs(breadCrumbLabel);
 </script>
@@ -30,71 +32,80 @@ useBreadCrumbs(breadCrumbLabel);
         <dsp-center>
           <h2>{{ item.title }}</h2>
         </dsp-center>
-        <dsp-swiper as="ul">
-          <dsp-swiper-item v-for="media in item.medias" :key="media.id" as="li">
-            <dsp-image class="photo" :src="media.thumbnails?.avatar" />
-          </dsp-swiper-item>
-        </dsp-swiper>
-        <div v-if="item.colors" class="color">
-          <strong>Couleurs :</strong>
-          <dsp-flex>
-            <div
-              v-for="color in item.colors"
-              :key="color.id"
-              class="color-preview"
-              :style="{ '--color': '#' + color.hex }"
-            />
+        <dsp-flex gap="md" justify="center">
+          <dsp-slider :images-urls="SliderUrls" />
+
+          <dsp-flex direction="column" gap="sm">
+            <dsp-flex v-if="item.colors" align="center" gap="sm" class="color">
+              <strong>Couleurs :</strong>
+              <dsp-flex>
+                <div
+                  v-for="color in item.colors"
+                  :key="color.id"
+                  class="color-preview"
+                  :style="{ '--color': '#' + color.hex }"
+                />
+              </dsp-flex>
+            </dsp-flex>
+
+            <dsp-flex v-if="item.category" gap="sm" class="category">
+              <strong>Catégorie :</strong>
+              <span>{{ item.category.name }}</span>
+            </dsp-flex>
+
+            <dsp-flex v-if="item.condition" gap="sm" class="state">
+              <strong>Etat :</strong>
+              <span>{{ item.condition.stateName }}</span>
+            </dsp-flex>
+
+            <dsp-flex v-if="item.size" gap="sm" class="size">
+              <strong>Taille :</strong>
+              <span>{{ item.size.name }}</span>
+            </dsp-flex>
+
+            <dsp-flex
+              v-if="item.packageDelivery"
+              gap="sm"
+              class="package-delivery"
+            >
+              <strong>Format de colis :</strong>
+              <span>{{ item.packageDelivery.name }}</span>
+            </dsp-flex>
+
+            <dsp-flex v-if="item.brand" gap="sm" class="brand">
+              <strong>Marque :</strong>
+              <span>{{ item.brand.name }}</span>
+            </dsp-flex>
+
+            <dsp-flex v-if="item.deliveries" gap="sm" class="deliveries">
+              <strong>Modes de livraison :</strong>
+              <span>{{ item.deliveriesString }}</span>
+            </dsp-flex>
+
+            <dsp-flex v-if="item.composition" gap="sm" class="composition">
+              <strong>Composition :</strong>
+              <span>{{ item.composition }}</span>
+            </dsp-flex>
+
+            <dsp-flex v-if="item.content" gap="sm" class="content">
+              <strong>Description :</strong>
+              <span>{{ item.content }}</span>
+            </dsp-flex>
+
+            <dsp-flex
+              v-if="item.locations?.length > 0"
+              gap="sm"
+              class="locations"
+            >
+              <strong>Magasins de dépôt :</strong>
+              <ul class="location-list">
+                <li v-for="location in item.locations" :key="location.id">
+                  {{ location.name }}
+                </li>
+              </ul>
+            </dsp-flex>
           </dsp-flex>
-        </div>
-
-        <div v-if="item.category" class="category">
-          <strong>Catégorie :</strong>
-          <span>{{ item.category.name }}</span>
-        </div>
-
-        <div v-if="item.condition" class="state">
-          <strong>Etat :</strong>
-          <span>{{ item.condition.stateName }}</span>
-        </div>
-
-        <div v-if="item.size" class="size">
-          <strong>Taille :</strong>
-          <span>{{ item.size.name }}</span>
-        </div>
-
-        <div v-if="item.packageDelivery" class="package-delivery">
-          <strong>Format de colis :</strong>
-          <span>{{ item.packageDelivery.name }}</span>
-        </div>
-
-        <div v-if="item.brand" class="brand">
-          <strong>Marque :</strong>
-          <span>{{ item.brand.name }}</span>
-        </div>
-
-        <div v-if="item.deliveries" class="deliveries">
-          <strong>Modes de livraison :</strong>
-          <span>{{ item.deliveriesString }}</span>
-        </div>
-
-        <div v-if="item.composition" class="composition">
-          <strong>Composition :</strong>
-          <span>{{ item.composition }}</span>
-        </div>
-
-        <div v-if="item.content" class="content">
-          <strong>Description:</strong>
-          <span>{{ item.content }}</span>
-        </div>
-
-        <div v-if="item.locations?.length > 0" class="locations">
-          <strong>Magasins de dépôt:</strong>
-          <ul class="location-list">
-            <li v-for="location in item.locations" :key="location.id">
-              {{ location.name }}
-            </li>
-          </ul>
-        </div>
+        </dsp-flex>
       </dsp-surface>
     </dsp-container>
   </dsp-query-loader>

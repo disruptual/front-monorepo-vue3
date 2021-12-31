@@ -30,7 +30,7 @@ const goToDetail = row => {
     @row-dbl-click="goToDetail"
   >
     <template #no-result>
-      <dsp-center>Cet tilisateur ne possède aucun article.</dsp-center>
+      <dsp-center>Cet utilisateur ne possède aucun article.</dsp-center>
     </template>
 
     <DataTableColumn name="id" label="Id" width="40" />

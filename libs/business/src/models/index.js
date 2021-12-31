@@ -8,6 +8,7 @@ export { Delivery } from './Delivery.model';
 export { Iban } from './Iban.model';
 export { Order } from './Order.model';
 export { OrderItem } from './OrderItem.model';
+export { PackageDelivery } from './PackageDelivery.model';
 export { Contact } from './Contact.model';
 export { Email } from './Email.model';
 export { Store } from './Store.model';
