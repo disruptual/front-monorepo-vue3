@@ -109,33 +109,5 @@ export default [
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       layout: layouts.default
     }
-  },
-  {
-    path: '/admin/message-annonce',
-    name: 'AdminAnnouncement',
-    props: true,
-    component: () => import('@/pages/admin/customisation/announcement.vue'),
-    meta: {
-      permissions: [
-        USER_ROLES.ADMIN,
-        USER_ROLES.PROJECT_MANAGER,
-        USER_ROLES.STORE
-      ],
-      layout: layouts.default
-    }
-  },
-  {
-    path: '/admin/message-annonce',
-    name: 'AdminCarousel',
-    props: true,
-    component: () => import('@/pages/admin/customisation/carousel.vue'),
-    meta: {
-      permissions: [
-        USER_ROLES.ADMIN,
-        USER_ROLES.PROJECT_MANAGER,
-        USER_ROLES.STORE
-      ],
-      layout: layouts.default
-    }
   }
 ];

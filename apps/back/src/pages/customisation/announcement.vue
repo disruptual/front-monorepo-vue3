@@ -11,7 +11,9 @@ import { ref } from 'vue';
 
 useBreadCrumbs('Les messages annonces');
 
-const query = useAnnouncementApi().findAllQuery();
+const query = useAnnouncementApi().findAllQuery({
+  params: { technicalId: 'header' }
+});
 const { mutateAsync: updateAnnouncement } =
   useAnnouncementApi().updateMutation();
 const { mutateAsync: deleteAnnouncement } =

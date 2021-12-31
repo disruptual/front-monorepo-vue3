@@ -21,5 +21,15 @@ export const routes = [
       layout: layouts.fullPage
     }
   },
+  {
+    path: '/customisation/message-annonce',
+    name: 'CustomisationAnnouncement',
+    props: true,
+    component: () => import('@/pages/customisation/customisation/carousel.vue'),
+    meta: {
+      permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      layout: layouts.default
+    }
+  },
   ...adminRoutes
 ];

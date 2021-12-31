@@ -8,7 +8,7 @@ import DataTableColumn from '@/components/data-table/data-table-column/index.vue
 import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
 import { isWithinInterval } from 'date-fns';
 
-const props = defineProps({
+defineProps({
   entity: { type: Object, required: true }
 });
 const emit = defineEmits(['update', 'delete', 'edit', 'add']);
@@ -45,58 +45,58 @@ const isActive = announcement => {
     :query="entity"
     :min-row-size="50"
     :has-action-bar="true"
-    :has-selector-column="false"
+    :has-selector-column="true"
     @row-dbl-click="goToEdit"
   >
     <template #no-result>
       <dsp-center>Ce site ne possède pas de message d'annonce.</dsp-center>
     </template>
+    <DataTableColumn name="state" label="Actif">
+      <dsp-center class="active-label">
+        <span>En cours</span>
+      </dsp-center>
+    </DataTableColumn>
     <DataTableColumn
       v-slot="{ row }"
       name="startAt"
-      label="StartAt"
-      width="100"
+      label="Date de début"
+      width="200"
     >
       {{ row.formatStartAt() }}
     </DataTableColumn>
-    <DataTableColumn v-slot="{ row }" name="endAt" label="EndAt" width="100">
+    <DataTableColumn
+      v-slot="{ row }"
+      name="endAt"
+      label="Date de fin"
+      width="200"
+    >
       {{ row.formatEndAt() }}
     </DataTableColumn>
-    <DataTableColumn name="content" label="Content" width="300" />
+    <DataTableColumn name="content" label="Content" width="50%" />
     <DataTableColumn
       v-slot="{ row }"
       name="closable"
-      label="Fermable"
-      width="300"
+      label="Fermable par l'utilisateur"
+      widh="50"
     >
-      <dsp-center class="closable">
+      <dsp-flex justify="center" class="closable-column">
         <dsp-checkbox
           label=""
           :model-value="row.closable"
           @change="updateClosable(row)"
         />
-      </dsp-center>
-    </DataTableColumn>
-    <DataTableColumn v-slot="{ row }" name="Etat" label="Etat" width="300">
-      <dsp-center class="active-label">
-        <span v-show="isActive(row)">En cours</span>
-      </dsp-center>
+      </dsp-flex>
     </DataTableColumn>
     <DataTableRowAction
       name="delete"
       label="Supprimer"
-      icon="delete"
+      icon="remove"
       @action="onSoftDelete"
     />
   </DataTable>
 </template>
 
 <style lang="scss" scoped>
-.closable,
-.active-label {
-  width: 100%;
-}
-
 .add {
   margin: var(--spacing-xs);
 }
@@ -106,5 +106,9 @@ const isActive = announcement => {
   color: var(--color-success-400);
   border-radius: 9999px;
   border: solid 2px var(--color-success-300);
+}
+
+.closable-column {
+  flex-grow: 1;
 }
 </style>
