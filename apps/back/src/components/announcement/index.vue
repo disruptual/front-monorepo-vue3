@@ -17,8 +17,8 @@ const goToEdit = row => {
   emit('edit', row);
 };
 
-const onSoftDelete = row => {
-  emit('delete', row[0]);
+const onSoftDelete = rows => {
+  emit('delete', rows);
 };
 
 const updateClosable = row => {
@@ -51,7 +51,7 @@ const isActive = announcement => {
     <template #no-result>
       <dsp-center>Ce site ne possède pas de message d'annonce.</dsp-center>
     </template>
-    <DataTableColumn name="state" label="Actif">
+    <DataTableColumn name="state" label="Actif" width="120">
       <dsp-center class="active-label">
         <span>En cours</span>
       </dsp-center>

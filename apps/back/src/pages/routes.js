@@ -23,9 +23,9 @@ export const routes = [
   },
   {
     path: '/customisation/message-annonce',
-    name: 'CustomisationAnnouncement',
+    name: 'CustomizationAnnouncement',
     props: true,
-    component: () => import('@/pages/customisation/customisation/carousel.vue'),
+    component: () => import('@/pages/customisation/announcement.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       layout: layouts.default

@@ -107,8 +107,11 @@ export const MENU = [
       USER_ROLES.STORE
     ],
     links: [
-      { target: { name: 'AdminAnnouncement' }, label: "Message d'annonce" },
-      { target: { name: 'AdminCarousel' }, label: 'Éditeur de Carrousel' }
+      {
+        target: { name: 'CustomizationAnnouncement' },
+        label: "Message d'annonce"
+      }
+      // { target: { name: 'AdminCarousel' }, label: 'Éditeur de Carrousel' }
     ]
   }
 ];

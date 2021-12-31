@@ -12,7 +12,7 @@ import { ref } from 'vue';
 useBreadCrumbs('Les messages annonces');
 
 const query = useAnnouncementApi().findAllQuery({
-  params: { technicalId: 'header' }
+  params: { requestOptions: { technicalId: 'header' } }
 });
 const { mutateAsync: updateAnnouncement } =
   useAnnouncementApi().updateMutation();
@@ -31,15 +31,19 @@ const onSubmit = async row => {
     } else {
       await createAnnouncement(row);
     }
+    query.refetch.value();
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
-  query.refetch.value();
 };
 
-const onDelete = async row => {
-  await deleteAnnouncement(row.id);
-  query.refetch.value();
+const onDelete = async rows => {
+  try {
+    await Promise.all(rows.map(row => deleteAnnouncement(row.id)));
+    query.refetch.value();
+  } catch (err) {
+    console.lerror(err);
+  }
 };
 
 const onEdit = row => {
