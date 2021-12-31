@@ -17,7 +17,7 @@ const initials = computed(
   () => `${props.user.firstName.charAt(0)}${props.user.lastName.charAt(0)}`
 );
 
-const computedSize = computed(() => `var(--avatar-size-${props.size}`);
+const computedSize = computed(() => `var(--avatar-size-${props.size})`);
 
 const textColor = useReadableColor('--color-brand-500');
 </script>

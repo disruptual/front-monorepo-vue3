@@ -7,3 +7,4 @@ export * from './useEmailApi';
 export * from './useStoreApi';
 export * from './useVoucherApi';
 export * from './useAnnouncementApi';
+export * from './useDeliveryApi';

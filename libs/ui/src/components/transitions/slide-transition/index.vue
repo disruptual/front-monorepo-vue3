@@ -52,7 +52,7 @@ const style = computed(() => ({
   &.slide-transition--vertical {
     &.slide-enter-from,
     &.slide-leave-to {
-      transform: translateY(var(--slide-transition-distance));
+      transform: translateY(v-bind('style.distance'));
     }
   }
 }

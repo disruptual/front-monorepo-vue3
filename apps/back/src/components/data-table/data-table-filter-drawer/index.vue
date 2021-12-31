@@ -4,7 +4,7 @@ export default { name: 'DataTableFilterDrawer' };
 
 <script setup>
 import { inject, ref } from 'vue';
-import { CONTEXT_KEYS } from '@/utils/constants';
+import { CONTEXT_KEYS, DATATABLE_COLUMN_TYPES } from '@/utils/constants';
 import { vTooltip } from '@dsp/ui';
 
 const { model } = inject(CONTEXT_KEYS.DATATABLE);
@@ -13,10 +13,19 @@ const isOpened = ref(false);
 
 const formOptions = {
   onSubmit(values) {
-    console.log(values);
     model.filters = values;
     isOpened.value = false;
   }
+};
+
+const getInitialValue = column => {
+  const value = model.filters[column.filterName || column.name];
+  if (value) return value;
+  if (column.type === DATATABLE_COLUMN_TYPES.DATE) {
+    return { before: null, after: null };
+  }
+
+  return null;
 };
 </script>
 
@@ -36,13 +45,52 @@ const formOptions = {
         v-slot="slotProps"
         :key="column.name"
         :name="column.filterName || column.name"
-        :initial-value="model.filters[column.filerName || column.name]"
+        :initial-value="getInitialValue(column)"
       >
         <dsp-form-control
+          v-slot="{ on, formControlProps }"
           v-model="slotProps.field.value"
           v-bind="slotProps"
           :label="column.label"
-        />
+        >
+          <div v-if="column.type === DATATABLE_COLUMN_TYPES.DATE">
+            <dsp-date-picker
+              v-model="slotProps.field.value.before"
+              v-bind="formControlProps"
+              is-teleport
+              v-on="on"
+            />
+            <dsp-date-picker
+              v-model="slotProps.field.value.after"
+              v-bind="formControlProps"
+              is-teleport
+              v-on="on"
+            />
+          </div>
+
+          <select
+            v-else-if="column.type === DATATABLE_COLUMN_TYPES.ENUM"
+            v-model="slotProps.field.value"
+            v-bind="formControlProps"
+            v-on="on"
+          >
+            <option disabled :value="null">Valeur</option>
+            <option
+              v-for="(option, index) in column.enumValues"
+              :key="index"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+
+          <dsp-input-text
+            v-else
+            v-model="slotProps.field.value"
+            v-bind="formControlProps"
+            v-on="on"
+          />
+        </dsp-form-control>
       </dsp-smart-form-field>
 
       <dsp-smart-form-submit is-full-width>Appliquer</dsp-smart-form-submit>

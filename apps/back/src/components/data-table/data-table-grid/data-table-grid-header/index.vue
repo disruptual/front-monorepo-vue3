@@ -48,7 +48,9 @@ const onResizeStart = (e, column) => {
   state.resizedColumn = column;
 
   model.columns.forEach(column => {
-    column.resize(column.headerElement.offsetWidth);
+    if (!column.isHidden) {
+      column.resize(column.headerElement.offsetWidth);
+    }
   });
 
   state.isResizing = true;

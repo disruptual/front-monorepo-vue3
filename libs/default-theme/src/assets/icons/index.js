@@ -31,6 +31,8 @@ import user from './user.svg';
 import userDelete from './userDelete.svg';
 import userSlash from './userSlash.svg';
 import warning from './warning.svg';
+import info from './info.svg';
+import fastForward from './fastForward.svg';
 
 export default {
   bars,
@@ -48,10 +50,12 @@ export default {
   ellipsisH,
   eye,
   eyeSlash,
+  fastForward,
   filter,
   handshake,
   highlight,
   home,
+  info,
   loader,
   pin,
   plus,

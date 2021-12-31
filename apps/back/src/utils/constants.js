@@ -46,7 +46,8 @@ export const DATATABLE_HIGHLIGHT_OPERATORS = {
 
 export const ORDER_DETAILS_TABS = {
   INFOS: 'infos',
-  ITEMS: 'items'
+  ITEMS: 'items',
+  HISTORY: 'history'
 };
 
 export const USER_DETAILS_TABS = {

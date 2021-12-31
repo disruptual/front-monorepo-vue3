@@ -46,7 +46,6 @@ const cleanup = () => {
 
 onMounted(() => {
   nextTick(() => {
-    console.log(unref(root));
     unref(root).addEventListener('scroll', initObserver);
   });
 });

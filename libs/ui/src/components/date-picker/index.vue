@@ -18,7 +18,8 @@ import { DAYS } from '@dsp/ui/utils/constants';
 import { vReadableColor } from '@dsp/ui/directives/readableColor';
 
 const props = defineProps({
-  modelValue: { type: [Date, null], required: true }
+  modelValue: { type: [Date, null], required: true },
+  isTeleport: { type: Boolean, default: false }
 });
 const emit = defineEmits(['update:modelValue']);
 
@@ -82,7 +83,7 @@ const onFocus = () => {
   />
   <dsp-dropdown
     v-model:is-opened="state.isCalendarOpened"
-    :is-teleport="false"
+    :is-teleport="props.isTeleport"
     :close-on-focus-outside="false"
     class="dsp-date-picker"
   >

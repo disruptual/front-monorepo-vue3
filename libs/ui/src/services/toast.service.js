@@ -10,7 +10,7 @@ export class ToastService {
     };
   }
 
-  _showToas(toast) {
+  _showToast(toast) {
     if (isString(toast)) {
       toast = { message: toast };
     }

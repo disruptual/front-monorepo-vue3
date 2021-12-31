@@ -63,6 +63,7 @@ export function useForm({
       await validate();
       if (!isValid.value) return;
       isSubmitted.value = true;
+
       return await onSubmit(values.value);
     } catch (err) {
       console.error(err);

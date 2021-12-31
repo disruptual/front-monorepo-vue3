@@ -68,8 +68,7 @@ const initialValue = computed(() => ({
   value: props.highlight?.value ?? null
 }));
 
-const [, formActions] = form;
-const formValues = computed(() => formActions.values.value);
+const [, { values: formValues }] = form;
 const selectedColumn = computed(() =>
   model.columns.find(col => col.name === formValues.value.column)
 );
@@ -188,8 +187,7 @@ const isEnumHighlight = computed(
             >
               <option disabled :value="null">Valeur</option>
               <option
-                v-for="(option, index) in selectedColumn.highlightOptions
-                  .values"
+                v-for="(option, index) in selectedColumn.enumValues"
                 :key="index"
                 :value="option.value"
               >

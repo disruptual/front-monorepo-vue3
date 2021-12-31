@@ -8,7 +8,10 @@ import { computed } from 'vue';
 import { useReadableColor } from '@dsp/ui/hooks/useReadableColor';
 import schema from './index.schema';
 
-const props = defineProps({ ...schema.toProps() });
+const props = defineProps({
+  as: { type: String, default: 'div' },
+  ...schema.toProps()
+});
 
 const config = schema.toContext(props);
 
@@ -19,14 +22,14 @@ const classes = computed(
 const textColor = useReadableColor('--color-surface');
 </script>
 <template>
-  <div class="dsp-surface" :class="classes">
+  <component :is="as" class="dsp-surface" :class="classes">
     <slot />
-  </div>
+  </component>
 </template>
 
 <style lang="scss" scoped>
 .dsp-surface {
-  padding: var(--spacing-md);
+  padding: var(--spacing-lg);
   background-color: var(--color-surface);
   color: v-bind(textColor);
 }

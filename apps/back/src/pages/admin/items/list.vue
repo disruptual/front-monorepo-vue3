@@ -29,12 +29,10 @@ const goToDetail = row => {
 
 const { t } = useI18n();
 
-const publicationStatesHighlightOptions = {
-  values: Object.values(ITEM_PUBLICATION_STATES).map(state => ({
-    value: state,
-    label: t(`item.publicationState.${state}`)
-  }))
-};
+const publicationStates = Object.values(ITEM_PUBLICATION_STATES).map(state => ({
+  value: state,
+  label: t(`item.publicationState.${state}`)
+}));
 </script>
 
 <template>
@@ -63,9 +61,7 @@ const publicationStatesHighlightOptions = {
       {{ row.formatCreated() }}
     </DataTableColumn>
 
-    <DataTableColumn v-slot="{ row }" name="price" label="Prix" width="80">
-      {{ row.formatedPrice }}
-    </DataTableColumn>
+    <DataTableColumn name="formatedPrice" label="Prix" width="80" />
 
     <DataTableColumn
       v-slot="{ row }"
@@ -89,8 +85,8 @@ const publicationStatesHighlightOptions = {
       v-slot="{ row }"
       name="publicationState"
       label="status"
-      :highlight-options="publicationStatesHighlightOptions"
       :type="DATATABLE_COLUMN_TYPES.ENUM"
+      :enum-values="publicationStates"
       is-highlightable
     >
       {{ t(`item.publicationState.${row.publicationState}`) }}
