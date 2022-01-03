@@ -97,5 +97,21 @@ export const MENU = [
       { target: '/', label: 'Dépôt' },
       { target: '/', label: 'Vente' }
     ]
+  },
+  {
+    name: 'Customisation',
+    icon: 'settings',
+    permissions: [
+      USER_ROLES.ADMIN,
+      USER_ROLES.PROJECT_MANAGER,
+      USER_ROLES.STORE
+    ],
+    links: [
+      {
+        target: { name: 'CustomizationAnnouncement' },
+        label: "Message d'annonce"
+      }
+      // { target: { name: 'AdminCarousel' }, label: 'Éditeur de Carrousel' }
+    ]
   }
 ];

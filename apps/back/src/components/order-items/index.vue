@@ -34,7 +34,7 @@ const goToDetail = row => {
     @row-dbl-click="goToDetail"
   >
     <template #no-result>
-      <dsp-center>Cet tilisateur n'a passé aucune commande.</dsp-center>
+      <dsp-center>Cet Utilisateur ne possède aucun article.</dsp-center>
     </template>
     <DataTableColumn v-slot="{ row }" name="id" label="Id" width="100">
       {{ row.item.id }}
