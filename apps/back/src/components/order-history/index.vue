@@ -7,21 +7,20 @@ import { Order } from '@dsp/business';
 import { useI18n } from 'vue-i18n';
 import { useOrderApi } from '@dsp/core';
 import { useCurrentUser } from '@dsp/core';
+import { useToast } from '@dsp/ui';
 
 const props = defineProps({
   order: { type: Order, required: true }
 });
 const emit = defineEmits(['rollback', 'forward']);
-
 const { t } = useI18n();
 const { data: currentUser } = useCurrentUser();
+const { showError } = useToast();
 
-const orderApi = useOrderApi();
+const { rollbackMutation, forwardMutation } = useOrderApi();
 const { mutateAsync: rollback, isLoading: isRollbackLoading } =
-  orderApi.rollbackMutation();
-
-const { mutateAsync: forward, isLoading: isForwardLoading } =
-  orderApi.forwardMutation();
+  rollbackMutation();
+const { mutateAsync: forward, isLoading: isForwardLoading } = forwardMutation();
 
 const onRollback = async step => {
   try {
@@ -32,7 +31,9 @@ const onRollback = async step => {
     });
     emit('rollback');
     // eslint-disable-next-line no-empty
-  } catch {}
+  } catch (err) {
+    showError(err.message);
+  }
 };
 
 const onForward = async () => {
@@ -44,7 +45,9 @@ const onForward = async () => {
     });
     emit('forward');
     // eslint-disable-next-line no-empty
-  } catch {}
+  } catch (err) {
+    showError(err.message);
+  }
 };
 </script>
 

@@ -39,3 +39,4 @@ export { default as DspCenter } from './center/index.vue';
 export { default as DspDatePicker } from './date-picker/index.vue';
 export { default as DspMenu } from './menu/index.vue';
 export { default as DspSlider } from './slider/index.vue';
+export { default as DspToastsContainer } from './toasts-container/index.vue';

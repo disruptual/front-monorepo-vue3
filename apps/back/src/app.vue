@@ -15,6 +15,7 @@ import { VueQueryDevTools } from 'vue-query/devtools';
     </template>
     <component :is="$route?.meta.layout">
       <VueQueryDevTools />
+      <dsp-toasts-container />
       <router-view :key="$route.path" />
     </component>
   </AppProvider>
