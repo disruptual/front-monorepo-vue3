@@ -30,7 +30,6 @@ const onRollback = async step => {
       orderStateTransition: step.transition
     });
     emit('rollback');
-    // eslint-disable-next-line no-empty
   } catch (err) {
     showError(err.message);
   }
@@ -44,7 +43,6 @@ const onForward = async () => {
       transition: props.order.nextTransition
     });
     emit('forward');
-    // eslint-disable-next-line no-empty
   } catch (err) {
     showError(err.message);
   }
@@ -63,9 +61,7 @@ const onForward = async () => {
       <dsp-icon icon="info" />
     </dsp-center>
     <span>
-      Il n'est pas possible de revenir en arrière dans l'état d'une commande si
-      celle-ci est finalisée ou qu'elle a subi un litige. Il est également
-      impossible de revenir avant la validation de la commande. par le vendeur.
+      {{ t('orderHistory.warning') }}
     </span>
   </dsp-flex>
 
@@ -91,7 +87,7 @@ const onForward = async () => {
         :is-loading="isRollbackLoading"
         @click="onRollback(step)"
       >
-        <span class="button-label">Revenir à l'état</span>
+        <span class="button-label">{{ t('orderHistory.previous') }}</span>
       </dsp-loading-button>
 
       <dsp-loading-button
@@ -101,7 +97,7 @@ const onForward = async () => {
         :is-loading="isForwardLoading"
         @click="onForward"
       >
-        <span class="button-label">Avancer l'état</span>
+        <span class="button-label">{{ t('orderHistory.next') }}</span>
       </dsp-loading-button>
     </dsp-flex>
   </ul>
