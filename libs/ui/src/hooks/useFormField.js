@@ -7,7 +7,7 @@ export function useFormField(definition) {
 
   const field = reactive({
     name: definition.name,
-    value: definition.initialValue || null,
+    value: definition.initialValue ?? null,
     isDirty: false,
     isTouched: false,
     errors: Object.fromEntries(
@@ -61,7 +61,7 @@ export function useFormField(definition) {
     }
   });
 
-  if (definition.initialValue) {
+  if (definition.initialValue !== undefined) {
     field.validate();
   }
 

@@ -30,9 +30,9 @@ const onRollback = async step => {
       orderStateTransition: step.transition
     });
     emit('rollback');
-    // eslint-disable-next-line no-empty
   } catch (err) {
-    showError(err.message);
+    console.error(err);
+    showError(t('toasts.orderHistory.rollbackError'));
   }
 };
 
@@ -44,9 +44,9 @@ const onForward = async () => {
       transition: props.order.nextTransition
     });
     emit('forward');
-    // eslint-disable-next-line no-empty
   } catch (err) {
-    showError(err.message);
+    console.error(err);
+    showError(t('toasts.orderHistory.forwardError'));
   }
 };
 </script>

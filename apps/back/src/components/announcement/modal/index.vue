@@ -3,24 +3,23 @@ export default { name: 'AnnouncementModal' };
 </script>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
 import { Announcement } from '@dsp/business';
 
 const props = defineProps({
   announcement: { type: Announcement, default: null },
-  isEditing: { type: Boolean, required: true }
+  isOpened: { type: Boolean, required: true }
 });
-
 const emit = defineEmits(['close', 'submit']);
 
+const { t } = useI18n();
 const onModalClose = () => {
   emit('close');
 };
 
 const formOptions = {
   onSubmit(values) {
-    // @TODO values.closable => null by form submit, don't know why.
-    // This failed calls to api
-    values.closable = Boolean(values.closable);
+    console.log(values);
     emit('submit', { ...props.announcement, ...values });
     onModalClose();
   }
@@ -28,7 +27,16 @@ const formOptions = {
 </script>
 
 <template>
-  <dsp-modal :is-opened="isEditing" @close="onModalClose()">
+  <dsp-modal :is-opened="isOpened" @close="onModalClose()">
+    <h2>
+      {{
+        t(
+          announcement
+            ? 'announcement.form.edit.title'
+            : 'announcement.form.create.title'
+        )
+      }}
+    </h2>
     <dsp-smart-form :form-options="formOptions" class="form">
       <dsp-smart-form-field
         v-slot="slotProps"
@@ -50,6 +58,7 @@ const formOptions = {
           />
         </dsp-form-control>
       </dsp-smart-form-field>
+
       <dsp-smart-form-field
         v-slot="slotProps"
         name="endAt"
@@ -70,6 +79,7 @@ const formOptions = {
           />
         </dsp-form-control>
       </dsp-smart-form-field>
+
       <dsp-smart-form-field
         v-slot="slotProps"
         name="closable"
@@ -88,6 +98,7 @@ const formOptions = {
           />
         </dsp-form-control>
       </dsp-smart-form-field>
+
       <dsp-smart-form-field
         v-slot="slotProps"
         name="content"
@@ -103,25 +114,21 @@ const formOptions = {
           <dsp-input-textarea
             v-model="slotProps.field.value"
             v-bind="formControlProps"
+            :is-resizeable="false"
             v-on="on"
           />
         </dsp-form-control>
       </dsp-smart-form-field>
+
       <dsp-smart-form-field
         type="hidden"
         name="technicalId"
         :initial-value="announcement?.technicalId || 'header'"
-      ></dsp-smart-form-field>
+      />
 
-      <dsp-flex justify="center">
-        <dsp-smart-form-submit>Submit</dsp-smart-form-submit>
-      </dsp-flex>
+      <dsp-smart-form-submit is-full-width>Submit</dsp-smart-form-submit>
     </dsp-smart-form>
   </dsp-modal>
 </template>
 
-<style lang="scss" scoped>
-.form {
-  padding: var(--spacing-xl);
-}
-</style>
+<style lang="scss" scoped></style>

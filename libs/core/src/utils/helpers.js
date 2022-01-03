@@ -64,7 +64,7 @@ export const makeRandomId = (length = 6) => {
   return result;
 };
 
-export const serializeQueryString = obj => {
+export const serializeQueryString = (obj = {}) => {
   const searchParams = new URLSearchParams();
   Object.entries(obj).forEach(([key, value]) => {
     if (isUndefinedOrNull(value)) return;

@@ -54,6 +54,9 @@ const model = computed({
 .dsp-checkbox {
   display: flex;
   flex-wrap: nowrap;
+  input {
+    cursor: pointer;
+  }
   --checkbox-color: var(--color-text);
 
   &:focus-within {

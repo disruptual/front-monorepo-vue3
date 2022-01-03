@@ -17,6 +17,7 @@ export function useCRUDApi(
     findAllQuery(findAllOptions = {}) {
       const queryKey = computed(() => {
         const { filters } = unref(findAllOptions);
+
         return `${baseQueryKey}?${serializeQueryString(unref(filters))}`;
       });
 
