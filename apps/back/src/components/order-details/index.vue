@@ -25,44 +25,48 @@ const statusClass = computed(() => ({
 }));
 
 const sellerLabel = computed(() =>
-  props.order.seller?.gender === USER_GENDERS.FEMALE ? 'Vendeuse' : 'Vendeur'
+  props.order.seller?.gender === USER_GENDERS.FEMALE
+    ? t(`order.details.title.buyer.female`)
+    : t(`order.details.title.seller.male`)
 );
 const buyerLabel = computed(() =>
-  props.order.buyer?.gender === USER_GENDERS.FEMALE ? 'Acheteuse' : 'Acheteur'
+  props.order.buyer?.gender === USER_GENDERS.FEMALE
+    ? t(`order.details.title.buyer.female`)
+    : t(`order.details.title.buyer.male`)
 );
 </script>
 
 <template>
   <div class="order-details">
     <dsp-surface as="section" class="order-details__general">
-      <h3>Informations générales</h3>
+      <h3>{{ t(`order.details.title.informations`) }}</h3>
       <dl>
-        <dt>Statut</dt>
+        <dt>{{ t(`order.details.label.status`) }}</dt>
         <dd class="order-status" :class="statusClass">
           {{ t(`order.status.${order.status}`) }}
         </dd>
 
-        <dt>Date de commande</dt>
+        <dt>{{ t(`order.details.label.orderDate`) }}</dt>
         <dd>{{ order.formatCreated() }}</dd>
 
-        <dt>Nombre d'articles</dt>
+        <dt>{{ t(`order.details.label.numberArticles`) }}</dt>
         <dd>
           {{ order.orderItems?.length }}
           <router-link :to="itemsLink">(voir le détail)</router-link>
         </dd>
 
-        <dt>Mode de livraison</dt>
+        <dt>{{ t(`order.details.label.modeDelivery`) }}</dt>
         <dd>{{ t(`delivery.modes.${order.delivery.tag}`) }}</dd>
 
         <template v-if="order.isCocolis">
-          <dt>Numéro d'éxpédition</dt>
+          <dt>{{ t(`order.details.label.numExpedition`) }}</dt>
           <dd>
             {{ order.deliveryDetail?.expeditionNum }}
           </dd>
         </template>
 
         <template v-if="order.isLocationDelivery">
-          <dt>Magasin de dépôt/retrait</dt>
+          <dt>{{ t(`order.details.label.storeInOut`) }}</dt>
           <dd>
             {{ order.location.name }} {{ order.location.address.route }}
             {{ order.location.address.postalCode }} {{ order.address.city }}
@@ -70,7 +74,7 @@ const buyerLabel = computed(() =>
         </template>
 
         <template v-if="order.deliveryData?.MondialRelay">
-          <dt>Numero de Suivi MondialRelay</dt>
+          <dt>{{ t(`order.details.label.mondialRelay.numFollow`) }}</dt>
           <dd>
             <span>{{ order.deliveryData.MondialRelay.ExpeditionNum }}</span>
             <br />
@@ -78,7 +82,7 @@ const buyerLabel = computed(() =>
               :href="order.deliveryData.MondialRelay.URL_Etiquette"
               target="_blank"
             >
-              Télécharger l'étiquette de suivi MondialRelay
+              {{ t(`order.details.label.mondialRelay.downloadEtiquette`) }}
             </a>
           </dd>
         </template>
@@ -86,7 +90,7 @@ const buyerLabel = computed(() =>
         <template
           v-if="order.isRelaisColis && order.deliveryDetail?.expeditionNum"
         >
-          <dt>Numero de Suivi Relais Colis</dt>
+          <dt>{{ t(`order.details.label.relaisColis.numFollow`) }}</dt>
           <dd>
             <span>{{ order.deliveryDetail.expeditionNum }}</span>
             <br />
@@ -94,7 +98,7 @@ const buyerLabel = computed(() =>
               :href="order.deliveryDetail.buyerDeliveryFormUrl"
               target="_blank"
             >
-              Télécharger l'étiquette de suivi Relais Colis
+              {{ t(`order.details.label.relaisColis.downloadEtiquette`) }}
             </a>
           </dd>
         </template>
@@ -102,7 +106,7 @@ const buyerLabel = computed(() =>
     </dsp-surface>
 
     <dsp-surface as="section" class="order-details__remuneration">
-      <h3>Rémuneration</h3>
+      <h3>{{ t(`order.details.title.remuneration`) }}</h3>
       <dl>
         <dt>Mode de rémuneration</dt>
         <dd>{{ t(`remuneration.${order.remuneration.remunerationName}`) }}</dd>

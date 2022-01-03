@@ -14,6 +14,28 @@ export default {
         [ORDER_DETAILS_TABS.INFOS]: 'Informations',
         [ORDER_DETAILS_TABS.ITEMS]: 'Articles',
         [ORDER_DETAILS_TABS.HISTORY]: 'Suivi de commande'
+      },
+      title: {
+        informations: 'Informations générales',
+        buyer: { male: 'Acheteur', female: 'Acheteuse' },
+        seller: { male: 'Vendeur', female: 'Vendeuse' },
+        remuneration: 'Rémuneration'
+      },
+      label: {
+        status: 'Status',
+        orderDate: 'Date de commande',
+        numberArticles: "Nombre d'articles",
+        modeDelivery: 'Mode de livraison',
+        numExpedition: "Numéro d'expédition",
+        storeInOut: 'Magasin de dépôt/retrait',
+        mondialRelay: {
+          numFollow: 'Numéro de Suivi MondialRelay',
+          downloadEtiquette: "Télécharger l'étiquette de suivi MondialRelay"
+        },
+        relaisColis: {
+          numFollow: 'Numero de Suivi Relais Colis',
+          downloadEtiquette: "Télécharger l'étiquette de suivi Relais Colis"
+        }
       }
     },
     status: {

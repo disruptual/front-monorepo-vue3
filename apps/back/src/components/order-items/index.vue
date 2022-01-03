@@ -3,6 +3,7 @@ export default { name: 'OrderItems' };
 </script>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
 import { useOrderItemApi } from '@dsp/core';
 import { useRouter } from 'vue-router';
 
@@ -13,6 +14,7 @@ const props = defineProps({
   orderId: { type: String, required: true }
 });
 
+const { t } = useI18n();
 const { push } = useRouter();
 
 const query = useOrderItemApi().findAllByOrderIdQuery(props.orderId, {
@@ -34,15 +36,20 @@ const goToDetail = row => {
     @row-dbl-click="goToDetail"
   >
     <template #no-result>
-      <dsp-center>Cet Utilisateur ne possède aucun article.</dsp-center>
+      <dsp-center>{{ t('orderItems.noResult') }}</dsp-center>
     </template>
-    <DataTableColumn v-slot="{ row }" name="id" label="Id" width="100">
+    <DataTableColumn
+      v-slot="{ row }"
+      name="id"
+      :label="t('orderItems.label.id')"
+      width="100"
+    >
       {{ row.item.id }}
     </DataTableColumn>
     <DataTableColumn
       v-slot="{ row }"
       name="photo"
-      label="Photo"
+      :label="t('orderItems.label.photo')"
       :tooltip-label="({ row }) => row.item?.mainMedia"
       width="150"
     >
@@ -51,21 +58,26 @@ const goToDetail = row => {
     <DataTableColumn
       v-slot="{ row }"
       name="created"
-      label="Date de création"
+      :label="t('orderItems.label.created')"
       :tooltip-label="({ row }) => row.formatCreated()"
       width="200"
     >
       {{ row.formatCreated() }}
     </DataTableColumn>
 
-    <DataTableColumn v-slot="{ row }" name="price" label="Prix" width="120">
+    <DataTableColumn
+      v-slot="{ row }"
+      name="price"
+      :label="t('orderItems.label.price')"
+      width="120"
+    >
       {{ row.item?.formatedPrice }}
     </DataTableColumn>
 
     <DataTableColumn
       v-slot="{ row }"
       name="category"
-      label="Catégorie"
+      :label="t('orderItems.label.category')"
       width="250"
     >
       {{ row.item?.category?.name }}
