@@ -3,9 +3,10 @@ export default { name: 'AdminContactDetailPage' };
 </script>
 
 <script setup>
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
-import { useContactApi } from '@dsp/core';
+import { useContactApi, useUserApi } from '@dsp/core';
 import { VALIDATION_MODES } from '@dsp/ui';
 
 const props = defineProps({
@@ -18,6 +19,13 @@ const { t } = useI18n();
 const query = useContactApi().findContactByIdQuery(props.id, {
   relations: []
 });
+const userQueryOptions = computed(() => ({
+  filters: {
+    email: query.data.value?.email
+  },
+  enabled: query.isSuccess.value
+}));
+const { data: users, isSuccess } = useUserApi().findAllQuery(userQueryOptions);
 
 const { mutateAsync } = useContactApi().createMutation();
 
@@ -55,6 +63,7 @@ const formOptions = {
     <dsp-container>
       <dsp-surface>
         <dsp-container is-small>
+          <pre v-if="isSuccess && users.length > 0">{{ users[0] }}</pre>
           <div>
             <span>Date:</span>
             <span>{{ contact.formatCreated() }}</span>

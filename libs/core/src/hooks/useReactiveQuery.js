@@ -11,7 +11,7 @@ export const useReactiveQuery = (queryKey, queryFn, queryOptions) => {
   watchEffect(() => {
     state.queryKey = unref(queryKey);
     state.queryFn = unref(queryFn);
-    Object.assign(state, queryOptions);
+    Object.assign(state, unref(queryOptions));
   });
 
   return useQuery(state);
@@ -25,9 +25,11 @@ export const useReactiveInfiniteQuery = (queryKey, queryFn, queryOptions) => {
   });
 
   watchEffect(() => {
+    console.log(unref(queryKey), unref(queryOptions));
+
     state.queryKey = unref(queryKey);
     state.queryFn = unref(queryFn);
-    Object.assign(state, queryOptions);
+    Object.assign(state, unref(queryOptions));
   });
 
   return useInfiniteQuery(state);

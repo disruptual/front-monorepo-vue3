@@ -14,31 +14,42 @@ export function useCRUDApi(
   const baseQueryKey = serviceInstance.endpoint;
 
   return {
-    findAllQuery({
-      relations = [],
-      itemsPerPage = 30,
-      filters = {},
-      requestOptions = {},
-      ...options
-    } = {}) {
-      const queryKey = computed(
-        () => `${baseQueryKey}?${serializeQueryString(unref(filters))}`
-      );
+    findAllQuery(findAllOptions = {}) {
+      const queryKey = computed(() => {
+        const { filters } = unref(findAllOptions);
+        return `${baseQueryKey}?${serializeQueryString(unref(filters))}`;
+      });
 
-      const queryOptions = computed(() => ({
-        model,
-        itemsPerPage,
-        relations,
-        ...options
-      }));
+      const queryOptions = computed(() => {
+        const {
+          relations = [],
+          itemsPerPage = 30,
+          ...options
+        } = findAllOptions;
 
-      const queryFn = ({ pageParam = { page: 1, itemsPerPage } }) => {
-        return serviceInstance.findAll({
-          ...defaultQueryOptions,
-          ...requestOptions,
-          params: { ...requestOptions.params, ...pageParam, ...unref(filters) }
-        });
-      };
+        return {
+          model,
+          itemsPerPage,
+          relations,
+          ...options
+        };
+      });
+
+      const queryFn = computed(() => {
+        const { itemsPerPage, requestOptions, filters } = unref(findAllOptions);
+
+        return ({ pageParam = { page: 1, itemsPerPage } }) => {
+          return serviceInstance.findAll({
+            ...defaultQueryOptions,
+            ...requestOptions,
+            params: {
+              ...(requestOptions?.params || {}),
+              ...pageParam,
+              ...unref(filters)
+            }
+          });
+        };
+      });
 
       return useCollectionQuery(queryKey, queryFn, queryOptions);
     },
