@@ -49,12 +49,9 @@ const triggerAction = action => {
   <dsp-flex
     class="data-table-action-bar"
     align="center"
+    direction="row-reverse"
     justify="space-between"
   >
-    <div v-if="model.hasSelectorColumn && !device.isMobile">
-      {{ t('dataTable.actionBar.selectedCount', { count: selectedCount }) }}
-    </div>
-
     <dsp-flex gap="xs">
       <dsp-plain-button
         v-for="action in model.rowActions"
@@ -126,6 +123,9 @@ const triggerAction = action => {
         </template>
       </dsp-dropdown>
     </dsp-flex>
+    <div v-if="model.hasSelectorColumn && !device.isMobile">
+      {{ t('dataTable.actionBar.selectedCount', { count: selectedCount }) }}
+    </div>
   </dsp-flex>
 
   <DataTableFilterTags />

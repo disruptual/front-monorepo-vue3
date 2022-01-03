@@ -57,7 +57,7 @@ const { classes, colors } = useButton(props);
 
   &:disabled {
     background-color: var(--color-disabled);
-    color: var(--color-text-disabled);
+    color: var(--color-text-disabled) !important;
     cursor: default;
   }
 }

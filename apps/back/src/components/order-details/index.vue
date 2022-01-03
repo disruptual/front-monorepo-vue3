@@ -173,7 +173,7 @@ a {
   grid-gap: var(--spacing-md);
 
   @include not-mobile {
-    grid-template-columns: 6fr 4fr;
+    grid-template-columns: minmax(0, 7fr) 3fr;
     grid-template-areas: 'general buyer' 'remuneration seller';
   }
 }

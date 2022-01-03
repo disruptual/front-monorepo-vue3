@@ -62,10 +62,11 @@ const getStatusClass = order => ({
     id="orders-list"
     :query="query"
     :min-row-size="40"
+    :has-selector-column="false"
     @row-dbl-click="goToDetail"
     @filter-change="onFilterChange"
   >
-    <DataTableColumn name="id" label="Id" width="100" is-filterable />
+    <DataTableColumn name="id" label="Id" width="80" is-filterable />
 
     <DataTableColumn
       v-slot="{ row }"
