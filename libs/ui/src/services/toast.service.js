@@ -6,7 +6,7 @@ export class ToastService {
     this.toasts = ref([]);
 
     this._defaultOptions = {
-      timeout: 5000000
+      timeout: 5000
     };
 
     this.show = this.show.bind(this);
