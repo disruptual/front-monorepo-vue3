@@ -21,17 +21,33 @@ const { showSuccess, showError } = useToast();
 const { t } = useI18n();
 
 const filters = ref({});
-const { findAllQuery, muteMutation, unmuteMutation } = useUserApi();
+const { findAllQuery, muteMutation, unmuteMutation, anonymizeMutation } =
+  useUserApi();
 const query = findAllQuery({ filters });
 const { mutateAsync: mute } = muteMutation();
 const { mutateAsync: unmute } = unmuteMutation();
+const { mutate: anonymize, isLoading: isAnonymizing } = anonymizeMutation({
+  onSuccess() {
+    showSuccess(t('toasts.user.anonymizeSuccess'));
+    isAnonymizeModalOpened.value = false;
+    anonymizedUser.value = null;
+  },
+
+  onError(err) {
+    console.error(err);
+    showError(t('toasts.user.anonymizeError'));
+  }
+});
 
 const onFilterChange = newFilters => {
-  filters.value = { ...newFilters };
+  filters.value = newFilters;
 };
 
-const onSoftDelete = users => {
-  console.log(users);
+const anonymizedUser = ref(null);
+const isAnonymizeModalOpened = ref(false);
+const onSoftDelete = ([user]) => {
+  anonymizedUser.value = user;
+  isAnonymizeModalOpened.value = true;
 };
 
 const onMute = async users => {
@@ -44,6 +60,7 @@ const onMute = async users => {
     showSuccess(t('toasts.user.muteSuccess'));
     query.refetch.value();
   } catch (err) {
+    showError(t('toasts.user.muteError'));
     console.error(err);
   }
 };
@@ -54,6 +71,25 @@ const goToDetail = row => {
 </script>
 
 <template>
+  <dsp-modal :is-opened="isAnonymizeModalOpened">
+    <h2>
+      {{ t('user.anonymizeModal.title', { user: anonymizedUser.fullName }) }}
+    </h2>
+    <dsp-alert icon="warning" color-scheme="red">
+      {{ t('user.anonymizeModal.alert') }}
+    </dsp-alert>
+    <dsp-flex justify="flex-end" gap="sm">
+      <dsp-button is-outlined @click="isAnonymizeModalOpened = false">
+        {{ t('cancel') }}
+      </dsp-button>
+      <dsp-loading-button
+        :is-loading="isAnonymizing"
+        @click="anonymize(anonymizedUser.id)"
+      >
+        {{ t('validate') }}
+      </dsp-loading-button>
+    </dsp-flex>
+  </dsp-modal>
   <DataTable
     id="users-list"
     :query="query"

@@ -4,16 +4,17 @@ export default { name: 'DspAlert' };
 
 <script setup>
 import { useColorScheme } from '@dsp/ui/hooks';
+import { vReadableColor } from '@dsp/ui/directives/readableColor';
 
 const props = defineProps({
-  colorScheme: { type: String, default: 'brand' },
+  colorScheme: { type: String, default: 'gray' },
   icon: { type: String, default: 'info' }
 });
 
 const scheme = {
   bg: 100,
   text: 800,
-  iconBg: 300
+  iconBg: 600
 };
 
 const colors = useColorScheme(scheme, props);
@@ -21,8 +22,8 @@ const colors = useColorScheme(scheme, props);
 
 <template>
   <dsp-flex wrap="nowrap" gap="md" class="dsp-alert" align="center">
-    <dsp-center class="dsp-alert__icon">
-      <dsp-icon icon="info" />
+    <dsp-center v-readable-color class="dsp-alert__icon">
+      <dsp-icon :icon="icon" />
     </dsp-center>
     <span>
       <slot />

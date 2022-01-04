@@ -15,7 +15,9 @@ export default {
     user: {
       muteSuccess: 'Les utilisateurs sont désormais en mode silencieux.',
       muteError:
-        "Un ou plusieurs utilisateurs n'ont pas pu être passés en mode silencieux."
+        "Un ou plusieurs utilisateurs n'ont pas pu être passés en mode silencieux.",
+      anonymizeSuccess: "L'utilisateur a été anonymisé avec succès.",
+      anonymizeError: "L'utilisateur n'a pas pu être anonymisé."
     }
   }
 };

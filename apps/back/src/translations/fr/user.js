@@ -36,6 +36,10 @@ export default {
         cancel: 'Aannuler',
         submit: 'Enregistrer'
       }
+    },
+    anonymizeModal: {
+      title: 'Êtes vous sûr de vouloir anonymiser {user} ?',
+      alert: 'Cette action est irréversible.'
     }
   }
 };

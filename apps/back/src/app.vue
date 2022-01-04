@@ -5,7 +5,7 @@ export default { name: 'App' };
 <script setup>
 import { AppProvider } from '@dsp/core';
 import AppLoading from 'client/components/app-loader.vue';
-import { VueQueryDevTools } from 'vue-query/devtools';
+// import { VueQueryDevTools } from 'vue-query/devtools';
 </script>
 
 <template>
@@ -14,7 +14,7 @@ import { VueQueryDevTools } from 'vue-query/devtools';
       <AppLoading />
     </template>
     <component :is="$route?.meta.layout">
-      <VueQueryDevTools />
+      <!-- <VueQueryDevTools /> -->
       <dsp-toasts-container />
       <router-view :key="$route.path" />
     </component>

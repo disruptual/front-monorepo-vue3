@@ -101,11 +101,7 @@ export const MENU = [
   {
     name: 'Customisation',
     icon: 'settings',
-    permissions: [
-      USER_ROLES.ADMIN,
-      USER_ROLES.PROJECT_MANAGER,
-      USER_ROLES.STORE
-    ],
+    permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
     links: [
       {
         target: { name: 'CustomizationAnnouncement' },
