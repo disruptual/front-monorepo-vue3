@@ -59,6 +59,7 @@ export const USER_DETAILS_TABS = {
 export const MENU = [
   {
     name: 'Administration',
+    id: 'admin',
     icon: 'chart',
     permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
     links: [
@@ -73,6 +74,7 @@ export const MENU = [
   },
   {
     name: 'Magasin',
+    id: 'store',
     icon: 'store',
     permissions: [
       USER_ROLES.ADMIN,
@@ -87,6 +89,7 @@ export const MENU = [
   },
   {
     name: 'Evenements',
+    id: 'eventStore',
     icon: 'handshake',
     permissions: [
       USER_ROLES.ADMIN,
@@ -99,12 +102,13 @@ export const MENU = [
     ]
   },
   {
-    name: 'Customisation',
+    name: 'Paramètres',
+    id: 'settings',
     icon: 'settings',
     permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
     links: [
       {
-        target: { name: 'CustomizationAnnouncement' },
+        target: { name: 'SettingsAnnouncement' },
         label: "Message d'annonce"
       }
       // { target: { name: 'AdminCarousel' }, label: 'Éditeur de Carrousel' }

@@ -5,23 +5,25 @@ export default { name: 'DefaultLayoutSidebar' };
 <script setup>
 import { computed, ref, nextTick } from 'vue';
 import { vReadableColor } from '@dsp/ui';
-import { useCurrentUser } from '@dsp/core';
+import { useCurrentUser, useAppContext } from '@dsp/core';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 
 import { MENU } from '@/utils/constants';
 const { data: currentUser } = useCurrentUser();
+const context = useAppContext();
 
 const allowedSections = computed(() =>
   MENU.filter(section =>
     section.permissions.some(permission =>
       currentUser.value.hasRole(permission)
     )
-  )
+  ).filter(section => context.features[section.id].isEnabled)
 );
 
 const openedSections = ref([]);
 const isSectionOpened = sectionName =>
   openedSections.value.includes(sectionName);
+
 const toggleSection = sectionName => {
   if (isSectionOpened(sectionName)) {
     openedSections.value.splice(openedSections.value.indexOf(sectionName), 1);

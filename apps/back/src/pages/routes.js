@@ -22,10 +22,10 @@ export const routes = [
     }
   },
   {
-    path: '/customisation/message-annonce',
-    name: 'CustomizationAnnouncement',
+    path: '/parametres/message-annonce',
+    name: 'SettingsAnnouncement',
     props: true,
-    component: () => import('@/pages/customisation/announcement.vue'),
+    component: () => import('@/pages/settings/announcement.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       layout: layouts.default
