@@ -88,7 +88,9 @@ watch(
           :row="row"
           :column="column.name"
         />
-        <span v-else>{{ row[column.name] }}</span>
+        <dsp-truncated-text v-else as="span" :has-tooltip="false">
+          {{ row[column.name] }}
+        </dsp-truncated-text>
       </td>
       <td
         v-if="model.rowActions.length > 0"

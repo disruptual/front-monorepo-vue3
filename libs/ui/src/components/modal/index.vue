@@ -3,10 +3,12 @@ export default { name: 'DspModal' };
 </script>
 <script setup>
 import { toRef } from 'vue';
+import { KEYBOARD } from '@dsp/core';
 import { useBodyScrollLock } from '@dsp/ui/hooks/useBodyScrollLock';
 import { vClickOutside } from '@dsp/ui/directives/clickOutside';
 import { createTeleportHost } from '@dsp/ui/utils/createTeleportHost';
 import { TELEPORT_HOSTS } from '@dsp/ui/utils/constants';
+import { useEventListener } from '@dsp/ui/hooks/useEventListener';
 
 const props = defineProps({
   isOpened: { type: Boolean, required: true }
@@ -18,6 +20,14 @@ createTeleportHost(hostID);
 
 useBodyScrollLock(toRef(props.isOpened));
 
+useEventListener('keydown', e => {
+  switch (e.key) {
+    case KEYBOARD.ESCAPE:
+      return onClose();
+    default:
+      return;
+  }
+});
 const onClose = () => {
   emit('close');
 };

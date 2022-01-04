@@ -68,8 +68,7 @@ const initialValue = computed(() => ({
   value: props.highlight?.value ?? null
 }));
 
-const [, formActions] = form;
-const formValues = computed(() => formActions.values.value);
+const [, { values: formValues }] = form;
 const selectedColumn = computed(() =>
   model.columns.find(col => col.name === formValues.value.column)
 );
@@ -83,6 +82,10 @@ const isDateHighlight = computed(
 
 const isEnumHighlight = computed(
   () => selectedColumn.value.type === DATATABLE_COLUMN_TYPES.ENUM
+);
+
+const isBooleanHighlight = computed(
+  () => selectedColumn.value.type === DATATABLE_COLUMN_TYPES.BOOLEAN
 );
 </script>
 
@@ -161,7 +164,7 @@ const isEnumHighlight = computed(
         </dsp-smart-form-field>
 
         <dsp-smart-form-field
-          v-if="selectedColumn"
+          v-if="selectedColumn && !isBooleanHighlight"
           v-slot="slotProps"
           name="value"
           :initial-value="initialValue.value"
@@ -188,8 +191,7 @@ const isEnumHighlight = computed(
             >
               <option disabled :value="null">Valeur</option>
               <option
-                v-for="(option, index) in selectedColumn.highlightOptions
-                  .values"
+                v-for="(option, index) in selectedColumn.enumValues"
                 :key="index"
                 :value="option.value"
               >

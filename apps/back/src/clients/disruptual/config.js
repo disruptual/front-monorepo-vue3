@@ -4,8 +4,19 @@ export default {
   sso: {
     isEnabled: false
   },
-  logo,
-  DspButton: {
-    isRounded: true
-  }
+  features: {
+    admin: {
+      isEnabled: true
+    },
+    settings: {
+      isEnabled: true
+    },
+    store: {
+      isEnabled: false
+    },
+    eventStore: {
+      isEnabled: false
+    }
+  },
+  logo
 };

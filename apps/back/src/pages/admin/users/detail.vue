@@ -46,11 +46,9 @@ const activeTab = computed({
     </dsp-center>
     <dsp-tabs v-model="activeTab">
       <dsp-tab :name="TABS.INFOS" :label="t(`user.details.tabs.${TABS.INFOS}`)">
-        <dsp-container>
+        <dsp-container is-small>
           <dsp-surface>
-            <dsp-container is-small>
-              <UserDetails :user="user" />
-            </dsp-container>
+            <UserDetails :user="user" />
           </dsp-surface>
         </dsp-container>
       </dsp-tab>

@@ -6,11 +6,16 @@ export class ToastService {
     this.toasts = ref([]);
 
     this._defaultOptions = {
-      timeout: 3000
+      timeout: 5000
     };
+
+    this.show = this.show.bind(this);
+    this.showSuccess = this.showSuccess.bind(this);
+    this.showError = this.showError.bind(this);
+    this.hide = this.hide.bind(this);
   }
 
-  _showToas(toast) {
+  _addToast(toast) {
     if (isString(toast)) {
       toast = { message: toast };
     }
@@ -25,23 +30,30 @@ export class ToastService {
 
     setTimeout(() => {
       const index = this.toasts.value.indexOf(normalizedToast);
+      if (index === -1) return;
       this.toasts.value.splice(index, 1);
     }, timeout);
+
+    return normalizedToast;
+  }
+
+  show(toast, type) {
+    if (isString(toast)) {
+      toast = { message: toast };
+    }
+
+    return this._addToast({ ...toast, type: toast.type || type });
   }
 
   showSuccess(toast) {
-    if (isString(toast)) {
-      toast = { message: toast };
-    }
-
-    return this._showToast({ ...toast, type: 'success' });
+    return this.show(toast, 'success');
   }
 
   showError(toast) {
-    if (isString(toast)) {
-      toast = { message: toast };
-    }
+    return this.show(toast, 'error');
+  }
 
-    return this._showToast({ ...toast, type: 'error' });
+  hide(toastId) {
+    this.toasts.value = this.toasts.value.filter(t => t.id !== toastId);
   }
 }

@@ -16,7 +16,6 @@ export function useForm({
 
   const register = (name, field) => {
     if (fields.value[name]) {
-      console.warn(`the form field ${name} already exists.`);
       return;
     }
 
@@ -24,7 +23,7 @@ export function useForm({
       ...field,
       name: name,
       mode: field.mode || mode,
-      initialValue: field.initialValue || initialValues[name]
+      initialValue: field.initialValue ?? initialValues[name]
     });
   };
 
@@ -63,6 +62,7 @@ export function useForm({
       await validate();
       if (!isValid.value) return;
       isSubmitted.value = true;
+
       return await onSubmit(values.value);
     } catch (err) {
       console.error(err);

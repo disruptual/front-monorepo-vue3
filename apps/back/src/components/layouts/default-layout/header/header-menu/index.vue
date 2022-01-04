@@ -4,8 +4,7 @@ export default { name: 'HeaderMenu' };
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useCurrentUser } from '@dsp/core';
-import { USER_ROLES } from '@dsp/business';
+import { useCurrentUser, useAppContext } from '@dsp/core';
 import { useReadableColor } from '@dsp/ui';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { MENU } from '@/utils/constants';
@@ -15,13 +14,14 @@ const search = ref('');
 
 const { data: currentUser } = useCurrentUser();
 const breadcrumbs = useBreadCrumbs();
+const context = useAppContext();
 
 const allowedSections = computed(() =>
   MENU.filter(section =>
     section.permissions.some(permission =>
       currentUser.value.hasRole(permission)
     )
-  )
+  ).filter(section => context.features[section.id].isEnabled)
 );
 
 const displayedLinksForSection = section =>

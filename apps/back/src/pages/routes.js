@@ -21,5 +21,15 @@ export const routes = [
       layout: layouts.fullPage
     }
   },
+  {
+    path: '/parametres/message-annonce',
+    name: 'SettingsAnnouncement',
+    props: true,
+    component: () => import('@/pages/settings/announcement.vue'),
+    meta: {
+      permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      layout: layouts.default
+    }
+  },
   ...adminRoutes
 ];

@@ -21,7 +21,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['rowDblClick', 'filterChange']);
 
-const isLoading = computed(() => props.query.isLoading.value);
+const isLoading = computed(() => props.query.isLoadingFirstPage.value);
 
 const model = reactive(
   new DataTable({
@@ -38,7 +38,7 @@ const model = reactive(
   })
 );
 
-const onKeyPress = e => {
+useEventListener('keydown', e => {
   if (!isNumber(model.focusedRowIndex)) return;
 
   switch (e.key) {
@@ -55,8 +55,7 @@ const onKeyPress = e => {
     default:
       return;
   }
-};
-useEventListener('keydown', onKeyPress);
+});
 
 provide(CONTEXT_KEYS.DATATABLE, {
   query: props.query,

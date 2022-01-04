@@ -1,12 +1,12 @@
 import { unref } from 'vue';
-import { useQuery } from 'vue-query';
+import { useReactiveQuery } from './useReactiveQuery';
 import { createEntityNormalizer } from '../factories/entityNormalizer.factory';
 import { useBoundedModel } from './useBoundedModel';
 
 export function useModelQuery(key, fetcher, queryOptions) {
   const { model, relations, ...options } = unref(queryOptions);
 
-  const query = useQuery(unref(key), fetcher, {
+  const query = useReactiveQuery(unref(key), fetcher, {
     ...options,
     select: createEntityNormalizer(model)
   });

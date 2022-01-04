@@ -24,6 +24,10 @@ const SliderUrls = computed(() =>
   query.data.value?.medias.map(media => media.url)
 );
 useBreadCrumbs(breadCrumbLabel);
+
+const sliderUrls = computed(() =>
+  query.data.value.medias.map(media => media.url)
+);
 </script>
 
 <template>

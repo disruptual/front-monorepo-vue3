@@ -7,7 +7,7 @@ export function useFormField(definition) {
 
   const field = reactive({
     name: definition.name,
-    value: definition.initialValue || null,
+    value: definition.initialValue ?? null,
     isDirty: false,
     isTouched: false,
     errors: Object.fromEntries(
@@ -17,12 +17,12 @@ export function useFormField(definition) {
     async validate() {
       const { validators } = definition;
       for (let key in validators) {
-        const { handler, message, ...validator } = validators[key];
-        const validationResult = await handler(field.value, validator);
+        const { handler, message, ...validatorOptions } = validators[key];
+        const validationResult = await handler(field.value, validatorOptions);
         const isError = !validationResult;
 
         field.errors[key] = isError
-          ? t(message, { value: field.value, ...validator })
+          ? t(message, { value: field.value, ...validatorOptions })
           : null;
 
         field.isValid = !!validationResult;
@@ -61,7 +61,7 @@ export function useFormField(definition) {
     }
   });
 
-  if (definition.initialValue) {
+  if (definition.initialValue !== undefined) {
     field.validate();
   }
 

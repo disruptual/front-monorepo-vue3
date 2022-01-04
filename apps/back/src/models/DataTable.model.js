@@ -94,7 +94,7 @@ export class DataTable {
     const columnsWidth = this.displayedColumns
       .map(c => c.width)
       .map(width => {
-        if (width === '*') return 'minmax(60px , 1fr)';
+        if (width === '*') return 'minmax(100px , 1fr)';
         if (/%/.test(width)) return width;
 
         return parseInt(width) + 'px';

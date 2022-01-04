@@ -66,7 +66,7 @@ const ordersLink = computed(() => ({
     <dsp-avatar :user="user" size="lg" />
   </dsp-center>
 
-  <dsp-smart-form :form="form" class="infos">
+  <dsp-smart-form :form="form">
     <div>{{ t('user.details.lastName') }}</div>
     <dsp-smart-form-field
       v-if="isEditing"
@@ -111,7 +111,11 @@ const ordersLink = computed(() => ({
       name="content"
       :initial-value="user.content"
     >
-      <dsp-input-text v-model="slotProps.field.value" v-bind="slotProps" />
+      <dsp-input-textarea
+        v-model="slotProps.field.value"
+        v-bind="slotProps"
+        :is-resizable="false"
+      />
     </dsp-smart-form-field>
     <div v-else>{{ user.content }}</div>
 
@@ -216,7 +220,7 @@ const ordersLink = computed(() => ({
 </template>
 
 <style lang="scss" scoped>
-.infos {
+form {
   margin-top: var(--spacing-sm);
   line-height: 1.5;
 

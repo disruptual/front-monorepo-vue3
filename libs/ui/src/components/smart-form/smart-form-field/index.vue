@@ -69,5 +69,5 @@ const slotProps = computed(() => {
 </script>
 
 <template>
-  <slot v-if="field" v-bind="slotProps" />
+  <slot v-if="field && $slots.default" v-bind="slotProps" />
 </template>

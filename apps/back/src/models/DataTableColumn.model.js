@@ -17,7 +17,8 @@ export class DataTableColumn {
     isFilterable,
     filterName,
     isHighlightable,
-    highlightOptions
+    highlightOptions,
+    enumValues
   }) {
     this.name = name;
     this.type = type;
@@ -33,6 +34,7 @@ export class DataTableColumn {
     this.isHighlightable = isHighlightable;
     this.highlightOptions = highlightOptions;
     this._highlights = [];
+    this.enumValues = enumValues;
 
     this.pinnedOffset = 0;
     this.headerElement = null;
@@ -94,7 +96,7 @@ export class DataTableColumn {
 
   getHighlightPredicate(row) {
     return isFunction(this.highlightOptions.predicate)
-      ? this.highlightOptions.predicate(this.row)
+      ? this.highlightOptions.predicate(row)
       : row[this.highlightOptions.predicate];
   }
 }

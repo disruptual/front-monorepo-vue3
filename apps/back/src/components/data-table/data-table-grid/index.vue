@@ -46,7 +46,7 @@ watch(tableElement, () => {
       </tr>
     </tbody>
 
-    <dsp-infinite-scroll v-else @load-more="fetchNextPage">
+    <dsp-infinite-scroll v-else :root="tableElement" @load-more="fetchNextPage">
       <tbody ref="bodyElement">
         <DataTableGridRow
           v-for="(row, index) in data"

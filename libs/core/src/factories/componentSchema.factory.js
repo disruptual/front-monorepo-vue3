@@ -3,7 +3,6 @@ import {
   toProps as toMappedProps,
   toConfig
 } from '@dsp/core/types/schemaValidation';
-import * as foo from '@dsp/core/types/schemaValidation';
 import { types } from '@dsp/core/types/helpers';
 import { useAppContext } from '@dsp/core/hooks';
 
@@ -27,7 +26,7 @@ export const createComponentSchema = (name, schema) => {
     return props;
   }
 
-  function toVariant(props) {
+  function toVariant({ variant, ...props }) {
     const attrs = useAttrs();
     const config = toContext(props);
     const variantComponent = shallowRef(null);

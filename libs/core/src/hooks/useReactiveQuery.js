@@ -1,5 +1,5 @@
 import { useQuery, useInfiniteQuery } from 'vue-query';
-import { reactive, unref, ref, watchEffect } from 'vue';
+import { reactive, unref, watchEffect } from 'vue';
 
 export const useReactiveQuery = (queryKey, queryFn, queryOptions) => {
   const state = reactive({
@@ -11,7 +11,7 @@ export const useReactiveQuery = (queryKey, queryFn, queryOptions) => {
   watchEffect(() => {
     state.queryKey = unref(queryKey);
     state.queryFn = unref(queryFn);
-    Object.assign(state, queryOptions);
+    Object.assign(state, unref(queryOptions));
   });
 
   return useQuery(state);
@@ -27,7 +27,7 @@ export const useReactiveInfiniteQuery = (queryKey, queryFn, queryOptions) => {
   watchEffect(() => {
     state.queryKey = unref(queryKey);
     state.queryFn = unref(queryFn);
-    Object.assign(state, queryOptions);
+    Object.assign(state, unref(queryOptions));
   });
 
   return useInfiniteQuery(state);

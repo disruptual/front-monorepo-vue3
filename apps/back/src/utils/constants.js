@@ -46,7 +46,8 @@ export const DATATABLE_HIGHLIGHT_OPERATORS = {
 
 export const ORDER_DETAILS_TABS = {
   INFOS: 'infos',
-  ITEMS: 'items'
+  ITEMS: 'items',
+  HISTORY: 'history'
 };
 
 export const USER_DETAILS_TABS = {
@@ -58,6 +59,7 @@ export const USER_DETAILS_TABS = {
 export const MENU = [
   {
     name: 'Administration',
+    id: 'admin',
     icon: 'chart',
     permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
     links: [
@@ -72,6 +74,7 @@ export const MENU = [
   },
   {
     name: 'Magasin',
+    id: 'store',
     icon: 'store',
     permissions: [
       USER_ROLES.ADMIN,
@@ -86,6 +89,7 @@ export const MENU = [
   },
   {
     name: 'Evenements',
+    id: 'eventStore',
     icon: 'handshake',
     permissions: [
       USER_ROLES.ADMIN,
@@ -95,6 +99,19 @@ export const MENU = [
     links: [
       { target: '/', label: 'Dépôt' },
       { target: '/', label: 'Vente' }
+    ]
+  },
+  {
+    name: 'Paramètres',
+    id: 'settings',
+    icon: 'settings',
+    permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+    links: [
+      {
+        target: { name: 'SettingsAnnouncement' },
+        label: "Message d'annonce"
+      }
+      // { target: { name: 'AdminCarousel' }, label: 'Éditeur de Carrousel' }
     ]
   }
 ];

@@ -31,16 +31,18 @@ defineProps({
   color: inherit;
   text-decoration: none;
 
-  &:hover {
-    color: var(--color-brand-500);
+  &:not([disabled]) {
+    &:hover {
+      color: var(--color-brand-500);
+    }
+
+    &:focus-visible {
+      background-color: var(--color-brand-quarter);
+      outline: none;
+    }
   }
 
-  &:focus-visible {
-    background-color: var(--color-brand-quarter);
-    outline: none;
-  }
-
-  [disabled] {
+  &[disabled] {
     color: var(--color-text-disabled);
     cursor: default;
   }

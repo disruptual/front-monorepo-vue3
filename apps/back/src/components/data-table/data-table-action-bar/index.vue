@@ -10,11 +10,12 @@ import { useDevice, vTooltip } from '@dsp/ui';
 
 import DataTableFilterDrawer from '../data-table-filter-drawer/index.vue';
 import DataTableHighlightManager from '../data-table-highlight-manager/index.vue';
+import DataTableFilterTags from './filter-tags.vue';
 
 const { t } = useI18n();
 const device = useDevice();
 
-const { model } = inject(CONTEXT_KEYS.DATATABLE);
+const { model, query } = inject(CONTEXT_KEYS.DATATABLE);
 
 const isColumnsDropdownOpened = ref(false);
 const isHighlightDropdownOpened = ref(false);
@@ -25,16 +26,6 @@ const selectedCount = computed(() => model.selectedRowIds.length);
 const isActionDisabled = action =>
   selectedCount.value === 0 || (selectedCount.value > 1 && !action.canBatch);
 
-const activeFilters = computed(() =>
-  Object.entries(model.filters)
-    .filter(([, value]) => value && value !== '')
-    .map(([key, value]) => ({
-      name: key,
-      label: model.columns.find(col => col.name === key).label,
-      value
-    }))
-);
-
 const addHighlight = () => {
   selectedHighlight.value = null;
   isHighlightManagerOpened.value = true;
@@ -44,24 +35,28 @@ const editHighlight = highlight => {
   selectedHighlight.value = highlight;
   isHighlightManagerOpened.value = true;
 };
+
+const triggerAction = action => {
+  action.action(
+    model.selectedRowIds.map(id =>
+      query.data.value.find(entity => entity.id === id)
+    )
+  );
+};
 </script>
 
 <template>
   <dsp-flex
     class="data-table-action-bar"
     align="center"
+    direction="row-reverse"
     justify="space-between"
   >
-    <div v-if="model.hasSelectorColumn && !device.isMobile">
-      {{ t('dataTable.actionBar.selectedCount', { count: selectedCount }) }}
-    </div>
-
     <dsp-flex gap="xs">
       <dsp-plain-button
         v-for="action in model.rowActions"
         :key="action.label"
         v-tooltip="action.label"
-        :left-icon="action.icon"
         :disabled="isActionDisabled(action)"
         @click="triggerAction(action)"
       >
@@ -128,21 +123,12 @@ const editHighlight = highlight => {
         </template>
       </dsp-dropdown>
     </dsp-flex>
+    <div v-if="model.hasSelectorColumn && !device.isMobile">
+      {{ t('dataTable.actionBar.selectedCount', { count: selectedCount }) }}
+    </div>
   </dsp-flex>
 
-  <dsp-flex v-show="activeFilters.length > 0" gap="sm" class="active-filters">
-    <dsp-swiper>
-      <dsp-swiper-item v-for="filter in activeFilters" :key="filter.name">
-        <dsp-button
-          right-icon="remove"
-          is-rounded
-          @click="model.resetFilter(filter.name)"
-        >
-          {{ filter.label }}: {{ filter.value }}
-        </dsp-button>
-      </dsp-swiper-item>
-    </dsp-swiper>
-  </dsp-flex>
+  <DataTableFilterTags />
 
   <DataTableHighlightManager
     v-model:isOpened="isHighlightManagerOpened"
