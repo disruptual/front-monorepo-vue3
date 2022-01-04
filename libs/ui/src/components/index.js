@@ -31,7 +31,6 @@ export { default as DspVisuallyHidden } from './visually-hidden/index.vue';
 export { default as DspInfiniteQueryLoader } from './infinite-query-loader/index.vue';
 export { default as DspVNode } from './v-node';
 export { default as DspSwitch } from './switch/index.vue';
-export { default as DspSlider } from './slider/index.vue';
 export { default as DspInputSearch } from './input-search/index.vue';
 export { default as DspIconButton } from './icon-button/index.vue';
 export { default as DspAvatar } from './avatar/index.vue';
