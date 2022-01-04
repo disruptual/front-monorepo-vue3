@@ -13,6 +13,7 @@ import edit from './edit.svg';
 import ellipsisH from './ellipsisH.svg';
 import eye from './eye.svg';
 import eyeSlash from './eyeSlash.svg';
+import chevronRight from './chevronRight.svg';
 import filter from './filter.svg';
 import highlight from './highlight.svg';
 import handshake from './handshake.svg';
@@ -45,6 +46,7 @@ export default {
   checkbox,
   checkboxLight,
   chevronLeft,
+  chevronRight,
   circleRegular,
   circleSolid,
   columns,
