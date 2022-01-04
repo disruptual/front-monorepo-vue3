@@ -16,7 +16,8 @@
     "ui": "yarn workspace @dsp/ui",
     "core": "yarn workspace @dsp/core",
     "business": "yarn workspace @dsp/business",
-    "devtools": "yarn workspace @dsp/devtools"
+    "devtools": "yarn workspace @dsp/devtools",
+    "build:back": "yarn back build"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.15.7"
