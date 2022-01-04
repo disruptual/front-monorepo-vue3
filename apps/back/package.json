@@ -1,6 +1,6 @@
 {
   "name": "@dsp/back",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
     "dev": "vite",
     "serve": "vite preview",
@@ -36,6 +36,7 @@
     "sass": "^1.42.1",
     "vite": "^2.5.10",
     "vite-plugin-html": "^2.1.1",
+    "vite-plugin-md": "^0.11.7",
     "vue-loader": "^16.8.1"
   }
 }
