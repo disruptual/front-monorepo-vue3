@@ -37,34 +37,34 @@ const sliderUrls = computed(() =>
         <dsp-center>
           <h2>{{ item.title }}</h2>
         </dsp-center>
-        <dsp-flex gap="md" justify="center">
+        <dl gap="md" justify="center">
           <dsp-slider :images-urls="SliderUrls" />
 
-          <dsp-flex direction="column" gap="sm">
+          <dsp-flex direction="column" gap="sm" class="info">
             <dsp-flex v-if="item.colors" align="center" gap="sm" class="color">
-              <strong>{{ t('itemDetail.infos.colors') }}</strong>
-              <dsp-flex>
+              <dt class="info__label">{{ t('itemDetail.infos.colors') }}</dt>
+              <dd>
                 <div
                   v-for="color in item.colors"
                   :key="color.id"
                   class="color-preview"
                   :style="{ '--color': '#' + color.hex }"
                 />
-              </dsp-flex>
+              </dd>
             </dsp-flex>
             <dsp-flex v-if="item.category" gap="sm" class="category">
-              <strong>{{ t('itemDetail.infos.categorie') }}</strong>
-              <span>{{ item.category.name }}</span>
+              <dt class="info__label">{{ t('itemDetail.infos.categorie') }}</dt>
+              <dd>{{ item.category.name }}</dd>
             </dsp-flex>
 
             <dsp-flex v-if="item.condition" gap="sm" class="state">
-              <strong>{{ t('itemDetail.infos.condition') }}</strong>
-              <span>{{ item.condition.stateName }}</span>
+              <dt class="info__label">{{ t('itemDetail.infos.condition') }}</dt>
+              <dd>{{ item.condition.stateName }}</dd>
             </dsp-flex>
 
             <dsp-flex v-if="item.size" gap="sm" class="size">
-              <strong>{{ t('itemDetail.infos.size') }}</strong>
-              <span>{{ item.size.name }}</span>
+              <dt class="info__label">{{ t('itemDetail.infos.size') }}</dt>
+              <dd>{{ item.size.name }}</dd>
             </dsp-flex>
 
             <dsp-flex
@@ -72,40 +72,46 @@ const sliderUrls = computed(() =>
               gap="sm"
               class="package-delivery"
             >
-              <strong>{{ t('itemDetail.infos.packageDelivery') }}</strong>
-              <span>{{ item.packageDelivery.name }}</span>
+              <dt class="info__label">
+                {{ t('itemDetail.infos.packageDelivery') }}
+              </dt>
+              <dd>{{ item.packageDelivery.name }}</dd>
             </dsp-flex>
 
             <dsp-flex v-if="item.brand" gap="sm" class="brand">
-              <strong>{{ t('itemDetail.infos.brand') }}</strong>
-              <span>{{ item.brand.name }}</span>
+              <dt class="info__label">{{ t('itemDetail.infos.brand') }}</dt>
+              <dd>{{ item.brand.name }}</dd>
             </dsp-flex>
 
             <dsp-flex v-if="item.deliveries" gap="sm" class="deliveries">
-              <strong>{{ t('itemDetail.infos.delivery') }}</strong>
-              <span>{{ item.deliveriesString }}</span>
+              <dt class="info__label">{{ t('itemDetail.infos.delivery') }}</dt>
+              <dd>{{ item.deliveriesString }}</dd>
             </dsp-flex>
 
             <dsp-flex v-if="item.composition" gap="sm" class="composition">
-              <strong>{{ t('itemDetail.infos.composition') }}</strong>
-              <span>{{ item.composition }}</span>
+              <dt class="info__label">
+                {{ t('itemDetail.infos.composition') }}
+              </dt>
+              <dd>{{ item.composition }}</dd>
             </dsp-flex>
 
             <div v-if="item.content" class="content">
-              <strong>{{ t('itemDetail.infos.content') }}</strong>
-              <span>{{ item.content }}</span>
+              <dt class="info__label">{{ t('itemDetail.infos.content') }}</dt>
+              <dd>{{ item.content }}</dd>
             </div>
             <dsp-flex
               v-if="item.locations?.length > 0"
               gap="sm"
               class="locations"
             >
-              <strong>{{ t('itemDetail.infos.locationDelivery') }}</strong>
-              <ul class="location-list">
+              <dt class="info__label">
+                {{ t('itemDetail.infos.locationDelivery') }}
+              </dt>
+              <dd class="location-list">
                 <li v-for="location in item.locations" :key="location.id">
                   {{ location.name }}
                 </li>
-              </ul>
+              </dd>
             </dsp-flex>
             <dsp-flex direction="column">
               <h3>{{ t('itemDetail.seller') }}</h3>
@@ -142,20 +148,20 @@ const sliderUrls = computed(() =>
                   gap="sm"
                 >
                   <dsp-flex gap="sm">
-                    <strong class="label">
+                    <dt class="label">
                       {{ t('itemDetail.statistics.potentialBuyer') }}
-                    </strong>
-                    <span
+                    </dt>
+                    <dt
                       v-tooltip="
                         t('itemDetail.statistics.potentialBuyerDetail')
                       "
                     >
                       <dsp-icon icon="info" />
-                    </span>
+                    </dt>
                   </dsp-flex>
-                  <span>
+                  <dd>
                     {{ item.stats[0].totalCartWhereThisItemIsAdded }}
-                  </span>
+                  </dd>
                 </dsp-flex>
                 <dsp-flex
                   v-if="item.stats"
@@ -164,10 +170,10 @@ const sliderUrls = computed(() =>
                   class="row"
                   gap="sm"
                 >
-                  <strong class="label">
+                  <dt class="label">
                     {{ t('itemDetail.statistics.cart') }}
-                  </strong>
-                  <span>{{ item.stats[0].totalCartWhereThisItemIsAdded }}</span>
+                  </dt>
+                  <dd>{{ item.stats[0].totalCartWhereThisItemIsAdded }}</dd>
                 </dsp-flex>
                 <dsp-flex
                   v-if="item.stats"
@@ -176,15 +182,15 @@ const sliderUrls = computed(() =>
                   class="row"
                   gap="sm"
                 >
-                  <strong class="label">
+                  <dt class="label">
                     {{ t('itemDetail.statistics.favorite') }}
-                  </strong>
-                  <span>
+                  </dt>
+                  <dd>
                     {{
                       item.stats[0]
                         .totalOfUserWhoHaveAddedThisItemToTheirFavorites
                     }}
-                  </span>
+                  </dd>
                 </dsp-flex>
                 <dsp-flex
                   align="center"
@@ -193,14 +199,14 @@ const sliderUrls = computed(() =>
                   gap="sm"
                 >
                   <dsp-flex gap="sm">
-                    <strong class="label">
+                    <dt class="label">
                       {{ t('itemDetail.statistics.appear') }}
-                    </strong>
-                    <span v-tooltip="t('itemDetail.statistics.appearDetail')">
+                    </dt>
+                    <dt v-tooltip="t('itemDetail.statistics.appearDetail')">
                       <dsp-icon icon="info" />
-                    </span>
+                    </dt>
                   </dsp-flex>
-                  <span>{{ item.statSoftViewed }}</span>
+                  <dd>{{ item.statSoftViewed }}</dd>
                 </dsp-flex>
 
                 <dsp-flex
@@ -210,34 +216,44 @@ const sliderUrls = computed(() =>
                   gap="sm"
                 >
                   <dsp-flex gap="sm">
-                    <strong class="label">
+                    <dt class="label">
                       {{ t('itemDetail.statistics.views') }}
-                    </strong>
-                    <span v-tooltip="t('itemDetail.statistics.viewsDetail')">
+                    </dt>
+                    <dt v-tooltip="t('itemDetail.statistics.viewsDetail')">
                       <dsp-icon icon="info" />
-                    </span>
+                    </dt>
                   </dsp-flex>
-                  <span>{{ item.statHardViewed }}</span>
+                  <dd>{{ item.statHardViewed }}</dd>
                 </dsp-flex>
               </dsp-flex>
             </dsp-flex>
           </dsp-flex>
-        </dsp-flex>
+        </dl>
       </dsp-surface>
     </dsp-container>
   </dsp-query-loader>
 </template>
 
 <style lang="scss" scoped>
+dd {
+  margin: 0;
+}
 .color-preview {
   width: var(--spacing-lg);
   height: var(--spacing-lg);
   background-color: var(--color);
   margin-right: 0.5rem;
 }
+.info {
+  margin-top: var(--spacing-md);
+  .info__label {
+    font-weight: var(--font-weight-bold);
+  }
+}
+
 .content {
-  span {
-    margin-left: var(--spacing-sm);
+  dd {
+    text-align: justify;
   }
 }
 .seller {
@@ -261,6 +277,7 @@ const sliderUrls = computed(() =>
 .statistics {
   .label {
     text-align: center;
+    font-weight: var(--font-weight-bold);
   }
   .row {
     border: 1px solid var(--color-separator);

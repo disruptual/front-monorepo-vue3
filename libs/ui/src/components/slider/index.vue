@@ -34,6 +34,9 @@ const currentIndex = ref(0);
   </dsp-flex>
 </template>
 <style lang="scss" scoped>
+.images {
+  margin: auto;
+}
 .image {
   height: 250px;
   @include mobile-only {
