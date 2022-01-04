@@ -10,6 +10,8 @@ import {
 export default {
   order: {
     details: {
+      noResultBuyer: "Informations de l'acheteur non disponibles.",
+      noResultSeller: 'Informations du vendeur non disponibles.',
       tabs: {
         [ORDER_DETAILS_TABS.INFOS]: 'Informations',
         [ORDER_DETAILS_TABS.ITEMS]: 'Articles',
@@ -36,7 +38,14 @@ export default {
         relaisColis: {
           trackingNumber: 'Numero de Suivi Relais Colis',
           downloadEtiquette: "Télécharger l'étiquette de suivi Relais Colis"
-        }
+        },
+        modeRemuneration: 'Mode de rémuneration',
+        serviceFees: 'Frais de service',
+        shippingFees: 'Frais de livraison',
+        reimbursementAmount: 'Montant remboursé',
+        abundantAmount: 'Montant abondé',
+        totalAmount: 'Montant total',
+        totalAmountAfterNego: 'Montant total après négociation'
       }
     },
     status: {

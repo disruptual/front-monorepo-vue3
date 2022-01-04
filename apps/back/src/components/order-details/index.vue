@@ -108,26 +108,28 @@ const buyerLabel = computed(() =>
     <dsp-surface as="section" class="order-details__remuneration">
       <h3>{{ t(`order.details.title.remuneration`) }}</h3>
       <dl>
-        <dt>Mode de rémuneration</dt>
+        <dt>{{ t(`order.details.label.modeRemuneration`) }}</dt>
         <dd>{{ t(`remuneration.${order.remuneration.remunerationName}`) }}</dd>
 
-        <dt>Frais de service:</dt>
+        <dt>{{ t(`order.details.label.serviceFees`) }}</dt>
         <dd>{{ formatPrice(order.serviceFeeAmount || 0) }}</dd>
 
-        <dt>Frais de livraison:</dt>
+        <dt>{{ t(`order.details.label.shippingFees`) }}</dt>
         <dd>{{ formatPrice(order.deliveryPrice || 0) }}</dd>
 
-        <dt>Montant remboursé :</dt>
+        <dt>{{ t(`order.details.label.reimbursementAmount`) }}</dt>
         <dd>{{ formatPrice(order.refundAmount || 0) }}</dd>
 
-        <dt>Montant abondé:</dt>
+        <dt>{{ t(`order.details.label.abundantAmount`) }}</dt>
         <dd>{{ formatPrice(order.abundedPriceSeller || 0) }}</dd>
 
-        <dt>Montant total</dt>
+        <dt>{{ t(`order.details.label.totalAmount`) }}</dt>
         <dd>{{ formatPrice(order.totalAmountBeforeNegotiation) }}</dd>
 
         <template v-if="order.isNegotiated">
-          <dt class="title">Montant total après négociation :</dt>
+          <dt class="title">
+            {{ t(`order.details.label.totalAmountAfterNego`) }}
+          </dt>
           <dd>{{ formatPrice(order.totalAmount || order.moneyBox) }}</dd>
         </template>
       </dl>
@@ -144,7 +146,7 @@ const buyerLabel = computed(() =>
         <span>{{ order.buyer.fullName }}</span>
         <span>{{ order.buyer.email }}</span>
       </router-link>
-      <span v-else>Informations de l'acheteur non disponibles.</span>
+      <span v-else>{{ t(`order.details.noResultBuyer`) }}</span>
     </dsp-surface>
 
     <dsp-surface as="section" class="order-details__seller">
@@ -162,7 +164,7 @@ const buyerLabel = computed(() =>
         <span>{{ order.seller.email }}</span>
       </router-link>
 
-      <span v-else>Informations du vendeur non disponibles.</span>
+      <span v-else>{{ t(`order.details.noResultSeller`) }}</span>
     </dsp-surface>
   </div>
 </template>

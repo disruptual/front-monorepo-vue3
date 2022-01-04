@@ -41,7 +41,7 @@ const goToDetail = row => {
     <DataTableColumn
       v-slot="{ row }"
       name="id"
-      :label="t('orderItems.label.id')"
+      :label="t('dataTable.label.id')"
       width="100"
     >
       {{ row.item.id }}
@@ -49,7 +49,7 @@ const goToDetail = row => {
     <DataTableColumn
       v-slot="{ row }"
       name="photo"
-      :label="t('orderItems.label.photo')"
+      :label="t('dataTable.label.photo')"
       :tooltip-label="({ row }) => row.item?.mainMedia"
       width="150"
     >
@@ -58,7 +58,7 @@ const goToDetail = row => {
     <DataTableColumn
       v-slot="{ row }"
       name="created"
-      :label="t('orderItems.label.created')"
+      :label="t('dataTable.label.created')"
       :tooltip-label="({ row }) => row.formatCreated()"
       width="200"
     >
@@ -68,7 +68,7 @@ const goToDetail = row => {
     <DataTableColumn
       v-slot="{ row }"
       name="price"
-      :label="t('orderItems.label.price')"
+      :label="t('dataTable.label.price')"
       width="120"
     >
       {{ row.item?.formatedPrice }}
@@ -77,7 +77,7 @@ const goToDetail = row => {
     <DataTableColumn
       v-slot="{ row }"
       name="category"
-      :label="t('orderItems.label.category')"
+      :label="t('dataTable.label.category')"
       width="250"
     >
       {{ row.item?.category?.name }}
