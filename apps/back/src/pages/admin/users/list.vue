@@ -57,10 +57,10 @@ const onMute = async users => {
         user.silentModeActivatedAt ? unmute(user.id) : mute(user.id)
       )
     );
-    showSuccess(t('toasts.user.muteSuccess'));
+    showSuccess(t('toasts.user.muteSuccess'), users.length);
     query.refetch.value();
   } catch (err) {
-    showError(t('toasts.user.muteError'));
+    showError(t('toasts.user.muteError', users.length));
     console.error(err);
   }
 };
@@ -71,7 +71,10 @@ const goToDetail = row => {
 </script>
 
 <template>
-  <dsp-modal :is-opened="isAnonymizeModalOpened">
+  <dsp-modal
+    :is-opened="isAnonymizeModalOpened"
+    @close="isAnonymizeModalOpened = false"
+  >
     <h2>
       {{ t('user.anonymizeModal.title', { user: anonymizedUser.fullName }) }}
     </h2>

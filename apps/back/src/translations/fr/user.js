@@ -37,9 +37,19 @@ export default {
         submit: 'Enregistrer'
       }
     },
+
     anonymizeModal: {
       title: 'Êtes vous sûr de vouloir anonymiser {user} ?',
       alert: 'Cette action est irréversible.'
-    }
+    },
+
+    creditModal: {
+      title: 'Créditer la cagnotte de {user}',
+      alert: 'Cette action est irréversible.'
+    },
+
+    mute: 'Bloquer',
+    unmute: 'Débloquer',
+    isMuted: 'Mode silencieux'
   }
 };

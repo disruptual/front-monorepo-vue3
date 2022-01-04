@@ -212,10 +212,10 @@ dl {
     grid-template-columns: minmax(15em, auto) 1fr;
     grid-column-gap: var(--spacing-md);
   }
+}
 
-  > *:nth-child(odd) {
-    font-weight: var(--font-weight-light);
-  }
+dt {
+  font-weight: var(--font-weight-light);
 }
 
 dd {

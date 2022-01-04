@@ -8,3 +8,4 @@ export * from './Store.service';
 export * from './Voucher.service';
 export * from './Announcement.service';
 export * from './Delivery.service';
+export * from './Remuneration.service';

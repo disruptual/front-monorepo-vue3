@@ -68,6 +68,10 @@ export class User extends BaseModel {
     return this.hasRole(USER_ROLES.STORE);
   }
 
+  get isDAF() {
+    return this.hasRole(USER_ROLES.DAF);
+  }
+
   get isMuted() {
     return !!this.silentModeActivatedAt;
   }

@@ -5,23 +5,40 @@ export default { name: 'UserDetails' };
 <script setup>
 import { ref, unref, computed } from 'vue';
 import { User, USER_ROLES } from '@dsp/business';
-import { useForm } from '@dsp/ui';
+import { useForm, useToast } from '@dsp/ui';
 import { useI18n } from 'vue-i18n';
 import { useUserApi } from '@dsp/core';
 import { USER_DETAILS_TABS as TABS } from '@/utils/constants';
 
+import UserActionsDropdown from './actions-dropdown/index.vue';
+
 const props = defineProps({
   user: { type: User, required: true }
 });
+const emit = defineEmits(['success']);
 
 const { t } = useI18n();
+const { showError, showSuccess } = useToast();
 const userApi = useUserApi();
-const { mutateAsync: updateUser } = userApi.updateMutation();
+const { mutate: updateUser } = userApi.updateMutation({
+  onSuccess() {
+    showSuccess(t('toasts.user.updateSuccess'));
+    emit('success');
+  },
+  onError(err) {
+    console.error(err);
+    showError(t('toasts.user.updateError'));
+  }
+});
 
 const isEditing = ref(false);
 
 const form = useForm({
   onSubmit(values) {
+    if (!values.plainPassword) {
+      delete values.plainPassword;
+      delete values.passwordConfirm;
+    }
     return updateUser({ id: props.user.id, entity: values });
   }
 });
@@ -33,6 +50,7 @@ const passwordConfirmValidators = [
     message: t('form.errors.passwordMatch'),
     handler(value, { formContext }) {
       const { values } = unref(formContext);
+      if (!values.plainPassword) return true;
 
       return value === values.value.plainPassword;
     }
@@ -59,11 +77,15 @@ const ordersLink = computed(() => ({
   />
   <dsp-center>
     <h2>
-      <dsp-flex justify="space-between" align="center">
+      <dsp-flex justify="center" align="center">
         {{ user.fullName }}
+        <UserActionsDropdown :user="user" @success="$emit('success')" />
       </dsp-flex>
     </h2>
     <dsp-avatar :user="user" size="lg" />
+    <dsp-center v-if="user.isMuted" class="muted-badge">
+      {{ t('user.isMuted') }}
+    </dsp-center>
   </dsp-center>
 
   <dsp-smart-form :form="form">
@@ -136,7 +158,7 @@ const ordersLink = computed(() => ({
 
     <template v-if="isEditing">
       <div>{{ t('user.details.password') }}</div>
-      <dsp-smart-form-field v-slot="slotProps" name="password">
+      <dsp-smart-form-field v-slot="slotProps" name="plainPassword">
         <dsp-input-password
           v-model="slotProps.field.value"
           v-bind="slotProps"
@@ -259,5 +281,14 @@ a {
   margin-left: auto;
   width: fit-content;
   font-size: var(--font-size-sm);
+}
+
+.muted-badge {
+  margin-top: var(--spacing-sm);
+  color: var(--color-red-500);
+  border-radius: var(--border-radius-pill);
+  padding: var(--spacing-xxs) var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  border: solid 2px var(--color-red-500);
 }
 </style>
