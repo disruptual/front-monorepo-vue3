@@ -66,12 +66,17 @@ const getStatusClass = order => ({
     @row-dbl-click="goToDetail"
     @filter-change="onFilterChange"
   >
-    <DataTableColumn name="id" label="Id" width="80" is-filterable />
+    <DataTableColumn
+      name="id"
+      :label="t('dataTable.label.id')"
+      width="80"
+      is-filterable
+    />
 
     <DataTableColumn
       v-slot="{ row }"
       name="created"
-      label="Date de création"
+      :label="t('dataTable.label.created')"
       width="160"
       :type="DATATABLE_COLUMN_TYPES.DATE"
       :tooltip-label="({ row }) => row.formatCreated()"
@@ -84,7 +89,7 @@ const getStatusClass = order => ({
     <DataTableColumn
       v-slot="{ row }"
       name="status"
-      label="Statut"
+      :label="t('dataTable.label.status')"
       width="250"
       :type="DATATABLE_COLUMN_TYPES.ENUM"
       :enum-values="statuses"
@@ -98,7 +103,7 @@ const getStatusClass = order => ({
     <DataTableColumn
       v-slot="{ row }"
       name="seller"
-      label="Vendeur"
+      :label="t('dataTable.label.seller')"
       width="200"
       is-filterable
       filter-name="orderSeller.user.email"
@@ -117,7 +122,7 @@ const getStatusClass = order => ({
     <DataTableColumn
       v-slot="{ row }"
       name="buyer"
-      label="Acheteur"
+      :label="t('dataTable.label.buyer')"
       width="200"
       is-filterable
       filter-name="orderUser.email"
@@ -136,7 +141,7 @@ const getStatusClass = order => ({
     <DataTableColumn
       v-slot="{ row }"
       name="itemCount"
-      label="Nb d'articles"
+      :label="t('dataTable.label.numbArticles')"
       width="80"
       :type="DATATABLE_COLUMN_TYPES.NUMBER"
       :highlight-options="{ predicate: row => row?.orderItems?.length }"
@@ -149,7 +154,7 @@ const getStatusClass = order => ({
     <DataTableColumn
       v-slot="{ row }"
       name="delivery"
-      label="Mode de livraison"
+      :label="t('dataTable.label.modeShipping')"
       :type="DATATABLE_COLUMN_TYPES.ENUM"
       :enum-values="deliveryModes"
       is-highlightable
@@ -162,7 +167,7 @@ const getStatusClass = order => ({
 
     <DataTableColumn
       name="formatedPrice"
-      label="Montant"
+      :label="t('dataTable.label.price')"
       width="150"
       :type="DATATABLE_COLUMN_TYPES.NUMBER"
       is-highlightable

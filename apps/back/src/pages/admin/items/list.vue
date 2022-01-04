@@ -42,11 +42,11 @@ const publicationStates = Object.values(ITEM_PUBLICATION_STATES).map(state => ({
     :min-row-size="50"
     @row-dbl-click="goToDetail"
   >
-    <DataTableColumn name="id" label="Id" width="80" />
+    <DataTableColumn name="id" :label="t('dataTable.label.id')" width="80" />
     <DataTableColumn
       v-slot="{ row }"
       name="photo"
-      label="Photo"
+      :label="t('dataTable.label.photo')"
       :tooltip-label="({ row }) => row.mainMedia?.url"
       width="100"
     >
@@ -55,24 +55,32 @@ const publicationStates = Object.values(ITEM_PUBLICATION_STATES).map(state => ({
     <DataTableColumn
       v-slot="{ row }"
       name="created"
-      label="Date de création"
+      :label="t('dataTable.label.created')"
       :tooltip-label="({ row }) => row.formatCreated()"
     >
       {{ row.formatCreated() }}
     </DataTableColumn>
 
-    <DataTableColumn name="formatedPrice" label="Prix" width="80" />
+    <DataTableColumn
+      name="formatedPrice"
+      :label="t('dataTable.label.price')"
+      width="80"
+    />
 
     <DataTableColumn
       v-slot="{ row }"
       name="category"
-      label="Catégorie"
+      :label="t('dataTable.label.category')"
       is-highlightable
     >
       {{ row.category?.name }}
     </DataTableColumn>
 
-    <DataTableColumn v-slot="{ row }" name="seller" label="Vendeur">
+    <DataTableColumn
+      v-slot="{ row }"
+      name="seller"
+      :label="t('dataTable.label.seller')"
+    >
       <router-link
         v-if="row.user"
         :to="{ name: 'AdminUserDetails', params: { slug: row.user?.slug } }"
@@ -84,7 +92,7 @@ const publicationStates = Object.values(ITEM_PUBLICATION_STATES).map(state => ({
     <DataTableColumn
       v-slot="{ row }"
       name="publicationState"
-      label="status"
+      :label="t('dataTable.label.status')"
       :type="DATATABLE_COLUMN_TYPES.ENUM"
       :enum-values="publicationStates"
       is-highlightable

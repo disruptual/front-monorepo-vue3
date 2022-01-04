@@ -36,19 +36,28 @@ const goToDetail = row => {
       <dsp-center>Cet utilisateur n'a réalisé aucune commande.</dsp-center>
     </template>
 
-    <DataTableColumn name="id" label="Id" width="100" />
-    <DataTableColumn v-slot="{ row }" name="role" label="Rôle" width="120">
+    <DataTableColumn name="id" :label="t('dataTable.label.id')" width="100" />
+    <DataTableColumn
+      v-slot="{ row }"
+      name="role"
+      :label="t('dataTable.label.role')"
+      width="120"
+    >
       {{ row.seller?.id == userId ? 'Vendeur' : 'Acheteur' }}
     </DataTableColumn>
     <DataTableColumn
       v-slot="{ row }"
       name="created"
-      label="Date de création"
+      :label="t('dataTable.label.created')"
       :tooltip-label="({ row }) => row.formatCreated()"
     >
       {{ row.formatCreated() }}
     </DataTableColumn>
-    <DataTableColumn v-slot="{ row }" name="seller" label="Vendeur">
+    <DataTableColumn
+      v-slot="{ row }"
+      name="seller"
+      :label="t('dataTable.label.seller')"
+    >
       <router-link
         v-if="row.seller"
         :to="{ name: 'AdminUserDetails', params: { slug: row.seller?.slug } }"
@@ -56,7 +65,11 @@ const goToDetail = row => {
         {{ row.seller?.email }}
       </router-link>
     </DataTableColumn>
-    <DataTableColumn v-slot="{ row }" name="buyer" label="Acheteur">
+    <DataTableColumn
+      v-slot="{ row }"
+      name="buyer"
+      :label="t('dataTable.label.buyer')"
+    >
       <router-link
         v-if="row.buyer"
         :to="{ name: 'AdminUserDetails', params: { slug: row.buyer?.slug } }"
@@ -67,7 +80,7 @@ const goToDetail = row => {
     <DataTableColumn
       v-slot="{ row }"
       name="itemCount"
-      label="Nb d'articles"
+      :label="t('dataTable.label.numbArticles')"
       width="80"
     >
       {{ row.orderItems?.length }}

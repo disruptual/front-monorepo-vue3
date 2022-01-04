@@ -54,7 +54,7 @@ useBreadCrumbs(breadCrumbLabel);
 <template>
   <dsp-query-loader v-slot="{ entity: order }" :query="query">
     <dsp-center>
-      <h2>Détails commande n°{{ order.id }}</h2>
+      <h2>{{ t('order.details.title.page') }}{{ order.id }}</h2>
     </dsp-center>
     <dsp-tabs v-model="activeTab">
       <dsp-tab
