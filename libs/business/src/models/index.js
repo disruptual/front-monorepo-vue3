@@ -6,6 +6,7 @@ export { Category } from './Category.model';
 export { User } from './User.model';
 export { Delivery } from './Delivery.model';
 export { Iban } from './Iban.model';
+export {ItemStat} from './ItemStat.model';
 export { Order } from './Order.model';
 export { OrderItem } from './OrderItem.model';
 export { PackageDelivery } from './PackageDelivery.model';

@@ -5,8 +5,10 @@ import circleRegular from './circleRegular.svg';
 import circleSolid from './circleSolid.svg';
 import eye from './eye.svg';
 import eyeSlash from './eyeSlash.svg';
+import info from './info.svg';
 import loader from './loader.svg';
 import chevronLeft from './chevronLeft.svg';
+import chevronRight from './chevronRight.svg';
 import search from './search.svg';
 import user from './user.svg';
 import home from './home.svg';
@@ -40,6 +42,7 @@ export default {
   checkbox,
   checkboxLight,
   chevronLeft,
+  chevronRight,
   circleRegular,
   circleSolid,
   columns,
@@ -52,6 +55,7 @@ export default {
   handshake,
   highlight,
   home,
+  info,
   loader,
   pin,
   plus,

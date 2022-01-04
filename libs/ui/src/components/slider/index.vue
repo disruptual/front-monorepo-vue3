@@ -16,7 +16,7 @@ const currentIndex = ref(0);
         :key="url"
         :is-visible="index === currentIndex"
         appears
-        duration="1"
+        :duration="1"
         distance="0px"
       >
         <img class="image" :src="url" />
