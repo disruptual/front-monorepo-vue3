@@ -4,8 +4,5 @@ export default {
   sso: {
     isEnabled: false
   },
-  logo,
-  DspButton: {
-    isRounded: true
-  }
+  logo
 };

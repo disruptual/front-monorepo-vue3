@@ -33,8 +33,10 @@ import userSlash from './userSlash.svg';
 import warning from './warning.svg';
 import info from './info.svg';
 import fastForward from './fastForward.svg';
+import add from './add.svg';
 
 export default {
+  add,
   bars,
   caretDown,
   caretLeft,

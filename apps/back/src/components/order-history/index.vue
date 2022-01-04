@@ -52,20 +52,9 @@ const onForward = async () => {
 </script>
 
 <template>
-  <dsp-flex
-    v-if="currentUser.isProjectManager"
-    wrap="nowrap"
-    gap="md"
-    class="rollback-infos"
-    align="center"
-  >
-    <dsp-center class="rollback-infos__icon">
-      <dsp-icon icon="info" />
-    </dsp-center>
-    <span>
-      {{ t('orderHistory.warning') }}
-    </span>
-  </dsp-flex>
+  <dsp-alert v-if="currentUser.isProjectManager" color-scheme="yellow">
+    {{ t('orderHistory.warning') }}
+  </dsp-alert>
 
   <ul>
     <dsp-flex
@@ -117,23 +106,6 @@ li {
   &:nth-of-type(odd) {
     background-color: var(--color-gray-50);
   }
-}
-
-.rollback-infos {
-  color: var(--color-warning-800);
-  margin-bottom: var(--spacing-md);
-  border-radius: var(--border-radius-sm);
-  overflow: hidden;
-  background-color: var(--color-warning-100);
-
-  > * {
-    padding: var(--spacing-sm);
-  }
-}
-
-.rollback-infos__icon {
-  align-self: stretch;
-  background-color: var(--color-warning-300);
 }
 
 .step__date {

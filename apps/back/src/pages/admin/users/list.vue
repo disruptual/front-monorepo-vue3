@@ -5,8 +5,10 @@ export default { name: 'AdminUsersListPage' };
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { useUserApi } from '@dsp/core';
+import { useToast } from '@dsp/ui';
 import { DATATABLE_COLUMN_TYPES } from '@/utils/constants';
 
 import DataTable from '@/components/data-table/index.vue';
@@ -15,9 +17,14 @@ import DataTableRowAction from '@/components/data-table/data-table-row-action/in
 
 useBreadCrumbs('Utilisateurs');
 const { push } = useRouter();
+const { showSuccess, showError } = useToast();
+const { t } = useI18n();
 
 const filters = ref({});
-const query = useUserApi().findAllQuery({ filters });
+const { findAllQuery, muteMutation, unmuteMutation } = useUserApi();
+const query = findAllQuery({ filters });
+const { mutateAsync: mute } = muteMutation();
+const { mutateAsync: unmute } = unmuteMutation();
 
 const onFilterChange = newFilters => {
   filters.value = { ...newFilters };
@@ -27,8 +34,18 @@ const onSoftDelete = users => {
   console.log(users);
 };
 
-const onMute = users => {
-  console.log(users);
+const onMute = async users => {
+  try {
+    await Promise.all(
+      users.map(user =>
+        user.silentModeActivatedAt ? unmute(user.id) : mute(user.id)
+      )
+    );
+    showSuccess(t('toasts.user.muteSuccess'));
+    query.refetch.value();
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 const goToDetail = row => {
@@ -84,19 +101,33 @@ const goToDetail = row => {
         {{ row.formatCreated('EEEE d MMMM yyyy') }}
       </dsp-truncated-text>
     </DataTableColumn>
+    <DataTableColumn
+      v-slot="{ row }"
+      name="silentModeActivatedAt"
+      label="Mode silencieux"
+      is-hidden
+      :tooltip-label="({ row }) => !!row.silentModeActivatedAt"
+      :type="DATATABLE_COLUMN_TYPES.BOOLEAN"
+      is-highlightable
+      :highlight-options="{ predicate: row => !!row.silentModeActivatedAt }"
+    >
+      <dsp-truncated-text :has-tooltip="false">
+        {{ row.silentModeActivatedAt ? t('yes') : t('no') }}
+      </dsp-truncated-text>
+    </DataTableColumn>
 
     <DataTableRowAction
       name="mute"
-      label="Anonymiser"
-      :can-batch="false"
+      label="Bloquer"
       icon="userSlash"
       @action="onMute"
     />
 
     <DataTableRowAction
       name="block"
-      label="Bloquer"
+      label="Anonymisze"
       icon="userDelete"
+      :can-batch="false"
       @action="onSoftDelete"
     />
   </DataTable>

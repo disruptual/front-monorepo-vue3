@@ -3,10 +3,11 @@ export default { name: 'Announcement' };
 </script>
 
 <script setup>
+import { isWithinInterval } from 'date-fns';
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
-import { isWithinInterval } from 'date-fns';
+import { DATATABLE_COLUMN_TYPES } from '@/utils/constants';
 
 defineProps({
   entity: { type: Object, required: true }
@@ -35,11 +36,6 @@ const isActive = announcement => {
 </script>
 
 <template>
-  <dsp-flex justify="flex-start" gap="lg">
-    <dsp-button class="add" type="button" @click="$emit('add')">
-      Ajouter
-    </dsp-button>
-  </dsp-flex>
   <DataTable
     id="announcement"
     :query="entity"
@@ -49,11 +45,21 @@ const isActive = announcement => {
     @row-dbl-click="goToEdit"
   >
     <template #no-result>
-      <dsp-center>Ce site ne possède pas de message d'annonce.</dsp-center>
+      <dsp-center gap="sm">
+        <span>Ce site ne possède pas de message d'annonce.</span>
+        <dsp-button
+          is-rounded
+          is-outlined
+          left-icon="add"
+          @click="$emit('add')"
+        >
+          Ajouter
+        </dsp-button>
+      </dsp-center>
     </template>
-    <DataTableColumn name="state" label="Actif" width="120">
+    <DataTableColumn v-slot="{ row }" name="state" label="Actif" width="120">
       <dsp-center class="active-label">
-        <span>En cours</span>
+        <span v-show="isActive(row)">En cours</span>
       </dsp-center>
     </DataTableColumn>
     <DataTableColumn
@@ -61,6 +67,7 @@ const isActive = announcement => {
       name="startAt"
       label="Date de début"
       width="200"
+      is-highlightable
     >
       {{ row.formatStartAt() }}
     </DataTableColumn>
@@ -69,10 +76,12 @@ const isActive = announcement => {
       name="endAt"
       label="Date de fin"
       width="200"
+      :type="DATATABLE_COLUMN_TYPES.DATE"
+      is-highlightable
     >
       {{ row.formatEndAt() }}
     </DataTableColumn>
-    <DataTableColumn name="content" label="Content" width="50%" />
+    <DataTableColumn name="content" label="Content" width="40%" />
     <DataTableColumn
       v-slot="{ row }"
       name="closable"
@@ -94,13 +103,14 @@ const isActive = announcement => {
       @action="onSoftDelete"
     />
   </DataTable>
+  <dsp-flex justify="flex-start" gap="lg" class="actions">
+    <dsp-button type="button" left-icon="add" @click="$emit('add')">
+      Ajouter
+    </dsp-button>
+  </dsp-flex>
 </template>
 
 <style lang="scss" scoped>
-.add {
-  margin: var(--spacing-xs);
-}
-
 .active-label > span {
   padding: 5px 10px;
   color: var(--color-success-400);
@@ -110,5 +120,9 @@ const isActive = announcement => {
 
 .closable-column {
   flex-grow: 1;
+}
+
+.actions {
+  margin-top: var(--spacing-md);
 }
 </style>

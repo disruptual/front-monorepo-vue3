@@ -40,3 +40,4 @@ export { default as DspDatePicker } from './date-picker/index.vue';
 export { default as DspMenu } from './menu/index.vue';
 export { default as DspSlider } from './slider/index.vue';
 export { default as DspToastsContainer } from './toasts-container/index.vue';
+export { default as DspAlert } from './alert/index.vue';

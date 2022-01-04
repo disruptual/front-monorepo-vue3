@@ -83,6 +83,10 @@ const isDateHighlight = computed(
 const isEnumHighlight = computed(
   () => selectedColumn.value.type === DATATABLE_COLUMN_TYPES.ENUM
 );
+
+const isBooleanHighlight = computed(
+  () => selectedColumn.value.type === DATATABLE_COLUMN_TYPES.BOOLEAN
+);
 </script>
 
 <template>
@@ -160,7 +164,7 @@ const isEnumHighlight = computed(
         </dsp-smart-form-field>
 
         <dsp-smart-form-field
-          v-if="selectedColumn"
+          v-if="selectedColumn && !isBooleanHighlight"
           v-slot="slotProps"
           name="value"
           :initial-value="initialValue.value"

@@ -5,7 +5,7 @@ import {
   ORDER_STATES,
   ORDER_PROBLEM_STATES,
   ORDER_DELIVERY_STATES
-} from '@dsp/business/';
+} from '@dsp/business';
 
 export default {
   order: {
@@ -29,11 +29,11 @@ export default {
         numExpedition: "Numéro d'expédition",
         storeInOut: 'Magasin de dépôt/retrait',
         mondialRelay: {
-          numFollow: 'Numéro de Suivi MondialRelay',
+          trackingNumber: 'Numéro de Suivi MondialRelay',
           downloadEtiquette: "Télécharger l'étiquette de suivi MondialRelay"
         },
         relaisColis: {
-          numFollow: 'Numero de Suivi Relais Colis',
+          trackingNumber: 'Numero de Suivi Relais Colis',
           downloadEtiquette: "Télécharger l'étiquette de suivi Relais Colis"
         }
       }

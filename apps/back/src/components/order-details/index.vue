@@ -74,7 +74,7 @@ const buyerLabel = computed(() =>
         </template>
 
         <template v-if="order.deliveryData?.MondialRelay">
-          <dt>{{ t(`order.details.label.mondialRelay.numFollow`) }}</dt>
+          <dt>{{ t(`order.details.label.mondialRelay.trackingNumber`) }}</dt>
           <dd>
             <span>{{ order.deliveryData.MondialRelay.ExpeditionNum }}</span>
             <br />
@@ -90,7 +90,7 @@ const buyerLabel = computed(() =>
         <template
           v-if="order.isRelaisColis && order.deliveryDetail?.expeditionNum"
         >
-          <dt>{{ t(`order.details.label.relaisColis.numFollow`) }}</dt>
+          <dt>{{ t(`order.details.label.relaisColis.trackingNumber`) }}</dt>
           <dd>
             <span>{{ order.deliveryDetail.expeditionNum }}</span>
             <br />

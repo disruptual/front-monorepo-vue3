@@ -111,7 +111,11 @@ const ordersLink = computed(() => ({
       name="content"
       :initial-value="user.content"
     >
-      <dsp-input-text v-model="slotProps.field.value" v-bind="slotProps" />
+      <dsp-input-textarea
+        v-model="slotProps.field.value"
+        v-bind="slotProps"
+        :is-resizable="false"
+      />
     </dsp-smart-form-field>
     <div v-else>{{ user.content }}</div>
 

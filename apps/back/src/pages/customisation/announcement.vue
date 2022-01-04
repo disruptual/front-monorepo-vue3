@@ -62,19 +62,30 @@ const onAdd = () => {
 </script>
 
 <template>
-  <AnnouncementComponent
-    :entity="query"
-    @update="onSubmit"
-    @delete="onDelete"
-    @edit="onEdit"
-    @add="onAdd"
-  />
-  <AnnouncementModal
-    :announcement="selectedAnnouncement"
-    :is-opened="isEditing"
-    @close="isEditing = false"
-    @submit="onSubmit"
-  />
+  <dsp-surface>
+    <h2>Message D'annonce</h2>
+    <dsp-alert>
+      Définissez ici des messages d'annonce qui apparaitront en haut de votre
+      application sur une période définie.
+    </dsp-alert>
+    <AnnouncementComponent
+      :entity="query"
+      @update="onSubmit"
+      @delete="onDelete"
+      @edit="onEdit"
+      @add="onAdd"
+    />
+    <AnnouncementModal
+      :announcement="selectedAnnouncement"
+      :is-opened="isEditing"
+      @close="isEditing = false"
+      @submit="onSubmit"
+    />
+  </dsp-surface>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+h2 {
+  margin-top: 0;
+}
+</style>
