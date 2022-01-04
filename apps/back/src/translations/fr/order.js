@@ -16,6 +16,7 @@ export default {
         [ORDER_DETAILS_TABS.HISTORY]: 'Suivi de commande'
       },
       title: {
+        page: 'Détails commande n°',
         informations: 'Informations générales',
         buyer: { male: 'Acheteur', female: 'Acheteuse' },
         seller: { male: 'Vendeur', female: 'Vendeuse' },

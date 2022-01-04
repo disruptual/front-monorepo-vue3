@@ -49,18 +49,50 @@ const goToDetail = row => {
       <dsp-center>Il n'y a aucune demande de contact</dsp-center>
     </template>
 
-    <DataTableColumn name="id" label="Id" width="100" is-filterable />
+    <DataTableColumn
+      name="id"
+      :label="t('dataTable.label.id')"
+      width="100"
+      is-filterable
+    />
     <DataTableColumn
       v-slot="{ row }"
       name="created"
-      label="Date de création"
+      :label="t('dataTable.label.created')"
       width="100"
       :tooltip-label="({ row }) => row.formatCreated()"
-    >{{ row.formatCreated() }}</DataTableColumn>
-    <DataTableColumn name="service" label="Service" width="100" is-filterable />
-    <DataTableColumn name="firstName" label="Firstname" width="150" is-filterable />
-    <DataTableColumn name="lastName" label="Lastname" width="150" is-filterable />
-    <DataTableColumn name="email" label="Email" width="200" is-filterable />
-    <DataTableColumn name="content" label="Content" width="200" is-filterable />
+    >
+      {{ row.formatCreated() }}
+    </DataTableColumn>
+    <DataTableColumn
+      name="service"
+      :label="t('dataTable.label.service')"
+      width="100"
+      is-filterable
+    />
+    <DataTableColumn
+      name="firstName"
+      :label="t('dataTable.label.firstname')"
+      width="150"
+      is-filterable
+    />
+    <DataTableColumn
+      name="lastName"
+      :label="t('dataTable.label.lastname')"
+      width="150"
+      is-filterable
+    />
+    <DataTableColumn
+      name="email"
+      :label="t('dataTable.label.email')"
+      width="200"
+      is-filterable
+    />
+    <DataTableColumn
+      name="content"
+      :label="t('dataTable.label.content')"
+      width="200"
+      is-filterable
+    />
   </DataTable>
 </template>

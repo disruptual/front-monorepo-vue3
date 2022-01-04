@@ -100,35 +100,40 @@ const goToDetail = row => {
     <DataTableColumn
       v-slot="{ row }"
       name="avatar"
-      label="avatar"
+      :label="t('dataTable.label.avatar')"
       width="50"
       is-pinned
     >
       <dsp-avatar :user="row" />
     </DataTableColumn>
-    <DataTableColumn name="slug" label="Slug" is-filterable is-highlightable />
+    <DataTableColumn
+      name="slug"
+      :label="t('dataTable.label.slug')"
+      is-filterable
+      is-highlightable
+    />
     <DataTableColumn
       name="firstName"
-      label="Prénom"
+      :label="t('dataTable.label.firstname')"
       is-filterable
       is-highlightable
     />
     <DataTableColumn
       name="lastName"
-      label="Nom"
+      :label="t('dataTable.label.lastname')"
       is-filterable
       is-highlightable
     />
     <DataTableColumn
       name="email"
-      label="Adresse E-mail"
+      :label="t('dataTable.label.email')"
       is-filterable
       is-highlightable
     />
     <DataTableColumn
       v-slot="{ row }"
       name="created"
-      label="Date d'inscription"
+      :label="t('dataTable.label.inscription')"
       :tooltip-label="({ row }) => row.formatCreated()"
       :type="DATATABLE_COLUMN_TYPES.DATE"
       is-highlightable
@@ -140,7 +145,7 @@ const goToDetail = row => {
     <DataTableColumn
       v-slot="{ row }"
       name="silentModeActivatedAt"
-      label="Mode silencieux"
+      :label="t('dataTable.label.modeSilence')"
       is-hidden
       :tooltip-label="({ row }) => !!row.silentModeActivatedAt"
       :type="DATATABLE_COLUMN_TYPES.BOOLEAN"
@@ -154,14 +159,14 @@ const goToDetail = row => {
 
     <DataTableRowAction
       name="mute"
-      label="Bloquer"
+      :label="t('dataTable.label.mute')"
       icon="userSlash"
       @action="onMute"
     />
 
     <DataTableRowAction
       name="block"
-      label="Anonymisze"
+      :label="t('dataTable.label.anonymize')"
       icon="userDelete"
       :can-batch="false"
       @action="onSoftDelete"
