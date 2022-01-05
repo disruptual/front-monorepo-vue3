@@ -13,11 +13,16 @@ export default {
     },
 
     user: {
-      muteSuccess: 'Les utilisateurs sont désormais en mode silencieux.',
+      muteSuccess:
+        "L'utilisateur est désormais en mode silencieux | Les utilisateurs sont désormais en mode silencieux.",
       muteError:
-        "Un ou plusieurs utilisateurs n'ont pas pu être passés en mode silencieux.",
+        "L'utilisateur n'a pas pu être passé en mode silencieux | Un ou plusieurs utilisateurs n'ont pas pu être passés en mode silencieux.",
+      unMuteSuccess: "L'utilisateurs n'est plus en mode silencieux",
+      unMuteError: "L'utilisateur n'a pas pu être débloqué",
       anonymizeSuccess: "L'utilisateur a été anonymisé avec succès.",
-      anonymizeError: "L'utilisateur n'a pas pu être anonymisé."
+      anonymizeError: "L'utilisateur n'a pas pu être anonymisé.",
+      creditSuccess: "La cagnotte de l'utilisateur a été créditée",
+      creditError: "La cagnotte de l'utilisateur n'a pas pu être créditée"
     }
   }
 };

@@ -48,7 +48,7 @@ const activeTab = computed({
       <dsp-tab :name="TABS.INFOS" :label="t(`user.details.tabs.${TABS.INFOS}`)">
         <dsp-container is-small>
           <dsp-surface>
-            <UserDetails :user="user" />
+            <UserDetails :user="user" @success="query.refetch.value()" />
           </dsp-surface>
         </dsp-container>
       </dsp-tab>

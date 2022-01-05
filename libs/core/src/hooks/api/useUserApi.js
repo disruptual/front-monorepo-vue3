@@ -37,6 +37,14 @@ export function useUserApi() {
         userId => userService.anonymize(userId),
         options
       );
+    },
+
+    creditMutation(options) {
+      return useMutation(
+        'creditUser',
+        formValues => userService.credit(formValues),
+        options
+      );
     }
   }));
 }

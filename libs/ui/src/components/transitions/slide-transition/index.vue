@@ -24,7 +24,12 @@ const style = computed(() => ({
 </script>
 
 <template>
-  <transition name="slide" :appear="props.appear" :duration="props.duration">
+  <transition
+    name="slide"
+    mode="out-in"
+    :appear="props.appear"
+    :duration="props.duration"
+  >
     <div
       v-if="props.isVisible"
       class="slide-transition"

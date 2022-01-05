@@ -23,10 +23,15 @@ export class UserService extends BaseCRUDService {
   }
 
   anonymize(userId) {
-    return this._http.put(`/users/${userId}/anonymize`);
+    return this._http.put(`${this.endpoint}/${userId}/anonymize`);
   }
 
-  anonymizeUser(userId) {
-    return this._http.put(`${this.endpoint}/${userId}/anonymize`);
+  credit({ userId, remuneration, amount }) {
+    return this._http.post(
+      `${this.endpoint}/${userId}/society_money_transfer/${remuneration}`,
+      {
+        data: { amount }
+      }
+    );
   }
 }

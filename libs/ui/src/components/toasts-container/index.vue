@@ -41,6 +41,10 @@ const icons = {
   padding: 0;
   margin: 0;
 
+  > * + * {
+    margin-top: var(--spacing-md);
+  }
+
   @include mobile-only {
     right: 0;
     width: 95%;

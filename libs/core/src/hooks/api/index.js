@@ -9,3 +9,4 @@ export * from './useVoucherApi';
 export * from './useAnnouncementApi';
 export * from './useDeliveryApi';
 export * from './useEventApi';
+export * from './useRemunerationApi';

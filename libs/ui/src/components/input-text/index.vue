@@ -11,7 +11,7 @@ import { useReadableColor } from '@dsp/ui/hooks/useReadableColor';
 
 const emit = defineEmits(['update:modelValue']);
 const props = defineProps({
-  modelValue: { type: String, default: null },
+  modelValue: { type: [String, Number], default: null },
   leftIcon: { type: String, default: null },
   rightIcon: { type: String, default: null }
 });
