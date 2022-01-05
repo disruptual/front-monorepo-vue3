@@ -69,7 +69,8 @@ export const MENU = [
       { target: { name: 'AdminContact' }, label: 'Support client' },
       { target: { name: 'AdminVoucher' }, label: "Bons d'achat" },
       { target: { name: 'AdminStore' }, label: 'Magasins' },
-      { target: { name: 'AdminEmail' }, label: 'Mails' }
+      { target: { name: 'AdminEmail' }, label: 'Mails' },
+      { target: { name: 'AdminEvent' }, label: 'Evenement' }
     ]
   },
   {

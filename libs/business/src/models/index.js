@@ -21,3 +21,4 @@ export { Announcement } from './Announcement.model';
 export { Remuneration } from './Remuneration.model';
 export { OrderStateHisto } from './OrderStateHisto.model';
 export { DeliveryStateHisto } from './DeliveryStateHisto.model';
+export { Event } from './Event.model';

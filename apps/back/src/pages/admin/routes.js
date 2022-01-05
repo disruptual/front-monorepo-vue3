@@ -109,5 +109,25 @@ export default [
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       layout: layouts.default
     }
+  },
+  {
+    path: '/admin/evenements',
+    name: 'AdminEvent',
+    props: true,
+    component: () => import('@/pages/admin/event/list.vue'),
+    meta: {
+      permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      layout: layouts.default
+    }
+  },
+  {
+    path: '/admin/evenements/:id',
+    name: 'AdminEventDetails',
+    props: true,
+    component: () => import('@/pages/admin/event/detail.vue'),
+    meta: {
+      permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      layout: layouts.default
+    }
   }
 ];

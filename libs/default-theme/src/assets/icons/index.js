@@ -1,4 +1,5 @@
 import bars from './bars.svg';
+import calendar from './calendar.svg';
 import caretDown from './caretDown.svg';
 import caretLeft from './caretLeft.svg';
 import caretRight from './caretRight.svg';
@@ -8,6 +9,7 @@ import checkboxLight from './checkboxLight.svg';
 import chevronLeft from './chevronLeft.svg';
 import circleRegular from './circleRegular.svg';
 import circleSolid from './circleSolid.svg';
+import clock from './clock.svg';
 import columns from './columns.svg';
 import edit from './edit.svg';
 import ellipsisH from './ellipsisH.svg';
@@ -38,6 +40,7 @@ import add from './add.svg';
 export default {
   add,
   bars,
+  calendar,
   caretDown,
   caretLeft,
   caretRight,
@@ -47,6 +50,7 @@ export default {
   chevronLeft,
   circleRegular,
   circleSolid,
+  clock,
   columns,
   edit,
   ellipsisH,
