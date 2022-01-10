@@ -5,7 +5,11 @@ import { useCRUDApi } from '../useCRUDApi';
 
 export function useCategoryApi() {
   return useCRUDApi(
-    { model: Category, service: CategoryService },
+    {
+      model: Category,
+      service: CategoryService,
+      defaultQueryOptions: { staleTime: Infinity }
+    },
     categoryService => ({
       findAllQuery(
         { relations = [], itemsPerPage = 30, filters = {} } = {},
