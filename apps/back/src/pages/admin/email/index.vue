@@ -77,4 +77,3 @@ const goToEdit = row => {
     />
   </DataTable>
 </template>
-setDatePicker
