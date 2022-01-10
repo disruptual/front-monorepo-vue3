@@ -33,6 +33,7 @@ export default {
       dateEnd: 'date de fin',
       delete: 'Supprimer',
       depositedArticle: 'Articles déposés',
+      detail: 'Détails',
       edit: 'Editer',
       email: 'Email',
       firstname: 'Prénom',

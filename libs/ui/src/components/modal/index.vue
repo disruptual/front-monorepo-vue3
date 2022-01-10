@@ -67,6 +67,7 @@ const onClose = () => {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  overflow: auto;
 }
 
 .transition {

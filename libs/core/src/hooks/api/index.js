@@ -10,3 +10,5 @@ export * from './useAnnouncementApi';
 export * from './useDeliveryApi';
 export * from './useEventApi';
 export * from './useRemunerationApi';
+export * from './useCategoryApi';
+export * from './useLocationApi';

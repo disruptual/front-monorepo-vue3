@@ -39,6 +39,32 @@ export function useItemApi() {
         () => itemService.findAllByUserId(userId),
         { model: Item, relations }
       );
+    },
+
+    findAllByEventPhysicalDepositedIdQuery(eventId, { relations = [] } = {}) {
+      const queryKey = computed(
+        () => `${eventId}/items?exists[eventPhysicalDepositedAt]=true`
+      );
+
+      const queryFn = ({ pageParam = { page: 1 } }) => {
+        return itemService.findAllByEventPhysicalDepositedId(eventId, {
+          params: { ...pageParam }
+        });
+      };
+
+      return useCollectionQuery(queryKey, queryFn, { model: Item, relations });
+    },
+
+    findAllByEventDigitalDepositedIdQuery(eventId, { relations = [] } = {}) {
+      const queryKey = computed(() => `${eventId}/items`);
+
+      const queryFn = ({ pageParam = { page: 1 } }) => {
+        return itemService.findAllByEventDigitalDepositedId(eventId, {
+          params: { ...pageParam }
+        });
+      };
+
+      return useCollectionQuery(queryKey, queryFn, { model: Item, relations });
     }
   }));
 }

@@ -21,6 +21,7 @@ import highlight from './highlight.svg';
 import handshake from './handshake.svg';
 import home from './home.svg';
 import loader from './loader.svg';
+import minus from './minus.svg';
 import pin from './pin.svg';
 import plus from './plus.svg';
 import remove from './delete.svg';
@@ -65,6 +66,7 @@ export default {
   home,
   info,
   loader,
+  minus,
   pin,
   plus,
   remove,

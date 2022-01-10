@@ -10,3 +10,5 @@ export * from './Announcement.service';
 export * from './Delivery.service';
 export * from './Event.service';
 export * from './Remuneration.service';
+export * from './Category.service';
+export * from './Location.service';

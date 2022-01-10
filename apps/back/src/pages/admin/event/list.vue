@@ -3,18 +3,25 @@ export default { name: 'AdminEventsListPage' };
 </script>
 
 <script setup>
-import { computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, ref } from 'vue';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { useEventApi } from '@dsp/core';
 import { useI18n } from 'vue-i18n';
+import { useToast } from '@dsp/ui';
 
-import DataTable from '@/components/data-table/index.vue';
-import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
+import EventModal from '@/components/event/modal/index.vue';
+import EventComponent from '@/components/event/list/index.vue';
+
+const { updateMutation, deleteMutation, createMutation } = useEventApi();
+const { mutateAsync: updateEvent } = updateMutation();
+const { mutateAsync: deleteEvent } = deleteMutation();
+const { mutateAsync: createEvent } = createMutation();
 
 useBreadCrumbs('Evenement');
 const { t } = useI18n();
-const { push } = useRouter();
+const { showSuccess, showError } = useToast();
+const isEditing = ref(false);
+const selectedEvent = ref(null);
 
 const queryOptions = computed(() => ({
   filters: {
@@ -25,78 +32,59 @@ const queryOptions = computed(() => ({
 
 const query = useEventApi().findAllQuery(queryOptions);
 
-const getEventStatus = event => {
-  if (event.isSalesPeriod) return t('event.isSalesPeriod');
-  if (event.isPhysicalPeriod) return t('event.isPhysicalPeriod');
-  if (event.isDigitalPeriod) return t('event.isDigitalPeriod');
-  if (!event.hasStarted) return t('event.hasStarted');
-  return t('event.finished');
+const onEdit = row => {
+  selectedEvent.value = row[0];
+  isEditing.value = true;
 };
 
-const goToDetail = row => {
-  push({ name: 'AdminEventDetails', params: { id: row.id } });
+const onAdd = () => {
+  selectedEvent.value = null;
+  isEditing.value = true;
+};
+
+const onSubmit = async row => {
+  selectedEvent.value = null;
+  try {
+    if (row.id) {
+      await updateEvent({ id: row.id, entity: row });
+    } else {
+      await createEvent(row);
+    }
+    showError(t('toasts.event.updateSuccess'));
+    query.refetch.value();
+  } catch (err) {
+    showError(t('toasts.event.createError'));
+    console.error(err);
+  }
+};
+
+const onDelete = async rows => {
+  try {
+    await Promise.all(rows.map(row => deleteEvent(row.id)));
+    query.refetch.value();
+    showSuccess(t('toasts.event.removeSuccess'));
+  } catch (err) {
+    showError(t('toasts.event.removeError'));
+    console.error(err);
+  }
 };
 </script>
 
 <template>
-  <DataTable
-    id="events-list"
-    :query="query"
-    :min-row-size="50"
-    @row-dbl-click="goToDetail"
-  >
-    <DataTableColumn name="id" :label="t('dataTable.label.id')" width="80" />
-    <DataTableColumn
-      name="title"
-      :label="t('dataTable.label.title')"
-      width="80"
-    />
-    <DataTableColumn
-      v-slot="{ row }"
-      name="startAt"
-      :label="t('dataTable.label.dateStart')"
-      width="80"
-    >
-      {{ row.formatStartAt() }}
-    </DataTableColumn>
-    <DataTableColumn
-      v-slot="{ row }"
-      name="endAt"
-      :label="t('dataTable.label.dateEnd')"
-      width="80"
-    >
-      {{ row.formatEndAt() }}
-    </DataTableColumn>
-    <DataTableColumn
-      name="numberOfItems"
-      :label="t('dataTable.label.depositedArticle')"
-      width="80"
-    />
-    <DataTableColumn
-      v-slot="{ row }"
-      name="address.city"
-      :label="t('dataTable.label.city')"
-      width="80"
-    >
-      {{ row.address.city }}
-    </DataTableColumn>
-    <DataTableColumn
-      v-slot="{ row }"
-      name="location.name"
-      :label="t('dataTable.label.storeOrganizer')"
-      width="80"
-    >
-      {{ row.location.name }}
-    </DataTableColumn>
-    <DataTableColumn
-      v-slot="{ row }"
-      name="status"
-      :label="t('dataTable.label.status')"
-      width="80"
-    >
-      {{ getEventStatus(row) }}
-    </DataTableColumn>
-  </DataTable>
+  <EventComponent
+    :entity="query"
+    @update="onSubmit"
+    @delete="onDelete"
+    @edit="onEdit"
+    @add="onAdd"
+  />
+
+  <EventModal
+    :event="selectedEvent"
+    :is-opened="isEditing"
+    @close="isEditing = false"
+    @submit="onSubmit"
+  />
 </template>
 
 <style lang="scss" scoped></style>

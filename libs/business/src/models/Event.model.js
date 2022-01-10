@@ -45,6 +45,34 @@ export class Event extends BaseModel {
     return false;
   }
 
+  get dateFormatStartAt() {
+    return new Date(this.startAt);
+  }
+  get dateFormatEndAt() {
+    return new Date(this.endAt);
+  }
+
+  get dateFormatPhysicalSubmissionStartAt() {
+    return new Date(this.physicalSubmissionStartAt);
+  }
+  get dateFormatPhysicalSubmissionEndAt() {
+    return new Date(this.physicalSubmissionEndAt);
+  }
+
+  get dateFormatDigitalSubmissionStartAt() {
+    return new Date(this.digitalSubmissionStartAt);
+  }
+  get dateFormatDigitalSubmissionEndAt() {
+    return new Date(this.digitalSubmissionEndAt);
+  }
+
+  get dateFormatSalesStartAt() {
+    return new Date(this.salesStartAt);
+  }
+  get dateFormatSalesEndAt() {
+    return new Date(this.salesEndAt);
+  }
+
   isNowInInterval(start, end) {
     return isWithinInterval(new Date(), { start, end });
   }
