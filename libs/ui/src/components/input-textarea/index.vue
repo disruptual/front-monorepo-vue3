@@ -16,7 +16,7 @@ const props = defineProps({
 });
 
 const shadow = ref(null);
-const inputSize = ref('var(--spacing-lg)');
+const inputSize = ref('var(--spacing-sm)');
 const resize = () => {
   if (props.isAutoResizable) {
     inputSize.value = `${shadow.value?.scrollHeight}px`;

@@ -20,7 +20,12 @@ const route = useRoute();
 useBreadCrumbs('Emails');
 
 const filters = ref({});
-const query = useEmailApi().findAllQuery({ filters });
+const query = useEmailApi().findAllQuery({
+  relations: [],
+  requestOptions: {
+    params: { display: 'all' }
+  }
+});
 
 console.log('query EMAIL ==> ', query);
 
@@ -31,8 +36,7 @@ const onFilterChange = newFilters => {
 const onSoftDelete = orders => {
   console.log(orders);
 };
-
-const goToEdit = row => {
+const goToDetail = row => {
   push({ name: 'AdminEmailDetails', params: { id: row.id } });
 };
 </script>
@@ -44,7 +48,7 @@ const goToEdit = row => {
     :min-row-size="40"
     :has-action-bar="true"
     :has-selector-column="true"
-    @row-dbl-click="goToEdit"
+    @row-dbl-click="goToDetail"
     @filter-change="onFilterChange"
   >
     <template #no-result>
