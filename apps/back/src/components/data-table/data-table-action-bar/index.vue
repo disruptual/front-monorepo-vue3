@@ -66,6 +66,8 @@ const triggerAction = action => {
       </dsp-plain-button>
       <DataTableFilterDrawer />
 
+      <slot name="custom-actions" />
+
       <dsp-dropdown v-model:isOpened="isColumnsDropdownOpened" with-toggle-icon>
         <template #toggle>
           <span v-tooltip="'Colonnes'">
