@@ -12,3 +12,6 @@ export * from './useEventApi';
 export * from './useRemunerationApi';
 export * from './useCategoryApi';
 export * from './useLocationApi';
+export * from './useCarouselApi';
+export * from './useMediaApi';
+export * from './useCarouselItemApi';

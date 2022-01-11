@@ -38,6 +38,11 @@ import warning from './warning.svg';
 import info from './info.svg';
 import fastForward from './fastForward.svg';
 import add from './add.svg';
+import fileUpload from './file-upload.svg';
+import save from './save.svg';
+import download from './download.svg';
+import fileImport from './fileImport.svg';
+import expand from './expand.svg';
 
 export default {
   add,
@@ -55,11 +60,15 @@ export default {
   circleSolid,
   clock,
   columns,
+  download,
   edit,
   ellipsisH,
+  expand,
   eye,
   eyeSlash,
   fastForward,
+  fileUpload,
+  fileImport,
   filter,
   handshake,
   highlight,
@@ -71,6 +80,7 @@ export default {
   plus,
   remove,
   reset,
+  save,
   settings,
   search,
   speechBubble,

@@ -2,7 +2,8 @@ import { USER_ROLES } from '@dsp/business';
 
 export const CONTEXT_KEYS = {
   BREADCRUMB: 'breadcrumb',
-  DATATABLE: 'dataTable'
+  DATATABLE: 'dataTable',
+  CAROUSEL: 'carousel'
 };
 
 export const EVENTS = {
@@ -10,6 +11,19 @@ export const EVENTS = {
     COLUMN_UPDATE: 'DataTableColumn:update'
   }
 };
+
+export const CAROUSEL_VIEW_MODES = {
+  DESKTOP: 'slidesDesktop',
+  MOBILE: 'slidesMobile'
+};
+
+export const CAROUSEL_CTA_ALIGNMENTS = {
+  left: 'flex-start',
+  center: 'center',
+  right: 'flex-end'
+};
+
+export const CAROUSEL_FILE_MAX_SIZE = 1;
 
 export const DATATABLE_COLUMN_TYPES = {
   STRING: 'STRING',
@@ -117,8 +131,8 @@ export const MENU = [
       {
         target: { name: 'SettingsAnnouncement' },
         label: "Message d'annonce"
-      }
-      // { target: { name: 'AdminCarousel' }, label: 'Éditeur de Carrousel' }
+      },
+      { target: { name: 'SettingsCarousel' }, label: 'Carrousel' }
     ]
   }
 ];

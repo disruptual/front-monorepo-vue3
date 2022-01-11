@@ -1,22 +1,26 @@
 <script setup>
-import { useAuth } from '@dsp/core/hooks';
+import { ref } from 'vue';
+import { useAuth } from '@dsp/core';
 import { VALIDATION_MODES } from '@dsp/ui';
+import { useI18n } from 'vue-i18n';
 
 const emit = defineEmits(['success']);
+const { t } = useI18n();
 const { login, authenticate } = useAuth();
 
-const onSubmit = async values => {
-  try {
+const submitError = ref(null);
+
+const formOptions = {
+  async onSubmit(values) {
     await login(values);
     await authenticate();
     emit('success');
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const formOptions = {
-  onSubmit,
+  },
+  onError(error) {
+    console.log(error.response);
+    const status = error.response?.status ?? 'generic';
+    submitError.value = t(`login.error.${status}`);
+  },
   mode: VALIDATION_MODES.ON_BLUR
 };
 </script>
@@ -49,5 +53,7 @@ const formOptions = {
     <dsp-flex direction="row-reverse" justify="space-between">
       <dsp-smart-form-submit>Submit</dsp-smart-form-submit>
     </dsp-flex>
+
+    <dsp-form-error :error="submitError" />
   </dsp-smart-form>
 </template>

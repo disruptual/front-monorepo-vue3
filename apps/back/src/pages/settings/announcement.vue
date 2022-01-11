@@ -1,5 +1,5 @@
 <script>
-export default { name: 'AdminAnnouncement' };
+export default { name: 'SettingsAnnouncement' };
 </script>
 
 <script setup>

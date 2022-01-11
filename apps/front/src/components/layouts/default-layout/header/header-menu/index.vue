@@ -18,7 +18,12 @@ const isUserMenuOpened = ref(false);
   <nav class="header-menu">
     <dsp-flex gap="sm" as="ul" align="center">
       <li v-if="device.isDesktop">
-        <dsp-icon-button :to="{ name: 'Home' }" icon="home" size="lg" />
+        <dsp-icon-button
+          :to="{ name: 'Home' }"
+          icon="home"
+          is-plain
+          size="lg"
+        />
       </li>
       <li v-if="currentUser">
         <dsp-plain-button
@@ -31,7 +36,12 @@ const isUserMenuOpened = ref(false);
         <UserMenu v-model="isUserMenuOpened" />
       </li>
       <li v-else>
-        <dsp-icon-button icon="user" size="lg" :to="{ name: 'Login' }" />
+        <dsp-icon-button
+          icon="user"
+          size="lg"
+          :to="{ name: 'Login' }"
+          is-plain
+        />
       </li>
     </dsp-flex>
   </nav>

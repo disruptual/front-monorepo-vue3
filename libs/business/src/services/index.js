@@ -12,3 +12,6 @@ export * from './Event.service';
 export * from './Remuneration.service';
 export * from './Category.service';
 export * from './Location.service';
+export * from './Carousel.service';
+export * from './Media.service';
+export * from './CarouselItem.service';

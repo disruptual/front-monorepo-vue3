@@ -4,6 +4,7 @@ export * from './drawer';
 export * from './dropdown';
 export * from './tabs';
 export * from './swiper';
+export * from './grid';
 
 export { default as DspAspectRatio } from './aspect-ratio/index.vue';
 export { default as DspBackLink } from './back-link/index.vue';
@@ -42,3 +43,4 @@ export { default as DspSlider } from './slider/index.vue';
 export { default as DspToastsContainer } from './toasts-container/index.vue';
 export { default as DspAlert } from './alert/index.vue';
 export { default as DspSelect } from './select/index.vue';
+export { default as DspInputFile } from './input-file/index.vue';
