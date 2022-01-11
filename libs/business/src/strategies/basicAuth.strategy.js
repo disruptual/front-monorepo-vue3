@@ -80,7 +80,7 @@ export class BasicAuthStrategy {
       this._refreshToken = null;
       this._accessToken = null;
 
-      return null;
+      throw err;
     }
   }
 

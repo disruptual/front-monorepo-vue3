@@ -2,21 +2,26 @@
 export default { name: 'DspIconButton' };
 </script>
 <script setup>
-defineProps({
+import { computed } from 'vue';
+
+const props = defineProps({
   isLoading: { type: Boolean, default: false },
   size: { type: String, default: 'md' },
-  icon: { type: String, required: true }
+  icon: { type: String, required: true },
+  isPlain: { type: Boolean, default: false }
 });
+
+const is = computed(() => (props.isPlain ? 'dsp-plain-button' : 'dsp-button'));
 </script>
 
 <template>
-  <dsp-plain-button :disabled="isLoading" v-bind="$attrs">
+  <component :is="is" :disabled="isLoading" v-bind="$attrs">
     <dsp-icon
       :icon="isLoading ? 'spinner' : icon"
       :size="size"
       :class="isLoading && 'dsp-icon-button--loading'"
     />
-  </dsp-plain-button>
+  </component>
 </template>
 
 <style lang="scss" scoped>

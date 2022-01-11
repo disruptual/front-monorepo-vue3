@@ -57,6 +57,9 @@ const publicationStates = Object.values(ITEM_PUBLICATION_STATES).map(state => ({
       name="created"
       :label="t('dataTable.label.created')"
       :tooltip-label="({ row }) => row.formatCreated()"
+      :type="DATATABLE_COLUMN_TYPES.DATE"
+      is-highlightable
+      is-filterable
     >
       {{ row.formatCreated() }}
     </DataTableColumn>

@@ -53,6 +53,7 @@ const focusedTextColor = useReadableColor('--color-brand-500');
         <dsp-icon-button
           class="close-button"
           icon="remove"
+          is-plain
           size="lg"
           @click="isOpened = false"
         />

@@ -1,9 +1,9 @@
 <script setup>
 const releaseNotesModules = import.meta.globEager('./release-notes/*.md');
 
-const releaseNotesComponents = Object.values(releaseNotesModules).map(
-  module => module.default
-);
+const releaseNotesComponents = Object.values(releaseNotesModules)
+  .map(module => module.default)
+  .reverse();
 </script>
 
 <template>

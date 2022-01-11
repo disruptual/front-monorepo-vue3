@@ -61,7 +61,7 @@ const goToEdit = row => {
       name="idTech"
       :label="t('dataTable.label.identifier')"
       width="400"
-      is-filterable
+      is-highlightable
     />
     <DataTableColumn
       name="name"

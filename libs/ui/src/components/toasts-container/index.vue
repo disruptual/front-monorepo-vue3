@@ -27,7 +27,7 @@ const icons = {
         <dsp-icon :icon="icons[toast.type]" />
       </dsp-center>
       <span>{{ toast.message }}</span>
-      <dsp-icon-button icon="remove" @click="hide(toast.id)" />
+      <dsp-icon-button icon="remove" is-plain @click="hide(toast.id)" />
     </dsp-flex>
   </transition-group>
 </template>
