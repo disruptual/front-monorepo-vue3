@@ -5,6 +5,7 @@ export default {
     itemDetails: "Détails d'annonce",
     orderDetails: 'Détails de commande',
     orderNumber: 'Commande n°{id}',
-    announcements: "Messages d'annonce"
+    announcements: "Messages d'annonce",
+    carousel: 'Carousel'
   }
 };

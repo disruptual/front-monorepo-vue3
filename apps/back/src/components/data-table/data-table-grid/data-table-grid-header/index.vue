@@ -106,6 +106,7 @@ const onResizeMove = e => {
           <dsp-icon-button
             icon="pin"
             class="pin-button"
+            is-plain
             @click="column.togglePinned()"
           />
           <dsp-truncated-text>{{ column.label }}</dsp-truncated-text>

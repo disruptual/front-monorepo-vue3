@@ -12,7 +12,7 @@ import schema from './index.schema';
 defineEmits(['update:modelValue']);
 const props = defineProps({
   modelValue: { type: null, required: true },
-  field: { type: Object, required: true },
+  field: { type: Object, default: () => ({ listeners: {}, errors: [] }) },
   label: { type: [String, null], default: null },
   ...schema.toProps()
 });
@@ -21,7 +21,7 @@ const { t } = useI18n();
 
 const id = makeRandomId(6);
 const isRequired = computed(() =>
-  Object.keys(props.field.errors).includes('required')
+  Object.keys(props.field?.errors).includes('required')
 );
 </script>
 
@@ -39,18 +39,18 @@ const isRequired = computed(() =>
       </label>
     </slot>
 
-    <slot v-bind="{ id, on: field.listeners, ...$attrs }">
+    <slot v-bind="{ id, on: field?.listeners, ...$attrs }">
       <dsp-input-text
         :id="id"
         :model-value="modelValue"
         v-bind="$attrs"
         @update:modelValue="$emit('update:modelValue', $event)"
-        v-on="field.listeners"
+        v-on="field?.listeners"
       />
     </slot>
 
     <dsp-form-error
-      v-for="(error, key) in field.errors"
+      v-for="(error, key) in field?.errors"
       :key="key"
       :error="error"
     />

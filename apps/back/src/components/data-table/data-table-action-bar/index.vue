@@ -64,7 +64,8 @@ const triggerAction = action => {
           <dsp-icon :icon="action.icon" />
         </span>
       </dsp-plain-button>
-      <DataTableFilterDrawer />
+
+      <DataTableFilterDrawer v-if="model.filterableColumns.length > 0" />
 
       <dsp-dropdown v-model:isOpened="isColumnsDropdownOpened" with-toggle-icon>
         <template #toggle>
@@ -109,9 +110,14 @@ const triggerAction = action => {
               />
               <dsp-icon-button
                 icon="remove"
+                is-plain
                 @click="model.removeHighlight(highlight)"
               />
-              <dsp-icon-button icon="edit" @click="editHighlight(highlight)" />
+              <dsp-icon-button
+                icon="edit"
+                is-plain
+                @click="editHighlight(highlight)"
+              />
             </dsp-flex>
           </dsp-dropdown-item>
           <dsp-dropdown-item @click="addHighlight">

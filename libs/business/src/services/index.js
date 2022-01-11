@@ -9,3 +9,6 @@ export * from './Voucher.service';
 export * from './Announcement.service';
 export * from './Delivery.service';
 export * from './Remuneration.service';
+export * from './Carousel.service';
+export * from './Media.service';
+export * from './CarouselItem.service';

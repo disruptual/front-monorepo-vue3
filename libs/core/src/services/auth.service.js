@@ -62,7 +62,6 @@ export class AuthService {
 
   async login(credentials) {
     const payload = await this._strategy.handleLogin(credentials);
-
     this._emitter.emit(ON_TOKEN_UPDATE, payload);
   }
 

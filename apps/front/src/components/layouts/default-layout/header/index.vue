@@ -16,7 +16,7 @@ const device = useDevice();
       class="search-bar"
     />
     <dsp-flex v-else>
-      <dsp-icon-button icon="bars" size="lg" class="burger-menu" />
+      <dsp-icon-button icon="bars" size="lg" is-plain class="burger-menu" />
     </dsp-flex>
     <router-link :to="{ name: 'Home' }" class="logo">
       <h1>DISRUPTUAL</h1>

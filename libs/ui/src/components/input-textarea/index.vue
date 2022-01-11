@@ -66,6 +66,7 @@ watch(model, () => {
   max-height: 10px;
   pointer-events: none;
   opacity: 0;
+  left: 0;
   margin: 0;
 }
 </style>

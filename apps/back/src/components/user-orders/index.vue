@@ -4,6 +4,7 @@ export default { name: 'UserOrders' };
 
 <script setup>
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useOrderApi } from '@dsp/core';
 
 import DataTable from '@/components/data-table/index.vue';
@@ -12,7 +13,7 @@ import DataTableColumn from '@/components/data-table/data-table-column/index.vue
 const props = defineProps({
   userId: { type: String, required: true }
 });
-
+const { t } = useI18n();
 const query = useOrderApi().findAllByUserIdQuery(props.userId, {
   relations: ['buyer', 'seller', 'orderItems']
 });

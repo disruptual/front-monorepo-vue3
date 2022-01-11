@@ -77,8 +77,21 @@ export function useCRUDApi(
 
     updateMutation({ requestOptions = {}, ...options } = {}) {
       return useMutation(
-        `update:${baseQueryKey}`,
+        `updateMany:${baseQueryKey}`,
         ({ id, entity }) => serviceInstance.update(id, entity, requestOptions),
+        { ...defaultMutationOptions, ...options }
+      );
+    },
+
+    updateManyMutation({ requestOptions = {}, ...options } = {}) {
+      return useMutation(
+        `update:${baseQueryKey}`,
+        entities =>
+          Promise.all(
+            entities.map(({ id, entity }) =>
+              serviceInstance.update(id, entity, requestOptions)
+            )
+          ),
         { ...defaultMutationOptions, ...options }
       );
     },
@@ -91,10 +104,34 @@ export function useCRUDApi(
       );
     },
 
+    createManyMutation({ requestOptions = {}, ...options } = {}) {
+      return useMutation(
+        `createMany:${baseQueryKey}`,
+        entities =>
+          Promise.all(
+            entities.map(entity =>
+              serviceInstance.create(entity, requestOptions)
+            )
+          ),
+        { ...defaultMutationOptions, ...options }
+      );
+    },
+
     deleteMutation({ requestOptions = {}, ...options } = {}) {
       return useMutation(
         `delete:${baseQueryKey}`,
         id => serviceInstance.delete(id, requestOptions),
+        { ...defaultMutationOptions, ...options }
+      );
+    },
+
+    deleteManyMutation({ requestOptions = {}, ...options } = {}) {
+      return useMutation(
+        `deleteMany:${baseQueryKey}`,
+        ids =>
+          Promise.all(
+            ids.map(id => serviceInstance.delete(id, requestOptions))
+          ),
         { ...defaultMutationOptions, ...options }
       );
     },
