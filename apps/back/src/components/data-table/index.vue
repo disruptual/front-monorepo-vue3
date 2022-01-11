@@ -69,7 +69,11 @@ provide(CONTEXT_KEYS.DATATABLE, {
       <dsp-loader />
     </dsp-flex>
     <template v-else>
-      <DataTableActionBar v-if="props.hasActionBar" />
+      <DataTableActionBar v-if="props.hasActionBar">
+        <template #custom-actions>
+          <slot name="custom-actions" />
+        </template>
+      </DataTableActionBar>
 
       <DataTableGrid>
         <template #no-result><slot name="no-result" /></template>

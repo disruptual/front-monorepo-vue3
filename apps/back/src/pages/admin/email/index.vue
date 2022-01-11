@@ -71,10 +71,9 @@ const goToEdit = row => {
     />
     <DataTableRowAction
       name="block"
-      :label="t('dataTable.label.edit')"
+      :label="t('dataTable.label.delete')"
       icon="userDelete"
       @action="onSoftDelete"
     />
   </DataTable>
 </template>
-setDatePicker
