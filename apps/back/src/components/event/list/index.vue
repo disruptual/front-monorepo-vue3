@@ -52,7 +52,7 @@ const onDelete = rows => {
   >
     <template #no-result>
       <dsp-center gap="sm">
-        <span>Ce site ne possède pas d'événement'.</span>
+        <span>Ce site ne possède pas d'événement.</span>
         <dsp-button is-rounded is-outlined left-icon="add" @click="onAdd">
           Ajouter
         </dsp-button>
@@ -62,13 +62,13 @@ const onDelete = rows => {
     <DataTableColumn
       name="title"
       :label="t('dataTable.label.title')"
-      width="80"
+      width="100"
     />
     <DataTableColumn
       v-slot="{ row }"
       name="startAt"
       :label="t('dataTable.label.dateStart')"
-      width="80"
+      width="100"
     >
       {{ row.formatStartAt() }}
     </DataTableColumn>
@@ -76,20 +76,20 @@ const onDelete = rows => {
       v-slot="{ row }"
       name="endAt"
       :label="t('dataTable.label.dateEnd')"
-      width="80"
+      width="100"
     >
       {{ row.formatEndAt() }}
     </DataTableColumn>
     <DataTableColumn
       name="numberOfItems"
       :label="t('dataTable.label.depositedArticle')"
-      width="80"
+      width="100"
     />
     <DataTableColumn
       v-slot="{ row }"
       name="address.city"
       :label="t('dataTable.label.city')"
-      width="80"
+      width="150"
     >
       {{ row.address.city }}
     </DataTableColumn>
@@ -97,7 +97,7 @@ const onDelete = rows => {
       v-slot="{ row }"
       name="location.name"
       :label="t('dataTable.label.storeOrganizer')"
-      width="80"
+      width="150"
     >
       {{ row.location.name }}
     </DataTableColumn>
@@ -105,7 +105,7 @@ const onDelete = rows => {
       v-slot="{ row }"
       name="status"
       :label="t('dataTable.label.status')"
-      width="80"
+      width="120"
     >
       {{ getEventStatus(row) }}
     </DataTableColumn>
