@@ -25,7 +25,7 @@ export default {
       bio: 'Description',
       phone: 'N° de téléphone',
       password: 'Mot de passe',
-      passordConfirm: 'Confirmer le mot de passe',
+      passwordConfirm: 'Confirmer le mot de passe',
       deliveries: 'Modes de livraison activés',
       ibanCount: "Nombre d'ibans",
       itemCount: "Nombre d'articles",
@@ -33,7 +33,7 @@ export default {
       roles: 'Roles',
       seeDetails: 'Voir le détail',
       form: {
-        cancel: 'Aannuler',
+        cancel: 'Annuler',
         submit: 'Enregistrer'
       }
     },

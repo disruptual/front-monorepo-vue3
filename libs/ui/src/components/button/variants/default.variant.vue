@@ -6,12 +6,15 @@ export default { name: 'DspButtonDefault' };
 import { useButton } from './index';
 import schema from '../index.schema';
 import { vReadableColor } from '@dsp/ui/directives';
+import { oneOf } from '@dsp/core';
 
 const props = defineProps({
   isFullWidth: { type: Boolean, default: false },
   isOutlined: { type: Boolean, default: false },
   leftIcon: { type: String, default: null },
   rightIcon: { type: String, default: null },
+  size: oneOf(['sm', 'md', 'lg'], 'md'),
+
   colorScheme: { type: String, default: 'brand' },
   ...schema.toVariantProps()
 });
@@ -38,10 +41,10 @@ const { classes, colors } = useButton(props);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-xs) var(--spacing-sm);
   cursor: pointer;
   border: solid 1px transparent;
   font-family: var(--font-body);
+
   user-select: none;
   text-decoration: none;
   background-color: v-bind('colors.normal');
@@ -62,6 +65,20 @@ const { classes, colors } = useButton(props);
   }
 }
 
+.dsp-button--sm {
+  padding: var(--spacing-xxs) var(--spacing-xs);
+  font-size: var(--font-size-sm);
+}
+
+.dsp-button--md {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-md);
+}
+
+.dsp-button--lg {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-lg);
+}
 .dsp-button--is-fullwidth {
   display: flex;
   width: 100%;

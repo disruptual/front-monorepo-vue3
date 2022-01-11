@@ -2,11 +2,14 @@ import { computed } from 'vue';
 import { useColorScheme } from '@dsp/ui/hooks';
 
 export const useButton = props => {
-  const classes = computed(() => ({
-    'dsp-button--is-fullwidth': props.isFullWidth,
-    'dsp-button--is-outlined': props.isOutlined,
-    'dsp-button--is-rounded': props.isRounded
-  }));
+  const classes = computed(() => [
+    `dsp-button--${props.size}`,
+    {
+      'dsp-button--is-fullwidth': props.isFullWidth,
+      'dsp-button--is-outlined': props.isOutlined,
+      'dsp-button--is-rounded': props.isRounded
+    }
+  ]);
 
   const scheme = computed(() => ({
     normal: props.scheme.normal,

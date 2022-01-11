@@ -7,7 +7,7 @@ import { ref, unref, computed } from 'vue';
 import { User, USER_ROLES } from '@dsp/business';
 import { useForm, useToast } from '@dsp/ui';
 import { useI18n } from 'vue-i18n';
-import { useUserApi } from '@dsp/core';
+import { useUserApi, useCurrentUser } from '@dsp/core';
 import { USER_DETAILS_TABS as TABS } from '@/utils/constants';
 
 import UserActionsDropdown from './actions-dropdown/index.vue';
@@ -18,6 +18,7 @@ const props = defineProps({
 const emit = defineEmits(['success']);
 
 const { t } = useI18n();
+const { data: currentUser } = useCurrentUser();
 const { showError, showSuccess } = useToast();
 const userApi = useUserApi();
 const { mutate: updateUser } = userApi.updateMutation({
@@ -43,6 +44,18 @@ const form = useForm({
   }
 });
 const [, formActions] = form;
+
+const availableRoles = computed(() => {
+  return [
+    USER_ROLES.USER,
+    USER_ROLES.ADMIN,
+    USER_ROLES.STORE,
+    USER_ROLES.EVENT_MANAGER,
+    currentUser.value.hasRole(USER_ROLES.DAF) && USER_ROLES.DAF,
+    currentUser.value.hasRole(USER_ROLES.PROJECT_MANAGER) &&
+      USER_ROLES.PROJECT_MANAGER
+  ].filter(Boolean);
+});
 
 const passwordConfirmValidators = [
   {
@@ -214,7 +227,7 @@ const ordersLink = computed(() => ({
     >
       <div>
         <dsp-checkbox
-          v-for="role in Object.values(USER_ROLES)"
+          v-for="role in availableRoles"
           :id="role"
           :key="role"
           v-model="slotProps.field.value"
@@ -225,19 +238,14 @@ const ordersLink = computed(() => ({
     </dsp-smart-form-field>
     <div v-else>{{ formattedRoles }}</div>
 
-    <dsp-flex
-      v-if="isEditing"
-      justify="space-between"
-      class="form-actions"
-      gap="sm"
-    >
+    <dsp-center v-if="isEditing" direction="row" class="form-actions" gap="sm">
       <dsp-button type="button" is-outlined @click="formActions.reset">
         {{ t('user.details.form.cancel') }}
       </dsp-button>
       <dsp-smart-form-submit v-if="isEditing">
         {{ t('user.details.form.submit') }}
       </dsp-smart-form-submit>
-    </dsp-flex>
+    </dsp-center>
   </dsp-smart-form>
 </template>
 
@@ -269,7 +277,7 @@ form {
 .form-actions {
   grid-column: 1 / -1;
   button {
-    flex-grow: 1;
+    /* flex-grow: 1; */
   }
 }
 
