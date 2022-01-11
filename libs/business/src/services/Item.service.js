@@ -15,4 +15,18 @@ export class ItemService extends BaseCRUDService {
 
     return this._http.get(`${this.endpoint}/search`, options);
   }
+
+  async findAllByEventDigitalDepositedId(eventId, options) {
+    return this._http.get(
+      `/events/${eventId}/items?exists[eventPhysicalDepositedAt]=false`,
+      options
+    );
+  }
+
+  async findAllByEventPhysicalDepositedId(eventId, options) {
+    return this._http.get(
+      `/events/${eventId}/items?exists[eventPhysicalDepositedAt]=true`,
+      options
+    );
+  }
 }

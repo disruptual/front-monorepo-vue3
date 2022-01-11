@@ -72,7 +72,7 @@ const formOptions = {
             </div>
           </dsp-flex>
           <dsp-flex align="center">
-            <span class="label">{{ t('contact.detail.email') }}</span>
+            <span class="label">{{ t('contact.details.email') }}</span>
             <span>{{ contact.email }}</span>
             <router-link
               v-if="users"
@@ -82,16 +82,16 @@ const formOptions = {
                 params: { slug: users[0].slug }
               }"
             >
-              ({{ t('contact.detail.seeMore') }})
+              ({{ t('contact.details.seeMore') }})
             </router-link>
           </dsp-flex>
           <dsp-flex align="center">
-            <span class="label">{{ t('contact.detail.content') }}</span>
+            <span class="label">{{ t('contact.details.content') }}</span>
             <span>{{ contact.content }}</span>
           </dsp-flex>
           <dsp-flex align="center">
             <div v-for="response in contact.sheets" :key="response.id">
-              <span class="label">{{ t('contact.detail.response') }}</span>
+              <span class="label">{{ t('contact.details.response') }}</span>
               {{ response.content }}
               <br />
             </div>
@@ -102,7 +102,7 @@ const formOptions = {
                 <dsp-form-control
                   v-slot="{ on, ...formControlProps }"
                   v-model="slotProps.field.value"
-                  :label="t('contact.detail.response')"
+                  :label="t('contact.details.response')"
                   v-bind="slotProps"
                 >
                   <dsp-input-textarea
@@ -115,7 +115,7 @@ const formOptions = {
 
               <dsp-flex direction="row-reverse" justify="space-between">
                 <dsp-smart-form-submit>
-                  {{ t('contact.detail.send') }}
+                  {{ t('contact.details.send') }}
                 </dsp-smart-form-submit>
               </dsp-flex>
             </dsp-smart-form>

@@ -1,6 +1,6 @@
 export default {
   contact: {
-    detail: {
+    details: {
       email: 'Email:',
       content: 'Message:',
       response: 'Réponse:',

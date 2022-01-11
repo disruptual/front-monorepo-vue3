@@ -23,6 +23,8 @@ export { Announcement } from './Announcement.model';
 export { Remuneration } from './Remuneration.model';
 export { OrderStateHisto } from './OrderStateHisto.model';
 export { DeliveryStateHisto } from './DeliveryStateHisto.model';
+export { Event } from './Event.model';
+export { Location } from './Location.model';
 export { Carousel } from './Carousel.model';
 export { Media } from './Media.model';
 export { CarouselItem } from './CarouselItem.model';

@@ -47,7 +47,7 @@ const onDelete = async rows => {
     showSuccess(t('toasts.announcement.removeSuccess'));
   } catch (err) {
     showError(t('toasts.announcement.removeError'));
-    console.lerror(err);
+    console.error(err);
   }
 };
 

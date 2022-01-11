@@ -12,6 +12,14 @@ export default {
       removeSuccess: 'Suppression réussie.'
     },
 
+    event: {
+      removeError: "Un ou plusieurs événements n'ont pas pu être supprimés",
+      createError: "L'événement n'a pas pu être créé.",
+      createSuccess: "L'événement a été créé.",
+      updateSuccess: "L'événement a été mis à jour.",
+      removeSuccess: 'Suppression réussie.'
+    },
+
     user: {
       muteSuccess:
         "L'utilisateur est désormais en mode silencieux | Les utilisateurs sont désormais en mode silencieux.",

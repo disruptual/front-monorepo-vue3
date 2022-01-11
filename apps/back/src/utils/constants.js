@@ -70,6 +70,12 @@ export const USER_DETAILS_TABS = {
   ITEMS: 'items'
 };
 
+export const EVENT_DETAILS_TABS = {
+  INFOS: 'infos',
+  ITEMS_DIGITAL: 'items_digital',
+  ITEMS_PHYSICAL: 'items_physical'
+};
+
 export const MENU = [
   {
     name: 'Administration',
@@ -83,7 +89,8 @@ export const MENU = [
       { target: { name: 'AdminContact' }, label: 'Support client' },
       { target: { name: 'AdminVoucher' }, label: "Bons d'achat" },
       { target: { name: 'AdminStore' }, label: 'Magasins' },
-      { target: { name: 'AdminEmail' }, label: 'Mails' }
+      { target: { name: 'AdminEmail' }, label: 'Mails' },
+      { target: { name: 'AdminEvent' }, label: 'Evenements' }
     ]
   },
   {

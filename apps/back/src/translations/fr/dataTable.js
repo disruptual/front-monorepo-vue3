@@ -26,9 +26,14 @@ export default {
       avatar: 'Avatar',
       buyer: 'Acheteur',
       category: 'Categorie',
+      city: 'ville',
       content: 'Contenu',
       created: 'Date de création',
+      dateStart: 'Date de début',
+      dateEnd: 'date de fin',
       delete: 'Supprimer',
+      depositedArticle: 'Articles déposés',
+      detail: 'Détails',
       edit: 'Editer',
       email: 'Email',
       firstname: 'Prénom',
@@ -51,6 +56,8 @@ export default {
       status: 'Status',
       state: 'Etat',
       storeCode: 'Code store',
+      storeOrganizer: 'Magasin organisateur',
+      title: 'title',
       visibility: 'Visibilité'
     }
   }
