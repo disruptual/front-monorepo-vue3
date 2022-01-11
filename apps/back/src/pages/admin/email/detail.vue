@@ -34,7 +34,7 @@ const { mutate } = useEmailApi().updateMutation({
   }
 });
 const breadCrumbLabel = computed(
-  () => query.data.value?.title ?? t('breadcrumb.mailDetails')
+  () => query.data.value?.id ?? t('breadcrumb.mailDetails')
 );
 const decodedContent = computed({
   get() {
@@ -99,18 +99,17 @@ useBreadCrumbs(breadCrumbLabel);
                 <dsp-input-textarea
                   v-model="slotProps.field.value"
                   v-bind="formControlProps"
-                  :isResizable="false"
+                  :is-resizable="false"
                   v-on="on"
                 />
               </dsp-form-control>
             </dsp-smart-form-field>
+            <dsp-center>
+              <dsp-smart-form-submit>
+                {{ t('email.details.form.submit') }}
+              </dsp-smart-form-submit>
+            </dsp-center>
           </dsp-surface>
-
-          <dsp-center>
-            <dsp-smart-form-submit>
-              {{ t('email.details.form.submit') }}
-            </dsp-smart-form-submit>
-          </dsp-center>
         </div>
       </dsp-smart-form>
     </dsp-container>
@@ -133,9 +132,6 @@ useBreadCrumbs(breadCrumbLabel);
   min-width: $breakpoint-mobile;
 }
 
-.flex {
-  flex: 1;
-}
 .email-form {
   display: grid;
   grid-gap: var(--spacing-md);

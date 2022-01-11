@@ -62,11 +62,13 @@ watch(model, () => {
   }
 }
 .shadow {
-  position: absolute;
+  width: 100%;
+  position: relative;
   max-height: 10px;
   pointer-events: none;
   opacity: 0;
   left: 0;
+  top: -10px;
   margin: 0;
 }
 </style>
