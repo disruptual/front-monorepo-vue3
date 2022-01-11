@@ -84,7 +84,17 @@ export default [
     path: '/admin/email',
     name: 'AdminEmail',
     props: true,
-    component: () => import('@/pages/admin/email/index.vue'),
+    component: () => import('@/pages/admin/email/list.vue'),
+    meta: {
+      permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      layout: layouts.default
+    }
+  },
+    {
+    path: '/admin/email/:id',
+    name: 'AdminEmailDetails',
+    props: true,
+    component: () => import('@/pages/admin/email/detail.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       layout: layouts.default

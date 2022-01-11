@@ -23,6 +23,11 @@ export default {
       anonymizeError: "L'utilisateur n'a pas pu être anonymisé.",
       creditSuccess: "La cagnotte de l'utilisateur a été créditée",
       creditError: "La cagnotte de l'utilisateur n'a pas pu être créditée"
+    },
+    email:{
+      updateSuccess:"L'email a été mise à jour",
+      updateError:"L'email n'a pas été mise à jour"
+
     }
   }
 };
