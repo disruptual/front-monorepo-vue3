@@ -9,6 +9,8 @@ export default [
     component: () => import('@/pages/settings/announcement.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.settings.announcements.isEnabled,
+
       layout: layouts.default
     }
   },
@@ -19,6 +21,7 @@ export default [
     component: () => import('@/pages/settings/carousel.vue'),
     meta: {
       permissions: [USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.settings.carousel.isEnabled,
       layout: layouts.default
     }
   }

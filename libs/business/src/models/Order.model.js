@@ -136,6 +136,15 @@ export class Order extends BaseModel {
     );
   }
 
+  get totalItemPrices() {
+    const amount =
+      (this.totalAmount || this.moneyBox) -
+      this.deliveryPrice -
+      this.serviceFeeAmount;
+
+    return Math.round(amount * 100) / 100;
+  }
+
   get isMondialRelay() {
     return this.delivery.tag === DELIVERY_MODES.MONDIAL_RELAY;
   }

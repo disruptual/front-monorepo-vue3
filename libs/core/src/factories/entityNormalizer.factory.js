@@ -1,8 +1,7 @@
 import { Collection } from '@dsp/business';
 
-export const createEntityNormalizer =
-  (model, proxyHandler = {}) =>
-  data => {
+export const createEntityNormalizer = (model, proxyHandler = {}) => {
+  return function normalizeEntity(data) {
     if (!data) return null;
 
     if (data.pages) {
@@ -32,3 +31,4 @@ export const createEntityNormalizer =
       return new Proxy(instance, proxyHandler);
     }
   };
+};

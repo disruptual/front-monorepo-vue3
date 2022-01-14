@@ -57,3 +57,5 @@ export class ToastService {
     this.toasts.value = this.toasts.value.filter(t => t.id !== toastId);
   }
 }
+
+export default new ToastService();

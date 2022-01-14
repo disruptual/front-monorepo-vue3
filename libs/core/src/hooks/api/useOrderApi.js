@@ -32,6 +32,14 @@ export function useOrderApi() {
           orderService.forward(id, { deliveryTag, transition }),
         requestOptions
       );
+    },
+
+    cancelDisputeMutation(requestOptions) {
+      return useMutation(
+        `cancelDispute`,
+        id => orderService.cancelDispute(id),
+        requestOptions
+      );
     }
   }));
 }

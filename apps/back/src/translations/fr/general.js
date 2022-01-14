@@ -3,5 +3,6 @@ export default {
   no: 'Non',
   ok: 'Ok',
   cancel: 'Annuler',
-  validate: 'Valider'
+  validate: 'Valider',
+  platformName: 'Disruptual'
 };

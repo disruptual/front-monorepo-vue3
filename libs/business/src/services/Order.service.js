@@ -52,4 +52,10 @@ export class OrderService extends BaseCRUDService {
       data: this._getForwardBody(transition, deliveryTag)
     });
   }
+
+  cancelDispute(orderId) {
+    return this._http.post(`/orders/${orderId}/remove-dispute`, {
+      data: null // need to provide data to enable content-type application/json header
+    });
+  }
 }

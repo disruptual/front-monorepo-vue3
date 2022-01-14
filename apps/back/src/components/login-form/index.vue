@@ -12,6 +12,7 @@ const submitError = ref(null);
 
 const formOptions = {
   async onSubmit(values) {
+    console.log(values);
     await login(values);
     await authenticate();
     emit('success');
@@ -42,11 +43,7 @@ const formOptions = {
         label="Mot de passe"
         v-bind="slotProps"
       >
-        <dsp-input-password
-          v-model="slotProps.field.value"
-          v-bind="formControlProps"
-          v-on="on"
-        />
+        <dsp-input-password v-bind="formControlProps" v-on="on" />
       </dsp-form-control>
     </dsp-smart-form-field>
 

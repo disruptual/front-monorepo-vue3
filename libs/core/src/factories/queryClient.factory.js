@@ -11,6 +11,7 @@ export function createQueryClient() {
         notifyOnChangeProps: 'tracked',
         onSuccess(data) {
           if (!data) return;
+
           if (!(data instanceof Collection)) return;
           const rawJson = data.toJSON();
           rawJson['hydra:member'].forEach(entity => {

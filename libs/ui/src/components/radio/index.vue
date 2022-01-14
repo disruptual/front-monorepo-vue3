@@ -66,7 +66,7 @@ input {
   }
 
   &:checked ~ .input__inner--checked {
-    transform: scale(0.75) translate(-0.5px, 0.5px);
+    transform: scale(0.75);
   }
 }
 

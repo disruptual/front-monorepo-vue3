@@ -24,7 +24,7 @@ const textColor = useReadableColor('--color-brand-500');
 
 <template>
   <div class="avatar">
-    <dsp-image v-if="user.avatar" :src="user.avatar.url" />
+    <dsp-image v-if="user.avatar" :src="user.avatar.thumbnails.avatar" />
     <dsp-flex v-else class="initials" align="center" justify="center">
       {{ initials }}
     </dsp-flex>

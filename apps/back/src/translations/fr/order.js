@@ -4,7 +4,8 @@ import {
   ORDER_PROBLEM_STATE_TRANSITIONS,
   ORDER_STATES,
   ORDER_PROBLEM_STATES,
-  ORDER_DELIVERY_STATES
+  ORDER_DELIVERY_STATES,
+  ORDER_DELIVERY_STATE_TRANSITIONS
 } from '@dsp/business';
 
 export default {
@@ -46,7 +47,9 @@ export default {
         abundantAmount: 'Montant abondé',
         totalAmount: 'Montant total',
         totalAmountAfterNego: 'Montant total après négociation'
-      }
+      },
+      closeProblemButton: 'Clore le litige',
+      solveProblemButton: 'Résoudre le litige'
     },
     status: {
       [ORDER_STATES.DELIVERED]: 'Récupérée',
@@ -112,7 +115,11 @@ export default {
         'Litige résolu',
       [ORDER_PROBLEM_STATE_TRANSITIONS.PROBLEM_IS_SOLVED_AUTOMATICALLY]:
         'Litige résolu',
-      [ORDER_DELIVERY_STATES.START]: 'A envoyer'
+      [ORDER_DELIVERY_STATES.START]: 'A envoyer',
+      [ORDER_DELIVERY_STATE_TRANSITIONS.PACKAGE_NOT_DEPOSITED_BY_SELLER]:
+        'Colis non déposé par le vendeur',
+      [ORDER_DELIVERY_STATE_TRANSITIONS.EXPEDITION_CREATED_BY_SELLER]:
+        'Expédition créée par le vendeur'
     }
   }
 };

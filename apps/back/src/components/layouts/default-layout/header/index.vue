@@ -4,16 +4,24 @@ export default { name: 'DefaultLayoutHeader' };
 
 <script setup>
 import { ref } from 'vue';
-import { useCurrentUser } from '@dsp/core';
+import { useI18n } from 'vue-i18n';
+import { useCurrentUser, useAppContext } from '@dsp/core';
 import { useDevice } from '@dsp/ui';
 import HeaderMenu from './header-menu/index.vue';
 import HeaderBreadcrumbs from './header-breadcrumbs/index.vue';
 import UserMenu from '@/components/user-menu/index.vue';
+import schema from './index.schema';
+
+const props = defineProps(schema.toProps());
 
 const { data: currentUser } = useCurrentUser();
 const device = useDevice();
 
+const { t } = useI18n();
 const isUserMenuOpened = ref(false);
+
+const context = useAppContext();
+const componentContext = schema.toContext(props);
 </script>
 
 <template>
@@ -21,7 +29,12 @@ const isUserMenuOpened = ref(false);
     <dsp-flex justify="space-between" align="center" class="header" gap="sm">
       <HeaderMenu v-if="device.isMobile" />
       <router-link :to="{ name: 'Home' }" class="logo">
-        <h1>DISRUPTUAL</h1>
+        <h1>
+          <img v-if="componentContext.isLogoDisplayed" :src="context.logo" />
+          <span v-else>
+            {{ t('platformName') }}
+          </span>
+        </h1>
       </router-link>
       <div class="menu">
         <UserMenu v-model="isUserMenuOpened" class="user-menu" />
@@ -72,6 +85,11 @@ const isUserMenuOpened = ref(false);
 
     @include mobile-only {
       font-size: var(--font-size-md);
+    }
+
+    > img {
+      display: block;
+      height: 1.5em;
     }
   }
 }

@@ -17,7 +17,7 @@ useBreadCrumbs('Annonces');
 const { push } = useRouter();
 
 const query = useItemApi().findAllQuery({
-  relations: [],
+  relations: ['user', 'mainMedia', 'category  '],
   requestOptions: {
     params: { display: 'all' }
   }
@@ -99,6 +99,7 @@ const publicationStates = Object.values(ITEM_PUBLICATION_STATES).map(state => ({
       :type="DATATABLE_COLUMN_TYPES.ENUM"
       :enum-values="publicationStates"
       is-highlightable
+      is-filterable
     >
       {{ t(`item.publicationState.${row.publicationState}`) }}
     </DataTableColumn>
@@ -111,5 +112,9 @@ const publicationStates = Object.values(ITEM_PUBLICATION_STATES).map(state => ({
   width: 50px;
   margin-left: auto;
   margin-right: auto;
+}
+
+a {
+  color: inherit;
 }
 </style>

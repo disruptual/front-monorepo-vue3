@@ -6,10 +6,20 @@ export default {
   },
   features: {
     admin: {
-      isEnabled: true
+      isEnabled: true,
+      contacts: { isEnabled: true },
+      emails: { isEnabled: true },
+      events: { isEnabled: true },
+      items: { isEnabled: true },
+      orders: { isEnabled: true },
+      stores: { isEnabled: true },
+      users: { isEnabled: true },
+      vouchers: { isEnabled: true }
     },
     settings: {
-      isEnabled: true
+      isEnabled: true,
+      carousel: { isEnabled: true },
+      announcements: { isEnabled: true }
     },
     store: {
       isEnabled: false

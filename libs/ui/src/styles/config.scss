@@ -32,13 +32,9 @@ $breakpoint-tablet: 992px;
   }
 }
 
-@keyframes placeholderShimmer {
-  0% {
-    background-position: -468px 0;
-  }
-
-  100% {
-    background-position: 468px 0;
+@mixin touch-only {
+  @media (hover: none) and (pointer: coarse) {
+    @content;
   }
 }
 
@@ -60,10 +56,4 @@ $breakpoint-tablet: 992px;
   animation-iteration-count: infinite;
   animation-name: placeholderShimmer;
   animation-timing-function: linear;
-}
-
-@mixin touch-only {
-  @media (hover: none) and (pointer: coarse) {
-    @content;
-  }
 }

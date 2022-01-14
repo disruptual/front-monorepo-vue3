@@ -6,6 +6,7 @@ import { minifyHtml, injectHtml } from 'vite-plugin-html';
 import dotenv from 'dotenv';
 import path from 'path';
 import Markdown from 'vite-plugin-md';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 
@@ -50,7 +51,11 @@ export default defineConfig({
     }
   },
   build: {
-    target: 'es2015'
+    target: 'es2015',
+    sourcemap: true,
+    rollupOptions: {
+      plugins: [visualizer()]
+    }
   },
   server: {
     fs: {

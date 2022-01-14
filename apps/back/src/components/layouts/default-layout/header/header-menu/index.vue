@@ -4,7 +4,7 @@ export default { name: 'HeaderMenu' };
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useCurrentUser, useAppContext } from '@dsp/core';
+import { useCurrentUser, useAppContext, isFunction } from '@dsp/core';
 import { useReadableColor } from '@dsp/ui';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { MENU } from '@/utils/constants';
@@ -25,9 +25,11 @@ const allowedSections = computed(() =>
 );
 
 const displayedLinksForSection = section =>
-  section.links.filter(link =>
-    link.label.toLowerCase().includes(search.value.toLowerCase())
-  );
+  section.links
+    .filter(link => !isFunction(link.isEnabled) || link.isEnabled(context))
+    .filter(link =>
+      link.label.toLowerCase().includes(search.value.toLowerCase())
+    );
 
 const onLinkClick = () => {
   isOpened.value = false;

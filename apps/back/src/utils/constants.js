@@ -83,14 +83,46 @@ export const MENU = [
     icon: 'chart',
     permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
     links: [
-      { target: { name: 'AdminItems' }, label: 'Annonces' },
-      { target: { name: 'AdminUsers' }, label: 'Utilisateurs' },
-      { target: { name: 'AdminOrders' }, label: 'Commandes' },
-      { target: { name: 'AdminContact' }, label: 'Support client' },
-      { target: { name: 'AdminVoucher' }, label: "Bons d'achat" },
-      { target: { name: 'AdminStore' }, label: 'Magasins' },
-      { target: { name: 'AdminEmail' }, label: 'Mails' },
-      { target: { name: 'AdminEvent' }, label: 'Evenements' }
+      {
+        target: { name: 'AdminItems' },
+        label: 'Annonces',
+        isEnabled: config => config.features.admin.items?.isEnabled
+      },
+      {
+        target: { name: 'AdminUsers' },
+        label: 'Utilisateurs',
+        isEnabled: config => config.features.admin.users?.isEnabled
+      },
+      {
+        target: { name: 'AdminOrders' },
+        label: 'Commandes',
+        isEnabled: config => config.features.admin.orders?.isEnabled
+      },
+      {
+        target: { name: 'AdminContact' },
+        label: 'Support client',
+        isEnabled: config => config.features.admin.contacts?.isEnabled
+      },
+      {
+        target: { name: 'AdminVoucher' },
+        label: "Bons d'achat",
+        isEnabled: config => config.features.admin.vouchers?.isEnabled
+      },
+      {
+        target: { name: 'AdminStore' },
+        label: 'Magasins',
+        isEnabled: config => config.features.admin.stores?.isEnabled
+      },
+      {
+        target: { name: 'AdminEmail' },
+        label: 'Mails',
+        isEnabled: config => config.features.admin.emails?.isEnabled
+      },
+      {
+        target: { name: 'AdminEvent' },
+        label: 'Evenements',
+        isEnabled: config => config.features.admin.events?.isEnabled
+      }
     ]
   },
   {
@@ -130,9 +162,14 @@ export const MENU = [
     links: [
       {
         target: { name: 'SettingsAnnouncement' },
-        label: "Message d'annonce"
+        label: "Message d'annonce",
+        isEnabled: config => config.features.settings.announcements.isEnabled
       },
-      { target: { name: 'SettingsCarousel' }, label: 'Carrousel' }
+      {
+        target: { name: 'SettingsCarousel' },
+        label: 'Carrousel',
+        isEnabled: config => config.features.settings.carousel.isEnabled
+      }
     ]
   }
 ];

@@ -30,7 +30,6 @@ function setupBreadcrumbs() {
   const breadcrumbs = reactive(new Breadcrumbs());
 
   app.vueApp.provide(CONTEXT_KEYS.BREADCRUMB, breadcrumbs);
-
   app.router.beforeEach((to, from, next) => {
     const getDomain = route => route.fullPath.split('/').filter(Boolean);
     const [toDomain] = getDomain(to);

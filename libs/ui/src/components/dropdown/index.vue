@@ -3,8 +3,7 @@ export default { name: 'DspDropdown' };
 </script>
 
 <script setup>
-import { nextTick, ref, unref, watch, provide, computed } from 'vue';
-import { createPopper } from '@popperjs/core';
+import { nextTick, ref, unref, watch, provide } from 'vue';
 import { KEYBOARD } from '@dsp/core';
 import { vClickOutside } from '@dsp/ui/directives/clickOutside';
 import { vFocusOutside } from '@dsp/ui/directives/focusOutside';
@@ -52,7 +51,8 @@ const focusCurrentItem = () => {
 
 const toggleMenu = isOpened => {
   if (isOpened) {
-    nextTick(() => {
+    nextTick(async () => {
+      const { createPopper } = await import('@popperjs/core');
       popperInstance.value = createPopper(
         toggleElement.value,
         menuElement.value,

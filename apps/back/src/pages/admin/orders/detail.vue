@@ -62,7 +62,7 @@ useBreadCrumbs(breadCrumbLabel);
         :label="t(`order.details.tabs.${TABS.INFOS}`)"
       >
         <dsp-container as="section">
-          <OrderDetails :order="order" />
+          <OrderDetails :order="order" @update="query.refetch()" />
         </dsp-container>
       </dsp-tab>
 

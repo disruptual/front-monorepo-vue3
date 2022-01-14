@@ -8,6 +8,7 @@ export default [
     component: () => import('@/pages/admin/users/list.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.admin.users.isEnabled,
       layout: layouts.default
     }
   },
@@ -18,6 +19,7 @@ export default [
     props: true,
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.admin.users.isEnabled,
       layout: layouts.default
     }
   },
@@ -27,6 +29,7 @@ export default [
     component: () => import('@/pages/admin/items/list.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.admin.items.isEnabled,
       layout: layouts.default
     }
   },
@@ -37,6 +40,7 @@ export default [
     component: () => import('@/pages/admin/items/detail.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.admin.items.isEnabled,
       layout: layouts.default
     }
   },
@@ -47,6 +51,7 @@ export default [
     component: () => import('@/pages/admin/orders/list.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.admin.orders.isEnabled,
       layout: layouts.default
     }
   },
@@ -57,6 +62,7 @@ export default [
     component: () => import('@/pages/admin/orders/detail.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.admin.orders.isEnabled,
       layout: layouts.default
     }
   },
@@ -64,9 +70,10 @@ export default [
     path: '/admin/contact',
     name: 'AdminContact',
     props: true,
-    component: () => import('@/pages/admin/contact/list.vue'),
+    component: () => import('@/pages/admin/contacts/list.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.admin.contacts.isEnabled,
       layout: layouts.default
     }
   },
@@ -74,9 +81,10 @@ export default [
     path: '/admin/contact/:id',
     name: 'AdminContactDetails',
     props: true,
-    component: () => import('@/pages/admin/contact/detail.vue'),
+    component: () => import('@/pages/admin/contacts/detail.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.admin.contacts.isEnabled,
       layout: layouts.default
     }
   },
@@ -84,19 +92,21 @@ export default [
     path: '/admin/email',
     name: 'AdminEmail',
     props: true,
-    component: () => import('@/pages/admin/email/list.vue'),
+    component: () => import('@/pages/admin/emails/list.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.admin.emails.isEnabled,
       layout: layouts.default
     }
   },
-    {
+  {
     path: '/admin/email/:id',
     name: 'AdminEmailDetails',
     props: true,
-    component: () => import('@/pages/admin/email/detail.vue'),
+    component: () => import('@/pages/admin/emails/detail.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.admin.emails.isEnabled,
       layout: layouts.default
     }
   },
@@ -104,9 +114,10 @@ export default [
     path: '/admin/magasins',
     name: 'AdminStore',
     props: true,
-    component: () => import('@/pages/admin/store/index.vue'),
+    component: () => import('@/pages/admin/stores/index.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.admin.stores.isEnabled,
       layout: layouts.default
     }
   },
@@ -114,9 +125,10 @@ export default [
     path: '/admin/bons-dachats',
     name: 'AdminVoucher',
     props: true,
-    component: () => import('@/pages/admin/voucher/index.vue'),
+    component: () => import('@/pages/admin/vouchers/index.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.admin.vouchers.isEnabled,
       layout: layouts.default
     }
   },
@@ -124,9 +136,10 @@ export default [
     path: '/admin/evenements',
     name: 'AdminEvent',
     props: true,
-    component: () => import('@/pages/admin/event/list.vue'),
+    component: () => import('@/pages/admin/events/list.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.admin.events.isEnabled,
       layout: layouts.default
     }
   },
@@ -134,9 +147,10 @@ export default [
     path: '/admin/evenements/:id',
     name: 'AdminEventDetails',
     props: true,
-    component: () => import('@/pages/admin/event/detail.vue'),
+    component: () => import('@/pages/admin/events/detail.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.admin.events.isEnabled,
       layout: layouts.default
     }
   }

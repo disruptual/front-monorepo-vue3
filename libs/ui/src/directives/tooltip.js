@@ -1,4 +1,3 @@
-import { createPopper } from '@popperjs/core';
 import { isObject, isFunction } from '@dsp/core';
 import { merge } from 'lodash-es';
 
@@ -27,7 +26,7 @@ const getOptions = ({ arg, value }) =>
     }
   });
 
-const createTooltip = (el, options) => {
+const createTooltip = async (el, options) => {
   if (tooltipMap.has(el)) return;
 
   const text = isFunction(options.text) ? options.text() : options.text;
@@ -44,6 +43,7 @@ const createTooltip = (el, options) => {
   document.body.appendChild(tooltipElement);
 
   tooltipContentElement.textContent = text;
+  const { createPopper } = await import('@popperjs/core');
   const popper = createPopper(el, tooltipElement, options.popper);
   tooltipElement.style.opacity = 1;
 

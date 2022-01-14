@@ -43,6 +43,7 @@ import save from './save.svg';
 import download from './download.svg';
 import fileImport from './fileImport.svg';
 import expand from './expand.svg';
+import euroSign from './euro.svg';
 
 export default {
   add,
@@ -63,6 +64,7 @@ export default {
   download,
   edit,
   ellipsisH,
+  euroSign,
   expand,
   eye,
   eyeSlash,

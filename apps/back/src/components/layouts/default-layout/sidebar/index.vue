@@ -5,12 +5,13 @@ export default { name: 'DefaultLayoutSidebar' };
 <script setup>
 import { computed, ref, nextTick } from 'vue';
 import { vReadableColor } from '@dsp/ui';
-import { useCurrentUser, useAppContext } from '@dsp/core';
+import { useCurrentUser, useAppContext, isFunction } from '@dsp/core';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 
 import { MENU } from '@/utils/constants';
 const { data: currentUser } = useCurrentUser();
 const context = useAppContext();
+const containerEl = ref(null);
 
 const allowedSections = computed(() =>
   MENU.filter(section =>
@@ -39,10 +40,19 @@ const onLinkClick = () => {
     document.activeElement.blur();
   });
 };
+
+const getEnabledLinks = links =>
+  links.filter(link => !isFunction(link.isEnabled) || link.isEnabled(context));
+
+const onmouseleave = () => {
+  if (containerEl.value.contains(document.activeElement)) {
+    document.activeElement.blur();
+  }
+};
 </script>
 
 <template>
-  <aside v-readable-color>
+  <aside ref="containerEl" v-readable-color @mouseleave="onmouseleave">
     <nav role="navigation">
       <dsp-flex
         v-for="section in allowedSections"
@@ -67,8 +77,9 @@ const onLinkClick = () => {
           <dsp-icon icon="caretDown" class="section__caret" />
         </dsp-flex>
         <ul v-if="isSectionOpened(section.name)" class="section-list">
-          <li v-for="link in section.links" :key="link.label">
+          <li v-for="link in getEnabledLinks(section.links)" :key="link.label">
             <router-link
+              v-readable-color
               :to="link.target"
               class="menu-item"
               @click="onLinkClick"
@@ -100,6 +111,9 @@ aside {
   }
 
   &:not(:hover):not(:focus-within) {
+    ul {
+      display: none;
+    }
     ul,
     .section__name,
     .section__caret {

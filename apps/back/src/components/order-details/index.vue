@@ -3,21 +3,24 @@ export default { name: 'OrderDetails' };
 </script>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Order, USER_GENDERS } from '@dsp/business';
 import { formatPrice } from '@dsp/core';
 import { ORDER_DETAILS_TABS as TABS } from '@/utils/constants';
 
+import CloseProblemModal from './modals/close-problem.vue';
+import SolveProblemModal from './modals/solve-problem.vue';
+
 const props = defineProps({
   order: { type: Order, required: true }
 });
+const emit = defineEmits(['update']);
 
 const { t } = useI18n();
 
-const itemsLink = computed(() => ({
-  query: { section: TABS.ITEMS }
-}));
+const MODALS = { CLOSE: 'CLOSE', SOLVE: 'SOLVE' };
+const openedModal = ref(null);
 
 const statusClass = computed(() => ({
   'order-status--cancelled': props.order.isCancelled,
@@ -42,9 +45,38 @@ const buyerLabel = computed(() =>
       <h3>{{ t(`order.details.title.informations`) }}</h3>
       <dl>
         <dt>{{ t(`order.details.label.status`) }}</dt>
-        <dd class="order-status" :class="statusClass">
-          {{ t(`order.status.${order.status}`) }}
-        </dd>
+        <dsp-flex
+          as="dd"
+          direction="column"
+          gap="xs"
+          class="order-status"
+          :class="statusClass"
+        >
+          <div>{{ t(`order.status.${order.status}`) }}</div>
+          <dsp-flex
+            v-if="order.hasProblem"
+            gap="sm"
+            class="problem-buttons"
+            align="center"
+          >
+            <dsp-button
+              size="sm"
+              is-outlined
+              is-rounded
+              @click="openedModal = MODALS.SOLVE"
+            >
+              {{ t('order.details.solveProblemButton') }}
+            </dsp-button>
+            <dsp-button
+              size="sm"
+              is-outlined
+              is-rounded
+              @click="openedModal = MODALS.CLOSE"
+            >
+              {{ t('order.details.closeProblemButton') }}
+            </dsp-button>
+          </dsp-flex>
+        </dsp-flex>
 
         <dt>{{ t(`order.details.label.orderDate`) }}</dt>
         <dd>{{ order.formatCreated() }}</dd>
@@ -52,7 +84,13 @@ const buyerLabel = computed(() =>
         <dt>{{ t(`order.details.label.numberArticles`) }}</dt>
         <dd>
           {{ order.orderItems?.length }}
-          <router-link :to="itemsLink">(voir le détail)</router-link>
+          <router-link
+            :to="{
+              query: { section: TABS.ITEMS }
+            }"
+          >
+            (voir le détail)
+          </router-link>
         </dd>
 
         <dt>{{ t(`order.details.label.modeDelivery`) }}</dt>
@@ -167,6 +205,17 @@ const buyerLabel = computed(() =>
       <span v-else>{{ t(`order.details.noResultSeller`) }}</span>
     </dsp-surface>
   </div>
+  <CloseProblemModal
+    :is-opened="openedModal === MODALS.CLOSE"
+    :order="order"
+    @close="openedModal = null"
+    @success="$emit('update')"
+  />
+  <SolveProblemModal
+    :is-opened="openedModal === MODALS.SOLVE"
+    :order="order"
+    @close="openedModal = null"
+  />
 </template>
 
 <style lang="scss" scoped>
