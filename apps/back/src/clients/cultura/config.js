@@ -10,5 +10,6 @@ export default merge({}, defaultConfig, {
       stores: { isEnabled: false }
     }
   },
+  DefaultLayoutHeader: { isLogoDisplayed: true },
   logo
 });
