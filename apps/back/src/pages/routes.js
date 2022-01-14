@@ -23,5 +23,14 @@ export const routes = [
     }
   },
   ...settingsRoutes,
-  ...adminRoutes
+  ...adminRoutes,
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/pages/404/index.vue'),
+    meta: {
+      permissions: [USER_ROLES.USER],
+      layout: layouts.default
+    }
+  }
 ];

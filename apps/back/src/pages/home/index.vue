@@ -8,8 +8,7 @@ const releaseNotesComponents = Object.values(releaseNotesModules)
 
 <template>
   <dsp-container>
-    <h2>Home Page</h2>
-    <h3>Release Notes</h3>
+    <h2>Release Notes</h2>
     <dsp-flex direction="column" gap="md">
       <dsp-surface
         v-for="(component, index) in releaseNotesComponents"
