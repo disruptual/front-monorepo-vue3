@@ -9,9 +9,9 @@ const SSO_STATE_KEY = 'dsp_sso_state';
 
 const SSO_REFRESH_BLACKLIST_URLS = [
   import.meta.env.VITE_SSO_TOKEN_URL,
-  SSO_URLS.REFRESH,
-  SSO_URLS.SSO_TOKEN,
-  SSO_URLS.USER
+  SSO_URLS?.REFRESH,
+  SSO_URLS?.SSO_TOKEN,
+  SSO_URLS?.USER
 ].filter(Boolean);
 
 export class SSOAuthStrategy extends BasicAuthStrategy {

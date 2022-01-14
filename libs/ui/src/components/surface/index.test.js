@@ -1,27 +1,14 @@
 import { mount } from '@vue/test-utils';
 import Surface from './index.vue';
-import { createStore } from 'vuex';
-
-const store = createStore({
-  state() {
-    return { appContext: {} };
-  },
-  getters: {
-    appContext(state) {
-      return state.appContext;
-    },
-    componentContext: state => name => {
-      return state.appContext[name];
-    }
-  }
-});
 
 const setup = ({ props, slots } = {}) => {
   const wrapper = mount(Surface, {
     props,
     slots,
     global: {
-      provide: { store }
+      provide: {
+        APP_CONTEXT: {}
+      }
     }
   });
 
