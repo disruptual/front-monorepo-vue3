@@ -2,12 +2,6 @@ import { defineAsyncComponent } from 'vue';
 
 // async components
 // These are the lesser used components that we don't want to include in the main bundle
-export const DspAspectRatio = defineAsyncComponent(() =>
-  import('./aspect-ratio/index.vue')
-);
-export const DspTruncatedText = defineAsyncComponent(() =>
-  import('./truncated-text/index.vue')
-);
 export const DspBackLink = defineAsyncComponent(() =>
   import('./back-link/index.vue')
 );
@@ -68,6 +62,8 @@ export * from './grid';
 
 // commonly used, single part components
 // this also includes component that are likely to cause a layout shift if they were imported asychronously
+export { default as DspTruncatedText } from './truncated-text/index.vue';
+export { default as DspAspectRatio } from './aspect-ratio/index.vue';
 export { default as DspIcon } from './icon/index.vue';
 export { default as DspImage } from './image/index.vue';
 export { default as DspSurface } from './surface/index.vue';

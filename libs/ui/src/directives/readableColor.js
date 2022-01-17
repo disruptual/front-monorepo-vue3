@@ -9,7 +9,10 @@ export const vReadableColor = {
       const computedStyle = window.getComputedStyle(el);
       if (!computedStyle.backgroundColor) return;
 
-      el.style.color = getReadableColor(computedStyle.backgroundColor);
+      el.style.color =
+        import.meta.env.NODE_ENV === 'test'
+          ? '#000'
+          : getReadableColor(computedStyle.backgroundColor);
     }
 
     setColor();

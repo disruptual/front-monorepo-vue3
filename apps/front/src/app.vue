@@ -20,3 +20,11 @@ import AppLoading from 'client/components/app-loader.vue';
     </keep-alive>
   </AppProvider>
 </template>
+
+<style>
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>

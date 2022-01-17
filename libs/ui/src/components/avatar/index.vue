@@ -14,7 +14,8 @@ const props = defineProps({
 });
 
 const initials = computed(
-  () => `${props.user.firstName.charAt(0)}${props.user.lastName.charAt(0)}`
+  () =>
+    `${props.user.firstName.charAt(0)}${props.user.lastName?.charAt?.(0) || ''}`
 );
 
 const computedSize = computed(() => `var(--avatar-size-${props.size})`);
@@ -24,7 +25,11 @@ const textColor = useReadableColor('--color-brand-500');
 
 <template>
   <div class="avatar">
-    <dsp-image v-if="user.avatar" :src="user.avatar.thumbnails.avatar" />
+    <dsp-image
+      v-if="user.avatar"
+      :src="user.avatar.thumbnails.avatar"
+      :alt="user.firstName"
+    />
     <dsp-flex v-else class="initials" align="center" justify="center">
       {{ initials }}
     </dsp-flex>

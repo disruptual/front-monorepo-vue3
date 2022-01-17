@@ -75,6 +75,7 @@ class Logger {
 
   log(level, color, ...args) {
     if (import.meta.env.PROD) return;
+    if (import.meta.env.NODE_ENV === 'test') return;
     if (level < this.logLevel) return;
     if (this.mutedChannels.includes(this.label)) return;
 

@@ -15,7 +15,6 @@ export const plugin = theme => {
     install: app => {
       app.provide(CONTEXT_KEYS.THEME, theme);
       app.provide(CONTEXT_KEYS.TOAST, toastService);
-
       Object.entries(components).forEach(([name, component]) => {
         app.component(name, component);
       });

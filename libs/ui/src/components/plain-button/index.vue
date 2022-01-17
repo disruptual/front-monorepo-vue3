@@ -6,7 +6,7 @@ export default {
 
 <script setup>
 defineProps({
-  to: { type: Object, default: null }
+  to: { type: [String, Object], default: null }
 });
 </script>
 

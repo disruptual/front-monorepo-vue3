@@ -15,6 +15,8 @@ export class ThemeService {
   }
 
   setupFonts() {
+    if (import.meta.env.NODE_ENV === 'test') return;
+
     return Promise.all(
       Object.entries(this.theme.fonts).flatMap(([name, fonts]) =>
         Object.entries(fonts).map(([weight, url]) =>

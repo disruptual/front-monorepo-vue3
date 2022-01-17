@@ -1,29 +1,17 @@
-import { mount } from '@vue/test-utils';
+import { mountComponent } from '@dsp/test-utils';
 import TruncatedText from './index.vue';
-
-const setup = ({ props, slots } = {}) => {
-  const wrapper = mount(TruncatedText, {
-    props,
-    slots,
-    global: {
-      provide: {
-        APP_CONTEXT: {}
-      }
-    }
-  });
-
-  return { wrapper };
-};
 
 describe('DspSurface', () => {
   it('should render correctly', () => {
-    const { wrapper } = setup();
+    const wrapper = mountComponent(TruncatedText);
 
-    expect(wrapper.find('.dsp-truncated-text')).toBeDefined();
+    expect(wrapper.find('.dsp-button')).toBeDefined();
   });
 
   it('should render slot', () => {
-    const { wrapper } = setup({ slots: { default: 'Test Slot' } });
+    const wrapper = mountComponent(TruncatedText, {
+      slots: { default: 'Test Slot' }
+    });
 
     expect(wrapper.find('.dsp-truncated-text').text()).toContain('Test Slot');
   });

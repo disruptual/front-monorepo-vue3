@@ -44,6 +44,8 @@ import download from './download.svg';
 import fileImport from './fileImport.svg';
 import expand from './expand.svg';
 import euroSign from './euro.svg';
+import heartEmpty from './heartEmpty.svg';
+import heartFilled from './heartFilled.svg';
 
 export default {
   add,
@@ -73,6 +75,8 @@ export default {
   fileImport,
   filter,
   handshake,
+  heartEmpty,
+  heartFilled,
   highlight,
   home,
   info,

@@ -30,7 +30,7 @@ const isUserMenuOpened = ref(false);
           class="avatar"
           @click="isUserMenuOpened = !isUserMenuOpened"
         >
-          <dsp-image :src="currentUser.avatar.url" />
+          <dsp-avatar :user="currentUser" />
         </dsp-plain-button>
 
         <UserMenu v-model="isUserMenuOpened" />

@@ -26,15 +26,19 @@ export const createComponentSchema = (name, schema) => {
     return props;
   }
 
-  function toVariant({ variant, ...props }) {
+  function toVariant(props) {
     const attrs = useAttrs();
     const config = toContext(props);
     const variantComponent = shallowRef(null);
-    const variantProps = computed(() => ({
-      ...attrs,
-      ...props,
-      ...config.value
-    }));
+    const variantProps = computed(() => {
+      const { variant, ...otherProps } = {
+        ...attrs,
+        ...props,
+        ...config.value
+      };
+
+      return otherProps;
+    });
 
     watchEffect(async () => {
       const module = await config.value.variant();

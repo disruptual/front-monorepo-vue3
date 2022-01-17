@@ -5,7 +5,7 @@ export default { name: 'DspIcon' };
 <script setup>
 import { computed } from 'vue';
 import { useTheme } from '@dsp/ui/hooks/useTheme';
-import { oneOf, useReactiveQuery } from '@dsp/core';
+import { oneOf, useReactiveQuery, useHttp } from '@dsp/core';
 
 const props = defineProps({
   as: { type: String, default: 'div' },
@@ -17,10 +17,10 @@ const props = defineProps({
 const theme = useTheme();
 const url = computed(() => theme.icons[props.icon]);
 const size = computed(() => `var(--spacing-${props.size})`);
+const http = useHttp();
 
-const getSvg = async () => {
-  const resp = await fetch(url.value);
-  return resp.text();
+const getSvg = () => {
+  return http.get(url.value, { baseURL: '', responseType: 'text' });
 };
 
 const key = computed(() => `icon-${props.icon}`);
