@@ -11,6 +11,8 @@
     ]
   },
   "scripts": {
+    "prepare": "husky install",
+    "postinstall": "yarn prepare",
     "front": "yarn workspace @dsp/front",
     "back": "yarn workspace @dsp/back",
     "ui": "yarn workspace @dsp/ui",
@@ -21,5 +23,8 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.15.7"
+  },
+  "dependencies": {
+    "husky": "^7.0.4"
   }
 }
