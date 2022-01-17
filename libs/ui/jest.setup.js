@@ -1,4 +1,6 @@
 import '@testing-library/jest-dom';
+import '@dsp/test-utils';
+
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: jest.fn().mockImplementation(query => ({

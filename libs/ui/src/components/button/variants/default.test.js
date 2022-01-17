@@ -1,23 +1,23 @@
-import { mountComponent } from '@dsp/test-utils';
+import { mount } from '@vue/test-utils';
 import DspButton from './default.variant.vue';
 
 describe('DspButtonDefault', () => {
-  it('should render correctly', () => {
-    const wrapper = mountComponent(DspButton);
-
-    expect(wrapper.find('.dsp-button')).toBeDefined();
+  it('should render without throwing', () => {
+    expect(() => mount(DspButton)).not.toThrow();
   });
 
   it('should render slot', () => {
-    const wrapper = mountComponent(DspButton, {
-      slots: { default: 'Test Slot' }
+    const text = 'Text Slot';
+    const wrapper = mount(DspButton, {
+      slots: { default: text }
     });
+    const button = wrapper.find('.dsp-button');
 
-    expect(wrapper.find('.dsp-button').text()).toContain('Test Slot');
+    expect(button.text()).toContain(text);
   });
 
   it('should emit click event when the button is clicked', () => {
-    const wrapper = mountComponent(DspButton);
+    const wrapper = mount(DspButton);
 
     wrapper.find('button').trigger('click');
 
@@ -25,7 +25,7 @@ describe('DspButtonDefault', () => {
   });
 
   it('should render a rounded button', () => {
-    const wrapper = mountComponent(DspButton, { props: { isRounded: true } });
+    const wrapper = mount(DspButton, { props: { isRounded: true } });
 
     const classes = wrapper.find('.dsp-button').classes();
 
@@ -33,7 +33,7 @@ describe('DspButtonDefault', () => {
   });
 
   it('should render a full width button', () => {
-    const wrapper = mountComponent(DspButton, { props: { isFullWidth: true } });
+    const wrapper = mount(DspButton, { props: { isFullWidth: true } });
 
     const classes = wrapper.find('.dsp-button').classes();
 
@@ -41,7 +41,7 @@ describe('DspButtonDefault', () => {
   });
 
   it('should render an outlined button', () => {
-    const wrapper = mountComponent(DspButton, { props: { isOutlined: true } });
+    const wrapper = mount(DspButton, { props: { isOutlined: true } });
 
     const classes = wrapper.find('.dsp-button').classes();
 
@@ -49,13 +49,13 @@ describe('DspButtonDefault', () => {
   });
 
   it('should render an icon to the left side', () => {
-    const wrapper = mountComponent(DspButton, { props: { leftIcon: 'add' } });
+    const wrapper = mount(DspButton, { props: { leftIcon: 'add' } });
 
     expect(wrapper.find('.left-icon')).toBeDefined();
   });
 
   it('should render an icon to the right side', () => {
-    const wrapper = mountComponent(DspButton, { props: { rightIcon: 'add' } });
+    const wrapper = mount(DspButton, { props: { rightIcon: 'add' } });
 
     expect(wrapper.find('.right-icon')).toBeDefined();
   });

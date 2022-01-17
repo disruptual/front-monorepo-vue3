@@ -1,15 +1,15 @@
-import * as utils from '@dsp/test-utils';
+import { mount } from '@vue/test-utils';
 import Surface from './index.vue';
 
 describe('DspSurface', () => {
   it('should render correctly', () => {
-    const wrapper = utils.mountComponent(Surface);
+    const wrapper = mount(Surface);
 
     expect(wrapper.find('.dsp-surface')).toBeDefined();
   });
 
   it('should have rounded corners', () => {
-    const wrapper = utils.mountComponent(Surface, {
+    const wrapper = mount(Surface, {
       props: { isRounded: true }
     });
 
@@ -19,7 +19,7 @@ describe('DspSurface', () => {
   });
 
   it('should render slot', () => {
-    const wrapper = utils.mountComponent(Surface, {
+    const wrapper = mount(Surface, {
       slots: { default: 'Test Slot' }
     });
 

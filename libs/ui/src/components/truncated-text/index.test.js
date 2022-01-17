@@ -1,15 +1,15 @@
-import { mountComponent } from '@dsp/test-utils';
+import { mount } from '@vue/test-utils';
 import TruncatedText from './index.vue';
 
 describe('DspSurface', () => {
   it('should render correctly', () => {
-    const wrapper = mountComponent(TruncatedText);
+    const wrapper = mount(TruncatedText);
 
     expect(wrapper.find('.dsp-button')).toBeDefined();
   });
 
   it('should render slot', () => {
-    const wrapper = mountComponent(TruncatedText, {
+    const wrapper = mount(TruncatedText, {
       slots: { default: 'Test Slot' }
     });
 
