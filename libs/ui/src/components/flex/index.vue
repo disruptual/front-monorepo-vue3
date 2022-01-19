@@ -26,8 +26,6 @@ const props = defineProps({
   gap: oneOf(['none', 'xxs', 'xs', 'sm', 'md', 'lg', 'xl', 'xxl'], 'none')
 });
 
-defineEmits(['foo', 'bar']);
-
 const isFlexboxGapSupported = checkFlexGap();
 
 const gap = computed(() => `var(--spacing-${props.gap})`);

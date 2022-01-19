@@ -7,7 +7,6 @@ const props = defineProps({
   src: { type: String, default: null }
 });
 </script>
-});
 
 <template>
   <div v-if="!props.src" class="dsp-image__placeholder"></div>
