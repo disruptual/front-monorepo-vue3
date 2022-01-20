@@ -4,11 +4,16 @@ export default { name: 'DspSelect' };
 
 <script setup>
 import { ref } from 'vue';
+import { makeRandomId } from '@dsp/core';
 
 const props = defineProps({
   modelValue: { type: [Object, null], required: true },
   options: { type: Array, required: true },
-  multiple: { type: Boolean, default: false }
+  multiple: { type: Boolean, default: false },
+  name: {
+    type: String,
+    default: () => makeRandomId(6)
+  }
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -49,9 +54,9 @@ const isSelected = option => {
 
 <template>
   <select
-    id="cars"
     ref="refSelect"
-    name="cars"
+    class="dsp-select"
+    :name="props.name"
     :multiple="multiple"
     v-bind="$attrs"
     @change="onChange"
