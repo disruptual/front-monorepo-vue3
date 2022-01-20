@@ -10,7 +10,6 @@ describe('DspInputSearch', () => {
     it('should emit a change event at click event', async () => {
       const wrapper = mount(DspInputSearch);
 
-      const input = wrapper.find('input');
       const button = wrapper.find('button');
       await button.trigger('click');
 
