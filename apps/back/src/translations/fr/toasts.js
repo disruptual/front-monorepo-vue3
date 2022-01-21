@@ -21,6 +21,12 @@ export default {
     },
 
     user: {
+      blockSuccess:
+        "L'utilisateur est désormais bloqué. | Les utilisateurs sont désormais bloqués.",
+      blockError:
+        "L'utilisateur n'a pas pu être bloqué. | Un ou plusieurs utilisateurs n'ont pas pu être bloqués.",
+      unblockSuccess: "L'utilisateurs n'est plus bloqué",
+      unblockError: "L'utilisateur n'a pas pu être débloqué",
       muteSuccess:
         "L'utilisateur est désormais en mode silencieux | Les utilisateurs sont désormais en mode silencieux.",
       muteError:
@@ -32,10 +38,9 @@ export default {
       creditSuccess: "La cagnotte de l'utilisateur a été créditée",
       creditError: "La cagnotte de l'utilisateur n'a pas pu être créditée"
     },
-    email:{
-      updateSuccess:"L'email a été mise à jour",
-      updateError:"L'email n'a pas été mise à jour"
-
+    email: {
+      updateSuccess: "L'email a été mise à jour",
+      updateError: "L'email n'a pas été mise à jour"
     }
   }
 };
