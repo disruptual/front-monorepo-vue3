@@ -13,7 +13,7 @@ defineEmits(['input', 'change']);
 const value = ref('');
 
 const direction = computed(() =>
-  props.direction === 'right' ? 'row' : 'row-reverse'
+  props.buttonPosition === 'right' ? 'row' : 'row-reverse'
 );
 </script>
 
@@ -49,10 +49,12 @@ input[type='search']::-webkit-search-results-decoration {
 }
 .dsp-input-search {
   background-color: var(--color-surface);
-  border-radius: var(--border-radius-pill);
   border: solid 1px var(--color-separator);
   transition: var(--transition-md);
   overflow: hidden;
+  @include desktop-only {
+    border-radius: var(--border-radius-pill);
+  }
 
   &:focus-within {
     border-color: var(--color-brand-500);
@@ -62,10 +64,13 @@ input[type='search']::-webkit-search-results-decoration {
 
 .input {
   padding: var(--spacing-xs) var(--spacing-xxs);
-  border-radius: var(--border-radius-pill);
   display: block;
   border: none;
   outline: none;
   flex-grow: 1;
+  padding-left: var(--spacing-md);
+  @include desktop-only {
+    border-radius: var(--border-radius-pill);
+  }
 }
 </style>

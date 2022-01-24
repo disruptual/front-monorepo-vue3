@@ -5,8 +5,9 @@ export default { name: 'DefaultLayout' };
 import DefaultLayoutHeader from './header/index.vue';
 import DefaultLayoutFooter from './footer/index.vue';
 import { ref } from 'vue';
-import { vOnResize, useCssVar } from '@dsp/ui';
+import { vOnResize, useCssVar, useDevice } from '@dsp/ui';
 
+const device = useDevice();
 const headerHeight = ref(null);
 
 useCssVar('--header-height', headerHeight);
@@ -28,6 +29,8 @@ const onHeaderResize = entries => {
     <div class="footer">
       <DefaultLayoutFooter />
     </div>
+
+    <nav v-if="device.isMobile" class="app-bar">AppBar</nav>
   </div>
 </template>
 
@@ -49,5 +52,12 @@ const onHeaderResize = entries => {
   top: 0;
   width: 100%;
   z-index: 3;
+}
+
+.app-bar {
+  position: sticky;
+  bottom: 0;
+  background: var(--color-surface);
+  padding: var(--spacing-sm);
 }
 </style>

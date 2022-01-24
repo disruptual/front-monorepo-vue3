@@ -2,39 +2,36 @@
 export default { name: 'DefaultLayoutHeader' };
 </script>
 <script setup>
-import HeaderMenu from './header-menu/index.vue';
+import HeaderMenu from './menu/index.vue';
+import HeaderSearchBar from './search-bar/index.vue';
 import { useDevice } from '@dsp/ui';
+import BurgerMenu from './burger-menu/index.vue';
 
 const device = useDevice();
 </script>
 
 <template>
   <header class="header" justify="space-around" align="center">
-    <dsp-input-search
-      v-if="!device.isMobile"
-      button-position="left"
-      class="search-bar"
-    />
-    <dsp-flex v-else>
-      <dsp-icon-button icon="bars" size="lg" is-plain class="burger-menu" />
-    </dsp-flex>
+    <HeaderSearchBar v-if="device.isDesktop" class="header-search-bar" />
+    <dsp-flex v-else><BurgerMenu /></dsp-flex>
     <router-link :to="{ name: 'Home' }" class="logo">
       <h1>DISRUPTUAL</h1>
     </router-link>
     <HeaderMenu class="menu" />
   </header>
+  <HeaderSearchBar v-if="!device.isDesktop" />
 </template>
 
 <style lang="scss" scoped>
 .header {
   background-color: var(--color-surface);
-  padding: var(--spacing-sm) var(--spacing-xl);
   display: grid;
   align-items: center;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: var(--spacing-xs) var(--spacing-sm);
 
-  @include mobile-only {
-    padding: var(--spacing-xs) var(--spacing-sm);
+  @include desktop-only {
+    padding: var(--spacing-sm) var(--spacing-xl);
   }
 }
 
@@ -47,7 +44,7 @@ const device = useDevice();
   justify-self: center;
 }
 
-.search-bar {
+.header-search-bar {
   max-width: 18em;
 }
 
@@ -65,9 +62,5 @@ const device = useDevice();
       font-size: var(--font-size-md);
     }
   }
-}
-
-.burger-menu {
-  padding: 0;
 }
 </style>

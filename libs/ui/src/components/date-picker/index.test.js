@@ -38,7 +38,8 @@ describe('DspDatePicker', () => {
       });
 
       const openCalendarButton = wrapper.find('.dropdown-toggle');
-      await openCalendarButton.trigger('click');
+      await openCalendarButton.trigger('focus');
+
       const nextDayButton = wrapper.find(
         '.dsp-date-picker__calendar > button.dsp-date-picker__cell--active + button'
       );

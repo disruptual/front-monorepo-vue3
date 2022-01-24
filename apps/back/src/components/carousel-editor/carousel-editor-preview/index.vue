@@ -181,6 +181,7 @@ watch(
   grid-template-columns: repeat(var(--grid-size), minmax(0, 1fr));
   grid-template-rows: repeat(var(--grid-size), minmax(0, 1fr));
   margin: var(--spacing-md) 0;
+  padding: var(--spacing-sm);
 }
 
 .preview-container--is-expanded {

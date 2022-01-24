@@ -46,6 +46,7 @@ import expand from './expand.svg';
 import euroSign from './euro.svg';
 import heartEmpty from './heartEmpty.svg';
 import heartFilled from './heartFilled.svg';
+import cart from './cart.svg';
 
 export default {
   add,
@@ -54,6 +55,7 @@ export default {
   caretDown,
   caretLeft,
   caretRight,
+  cart,
   chart,
   checkbox,
   checkboxLight,

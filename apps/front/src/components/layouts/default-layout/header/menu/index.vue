@@ -12,28 +12,18 @@ const device = useDevice();
 const { data: currentUser } = useCurrentUser();
 
 const isUserMenuOpened = ref(false);
+const toggleUserMenu = () => {
+  isUserMenuOpened.value = !isUserMenuOpened.value;
+};
 </script>
 
 <template>
   <nav class="header-menu">
-    <dsp-flex gap="sm" as="ul" align="center">
-      <li v-if="device.isDesktop">
-        <dsp-icon-button
-          :to="{ name: 'Home' }"
-          icon="home"
-          is-plain
-          size="lg"
-        />
-      </li>
+    <dsp-flex as="ul" align="center">
       <li v-if="currentUser">
-        <dsp-plain-button
-          class="avatar"
-          @click="isUserMenuOpened = !isUserMenuOpened"
-        >
+        <UserMenu v-model="isUserMenuOpened">
           <dsp-avatar :user="currentUser" />
-        </dsp-plain-button>
-
-        <UserMenu v-model="isUserMenuOpened" />
+        </UserMenu>
       </li>
       <li v-else>
         <dsp-icon-button
@@ -41,6 +31,22 @@ const isUserMenuOpened = ref(false);
           size="lg"
           :to="{ name: 'Login' }"
           is-plain
+        />
+      </li>
+      <li v-if="device.isDesktop && currentUser">
+        <dsp-icon-button
+          :to="{ name: 'Inbox' }"
+          icon="speechBubble"
+          is-plain
+          size="lg"
+        />
+      </li>
+      <li v-if="currentUser">
+        <dsp-icon-button
+          :to="{ name: 'Cart' }"
+          icon="cart"
+          is-plain
+          size="lg"
         />
       </li>
     </dsp-flex>
@@ -62,17 +68,6 @@ ul {
   li {
     display: flex;
     align-items: center;
-  }
-}
-
-.avatar {
-  padding: 0;
-
-  img {
-    border-radius: 50%;
-    width: 2rem;
-    height: 2rem;
-    object-fit: cover;
   }
 }
 </style>

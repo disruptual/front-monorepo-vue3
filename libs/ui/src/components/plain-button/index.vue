@@ -31,7 +31,7 @@ defineProps({
   color: inherit;
   text-decoration: none;
 
-  &:not([disabled]) {
+  &:not(:disabled) {
     &:hover {
       color: var(--color-brand-500);
     }
@@ -42,7 +42,7 @@ defineProps({
     }
   }
 
-  &[disabled] {
+  &:disabled {
     color: var(--color-text-disabled);
     cursor: default;
   }
