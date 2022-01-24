@@ -23,18 +23,66 @@ const props = defineProps({
 const emit = defineEmits(['update:isOpened']);
 
 const colors = [
-  { text: 'var(--color-red-600)', bg: 'var(--color-red-100)' },
-  { text: 'var(--color-red-50)', bg: 'var(--color-red-600)' },
-  { text: 'var(--color-orange-800)', bg: 'var(--color-orange-100)' },
-  { text: 'var(--color-orange-50)', bg: 'var(--color-orange-600)' },
-  { text: 'var(--color-blue-600)', bg: 'var(--color-blue-100)' },
-  { text: 'var(--color-blue-50)', bg: 'var(--color-blue-600)' },
-  { text: 'var(--color-green-700)', bg: 'var(--color-green-100)' },
-  { text: 'var(--color-green-50)', bg: 'var(--color-green-700)' },
-  { text: 'var(--color-teal-700)', bg: 'var(--color-teal-100)' },
-  { text: 'var(--color-teal-50)', bg: 'var(--color-teal-800)' },
-  { text: 'var(--color-purple-600)', bg: 'var(--color-purple-100)' },
-  { text: 'var(--color-purple-50)', bg: 'var(--color-purple-600)' }
+  {
+    text: 'var(--color-red-600)',
+    bg: 'var(--color-red-100)',
+    label: t('dataTable.highlights.colors.red')
+  },
+  {
+    text: 'var(--color-red-50)',
+    bg: 'var(--color-red-600)',
+    label: t('dataTable.highlights.colors.deepRed')
+  },
+  {
+    text: 'var(--color-orange-800)',
+    bg: 'var(--color-orange-100)',
+    label: t('dataTable.highlights.colors.orange')
+  },
+  {
+    text: 'var(--color-orange-50)',
+    bg: 'var(--color-orange-600)',
+    label: t('dataTable.highlights.colors.deepOrange')
+  },
+  {
+    text: 'var(--color-blue-600)',
+    bg: 'var(--color-blue-100)',
+    label: t('dataTable.highlights.colors.blue')
+  },
+  {
+    text: 'var(--color-blue-50)',
+    bg: 'var(--color-blue-600)',
+    label: t('dataTable.highlights.colors.deepBlue')
+  },
+  {
+    text: 'var(--color-green-700)',
+    bg: 'var(--color-green-100)',
+    label: t('dataTable.highlights.colors.green')
+  },
+  {
+    text: 'var(--color-green-50)',
+    bg: 'var(--color-green-700)',
+    label: t('dataTable.highlights.colors.deepGreen')
+  },
+  {
+    text: 'var(--color-teal-700)',
+    bg: 'var(--color-teal-100)',
+    label: t('dataTable.highlights.colors.teal')
+  },
+  {
+    text: 'var(--color-teal-50)',
+    bg: 'var(--color-teal-800)',
+    label: t('dataTable.highlights.colors.deepTeal')
+  },
+  {
+    text: 'var(--color-purple-600)',
+    bg: 'var(--color-purple-100)',
+    label: t('dataTable.highlights.colors.purple')
+  },
+  {
+    text: 'var(--color-purple-50)',
+    bg: 'var(--color-purple-600)',
+    label: t('dataTable.highlights.colors.deepPurple')
+  }
 ];
 
 const form = useForm({
@@ -157,7 +205,7 @@ const isBooleanHighlight = computed(
                 :key="operator"
                 :value="operator"
               >
-                {{ t(`dataTable.highlights.${operator}`) }}
+                {{ t(`dataTable.highlights.operators.${operator}`) }}
               </option>
             </select>
           </dsp-form-control>
@@ -225,14 +273,14 @@ const isBooleanHighlight = computed(
               v-bind="formControlProps"
               v-on="on"
             >
-              <option disabled :value="null">Aa</option>
+              <option disabled :value="null">Couleur</option>
               <option
                 v-for="(color, index) in colors"
                 :key="index"
                 :value="color"
                 :style="{ color: color.text, backgroundColor: color.bg }"
               >
-                Aa
+                {{ color.label }}
               </option>
             </select>
           </dsp-form-control>
