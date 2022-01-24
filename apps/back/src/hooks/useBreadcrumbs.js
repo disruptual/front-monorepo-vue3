@@ -3,7 +3,7 @@ import { useRoute } from 'vue-router';
 import { CONTEXT_KEYS } from '@/utils/constants';
 
 export const useBreadCrumbs = label => {
-  const { fullPath } = useRoute();
+  const { fullPath, path } = useRoute();
   const breadcrumbs = inject(CONTEXT_KEYS.BREADCRUMB);
   const hasRegistered = ref(false);
 
@@ -12,7 +12,8 @@ export const useBreadCrumbs = label => {
     if (unref(label)) {
       breadcrumbs.add({
         label: unref(label),
-        target: fullPath
+        target: fullPath,
+        path: path
       });
       hasRegistered.value = true;
     }
