@@ -31,7 +31,6 @@ const popperInstance = ref(null);
 const focusedMenuElementIndex = ref(0);
 
 const toggle = () => {
-  console.trace('toggle');
   emit('update:isOpened', !props.isOpened);
 };
 
@@ -116,7 +115,6 @@ const onClickOutside = e => {
 
 const onFocusOutside = e => {
   if (toggleElement.value.contains(e.target)) return;
-  console.log(props);
   if (props.closeOnFocusOutside) close();
 
   // FIXME auto focusing toggle on close causes problem with custom content in toggle slot
@@ -133,7 +131,6 @@ provide(CONTEXT_KEYS.DROPDOWN, { toggle, close });
 
 <template>
   <div class="dropdown">
-    <pre>{{ isOpened }}</pre>
     <div ref="toggleElement" @focus.capture="toggle">
       <dsp-plain-button
         class="dropdown-toggle"
