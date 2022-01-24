@@ -25,7 +25,7 @@ describe('DspButtonDefault', () => {
   });
 
   it('should render a rounded button', () => {
-    const wrapper = mount(DspButton, { props: { isRounded: true } });
+    const wrapper = mount(DspButton, { props: { isRounded: false } });
 
     const classes = wrapper.find('.dsp-button').classes();
 
