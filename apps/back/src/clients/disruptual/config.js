@@ -28,5 +28,6 @@ export default {
       isEnabled: false
     }
   },
-  logo
+  logo,
+
 };

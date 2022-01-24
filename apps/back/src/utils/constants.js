@@ -76,6 +76,11 @@ export const EVENT_DETAILS_TABS = {
   ITEMS_PHYSICAL: 'items_physical'
 };
 
+export const HOME_TABS = {
+  RELEASE: "release",
+  DATA_STUDIO: 'data_studio'
+}
+
 export const MENU = [
   {
     name: 'Administration',
