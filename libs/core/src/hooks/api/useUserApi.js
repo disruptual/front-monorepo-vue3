@@ -31,6 +31,22 @@ export function useUserApi() {
       );
     },
 
+    blockedMutation(options) {
+      return useMutation(
+        `blockedUser`,
+        userId => userService.blocked(userId),
+        options
+      );
+    },
+
+    unblockedMutation(options) {
+      return useMutation(
+        `unblockedUser`,
+        userId => userService.unblocked(userId),
+        options
+      );
+    },
+
     anonymizeMutation(options) {
       return useMutation(
         `anonymizeUser`,

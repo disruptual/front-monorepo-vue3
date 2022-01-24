@@ -25,6 +25,7 @@ export default {
       anonymize: 'Anonymiser',
       avatar: 'Avatar',
       buyer: 'Acheteur',
+      blocked: 'Bloquer',
       category: 'Categorie',
       city: 'ville',
       content: 'Contenu',
@@ -58,6 +59,7 @@ export default {
       storeCode: 'Code store',
       storeOrganizer: 'Magasin organisateur',
       title: 'title',
+      unblocked: 'Débloquer',
       visibility: 'Visibilité'
     }
   }

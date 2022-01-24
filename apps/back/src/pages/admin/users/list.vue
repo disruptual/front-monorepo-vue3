@@ -21,11 +21,19 @@ const { showSuccess, showError } = useToast();
 const { t } = useI18n();
 
 const filters = ref({});
-const { findAllQuery, muteMutation, unmuteMutation, anonymizeMutation } =
-  useUserApi();
+const {
+  findAllQuery,
+  muteMutation,
+  unmuteMutation,
+  anonymizeMutation,
+  blockedMutation,
+  unblockedMutation
+} = useUserApi();
 const query = findAllQuery({ filters });
 const { mutateAsync: mute } = muteMutation();
 const { mutateAsync: unmute } = unmuteMutation();
+const { mutateAsync: blocked } = blockedMutation();
+const { mutateAsync: unblocked } = unblockedMutation();
 const { mutate: anonymize, isLoading: isAnonymizing } = anonymizeMutation({
   onSuccess() {
     showSuccess(t('toasts.user.anonymizeSuccess'));
@@ -45,9 +53,26 @@ const onFilterChange = newFilters => {
 
 const anonymizedUser = ref(null);
 const isAnonymizeModalOpened = ref(false);
-const onSoftDelete = ([user]) => {
+const onAnonymize = ([user]) => {
   anonymizedUser.value = user;
   isAnonymizeModalOpened.value = true;
+};
+const onBlock = async ([user]) => {
+  try {
+    user.blockedAt ? await unblocked(user.id) : await blocked(user.id);
+    user.blockedAt
+      ? showSuccess(t('toasts.user.unblockSuccess'))
+      : showSuccess(t('toasts.user.blockSuccess'));
+    query.refetch.value();
+  } catch (err) {
+    showError(t('toasts.user.blockError'));
+    console.error(err);
+  }
+};
+
+const blockedLabel = teste => {
+  console.log(teste);
+  return false;
 };
 
 const onMute = async users => {
@@ -168,11 +193,19 @@ const goToDetail = row => {
     />
 
     <DataTableRowAction
-      name="block"
+      name="anonymize"
       :label="t('dataTable.label.anonymize')"
       icon="userDelete"
       :can-batch="false"
-      @action="onSoftDelete"
+      @action="onAnonymize"
+    />
+
+    <DataTableRowAction
+      name="block"
+      :label="t('dataTable.label.blocked')"
+      icon="userDelete"
+      :can-batch="false"
+      @action="onBlock"
     />
   </DataTable>
 </template>
