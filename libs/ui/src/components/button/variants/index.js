@@ -11,11 +11,13 @@ export const useButton = props => {
     }
   ]);
 
-  const scheme = computed(() => ({
-    normal: props.scheme.normal,
-    hover: props.scheme.hover,
-    focus: props.scheme.focus
-  }));
+  const scheme = computed(() => {
+    return {
+      normal: props.scheme.normal,
+      hover: props.scheme.hover,
+      focus: props.scheme.focus
+    };
+  });
 
   const colors = useColorScheme(scheme, props);
 

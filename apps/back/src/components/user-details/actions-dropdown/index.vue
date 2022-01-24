@@ -38,13 +38,13 @@ const { mutate: mute } = muteMutation({
 
 const { mutate: unmute } = unmuteMutation({
   onSuccess() {
-    showSuccess(t('toasts.user.muteSuccess', 1));
+    showSuccess(t('toasts.user.unmuteSuccess', 1));
     emit('success');
   },
 
   onError(err) {
     console.error(err);
-    showError(t('toasts.user.muteError', 1));
+    showError(t('toasts.user.unmuteError', 1));
   }
 });
 </script>

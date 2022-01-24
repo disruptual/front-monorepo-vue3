@@ -4,6 +4,7 @@ import { useQueries, useQueryClient } from 'vue-query';
 import { debounce } from 'lodash-es';
 import { createBoundedModel } from '../factories/boundedModel.factory';
 import { createQueries } from '../factories/query.factory';
+import math from '../../../../node_modules/lodash-es/math';
 
 const QUERY_BINDING_DEBOUNCE_TIMEOUT = 50;
 const QUERY_BINDING_DEBOUNCE_OPTIONS = { leading: true, trailing: true };
@@ -44,7 +45,7 @@ export function useBoundedModel(query, { queryKey, model, relations = [] }) {
     return createQueries(instance.value, {
       fetcher: uri => http.get(uri),
       relations: unref(allRelations),
-      onSettled: debouncedBindQuery
+      onSettled: () => debouncedBindQuery()
     });
   });
 
@@ -73,7 +74,11 @@ export function useBoundedModel(query, { queryKey, model, relations = [] }) {
     () => debouncedBindQuery(false)
   );
   watch(query.data, () => debouncedBindQuery(false));
-  watch(() => unref(allRelations), debouncedBindQuery, { deep: true });
+  watch(
+    () => unref(allRelations),
+    () => debouncedBindQuery(),
+    { deep: true }
+  );
   debouncedBindQuery();
 
   return {

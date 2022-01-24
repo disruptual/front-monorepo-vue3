@@ -51,6 +51,12 @@ const formOptions = {
       <dsp-smart-form-submit>Submit</dsp-smart-form-submit>
     </dsp-flex>
 
-    <dsp-form-error :error="submitError" />
+    <dsp-form-error :error="submitError" class="submit-error" />
   </dsp-smart-form>
 </template>
+
+<style scoped lang="scss">
+.submit-error {
+  margin-top: var(--spacing-sm);
+}
+</style>

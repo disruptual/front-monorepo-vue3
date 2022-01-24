@@ -6,7 +6,7 @@ export const vOnIntersect = {
     try {
       const onIntersect = entries => {
         entries.forEach(entry => {
-          cb(entry);
+          cb?.(entry);
         });
       };
 
@@ -21,7 +21,7 @@ export const vOnIntersect = {
 
   unmounted(el) {
     const observer = observers.get(el);
-    observer.unobserve(el);
+    observer?.unobserve(el);
     observers.delete(el);
   }
 };

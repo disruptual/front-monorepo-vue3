@@ -58,6 +58,8 @@ const toggleMenu = isOpened => {
         menuElement.value,
         { placement: 'bottom' }
       );
+
+      focusFirstElement();
     });
   } else {
     popperInstance.value?.destroy?.();
@@ -88,10 +90,13 @@ const focusNextElement = () => {
 };
 
 const onKeyDown = e => {
+  const children = getFocusableChildren(toggleElement.value);
   switch (e.code) {
     case KEYBOARD.ESCAPE:
       e.stopPropagation();
-      return close();
+      close();
+      children[0]?.focus?.();
+      return;
     case KEYBOARD.ARROW_DOWN:
       e.preventDefault();
       return focusNextElement();
@@ -103,12 +108,17 @@ const onKeyDown = e => {
   }
 };
 
-const onClickOutside = () => {
+const onClickOutside = e => {
+  if (toggleElement.value.contains(e.target)) return;
   if (props.closeOnClickOutside) close();
 };
 
-const onFocusOutside = () => {
+const onFocusOutside = e => {
+  if (toggleElement.value.contains(e.target)) return;
   if (props.closeOnFocusOutside) close();
+
+  const children = getFocusableChildren(toggleElement.value);
+  children[0]?.focus?.();
 };
 
 watch(() => unref(props.isOpened), toggleMenu);
@@ -119,11 +129,10 @@ provide(CONTEXT_KEYS.DROPDOWN, { toggle, close });
 
 <template>
   <div class="dropdown">
-    <div ref="toggleElement">
+    <div ref="toggleElement" @focus.capture="toggle">
       <dsp-plain-button
         class="dropdown-toggle"
         type="button"
-        @click="toggle"
         @keyup.enter="focusFirstElement"
       >
         <slot name="toggle" />

@@ -18,4 +18,10 @@ const props = defineProps({
 .dsp-image__placeholder {
   @include loading-content;
 }
+
+.dsp-image {
+  display: block;
+  max-width: 100%;
+  object-fit: cover;
+}
 </style>

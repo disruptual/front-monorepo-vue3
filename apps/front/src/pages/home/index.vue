@@ -6,7 +6,10 @@ import ItemGrid from '@/components/item/grid/index.vue';
 import Carousel from '@/components/carousel/index.vue';
 
 const query = useItemApi().searchQuery({
-  relations: ['user']
+  filters: {
+    'sort[updated]': 'desc'
+  },
+  relations: ['user', 'brand', 'category']
 });
 const carouselQuery = useCarouselApi().findAllQuery();
 </script>

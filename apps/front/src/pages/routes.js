@@ -31,5 +31,31 @@ export const routes = [
       permissions: [USER_ROLES.USER],
       layout: lazyDefaultLayout
     }
+  },
+  {
+    path: '/messagerie',
+    name: 'Inbox',
+    component: () => import('@/pages/inbox/index.vue'),
+    meta: {
+      permissions: [USER_ROLES.USER],
+      layout: lazyDefaultLayout
+    }
+  },
+  {
+    path: '/panier',
+    name: 'Cart',
+    component: () => import('@/pages/cart/index.vue'),
+    meta: {
+      permissions: [USER_ROLES.USER],
+      layout: lazyDefaultLayout
+    }
+  },
+  {
+    path: '/search/:categoryId?',
+    name: 'ItemSearch',
+    component: () => import('@/pages/item-search/index.vue'),
+    meta: {
+      layout: lazyDefaultLayout
+    }
   }
 ];

@@ -1,8 +1,12 @@
 import { computed } from 'vue';
 import { useUserApi, useCurrentUser } from '@dsp/core';
 import { useToast } from '@dsp/ui';
+import { useI18n } from 'vue-i18n';
+import { useQueryClient } from 'vue-query';
 
 export const useItemCard = props => {
+  const { t } = useI18n();
+  const queryClient = useQueryClient();
   const { showSuccess, showError } = useToast();
   const { data: currentUser, refetch: refetchCurrentUser } = useCurrentUser();
   const { mutate: updateUser } = useUserApi().updateMutation({
@@ -14,6 +18,15 @@ export const useItemCard = props => {
     onError(err) {
       console.error(err);
       showError('Error !');
+    },
+
+    onMutate: async ({ id, entity }) => {
+      queryClient.setQueryData('currentUser', old => ({
+        ...old,
+        favoritesItems: entity.favoritesItems
+      }));
+
+      return { id, entity };
     }
   });
 
@@ -53,5 +66,24 @@ export const useItemCard = props => {
     () => !!currentUser.value && props.item._user !== currentUser.value.uri
   );
 
-  return { toggleFavorite, favoriteButtonIcon, canFavorite };
+  const favoriteButtonTitle = computed(() =>
+    isFavorited.value
+      ? t('itemCard.removeFromFavorites')
+      : t('itemCard.addToFavorites')
+  );
+
+  const imageUrl = computed(() => {
+    const { item } = props;
+    const media = item.medias.find(m => m['@id'] === item._mainMedia);
+
+    return media?.thumbnails?.item;
+  });
+
+  return {
+    toggleFavorite,
+    favoriteButtonIcon,
+    favoriteButtonTitle,
+    canFavorite,
+    imageUrl
+  };
 };

@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DspButtonDefault should render correctly 1`] = `
+"<button class=\\"dsp-button dsp-button--md\\" style=\\"color: rgb(0, 0, 0);\\">
+  <!--v-if-->
+  <!--v-if-->
+</button>"
+`;

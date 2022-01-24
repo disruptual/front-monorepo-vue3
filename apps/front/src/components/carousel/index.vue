@@ -5,7 +5,7 @@ export default { name: 'Carousel' };
 <script setup>
 import { computed, ref } from 'vue';
 import { Carousel } from '@dsp/business';
-import { useDevice } from '@dsp/ui';
+import { useDevice, vOnSwipe } from '@dsp/ui';
 
 const props = defineProps({
   carousel: { type: Carousel, required: true }
@@ -22,16 +22,30 @@ const carouselHeight = computed(() => {
   return `${height}px`;
 });
 
-const slides = computed(() =>
-  props.carousel.carouselItems.filter(c => {
-    return device.isMobile ? !c.destkop : c.desktop;
-  })
+const displayedSlides = computed(() =>
+  props.carousel.carouselItems
+    .filter(c => (device.isMobile ? !c.desktop : c.desktop))
+    .sort((a, b) => a.position - b.position)
 );
 
 const currentIndex = ref(0);
+const onSwipe = ({ direction }) => {
+  if (direction === 'left') {
+    currentIndex.value =
+      currentIndex.value === 0
+        ? displayedSlides.value.length - 1
+        : currentIndex.value - 1;
+  }
+
+  if (direction === 'right') {
+    currentIndex.value =
+      currentIndex.value === displayedSlides.value.length - 1
+        ? 0
+        : currentIndex.value + 1;
+  }
+};
 
 const getSlideStyle = slide => {
-  console.log(slide);
   return {
     '--col-start': slide.textPositionX,
     '--col-end': slide.textPositionXEnd,
@@ -43,9 +57,9 @@ const getSlideStyle = slide => {
 </script>
 
 <template>
-  <div class="carousel">
+  <div v-on-swipe="onSwipe" class="carousel">
     <transition
-      v-for="(slide, index) in slides"
+      v-for="(slide, index) in displayedSlides"
       :key="slide.id"
       :duration="500"
       name="carousel-slide"
@@ -71,10 +85,16 @@ const getSlideStyle = slide => {
         </dsp-flex>
       </div>
     </transition>
-    <dsp-flex class="navigation" justify="center" gap="sm">
+    <dsp-flex
+      v-if="displayedSlides.length > 1"
+      class="navigation"
+      justify="center"
+      gap="sm"
+    >
       <button
-        v-for="(slide, index) in slides"
+        v-for="(slide, index) in displayedSlides"
         :key="slide.id"
+        :class="index === currentIndex && 'navigation__button--active'"
         @click="currentIndex = index"
       />
     </dsp-flex>
@@ -84,8 +104,10 @@ const getSlideStyle = slide => {
 <style lang="scss" scoped>
 .carousel {
   position: relative;
-  max-width: 100%;
+  max-width: 100vw;
   display: grid;
+  overflow: hidden;
+
   > * {
     grid-column: 1;
     grid-row: 1;
@@ -99,6 +121,7 @@ const getSlideStyle = slide => {
   --grid-size: v-bind('carousel.contentGridSize');
   width: 100%;
   height: v-bind(carouselHeight);
+  padding: var(--spacing-md);
   background: var(--background, #444);
   background-size: cover;
   background-position: center;
@@ -129,14 +152,17 @@ const getSlideStyle = slide => {
     padding: 0;
     width: 1em;
     height: 1em;
-    background-color: var(--color-brand-500);
-    border: none;
+    background-color: var(--color-gray-500);
+    border: solid 2px transparent;
     border-radius: var(--border-radius-circle);
     cursor: pointer;
     &:hover,
     &:focus {
-      background-color: var(--color-brand-700);
+      background-color: var(--color-gray-400);
     }
+  }
+  .navigation__button--active {
+    border: solid 2px white;
   }
 }
 

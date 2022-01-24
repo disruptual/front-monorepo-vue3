@@ -89,12 +89,10 @@ const ordersLink = computed(() => ({
     :label="t('user.details.editModeSwitchLabel')"
   />
   <dsp-center>
-    <h2>
-      <dsp-flex justify="center" align="center">
-        {{ user.fullName }}
-        <UserActionsDropdown :user="user" @success="$emit('success')" />
-      </dsp-flex>
-    </h2>
+    <dsp-flex justify="center" align="center" as="h3">
+      {{ user.fullName }}
+      <UserActionsDropdown :user="user" @success="$emit('success')" />
+    </dsp-flex>
     <dsp-avatar :user="user" size="lg" />
     <dsp-center v-if="user.isMuted" class="muted-badge">
       {{ t('user.isMuted') }}

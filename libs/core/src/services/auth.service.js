@@ -58,6 +58,8 @@ export class AuthService {
   async authenticate() {
     const currentUser = await this._strategy.authenticate();
     this._queryClient.setQueryData('currentUser', currentUser);
+
+    return currentUser;
   }
 
   async login(credentials) {

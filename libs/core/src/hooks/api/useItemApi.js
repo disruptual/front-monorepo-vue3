@@ -25,7 +25,7 @@ export function useItemApi() {
       };
 
       const queryFn = ({ pageParam = { page: 1, itemsPerPage } }) => {
-        return itemService.findAll({ params: { ...pageParam, ...filters } });
+        return itemService.search({ params: { ...pageParam, ...filters } });
       };
 
       return useCollectionQuery(queryKey, queryFn, options);

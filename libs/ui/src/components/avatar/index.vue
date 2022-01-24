@@ -10,7 +10,7 @@ import { useReadableColor } from '@dsp/ui//hooks';
 
 const props = defineProps({
   user: { type: User, required: true },
-  size: oneOf(['sm', 'md', 'lg', 'xl'], 'sm')
+  size: oneOf(['xs', 'sm', 'md', 'lg', 'xl'], 'sm')
 });
 
 const initials = computed(
@@ -38,6 +38,7 @@ const textColor = useReadableColor('--color-brand-500');
 
 <style lang="scss" scoped>
 .avatar {
+  --avatar-size-xs: 1rem;
   --avatar-size-sm: 2rem;
   --avatar-size-md: 3rem;
   --avatar-size-lg: 4.5rem;

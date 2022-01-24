@@ -14,7 +14,6 @@ const props = defineProps({
   leftIcon: { type: String, default: null },
   rightIcon: { type: String, default: null },
   size: oneOf(['sm', 'md', 'lg'], 'md'),
-
   colorScheme: { type: String, default: 'brand' },
   ...schema.toVariantProps()
 });
@@ -27,9 +26,7 @@ const { classes, colors } = useButton(props);
     <slot name="left-icon">
       <dsp-icon v-if="props.leftIcon" class="icon-left" :icon="leftIcon" />
     </slot>
-
     <slot />
-
     <slot name="right-icon">
       <dsp-icon v-if="props.rightIcon" class="icon-right" :icon="rightIcon" />
     </slot>
@@ -44,7 +41,6 @@ const { classes, colors } = useButton(props);
   cursor: pointer;
   border: solid 1px transparent;
   font-family: var(--font-body);
-
   user-select: none;
   text-decoration: none;
   background-color: v-bind('colors.normal');

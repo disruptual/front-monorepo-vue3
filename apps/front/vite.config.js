@@ -43,5 +43,9 @@ export default defineConfig({
     fs: {
       strict: false
     }
+  },
+  build: {
+    target: 'es2015',
+    sourcemap: true
   }
 });
