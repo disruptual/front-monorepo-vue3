@@ -14,11 +14,12 @@ export class Breadcrumbs {
     this.breadcrumbs = [];
   }
 
-  add({ label, target }) {
+  add({ label, target, path }) {
     this.breadcrumbs.push({
       id: makeRandomId(4),
       label,
-      target
+      target,
+      path
     });
   }
 

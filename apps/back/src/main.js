@@ -27,16 +27,23 @@ async function setupDevtools() {
 }
 
 function setupBreadcrumbs() {
-  const breadcrumbs = reactive(new Breadcrumbs());
+  const breadcrumbsManager = reactive(new Breadcrumbs());
 
-  app.vueApp.provide(CONTEXT_KEYS.BREADCRUMB, breadcrumbs);
+  app.vueApp.provide(CONTEXT_KEYS.BREADCRUMB, breadcrumbsManager);
   app.router.beforeEach((to, from, next) => {
     const getDomain = route => route.fullPath.split('/').filter(Boolean);
     const [toDomain] = getDomain(to);
     const [fromDomain] = getDomain(from);
 
-    if (toDomain !== fromDomain) breadcrumbs.reset();
-    if (to.name === 'Home') breadcrumbs.reset();
+    breadcrumbsManager.breadcrumbs.forEach((breadcrumb, index) => {
+      if (breadcrumb.path === to.path) {
+        if (breadcrumbsManager.breadcrumbs[index + 1]?.path === from.path)
+          breadcrumbsManager.goTo(breadcrumbsManager.breadcrumbs[index]?.id);
+      }
+    });
+
+    if (toDomain !== fromDomain) breadcrumbsManager.reset();
+    if (to.name === 'Home') breadcrumbsManager.reset();
 
     next();
   });
