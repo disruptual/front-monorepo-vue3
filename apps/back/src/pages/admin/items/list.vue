@@ -3,6 +3,7 @@ export default { name: 'AdminItemsListPage' };
 </script>
 
 <script setup>
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { useItemApi } from '@dsp/core';
@@ -15,19 +16,24 @@ import DataTableColumn from '@/components/data-table/data-table-column/index.vue
 
 useBreadCrumbs('Annonces');
 const { push } = useRouter();
+const { t } = useI18n();
+const filters = ref({});
 
 const query = useItemApi().findAllQuery({
+  filters,
   relations: ['user', 'mainMedia', 'category  '],
   requestOptions: {
     params: { display: 'all' }
   }
 });
 
+const onFilterChange = newFilters => {
+  filters.value = { ...newFilters };
+};
+
 const goToDetail = row => {
   push({ name: 'AdminItemDetails', params: { id: row.id } });
 };
-
-const { t } = useI18n();
 
 const publicationStates = Object.values(ITEM_PUBLICATION_STATES).map(state => ({
   value: state,
@@ -41,8 +47,14 @@ const publicationStates = Object.values(ITEM_PUBLICATION_STATES).map(state => ({
     :query="query"
     :min-row-size="50"
     @row-dbl-click="goToDetail"
+    @filter-change="onFilterChange"
   >
-    <DataTableColumn name="id" :label="t('dataTable.label.id')" width="80" />
+    <DataTableColumn
+      name="id"
+      :label="t('dataTable.label.id')"
+      width="80"
+      is-filterable
+    />
     <DataTableColumn
       v-slot="{ row }"
       name="photo"
@@ -59,11 +71,16 @@ const publicationStates = Object.values(ITEM_PUBLICATION_STATES).map(state => ({
       :tooltip-label="({ row }) => row.formatCreated()"
       :type="DATATABLE_COLUMN_TYPES.DATE"
       is-highlightable
-      is-filterable
     >
       {{ row.formatCreated() }}
     </DataTableColumn>
 
+    <DataTableColumn
+      name="title"
+      :label="t('dataTable.label.title')"
+      width="80"
+      is-filterable
+    />
     <DataTableColumn
       name="formatedPrice"
       :label="t('dataTable.label.price')"
@@ -84,6 +101,7 @@ const publicationStates = Object.values(ITEM_PUBLICATION_STATES).map(state => ({
       v-slot="{ row }"
       name="seller"
       :label="t('dataTable.label.seller')"
+      is-filterable
     >
       <router-link
         v-if="row.user"
