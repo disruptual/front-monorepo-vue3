@@ -32,16 +32,6 @@ const updateVisiblity = async voucher => {
   await updateVoucher({ id: voucher.id, dto: { enabled: !voucher.enabled } });
   query.refetch.value();
 };
-
-console.log(query.data);
-
-const onSoftDelete = vouchers => {
-  console.log(vouchers);
-};
-
-const goToDetail = row => {
-  push({ name: 'AdminUserDetails', params: { slug: row.slug } });
-};
 </script>
 
 <template>
