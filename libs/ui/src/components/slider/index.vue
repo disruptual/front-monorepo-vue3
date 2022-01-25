@@ -11,16 +11,20 @@ const currentIndex = ref(0);
 <template>
   <dsp-flex gap="sm" direction="column">
     <dsp-flex class="images" wrap="nowrap">
-      <dsp-slide-transition
+      <transition
         v-for="(url, index) in imagesUrls"
         :key="url"
-        :is-visible="index === currentIndex"
-        appears
-        :duration="1"
-        distance="0px"
+        :duration="350"
+        name="carousel-slide"
       >
-        <img class="image" :src="url" />
-      </dsp-slide-transition>
+        <div
+          v-if="index === currentIndex"
+          class="carousel__slide"
+          :style="{ '--background': `url(${url})` }"
+        >
+          <img class="image" :src="url" />
+        </div>
+      </transition>
     </dsp-flex>
     <dsp-flex gap="sm" justify="center">
       <button
@@ -35,20 +39,54 @@ const currentIndex = ref(0);
 </template>
 <style lang="scss" scoped>
 .images {
-  margin: auto;
+  max-width: 100vw;
+  display: grid;
+  grid-auto-columns: 1fr;
+  overflow: hidden;
+
+  > * {
+    grid-column: 1;
+    grid-row: 1;
+  }
 }
+
 .image {
   height: 250px;
+  opacity: 0;
   @include mobile-only {
     height: 200px;
   }
 }
+
+.carousel__slide {
+  margin: auto;
+  padding: var(--spacing-md);
+  background: var(--background, #444);
+  background-size: cover;
+  background-position: center;
+}
+
+.carousel-slide-enter-active,
+.carousel-slide-leave-active {
+  transition: all 500ms;
+}
+
+.carousel-slide-enter-from {
+  transform: translateX(100%);
+  opacity: 1;
+}
+.carousel-slide-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
 .navigation {
-  width: 12px;
-  height: 12px;
+  width: var(--spacing-md);
+  height: var(--spacing-md);
   background: var(--color-separator);
   border: none;
   border-radius: var(--border-radius-pill);
+  cursor: pointer;
   &.active {
     background: var(--color-primary);
   }
