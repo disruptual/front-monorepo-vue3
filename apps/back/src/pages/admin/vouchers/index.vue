@@ -4,22 +4,23 @@ export default { name: 'AdminVoucher' };
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useVoucherApi } from '@dsp/core';
+import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
-import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 
 useBreadCrumbs("Bon d'achats");
 
+const { push } = useRouter();
+const { t } = useI18n();
 const filters = ref({});
-const query = useVoucherApi().findAllQuery({ filters });
-const { mutateAsync: updateVoucher } = useVoucherApi().updateMutation();
-
-const updateVisiblity = async voucher => {
-  await updateVoucher({ id: voucher.id, dto: { enabled: !voucher.enabled } });
-  query.refetch.value();
-};
+const query = useVoucherApi().findAllQuery({
+  filters,
+  requestOptions: { params: { display: 'all' } }
+});
 
 const onFilterChange = newFilters => {
   filters.value = { ...newFilters };
@@ -50,16 +51,35 @@ const onFilterChange = newFilters => {
       name="createdAt"
       :label="t('dataTable.label.created')"
       width="200"
-      :tooltip-label="({ row }) => row.formatCreated()"
+      :tooltip-label="({ row }) => row.formatCreatedAt()"
     >
-      {{ row.formatCreated() }}
+      {{ row.formatCreatedAt() }}
     </DataTableColumn>
     <DataTableColumn
-      name="email"
+      v-slot="{ row }"
+      name="createdAt"
+      :label="t('dataTable.label.dateValidated')"
+      width="200"
+      :tooltip-label="({ row }) => row.formatValidatedAt()"
+    >
+      {{ row.formatValidatedAt() }}
+    </DataTableColumn>
+    <DataTableColumn
+      v-slot="{ row }"
+      name="user.email"
       :label="t('dataTable.label.email')"
       width="100"
       is-filterable
-    />
+    >
+      <dsp-truncated-text>
+        <router-link
+          v-if="row.user"
+          :to="{ name: 'AdminUserDetails', params: { slug: row.user?.slug } }"
+        >
+          {{ row.user?.email }}
+        </router-link>
+      </dsp-truncated-text>
+    </DataTableColumn>
     <DataTableColumn
       name="amount"
       :label="t('dataTable.label.amount')"
@@ -75,16 +95,24 @@ const onFilterChange = newFilters => {
     <DataTableColumn
       v-slot="{ row }"
       name="generated"
-      :label="t('dataTable.label.visibility')"
-      width="200"
+      :label="t('dataTable.label.generated')"
+      width="100"
+      is-filterable
     >
-      <dsp-center>
+      <dsp-center class="dsp-center">
         <dsp-checkbox
-          :label="t('dataTable.label.visibility')"
+          label=""
           :model-value="row.generated"
-          @change="updateVisiblity(row)"
+          readonly
+          @click.prevent
         />
       </dsp-center>
     </DataTableColumn>
   </DataTable>
 </template>
+
+<style scoped>
+.dsp-center {
+  width: 100%;
+}
+</style>

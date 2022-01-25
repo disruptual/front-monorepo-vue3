@@ -6,10 +6,12 @@ export default { name: 'DataTableFilterDrawer' };
 import { inject, ref } from 'vue';
 import { CONTEXT_KEYS, DATATABLE_COLUMN_TYPES } from '@/utils/constants';
 import { vTooltip } from '@dsp/ui';
+import { useI18n } from 'vue-i18n';
 
 const { model } = inject(CONTEXT_KEYS.DATATABLE);
 
 const isOpened = ref(false);
+const { t } = useI18n();
 
 const formOptions = {
   onSubmit(values) {
@@ -54,18 +56,30 @@ const getInitialValue = column => {
           :label="column.label"
         >
           <div v-if="column.type === DATATABLE_COLUMN_TYPES.DATE">
-            <dsp-date-picker
-              v-model="slotProps.field.value.before"
-              v-bind="formControlProps"
-              is-teleport
-              v-on="on"
-            />
-            <dsp-date-picker
-              v-model="slotProps.field.value.after"
-              v-bind="formControlProps"
-              is-teleport
-              v-on="on"
-            />
+            <div>
+              <label class="label-date-picker" for="before">
+                {{ t('dataTable.label.dateFrom') }}
+              </label>
+              <dsp-date-picker
+                v-model="slotProps.field.value.before"
+                name="before"
+                v-bind="formControlProps"
+                is-teleport
+                v-on="on"
+              />
+            </div>
+            <div>
+              <label class="label-date-picker" for="after">
+                {{ t('dataTable.label.dateTo') }}
+              </label>
+              <dsp-date-picker
+                v-model="slotProps.field.value.after"
+                name="after"
+                v-bind="formControlProps"
+                is-teleport
+                v-on="on"
+              />
+            </div>
           </div>
 
           <select
