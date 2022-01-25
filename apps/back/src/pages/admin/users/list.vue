@@ -70,11 +70,6 @@ const onBlock = async ([user]) => {
   }
 };
 
-const blockedLabel = teste => {
-  console.log(teste);
-  return false;
-};
-
 const onMute = async users => {
   try {
     await Promise.all(
@@ -88,10 +83,6 @@ const onMute = async users => {
     showError(t('toasts.user.muteError', users.length));
     console.error(err);
   }
-};
-
-const goToDetail = row => {
-  push({ name: 'AdminUserDetails', params: { slug: row.slug } });
 };
 </script>
 
@@ -122,7 +113,9 @@ const goToDetail = row => {
     id="users-list"
     :query="query"
     :min-row-size="48"
-    @row-dbl-click="goToDetail"
+    :row-detail-target="
+      row => ({ name: 'AdminUserDetails', params: { slug: row.slug } })
+    "
     @filter-change="onFilterChange"
   >
     <DataTableColumn

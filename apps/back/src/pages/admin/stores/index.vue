@@ -5,7 +5,6 @@ export default { name: 'AdminStore' };
 <script setup>
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRouter, useRoute } from 'vue-router';
 import { useStoreApi } from '@dsp/core';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 
@@ -14,8 +13,6 @@ import DataTableColumn from '@/components/data-table/data-table-column/index.vue
 import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
 
 const { t } = useI18n();
-const { replace } = useRouter();
-const route = useRoute();
 
 useBreadCrumbs('Store');
 
@@ -27,7 +24,6 @@ const query = useStoreApi().findAllQuery({ filters });
 
 const setDatePicker = () => {};
 
-const isOpen = computed(() => location.open);
 const { mutateAsync: updateStore } = useStoreApi().updateMutation();
 
 const updateVisiblity = async store => {
@@ -36,10 +32,6 @@ const updateVisiblity = async store => {
 };
 
 const onSoftDelete = orders => {
-  console.log(orders);
-};
-
-const goToDetail = orders => {
   console.log(orders);
 };
 </script>
@@ -51,7 +43,6 @@ const goToDetail = orders => {
     :min-row-size="40"
     :has-action-bar="true"
     :has-selector-column="true"
-    @row-dbl-click="goToDetail"
     @filter-change="onFilterChange"
   >
     <template #no-result>

@@ -5,7 +5,6 @@ export default { name: 'UserItems' };
 <script setup>
 import { useI18n } from 'vue-i18n';
 import { useItemApi } from '@dsp/core';
-import { useRouter } from 'vue-router';
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 const props = defineProps({
@@ -15,11 +14,6 @@ const props = defineProps({
 const { t } = useI18n();
 
 const query = useItemApi().findAllByUserIdQuery(props.userId);
-
-const { push } = useRouter();
-const goToDetail = row => {
-  push({ name: 'AdminItemDetails', params: { id: row.id } });
-};
 </script>
 
 <template>
@@ -29,7 +23,9 @@ const goToDetail = row => {
     :min-row-size="50"
     :has-action-bar="false"
     :has-selector-column="false"
-    @row-dbl-click="goToDetail"
+    :row-detail-target="
+      row => ({ name: 'AdminItemDetails', params: { id: row.item.id } })
+    "
   >
     <template #no-result>
       <dsp-center>Cet utilisateur ne possède aucun article.</dsp-center>

@@ -25,10 +25,6 @@ const getEventStatus = event => {
   return t('event.finished');
 };
 
-const goToDetail = row => {
-  push({ name: 'AdminEventDetails', params: { id: row.id } });
-};
-
 const onEdit = row => {
   emit('edit', row);
 };
@@ -48,7 +44,12 @@ const onDelete = rows => {
     :min-row-size="50"
     :has-action-bar="true"
     :has-selector-column="true"
-    @row-dbl-click="goToDetail"
+    :row-detail-target="
+      row => ({
+        name: 'AdminEventDetails',
+        params: { id: row.id }
+      })
+    "
   >
     <template #no-result>
       <dsp-center gap="sm">

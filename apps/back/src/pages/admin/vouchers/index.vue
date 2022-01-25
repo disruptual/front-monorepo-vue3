@@ -3,18 +3,14 @@ export default { name: 'AdminVoucher' };
 </script>
 
 <script setup>
-import { computed, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useRouter, useRoute } from 'vue-router';
+import { ref } from 'vue';
 import { useVoucherApi } from '@dsp/core';
 
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
-import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 
 useBreadCrumbs("Bon d'achats");
-const { push } = useRouter();
 
 const filters = ref({});
 const query = useVoucherApi().findAllQuery({ filters });
@@ -25,23 +21,9 @@ const updateVisiblity = async voucher => {
   query.refetch.value();
 };
 
-console.log('Query voucher ==> ', query);
-
 const onFilterChange = newFilters => {
   filters.value = { ...newFilters };
 };
-
-const onSoftDelete = vouchers => {
-  console.log(vouchers);
-};
-
-const goToDetail = row => {
-  push({ name: 'AdminUserDetails', params: { slug: row.slug } });
-};
-
-const { t } = useI18n();
-const { replace } = useRouter();
-const route = useRoute();
 </script>
 
 <template>
@@ -51,7 +33,6 @@ const route = useRoute();
     :min-row-size="40"
     :has-action-bar="true"
     :has-selector-column="true"
-    @row-dbl-click="goToDetail"
     @filter-change="onFilterChange"
   >
     <template #no-result>
@@ -105,11 +86,5 @@ const route = useRoute();
         />
       </dsp-center>
     </DataTableColumn>
-    <DataTableRowAction
-      name="block"
-      :label="t('dataTable.label.edit')"
-      icon="userDelete"
-      @action="onSoftDelete"
-    />
   </DataTable>
 </template>

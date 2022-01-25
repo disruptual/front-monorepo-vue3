@@ -3,7 +3,6 @@ export default { name: 'AdminItemsListPage' };
 </script>
 
 <script setup>
-import { useRouter } from 'vue-router';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { useItemApi } from '@dsp/core';
 import { useI18n } from 'vue-i18n';
@@ -14,7 +13,6 @@ import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 
 useBreadCrumbs('Annonces');
-const { push } = useRouter();
 
 const query = useItemApi().findAllQuery({
   relations: ['user', 'mainMedia', 'category  '],
@@ -22,10 +20,6 @@ const query = useItemApi().findAllQuery({
     params: { display: 'all' }
   }
 });
-
-const goToDetail = row => {
-  push({ name: 'AdminItemDetails', params: { id: row.id } });
-};
 
 const { t } = useI18n();
 
@@ -40,7 +34,9 @@ const publicationStates = Object.values(ITEM_PUBLICATION_STATES).map(state => ({
     id="items-list"
     :query="query"
     :min-row-size="50"
-    @row-dbl-click="goToDetail"
+    :row-detail-target="
+      row => ({ name: 'AdminItemDetails', params: { id: row.id } })
+    "
   >
     <DataTableColumn name="id" :label="t('dataTable.label.id')" width="80" />
     <DataTableColumn

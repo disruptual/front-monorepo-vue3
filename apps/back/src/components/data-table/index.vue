@@ -4,6 +4,7 @@ export default { name: 'DataTable' };
 
 <script setup>
 import { computed, provide, reactive } from 'vue';
+import { useRouter } from 'vue-router';
 import { CONTEXT_KEYS } from '@/utils/constants';
 import { DataTable } from '@/models/DataTable.model';
 import { KEYBOARD, isNumber } from '@dsp/core';
@@ -17,11 +18,18 @@ const props = defineProps({
   minRowSize: { type: Number, default: 40 },
   hasActionBar: { type: Boolean, default: true },
   hasSelectorColumn: { type: Boolean, default: true },
+  rowDetailTarget: { type: Function, default: null },
   id: { type: String, required: true }
 });
 const emit = defineEmits(['rowDblClick', 'filterChange']);
 
 const isLoading = computed(() => props.query.isLoadingFirstPage.value);
+const { push } = useRouter();
+
+const navigate = row => {
+  const target = props.rowDetailTarget(row);
+  push(target);
+};
 
 const model = reactive(
   new DataTable({
@@ -29,9 +37,7 @@ const model = reactive(
     query: props.query,
     minRowSize: props.minRowSize,
     hasSelectorColumn: props.hasSelectorColumn,
-    onRowDblClick(row) {
-      emit('rowDblClick', row);
-    },
+    onGoToDetail: props.rowDetailTarget && navigate,
     onFilterChange(filters) {
       emit('filterChange', filters);
     }

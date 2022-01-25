@@ -61,7 +61,7 @@ export default {
       lastname: 'Nom',
       modeShipping: 'Mode de livraison',
       modeSilence: 'Mode silencieux',
-      mute: 'Muter',
+      mute: 'Mode silencieux',
       name: 'Nom',
       numbArticles: "Nb d'articles",
       plateformRate: 'plateformRate',
@@ -78,6 +78,9 @@ export default {
       title: 'title',
       unblocked: 'Débloquer',
       visibility: 'Visibilité'
+    },
+    actions: {
+      goToDetail: 'Voir le détail'
     }
   }
 };

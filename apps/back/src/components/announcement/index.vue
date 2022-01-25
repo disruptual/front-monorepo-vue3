@@ -42,7 +42,6 @@ const isActive = announcement => {
     :min-row-size="50"
     :has-action-bar="true"
     :has-selector-column="true"
-    @row-dbl-click="goToEdit"
   >
     <template #no-result>
       <dsp-center gap="sm">
@@ -101,6 +100,13 @@ const isActive = announcement => {
       label="Supprimer"
       icon="remove"
       @action="onSoftDelete"
+    />
+    <DataTableRowAction
+      name="edit"
+      label="Editer"
+      icon="edit"
+      :can-batch="false"
+      @action="goToEdit"
     />
   </DataTable>
   <dsp-flex justify="flex-start" gap="lg" class="actions">

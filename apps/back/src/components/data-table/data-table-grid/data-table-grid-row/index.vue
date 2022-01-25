@@ -57,7 +57,7 @@ watch(
       isHighlighted && 'data-table-grid-row--highlighted'
     ]"
     tabIndex="0"
-    @dblclick="model.onRowDblClick(row, $event)"
+    @dblclick="model.onGoToDetail(row)"
     @focus="model.focusedRowIndex = index"
     @keyup.enter="model.onRowDblClick(row, $event)"
   >
@@ -93,7 +93,7 @@ watch(
         </dsp-truncated-text>
       </td>
       <td
-        v-if="model.rowActions.length > 0"
+        v-if="model.hasActionColumn"
         class="column--is-pinned-right"
         @click.stop
       >
