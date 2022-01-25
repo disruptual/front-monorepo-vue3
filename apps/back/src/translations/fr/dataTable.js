@@ -66,7 +66,7 @@ export default {
       numbArticles: "Nb d'articles",
       plateformRate: 'plateformRate',
       photo: 'Photo',
-      price: 'prix',
+      price: 'Prix',
       role: 'Rôle',
       seller: 'Vendeur',
       service: 'Service',
@@ -75,7 +75,7 @@ export default {
       state: 'Etat',
       storeCode: 'Code store',
       storeOrganizer: 'Magasin organisateur',
-      title: 'title',
+      title: 'Titre',
       unblocked: 'Débloquer',
       visibility: 'Visibilité'
     },
