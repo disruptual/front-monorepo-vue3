@@ -7,10 +7,11 @@ import { ref, computed } from 'vue';
 import { oneOf } from '@dsp/core';
 
 const props = defineProps({
-  buttonPosition: oneOf(['right', 'left'], 'right')
+  buttonPosition: oneOf(['right', 'left'], 'right'),
+  modelValue: { type: String, default: '' }
 });
 defineEmits(['input', 'change']);
-const value = ref('');
+const value = ref(props.modelValue);
 
 const direction = computed(() =>
   props.buttonPosition === 'right' ? 'row' : 'row-reverse'
