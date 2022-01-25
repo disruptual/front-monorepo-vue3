@@ -22,15 +22,8 @@ const query = useVoucherApi().findAllQuery({
   requestOptions: { params: { display: 'all' } }
 });
 
-const { mutateAsync: updateVoucher } = useVoucherApi().updateMutation();
-
 const onFilterChange = newFilters => {
   filters.value = { ...newFilters };
-};
-
-const updateVisiblity = async voucher => {
-  await updateVoucher({ id: voucher.id, dto: { enabled: !voucher.enabled } });
-  query.refetch.value();
 };
 </script>
 
@@ -106,26 +99,20 @@ const updateVisiblity = async voucher => {
       width="100"
       is-filterable
     >
-      <dsp-checkbox
-        label=""
-        :model-value="row.generated"
-        readonly
-        @click.prevent
-      />
-    </DataTableColumn>
-    <DataTableColumn
-      v-slot="{ row }"
-      name="generated"
-      :label="t('dataTable.label.visibility')"
-      width="200"
-    >
-      <dsp-center>
+      <dsp-center class="dsp-center">
         <dsp-checkbox
-          :label="t('dataTable.label.visibility')"
+          label=""
           :model-value="row.generated"
-          @change="updateVisiblity(row)"
+          readonly
+          @click.prevent
         />
       </dsp-center>
     </DataTableColumn>
   </DataTable>
 </template>
+
+<style scoped>
+.dsp-center {
+  width: 100%;
+}
+</style>
