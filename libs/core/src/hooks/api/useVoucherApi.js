@@ -4,6 +4,7 @@ import { useHttp } from '@dsp/core/hooks/useHttp';
 import { useCollectionQuery } from '@dsp/core/hooks/useCollectionQuery';
 import { serializeQueryString } from '@dsp/core/utils/helpers';
 import { useMutation } from 'vue-query';
+import { useCRUDApi } from '../useCRUDApi';
 
 export function useVoucherApi() {
   const http = useHttp();
@@ -14,39 +15,42 @@ export function useVoucherApi() {
     'sort[createdDate]': 'desc'
   };
 
-  return {
-    findAllQuery(
-      { relations = [], itemsPerPage = 30, filters = {} } = {},
-      ...options
-    ) {
-      const mergedFilters = computed(() => ({
-        ...defaultFilters,
-        ...unref(filters)
-      }));
-
-      const queryKey = computed(
-        () => `/vouchers?${serializeQueryString(mergedFilters.value)}`
-      );
-
-      const queryOptions = computed(() => ({
-        model: Voucher,
-        itemsPerPage,
-        relations,
+  return useCRUDApi(
+    { model: Voucher, service: VoucherService },
+    voucherService => ({
+      findAllQuery(
+        { relations = [], itemsPerPage = 30, filters = {} } = {},
         ...options
-      }));
+      ) {
+        const mergedFilters = computed(() => ({
+          ...defaultFilters,
+          ...unref(filters)
+        }));
 
-      const queryFn = ({ pageParam = { page: 1, itemsPerPage } }) => {
-        return voucherService.findAll({
-          params: { ...pageParam, ...unref(mergedFilters) }
+        const queryKey = computed(
+          () => `/vouchers?${serializeQueryString(mergedFilters.value)}`
+        );
+
+        const queryOptions = computed(() => ({
+          model: Voucher,
+          itemsPerPage,
+          relations,
+          ...options
+        }));
+
+        const queryFn = ({ pageParam = { page: 1, itemsPerPage } }) => {
+          return voucherService.findAll({
+            params: { ...pageParam, ...unref(mergedFilters) }
+          });
+        };
+
+        return useCollectionQuery(queryKey, queryFn, queryOptions);
+      },
+      updateMutation() {
+        return useMutation('updateStore', ({ id, dto }) => {
+          voucherService.update(id, dto);
         });
-      };
-
-      return useCollectionQuery(queryKey, queryFn, queryOptions);
-    },
-    updateMutation() {
-      return useMutation('updateStore', ({ id, dto }) => {
-        voucherService.update(id, dto);
-      });
-    }
-  };
+      }
+    })
+  );
 }

@@ -7,29 +7,34 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
 import { useVoucherApi } from '@dsp/core';
+import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
-import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 
 useBreadCrumbs("Bon d'achats");
-const { push } = useRouter();
 
+const { push } = useRouter();
+const { t } = useI18n();
 const filters = ref({});
-const query = useVoucherApi().findAllQuery({ filters });
+const query = useVoucherApi().findAllQuery({
+  filters,
+  requestOptions: { params: { display: 'all' } }
+});
+
 const { mutateAsync: updateVoucher } = useVoucherApi().updateMutation();
+
+const onFilterChange = newFilters => {
+  filters.value = { ...newFilters };
+};
 
 const updateVisiblity = async voucher => {
   await updateVoucher({ id: voucher.id, dto: { enabled: !voucher.enabled } });
   query.refetch.value();
 };
 
-console.log('Query voucher ==> ', query);
-
-const onFilterChange = newFilters => {
-  filters.value = { ...newFilters };
-};
+console.log(query.data);
 
 const onSoftDelete = vouchers => {
   console.log(vouchers);
@@ -38,10 +43,6 @@ const onSoftDelete = vouchers => {
 const goToDetail = row => {
   push({ name: 'AdminUserDetails', params: { slug: row.slug } });
 };
-
-const { t } = useI18n();
-const { replace } = useRouter();
-const route = useRoute();
 </script>
 
 <template>
@@ -69,16 +70,35 @@ const route = useRoute();
       name="createdAt"
       :label="t('dataTable.label.created')"
       width="200"
-      :tooltip-label="({ row }) => row.formatCreated()"
+      :tooltip-label="({ row }) => row.formatCreatedAt()"
     >
-      {{ row.formatCreated() }}
+      {{ row.formatCreatedAt() }}
     </DataTableColumn>
     <DataTableColumn
-      name="email"
+      v-slot="{ row }"
+      name="createdAt"
+      :label="t('dataTable.label.dateValidated')"
+      width="200"
+      :tooltip-label="({ row }) => row.formatValidatedAt()"
+    >
+      {{ row.formatValidatedAt() }}
+    </DataTableColumn>
+    <DataTableColumn
+      v-slot="{ row }"
+      name="user.email"
       :label="t('dataTable.label.email')"
       width="100"
       is-filterable
-    />
+    >
+      <dsp-truncated-text>
+        <router-link
+          v-if="row.user"
+          :to="{ name: 'AdminUserDetails', params: { slug: row.user?.slug } }"
+        >
+          {{ row.user?.email }}
+        </router-link>
+      </dsp-truncated-text>
+    </DataTableColumn>
     <DataTableColumn
       name="amount"
       :label="t('dataTable.label.amount')"
@@ -91,6 +111,20 @@ const route = useRoute();
       width="100"
       is-filterable
     />
+    <DataTableColumn
+      v-slot="{ row }"
+      name="generated"
+      :label="t('dataTable.label.generated')"
+      width="100"
+      is-filterable
+    >
+      <dsp-checkbox
+        label=""
+        :model-value="row.generated"
+        readonly
+        @click.prevent
+      />
+    </DataTableColumn>
     <DataTableColumn
       v-slot="{ row }"
       name="generated"
