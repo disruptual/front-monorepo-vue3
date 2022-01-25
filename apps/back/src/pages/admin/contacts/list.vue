@@ -3,37 +3,17 @@ export default { name: 'AdminContactListPage' };
 </script>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRouter, useRoute } from 'vue-router';
 import { useContactApi } from '@dsp/core';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 
-import DataTable from '@/components/data-table/index.vue';
-import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
-
 const { t } = useI18n();
-const { push } = useRouter();
-const route = useRoute();
 
 useBreadCrumbs('Contacts');
 
 const filters = ref({});
 const query = useContactApi().findAllQuery({ filters });
-
-console.log('query CONTACT ==> ', query);
-
-const onFilterChange = newFilters => {
-  filters.value = { ...newFilters };
-};
-
-const onSoftDelete = orders => {
-  console.log(orders);
-};
-
-const goToDetail = row => {
-  push({ name: 'AdminContactDetails', params: { id: row.id } });
-};
 </script>
 
 <template>
@@ -43,7 +23,9 @@ const goToDetail = row => {
     :min-row-size="40"
     :has-action-bar="true"
     :has-selector-column="true"
-    @row-dbl-click="goToDetail"
+    :row-detail-target="
+      row => ({ name: 'AdminContactDetails', params: { id: row.id } })
+    "
   >
     <template #no-result>
       <dsp-center>Il n'y a aucune demande de contact</dsp-center>

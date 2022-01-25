@@ -3,7 +3,6 @@ export default { name: 'UserOrders' };
 </script>
 
 <script setup>
-import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useOrderApi } from '@dsp/core';
 
@@ -17,11 +16,6 @@ const { t } = useI18n();
 const query = useOrderApi().findAllByUserIdQuery(props.userId, {
   relations: ['buyer', 'seller', 'orderItems']
 });
-
-const { push } = useRouter();
-const goToDetail = row => {
-  push({ name: 'AdminOrderDetails', params: { id: row.id } });
-};
 </script>
 
 <template>
@@ -31,7 +25,9 @@ const goToDetail = row => {
     :min-row-size="40"
     :has-action-bar="false"
     :has-selector-column="false"
-    @row-dbl-click="goToDetail"
+    :row-detail-target="
+      row => ({ name: 'AdminOrderDetails', params: { id: row.id } })
+    "
   >
     <template #no-result>
       <dsp-center>Cet utilisateur n'a réalisé aucune commande.</dsp-center>

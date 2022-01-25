@@ -3,19 +3,12 @@ export default { name: 'AdminEmailListPage' };
 </script>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRouter, useRoute } from 'vue-router';
 import { useEmailApi } from '@dsp/core';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 
-import DataTable from '@/components/data-table/index.vue';
-import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
-import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
-
 const { t } = useI18n();
-const { push } = useRouter();
-const route = useRoute();
 
 useBreadCrumbs('Emails');
 
@@ -27,17 +20,8 @@ const query = useEmailApi().findAllQuery({
   }
 });
 
-console.log('query EMAIL ==> ', query);
-
 const onFilterChange = newFilters => {
   filters.value = { ...newFilters };
-};
-
-const onSoftDelete = orders => {
-  console.log(orders);
-};
-const goToDetail = row => {
-  push({ name: 'AdminEmailDetails', params: { id: row.id } });
 };
 </script>
 
@@ -48,7 +32,9 @@ const goToDetail = row => {
     :min-row-size="40"
     :has-action-bar="true"
     :has-selector-column="true"
-    @row-dbl-click="goToDetail"
+    :row-detail-target="
+      row => ({ name: 'AdminEmailDetails', params: { id: row.id } })
+    "
     @filter-change="onFilterChange"
   >
     <template #no-result>
@@ -72,12 +58,6 @@ const goToDetail = row => {
       :label="t('dataTable.label.name')"
       width="200"
       is-filterable
-    />
-    <DataTableRowAction
-      name="block"
-      :label="t('dataTable.label.delete')"
-      icon="userDelete"
-      @action="onSoftDelete"
     />
   </DataTable>
 </template>

@@ -8,13 +8,9 @@ import { useI18n } from 'vue-i18n';
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 
-const props = defineProps({
+defineProps({
   query: { type: Object, required: true }
 });
-
-const goToDetail = () => {
-  console.log('go to detail');
-};
 
 const { t } = useI18n();
 </script>
@@ -26,7 +22,9 @@ const { t } = useI18n();
     :min-row-size="50"
     :has-action-bar="false"
     :has-selector-column="false"
-    @row-dbl-click="goToDetail"
+    :row-detail-target="
+      row => ({ name: 'AdminItemDetails', params: { id: row.item.id } })
+    "
   >
     <template #no-result>
       <dsp-center>Il n'y a pas d'article</dsp-center>

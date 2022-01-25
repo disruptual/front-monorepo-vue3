@@ -20,10 +20,6 @@ const { push } = useRouter();
 const query = useOrderItemApi().findAllByOrderIdQuery(props.orderId, {
   relations: ['item', 'item.mainMedia', 'item.category']
 });
-
-const goToDetail = row => {
-  push({ name: 'AdminItemDetails', params: { id: row.item.id } });
-};
 </script>
 
 <template>
@@ -33,7 +29,9 @@ const goToDetail = row => {
     :min-row-size="50"
     :has-action-bar="false"
     :has-selector-column="false"
-    @row-dbl-click="goToDetail"
+    :row-detail-target="
+      row => ({ name: 'AdminItemDetails', params: { id: row.item.id } })
+    "
   >
     <template #no-result>
       <dsp-center>{{ t('orderItems.noResult') }}</dsp-center>

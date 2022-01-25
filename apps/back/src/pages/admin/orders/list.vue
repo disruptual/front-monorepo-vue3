@@ -4,10 +4,9 @@ export default { name: 'AdminOrdersListPage' };
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useOrderApi, useDeliveryApi } from '@dsp/core';
-import { ORDER_STATE_TRANSITIONS, DELIVERY_MODES } from '@dsp/business';
+import { ORDER_STATE_TRANSITIONS } from '@dsp/business';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { DATATABLE_COLUMN_TYPES } from '@/utils/constants';
 
@@ -15,7 +14,6 @@ import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 
 useBreadCrumbs('Commandes');
-const { push } = useRouter();
 const { t } = useI18n();
 
 const filters = ref({});
@@ -32,10 +30,6 @@ const query = useOrderApi().findAllQuery({
   relations: ['seller', 'buyer', 'orderItems', 'delivery']
 });
 const { data: deliveries } = useDeliveryApi().findAllQuery();
-
-const goToDetail = row => {
-  push({ name: 'AdminOrderDetails', params: { id: row.id } });
-};
 
 const statuses = Object.values(ORDER_STATE_TRANSITIONS).map(state => ({
   value: state,
@@ -63,7 +57,9 @@ const getStatusClass = order => ({
     :query="query"
     :min-row-size="40"
     :has-selector-column="false"
-    @row-dbl-click="goToDetail"
+    :row-detail-target="
+      row => ({ name: 'AdminOrderDetails', params: { id: row.id } })
+    "
     @filter-change="onFilterChange"
   >
     <DataTableColumn

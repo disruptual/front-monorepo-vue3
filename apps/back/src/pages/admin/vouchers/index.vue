@@ -3,15 +3,14 @@ export default { name: 'AdminVoucher' };
 </script>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { useRouter, useRoute } from 'vue-router';
 import { useVoucherApi } from '@dsp/core';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
-import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
 
 useBreadCrumbs("Bon d'achats");
 
@@ -52,7 +51,6 @@ const goToDetail = row => {
     :min-row-size="40"
     :has-action-bar="true"
     :has-selector-column="true"
-    @row-dbl-click="goToDetail"
     @filter-change="onFilterChange"
   >
     <template #no-result>
@@ -139,11 +137,5 @@ const goToDetail = row => {
         />
       </dsp-center>
     </DataTableColumn>
-    <DataTableRowAction
-      name="block"
-      :label="t('dataTable.label.edit')"
-      icon="userDelete"
-      @action="onSoftDelete"
-    />
   </DataTable>
 </template>

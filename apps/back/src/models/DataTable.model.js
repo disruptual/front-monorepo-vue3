@@ -12,7 +12,7 @@ export class DataTable {
     query,
     minRowSize,
     hasSelectorColumn,
-    onRowDblClick,
+    onGoToDetail,
     onFilterChange,
     tableElement = null
   }) {
@@ -29,8 +29,7 @@ export class DataTable {
     this.minRowSize = minRowSize;
     this.focusedRowIndex = null;
     this.hasSelectorColumn = hasSelectorColumn;
-
-    this.onRowDblClick = onRowDblClick;
+    this.onGoToDetail = onGoToDetail;
     this.onFilterChange = onFilterChange;
 
     this.tableElement = tableElement;
@@ -113,7 +112,7 @@ export class DataTable {
   }
 
   get actionColumnWidth() {
-    return this.rowActions.length > 0 ? ACTIONS_COLUMN_WIDTH : 0;
+    return this.hasActionColumn ? ACTIONS_COLUMN_WIDTH : 0;
   }
 
   get totalWidth() {
@@ -126,6 +125,10 @@ export class DataTable {
 
   get currentRowCount() {
     return this.query.data?.length;
+  }
+
+  get hasActionColumn() {
+    return this.rowActions.length > 0 || !!this.onGoToDetail;
   }
 
   _onColumnUpdate() {
