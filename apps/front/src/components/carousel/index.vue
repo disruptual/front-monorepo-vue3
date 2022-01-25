@@ -61,7 +61,7 @@ const getSlideStyle = slide => {
     <transition
       v-for="(slide, index) in displayedSlides"
       :key="slide.id"
-      :duration="500"
+      :duration="600"
       name="carousel-slide"
     >
       <div
@@ -131,7 +131,7 @@ const getSlideStyle = slide => {
   grid-template-rows: repeat(var(--grid-size), minmax(0, 1fr));
   &.carousel-slide-enter-active,
   &.carousel-slide-leave-active {
-    transition: transform 500ms;
+    transition: transform var(--transition-md);
   }
 
   &.carousel-slide-enter-from {

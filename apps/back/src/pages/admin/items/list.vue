@@ -75,6 +75,7 @@ const publicationStates = Object.values(ITEM_PUBLICATION_STATES).map(state => ({
       name="category"
       :label="t('dataTable.label.category')"
       is-highlightable
+      :highlight-options="{ predicate: row => row.category?.name }"
     >
       {{ row.category?.name }}
     </DataTableColumn>
