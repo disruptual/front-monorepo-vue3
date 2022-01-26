@@ -112,9 +112,20 @@ export default [
   },
   {
     path: '/admin/magasins',
-    name: 'AdminStore',
+    name: 'AdminLocation',
     props: true,
-    component: () => import('@/pages/admin/stores/index.vue'),
+    component: () => import('@/pages/admin/locations/list.vue'),
+    meta: {
+      permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.admin.stores.isEnabled,
+      layout: layouts.default
+    }
+  },
+  {
+    path: '/admin/magasin/:id',
+    name: 'AdminLocationDetails',
+    props: true,
+    component: () => import('@/pages/admin/locations/detail.vue'),
     meta: {
       permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       isEnabled: config => config.features.admin.stores.isEnabled,
