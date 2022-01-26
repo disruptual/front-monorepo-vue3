@@ -8,6 +8,9 @@ import { useI18n } from 'vue-i18n';
 import { useEmailApi } from '@dsp/core';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 
+import DataTable from '@/components/data-table/index.vue';
+import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
+
 const { t } = useI18n();
 
 useBreadCrumbs('Emails');
