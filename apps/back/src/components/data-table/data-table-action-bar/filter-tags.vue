@@ -12,7 +12,16 @@ const { model } = inject(CONTEXT_KEYS.DATATABLE);
 
 const activeFilters = computed(() =>
   Object.entries(model.filters)
-    .filter(([, value]) => value && value !== '')
+    .filter(([key, value]) => {
+      if (!value) return false;
+      if (value === '') return false;
+      const column = model.columns.find(col =>
+        [col.filterName, col.name].includes(key)
+      );
+      if (!column) return false;
+
+      return true;
+    })
     .map(([key, value]) => ({
       name: key,
       label: model.columns.find(col => [col.filterName, col.name].includes(key))

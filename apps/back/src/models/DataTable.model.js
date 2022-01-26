@@ -12,6 +12,7 @@ export class DataTable {
     query,
     minRowSize,
     hasSelectorColumn,
+    hasSearchbar,
     onGoToDetail,
     onFilterChange,
     tableElement = null
@@ -29,6 +30,7 @@ export class DataTable {
     this.minRowSize = minRowSize;
     this.focusedRowIndex = null;
     this.hasSelectorColumn = hasSelectorColumn;
+    this.hasSearchbar = hasSearchbar;
     this.onGoToDetail = onGoToDetail;
     this.onFilterChange = onFilterChange;
 

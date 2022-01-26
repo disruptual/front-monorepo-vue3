@@ -15,18 +15,17 @@ import DataTableColumn from '@/components/data-table/data-table-column/index.vue
 
 useBreadCrumbs('Annonces');
 
-const filters = ref({});
-const onFilterChange = newFilters => {
-  filters.value = newFilters;
-};
+const defaultFilter = { display: 'all', 'sort[updated]': 'desc' };
+const filters = ref({ ...defaultFilter });
 
 const query = useItemApi().findAllQuery({
-  filters,
   relations: ['user', 'mainMedia', 'category  '],
-  requestOptions: {
-    params: { display: 'all' }
-  }
+  filters
 });
+
+const onFilterChange = newFilters => {
+  filters.value = { ...newFilters, ...defaultFilter };
+};
 
 const { t } = useI18n();
 

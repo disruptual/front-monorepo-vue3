@@ -5,6 +5,7 @@ export default { name: 'DataTableActionBar' };
 <script setup>
 import { inject, ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { debounce } from 'lodash-es';
 import { CONTEXT_KEYS } from '@/utils/constants';
 import { useDevice, vTooltip } from '@dsp/ui';
 
@@ -43,98 +44,124 @@ const triggerAction = action => {
     )
   );
 };
+
+const search = computed({
+  get() {
+    return model.filters.query;
+  },
+  set: debounce(val => {
+    if (val) {
+      model.filters = { ...model.filters, query: val };
+    } else {
+      const { query, ...filters } = model.filters;
+      model.filters = filters;
+    }
+  }, 1000)
+});
 </script>
 
 <template>
-  <dsp-flex
-    class="data-table-action-bar"
-    align="center"
-    direction="row-reverse"
-    justify="space-between"
-  >
-    <dsp-flex gap="xs">
-      <dsp-plain-button
-        v-for="action in model.rowActions"
-        :key="action.label"
-        v-tooltip="action.label"
-        :disabled="isActionDisabled(action)"
-        @click="triggerAction(action)"
-      >
-        <span v-tooltip="action.label">
-          <dsp-icon :icon="action.icon" />
-        </span>
-      </dsp-plain-button>
-
-      <DataTableFilterDrawer v-if="model.filterableColumns.length > 0" />
-
-      <slot name="custom-actions" />
-
-      <dsp-dropdown v-model:isOpened="isColumnsDropdownOpened" with-toggle-icon>
-        <template #toggle>
-          <span v-tooltip="'Colonnes'">
-            <dsp-icon icon="columns" />
+  <div class="data-table-action-bar">
+    <dsp-flex
+      align="center"
+      direction="row-reverse"
+      justify="space-between"
+      class="actions"
+    >
+      <dsp-flex gap="xs">
+        <dsp-plain-button
+          v-for="action in model.rowActions"
+          :key="action.label"
+          v-tooltip="action.label"
+          :disabled="isActionDisabled(action)"
+          @click="triggerAction(action)"
+        >
+          <span v-tooltip="action.label">
+            <dsp-icon :icon="action.icon" />
           </span>
-        </template>
-        <template #menu>
-          <dsp-dropdown-item
-            v-for="column in model.columns"
-            :key="column.name"
-            :auto-close="false"
-          >
-            <dsp-checkbox
-              :label="column.label"
-              :model-value="!column.isHidden"
-              @update:modelValue="column.toggleVisible()"
-            />
-          </dsp-dropdown-item>
-        </template>
-      </dsp-dropdown>
+        </dsp-plain-button>
 
-      <dsp-dropdown
-        v-model:isOpened="isHighlightDropdownOpened"
-        with-toggle-icon
-      >
-        <template #toggle>
-          <span v-tooltip="'Surlignages'">
-            <dsp-icon icon="highlight" />
-          </span>
-        </template>
-        <template #menu>
-          <dsp-dropdown-item
-            v-for="(highlight, index) in model.highlights"
-            :key="index"
-            :auto-close="false"
-          >
-            <dsp-flex align="center">
+        <DataTableFilterDrawer v-if="model.filterableColumns.length > 0" />
+
+        <slot name="custom-actions" />
+
+        <dsp-dropdown
+          v-model:isOpened="isColumnsDropdownOpened"
+          with-toggle-icon
+        >
+          <template #toggle>
+            <span v-tooltip="'Colonnes'">
+              <dsp-icon icon="columns" />
+            </span>
+          </template>
+          <template #menu>
+            <dsp-dropdown-item
+              v-for="column in model.columns"
+              :key="column.name"
+              :auto-close="false"
+            >
               <dsp-checkbox
-                v-model="highlight.isActive"
-                :label="highlight.name"
+                :label="column.label"
+                :model-value="!column.isHidden"
+                @update:modelValue="column.toggleVisible()"
               />
-              <dsp-icon-button
-                icon="remove"
-                is-plain
-                @click="model.removeHighlight(highlight)"
-              />
-              <dsp-icon-button
-                icon="edit"
-                is-plain
-                @click="editHighlight(highlight)"
-              />
-            </dsp-flex>
-          </dsp-dropdown-item>
-          <dsp-dropdown-item @click="addHighlight">
-            <dsp-flex align="center" gap="sm">
-              <dsp-icon icon="plus" />
-              Ajouter
-            </dsp-flex>
-          </dsp-dropdown-item>
-        </template>
-      </dsp-dropdown>
+            </dsp-dropdown-item>
+          </template>
+        </dsp-dropdown>
+
+        <dsp-dropdown
+          v-model:isOpened="isHighlightDropdownOpened"
+          with-toggle-icon
+        >
+          <template #toggle>
+            <span v-tooltip="'Surlignages'">
+              <dsp-icon icon="highlight" />
+            </span>
+          </template>
+          <template #menu>
+            <dsp-dropdown-item
+              v-for="(highlight, index) in model.highlights"
+              :key="index"
+              :auto-close="false"
+            >
+              <dsp-flex align="center">
+                <dsp-checkbox
+                  v-model="highlight.isActive"
+                  :label="highlight.name"
+                />
+                <dsp-icon-button
+                  icon="remove"
+                  is-plain
+                  @click="model.removeHighlight(highlight)"
+                />
+                <dsp-icon-button
+                  icon="edit"
+                  is-plain
+                  @click="editHighlight(highlight)"
+                />
+              </dsp-flex>
+            </dsp-dropdown-item>
+            <dsp-dropdown-item @click="addHighlight">
+              <dsp-flex align="center" gap="sm">
+                <dsp-icon icon="plus" />
+                Ajouter
+              </dsp-flex>
+            </dsp-dropdown-item>
+          </template>
+        </dsp-dropdown>
+      </dsp-flex>
+      <div v-if="model.hasSelectorColumn && !device.isMobile">
+        {{ t('dataTable.actionBar.selectedCount', { count: selectedCount }) }}
+      </div>
     </dsp-flex>
-    <div v-if="model.hasSelectorColumn && !device.isMobile">
-      {{ t('dataTable.actionBar.selectedCount', { count: selectedCount }) }}
-    </div>
-  </dsp-flex>
+    <dsp-input-search
+      v-if="model.hasSearchbar"
+      v-model="search"
+      button-position="right"
+      class="search-bar"
+      placeholder="Rechercher"
+    />
+  </div>
 
   <DataTableFilterTags />
 
@@ -146,12 +173,25 @@ const triggerAction = action => {
 
 <style lang="scss" scoped>
 .data-table-action-bar {
-  padding: var(--spacing-xs) var(--spacing-sm);
+  --action-bar-padding: var(--spacing-xs) var(--spacing-sm);
   background-color: var(--color-surface);
+
+  @include not-mobile {
+    padding: var(--action-bar-padding);
+  }
 }
 
-.active-filters {
-  padding: var(--spacing-xs);
-  background-color: var(--color-surface);
+.actions {
+  @include mobile-only {
+    padding: var(--action-bar-padding);
+  }
+}
+
+.search-bar {
+  @include not-mobile {
+    max-width: fit-content;
+    margin-left: auto;
+    border-radius: var(--border-radius-pill);
+  }
 }
 </style>
