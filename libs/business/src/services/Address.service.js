@@ -1,8 +1,8 @@
 import { BaseCRUDService } from './BaseCRUD.service';
 
-export class StoreService extends BaseCRUDService {
+export class AddressService extends BaseCRUDService {
   constructor(...args) {
     super(...args);
-    this.endpoint = '/locations';
+    this.endpoint = '/addresses';
   }
 }
