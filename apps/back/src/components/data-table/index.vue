@@ -18,9 +18,11 @@ const props = defineProps({
   minRowSize: { type: Number, default: 40 },
   hasActionBar: { type: Boolean, default: true },
   hasSelectorColumn: { type: Boolean, default: true },
+  hasSearchbar: { type: Boolean, default: false },
   rowDetailTarget: { type: Function, default: null },
   id: { type: String, required: true }
 });
+console.log(props.hasSearchbar);
 const emit = defineEmits(['rowDblClick', 'filterChange']);
 
 const isLoading = computed(() => props.query.isLoadingFirstPage.value);
@@ -37,6 +39,7 @@ const model = reactive(
     query: props.query,
     minRowSize: props.minRowSize,
     hasSelectorColumn: props.hasSelectorColumn,
+    hasSearchbar: props.hasSearchbar,
     onGoToDetail: props.rowDetailTarget && navigate,
     onFilterChange(filters) {
       emit('filterChange', filters);

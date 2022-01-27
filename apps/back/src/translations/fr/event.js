@@ -27,14 +27,14 @@ export default {
       address: {
         fullName: "Nom de l'adresse",
         route: 'Rue',
-        postalCode: 'Code poestal',
+        postalCode: 'Code postal',
         city: 'Ville',
         country: 'Pays',
-        clock: 'Horaires'
+        clock: 'Horaire du magasin'
       },
       location: 'adresse',
-      numArticles: "Nombres d'articles",
-      numUserMarked: "Nombres d'utilisateur marqué",
+      numArticles: "Nombre d'articles",
+      numUserMarked: "Nombre d'utilisateurs marqués",
       startAt: 'du',
       endAt: 'au',
       digitalSubmissionStartAt: 'du',
@@ -51,8 +51,8 @@ export default {
       complete: 'Terminé',
       tabs: {
         [EVENT_DETAILS_TABS.INFOS]: 'Informations',
-        [EVENT_DETAILS_TABS.ITEMS_DIGITAL]: 'Articles digital',
-        [EVENT_DETAILS_TABS.ITEMS_PHYSICAL]: 'Articles physique'
+        [EVENT_DETAILS_TABS.ITEMS_DIGITAL]: 'Articles dépôt digital',
+        [EVENT_DETAILS_TABS.ITEMS_PHYSICAL]: 'Articles dépôt physique'
       },
       title: {
         schedule: 'Horaires du magasin',

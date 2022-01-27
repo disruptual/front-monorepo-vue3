@@ -1,4 +1,4 @@
-import { computed, reactive } from 'vue';
+import { computed, unref } from 'vue';
 import { Item, ItemService } from '@dsp/business';
 
 import { useCollectionQuery } from '@dsp/core/hooks/useCollectionQuery';
@@ -9,13 +9,9 @@ import { useCRUDApi } from '../useCRUDApi';
 
 export function useItemApi() {
   return useCRUDApi({ model: Item, service: ItemService }, itemService => ({
-    searchQuery({ relations = [], itemsPerPage = 30 } = {}) {
-      const filters = reactive({
-        'sort[created]': SORT_ORDERS.DESC
-      });
-
+    searchQuery({ relations = [], itemsPerPage = 30, filters } = {}) {
       const queryKey = computed(
-        () => `/items/search?${serializeQueryString(filters)}`
+        () => `/items/search?${serializeQueryString(unref(filters))}`
       );
 
       const options = {
@@ -25,7 +21,9 @@ export function useItemApi() {
       };
 
       const queryFn = ({ pageParam = { page: 1, itemsPerPage } }) => {
-        return itemService.search({ params: { ...pageParam, ...filters } });
+        return itemService.search({
+          params: { ...pageParam, ...unref(filters) }
+        });
       };
 
       return useCollectionQuery(queryKey, queryFn, options);

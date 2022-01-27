@@ -23,7 +23,7 @@ export default {
         informations: 'Informations générales',
         buyer: { male: 'Acheteur', female: 'Acheteuse' },
         seller: { male: 'Vendeur', female: 'Vendeuse' },
-        remuneration: 'Rémuneration'
+        remuneration: 'Rémunération'
       },
       label: {
         status: 'Status',
@@ -37,10 +37,10 @@ export default {
           downloadEtiquette: "Télécharger l'étiquette de suivi MondialRelay"
         },
         relaisColis: {
-          trackingNumber: 'Numero de Suivi Relais Colis',
+          trackingNumber: 'Numéro de Suivi Relais Colis',
           downloadEtiquette: "Télécharger l'étiquette de suivi Relais Colis"
         },
-        modeRemuneration: 'Mode de rémuneration',
+        modeRemuneration: 'Mode de rémunération',
         serviceFees: 'Frais de service',
         shippingFees: 'Frais de livraison',
         reimbursementAmount: 'Montant remboursé',
@@ -65,11 +65,11 @@ export default {
       [ORDER_STATE_TRANSITIONS.BUYER_IN_STORE_ACCEPT]:
         "Récupérée en magasin par l'acheteur",
       [ORDER_STATE_TRANSITIONS.BUYER_IN_STORE_REFUSE]:
-        "Refusé en magasin par l'acheteur",
+        "Refusée en magasin par l'acheteur",
       [ORDER_STATE_TRANSITIONS.CANCEL]: 'Annulée par le vendeur',
       [ORDER_STATE_TRANSITIONS.CANCEL_AUTOMATIC]: 'Annulée automatiquement',
       [ORDER_STATE_TRANSITIONS.CANCEL_AUTOMATIC_BY_DISTRIBUTED]:
-        'Annuléeautomatiquement',
+        'Annulée automatiquement',
       [ORDER_STATE_TRANSITIONS.CANCEL_AUTOMATIC_BY_ORDER_ACCEPTED]:
         'Annulée automatiquement',
       [ORDER_STATE_TRANSITIONS.DELIVERY]: "Récupérée par l'acheteur",
@@ -115,7 +115,7 @@ export default {
         'Litige résolu',
       [ORDER_PROBLEM_STATE_TRANSITIONS.PROBLEM_IS_SOLVED_AUTOMATICALLY]:
         'Litige résolu',
-      [ORDER_DELIVERY_STATES.START]: 'A envoyer',
+      [ORDER_DELIVERY_STATES.START]: 'À envoyer',
       [ORDER_DELIVERY_STATE_TRANSITIONS.PACKAGE_NOT_DEPOSITED_BY_SELLER]:
         'Colis non déposé par le vendeur',
       [ORDER_DELIVERY_STATE_TRANSITIONS.EXPEDITION_CREATED_BY_SELLER]:

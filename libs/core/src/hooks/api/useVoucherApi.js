@@ -7,8 +7,6 @@ import { useMutation } from 'vue-query';
 import { useCRUDApi } from '../useCRUDApi';
 
 export function useVoucherApi() {
-  const http = useHttp();
-  const voucherService = new VoucherService({ http });
   const defaultFilters = {
     'createdAt[after]': undefined,
     'createdAt[before]': undefined,

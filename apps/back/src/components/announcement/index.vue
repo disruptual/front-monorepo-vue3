@@ -45,7 +45,7 @@ const isActive = announcement => {
   >
     <template #no-result>
       <dsp-center gap="sm">
-        <span>Ce site ne possède pas de message d'annonce.</span>
+        <span>Ce site ne possède pas d'annonces.</span>
         <dsp-button
           is-rounded
           is-outlined

@@ -167,7 +167,7 @@ export const MENU = [
     links: [
       {
         target: { name: 'SettingsAnnouncement' },
-        label: "Message d'annonce",
+        label: "Annonces",
         isEnabled: config => config.features.settings.announcements.isEnabled
       },
       {
