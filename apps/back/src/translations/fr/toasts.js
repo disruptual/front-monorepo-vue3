@@ -7,8 +7,8 @@ export default {
 
     announcement: {
       removeError:
-        "Un ou plusieurs messages d'annonces n'ont pas pu être supprimés",
-      createError: "Le message d'annonce n'a pas pu être créé.",
+        "Une ou plusieurs annonces n'ont pas pu être supprimées",
+      createError: "L'annonce n'a pas pu être créée.",
       removeSuccess: 'Suppression réussie.'
     },
 
@@ -27,6 +27,8 @@ export default {
         "L'utilisateur n'a pas pu être bloqué. | Un ou plusieurs utilisateurs n'ont pas pu être bloqués.",
       unblockSuccess: "L'utilisateurs n'est plus bloqué",
       unblockError: "L'utilisateur n'a pas pu être débloqué",
+      updateError: "L'utilisateur n'a pas pu être mis à jour",
+      updateSuccess: "L'utilisateur a été mise à jour",
       muteSuccess:
         "L'utilisateur est désormais en mode silencieux | Les utilisateurs sont désormais en mode silencieux.",
       muteError:
@@ -41,6 +43,10 @@ export default {
     email: {
       updateSuccess: "L'email a été mise à jour",
       updateError: "L'email n'a pas été mise à jour"
+    },
+    location:{
+      updateSuccess: "Le magasin a été mise à jour",
+      updateError: "Le magasin n'a pas été mise à jour"
     }
   }
 };

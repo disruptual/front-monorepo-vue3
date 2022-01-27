@@ -87,12 +87,6 @@ const onFilterChange = newFilters => {
       is-filterable
     />
     <DataTableColumn
-      name="platformRate"
-      :label="t('dataTable.label.plateformRate')"
-      width="100"
-      is-filterable
-    />
-    <DataTableColumn
       v-slot="{ row }"
       name="generated"
       :label="t('dataTable.label.generated')"

@@ -1,6 +1,7 @@
 export { Collection } from './Collection.model';
 export { BaseModel } from './Base.model';
 export { Item } from './Item.model';
+export { Address } from './Address.model';
 export { Color } from './Color.model';
 export { Category } from './Category.model';
 export { User } from './User.model';

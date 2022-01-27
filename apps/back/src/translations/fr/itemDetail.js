@@ -10,7 +10,7 @@ export default {
             delivery:"Modes de livraison :",
             composition:"Matière :",
             content:'Description :',
-            locationDelivery:'Magasins de dépôt :',
+            locationDelivery:'Magasin de dépôt :',
         },
         seller:'Vendeur :',
         statistics:{

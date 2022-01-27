@@ -167,7 +167,6 @@ export class DataTable {
   }
 
   resetPreferences() {
-    console.log('?');
     localStorage.removeItem(this.storageKey);
     window.location.reload();
   }
