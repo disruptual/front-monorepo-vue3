@@ -19,11 +19,11 @@ const { t } = useI18n();
 const filters = ref({});
 
 const handleDisputeFilter = newFilters => {
-  const { problemState, ...othersFilters } = newFilters;
+  const { problemState, ...filters } = newFilters;
 
-  if (!problemState) return { ...othersFilters };
+  if (!problemState) return filters;
 
-  return { ...othersFilters, problemState: ['DISPUTED', 'PROBLEM'] };
+  return { ...filters, problemState: ['DISPUTED', 'PROBLEM'] };
 };
 
 const onFilterChange = ({ created, ...newFilters }) => {
