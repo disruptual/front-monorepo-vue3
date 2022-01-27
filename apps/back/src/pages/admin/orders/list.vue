@@ -6,7 +6,7 @@ export default { name: 'AdminOrdersListPage' };
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useOrderApi, useDeliveryApi } from '@dsp/core';
-import { ORDER_STATE_TRANSITIONS } from '@dsp/business';
+import { ORDER_STATES } from '@dsp/business';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { DATATABLE_COLUMN_TYPES } from '@/utils/constants';
 
@@ -14,10 +14,15 @@ import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 
 useBreadCrumbs('Commandes');
-const { t } = useI18n();
 
+const { t } = useI18n();
 const filters = ref({});
+
 const onFilterChange = ({ created, ...newFilters }) => {
+  if (newFilters.status) {
+    const { status, ...rest } = newFilters;
+    newFilters = { ...rest, orderState: status };
+  }
   filters.value = {
     ...newFilters,
     'created[before]': created?.before,
@@ -29,9 +34,10 @@ const query = useOrderApi().findAllQuery({
   filters,
   relations: ['seller', 'buyer', 'orderItems', 'delivery']
 });
+console.log('query.data => ', query.data);
 const { data: deliveries } = useDeliveryApi().findAllQuery();
 
-const statuses = Object.values(ORDER_STATE_TRANSITIONS).map(state => ({
+const statuses = Object.values(ORDER_STATES).map(state => ({
   value: state,
   label: t(`order.status.${state}`)
 }));
@@ -90,6 +96,7 @@ const getStatusClass = order => ({
       :type="DATATABLE_COLUMN_TYPES.ENUM"
       :enum-values="statuses"
       is-highlightable
+      is-filterable
     >
       <dsp-truncated-text class="order-status" :class="getStatusClass(row)">
         {{ t(`order.status.${row.status}`) }}

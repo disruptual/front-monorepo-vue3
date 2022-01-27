@@ -26,7 +26,7 @@ export function useCRUDApi(
           relations = [],
           itemsPerPage = 30,
           ...options
-        } = findAllOptions;
+        } = unref(findAllOptions);
 
         return {
           model,
@@ -38,7 +38,6 @@ export function useCRUDApi(
 
       const queryFn = computed(() => {
         const { itemsPerPage, requestOptions, filters } = unref(findAllOptions);
-
         return ({ pageParam = { page: 1, itemsPerPage } }) => {
           return serviceInstance.findAll({
             ...defaultQueryOptions,
