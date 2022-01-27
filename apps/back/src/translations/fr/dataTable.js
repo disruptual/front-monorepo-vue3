@@ -55,6 +55,7 @@ export default {
       delete: 'Supprimer',
       depositedArticle: 'Articles déposés',
       detail: 'Détails',
+      dispute: 'Litige',
       edit: 'Editer',
       email: 'Email',
       firstname: 'Prénom',
