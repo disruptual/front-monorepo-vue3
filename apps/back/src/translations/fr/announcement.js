@@ -1,8 +1,8 @@
 export default {
   announcement: {
     form: {
-      create: { title: "Ajouter un message d'annonce" },
-      edit: { title: "Modifiger le message d'annonce" }
+      create: { title: "Ajouter une annonce" },
+      edit: { title: "Modifier l'annonce'" }
     }
   }
 };

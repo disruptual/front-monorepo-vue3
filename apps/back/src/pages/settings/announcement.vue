@@ -63,10 +63,10 @@ const onAdd = () => {
 
 <template>
   <dsp-surface>
-    <h2>Message D'annonce</h2>
+    <h2>Annonces</h2>
     <dsp-alert>
-      Définissez ici des messages d'annonce qui apparaitront en haut de votre
-      application sur une période définie.
+      Définissez ici des annonces qui apparaitront en haut de votre application
+      sur une période définie.
     </dsp-alert>
     <AnnouncementComponent
       :entity="query"

@@ -9,7 +9,7 @@ export default {
       [USER_ROLES.PROJECT_MANAGER]: 'Chef de projet',
       [USER_ROLES.STORE]: 'Magasin',
       [USER_ROLES.DAF]: 'DAF',
-      [USER_ROLES.EVENT_MANAGER]: 'Magasin évènement'
+      [USER_ROLES.EVENT_MANAGER]: 'Magasin événement'
     },
 
     details: {
@@ -30,7 +30,7 @@ export default {
       ibanCount: "Nombre d'ibans",
       itemCount: "Nombre d'articles",
       orderCount: 'Nombre de commandes',
-      roles: 'Roles',
+      roles: 'Rôles',
       seeDetails: 'Voir le détail',
       form: {
         cancel: 'Annuler',

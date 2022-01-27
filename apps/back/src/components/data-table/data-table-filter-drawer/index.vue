@@ -50,7 +50,7 @@ const getInitialValue = column => {
         :initial-value="getInitialValue(column)"
       >
         <dsp-form-control
-          v-slot="{ on, formControlProps }"
+          v-slot="{ on, formControlProps, id }"
           v-model="slotProps.field.value"
           v-bind="slotProps"
           :label="column.label"
@@ -97,6 +97,14 @@ const getInitialValue = column => {
               {{ option.label }}
             </option>
           </select>
+
+          <dsp-checkbox
+            v-else-if="column.type === DATATABLE_COLUMN_TYPES.BOOLEAN"
+            v-bind="formControlProps"
+            :id="id"
+            v-model="slotProps.field.value"
+            v-on="on"
+          />
 
           <dsp-input-text
             v-else

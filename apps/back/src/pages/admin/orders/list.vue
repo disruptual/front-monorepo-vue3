@@ -9,6 +9,7 @@ import { useOrderApi, useDeliveryApi } from '@dsp/core';
 import { ORDER_STATES } from '@dsp/business';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { DATATABLE_COLUMN_TYPES } from '@/utils/constants';
+import { ORDER_PROBLEM_STATES } from '@dsp/business';
 
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
@@ -18,11 +19,20 @@ useBreadCrumbs('Commandes');
 const { t } = useI18n();
 const filters = ref({});
 
+const handleDisputeFilter = newFilters => {
+  const { problemState, ...filters } = newFilters;
+
+  if (!problemState) return filters;
+
+  return {
+    ...filters,
+    problemState: [ORDER_PROBLEM_STATES.DISPUTED, ORDER_PROBLEM_STATES.PROBLEM]
+  };
+};
+
 const onFilterChange = ({ created, ...newFilters }) => {
-  if (newFilters.status) {
-    const { status, ...rest } = newFilters;
-    newFilters = { ...rest, orderState: status };
-  }
+  newFilters = handleDisputeFilter(newFilters);
+
   filters.value = {
     ...newFilters,
     'created[before]': created?.before,
@@ -86,21 +96,6 @@ const getStatusClass = order => ({
       is-filterable
     >
       {{ row.formatCreated() }}
-    </DataTableColumn>
-
-    <DataTableColumn
-      v-slot="{ row }"
-      name="status"
-      :label="t('dataTable.label.status')"
-      width="250"
-      :type="DATATABLE_COLUMN_TYPES.ENUM"
-      :enum-values="statuses"
-      is-highlightable
-      is-filterable
-    >
-      <dsp-truncated-text class="order-status" :class="getStatusClass(row)">
-        {{ t(`order.status.${row.status}`) }}
-      </dsp-truncated-text>
     </DataTableColumn>
 
     <DataTableColumn
@@ -174,6 +169,30 @@ const getStatusClass = order => ({
       width="150"
       :type="DATATABLE_COLUMN_TYPES.NUMBER"
       is-highlightable
+    />
+
+    <DataTableColumn
+      v-slot="{ row }"
+      name="orderState"
+      :label="t('dataTable.label.status')"
+      width="250"
+      :type="DATATABLE_COLUMN_TYPES.ENUM"
+      :enum-values="statuses"
+      is-highlightable
+      is-filterable
+    >
+      <dsp-truncated-text class="order-status" :class="getStatusClass(row)">
+        {{ t(`order.status.${row.status}`) }}
+      </dsp-truncated-text>
+    </DataTableColumn>
+
+    <DataTableColumn
+      name="problemState"
+      :label="t('dataTable.label.dispute')"
+      :type="DATATABLE_COLUMN_TYPES.BOOLEAN"
+      is-hidden
+      is-filterable
+      filter-tag="En litige"
     />
   </DataTable>
 </template>

@@ -22,7 +22,8 @@ const props = defineProps({
     Object.values(DATATABLE_COLUMN_TYPES),
     DATATABLE_COLUMN_TYPES.STRING
   ),
-  enumValues: { type: Array, default: null }
+  enumValues: { type: Array, default: null },
+  filterTag: { type: String, default: null }
 });
 const { model } = inject(CONTEXT_KEYS.DATATABLE);
 
@@ -45,7 +46,8 @@ model.addColumn({
   filterName: props.filterName,
   isHighlightable: props.isHighlightable,
   highlightOptions: highlightOptions,
-  enumValues: props.enumValues
+  enumValues: props.enumValues,
+  filterTag: props.filterTag
 });
 
 watch(

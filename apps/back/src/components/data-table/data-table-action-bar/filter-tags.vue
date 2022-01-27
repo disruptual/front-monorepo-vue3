@@ -36,7 +36,7 @@ const formatDateLabel = dateStr =>
   });
 
 const getFilterLabel = filter => {
-  const { type } = model.columns.find(col =>
+  const { type, filterTag } = model.columns.find(col =>
     [col.name, col.filterName].includes(filter.name)
   );
 
@@ -56,6 +56,10 @@ const getFilterLabel = filter => {
     return `${filter.label}: Entre le ${formatDateLabel(
       filter.value.before
     )} et le ${formatDateLabel(filter.value.after)}`;
+  }
+
+  if (type === DATATABLE_COLUMN_TYPES.BOOLEAN && filterTag) {
+    return `${filterTag}`;
   }
 
   return `${filter.label}: ${filter.value}`;

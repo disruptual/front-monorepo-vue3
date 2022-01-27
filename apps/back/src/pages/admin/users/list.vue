@@ -166,7 +166,7 @@ const onMute = async users => {
     <DataTableColumn
       v-slot="{ row }"
       name="silentModeActivatedAt"
-      :label="t('dataTable.label.modeSilence')"
+      :label="t('dataTable.label.modeSilenceAction')"
       is-hidden
       :tooltip-label="({ row }) => !!row.silentModeActivatedAt"
       :type="DATATABLE_COLUMN_TYPES.BOOLEAN"
@@ -180,7 +180,7 @@ const onMute = async users => {
 
     <DataTableRowAction
       name="mute"
-      :label="t('dataTable.label.mute')"
+      :label="t('dataTable.label.modeSilence')"
       icon="userSlash"
       @action="onMute"
     />
