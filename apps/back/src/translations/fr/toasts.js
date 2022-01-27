@@ -7,8 +7,8 @@ export default {
 
     announcement: {
       removeError:
-        "Un ou plusieurs messages d'annonces n'ont pas pu être supprimés",
-      createError: "Le message d'annonce n'a pas pu être créé.",
+        "Une ou plusieurs annonces n'ont pas pu être supprimées",
+      createError: "L'annonce n'a pas pu être créée.",
       removeSuccess: 'Suppression réussie.'
     },
 

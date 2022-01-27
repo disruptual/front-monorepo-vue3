@@ -6,6 +6,6 @@ export default {
     orderDetails: 'Détails de commande',
     orderNumber: 'Commande n°{id}',
     announcements: "Messages d'annonce",
-    carousel: 'Carousel'
+    carousel: 'Carrousel'
   }
 };
