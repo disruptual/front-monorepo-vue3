@@ -68,7 +68,6 @@ export default {
       modeSilence: 'Mode silencieux',
       name: 'Nom',
       numbArticles: "Nb d'articles",
-      plateformRate: 'plateformRate',
       photo: 'Photo',
       price: 'Prix',
       role: 'Rôle',
