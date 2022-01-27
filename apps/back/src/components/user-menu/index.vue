@@ -2,15 +2,15 @@
 export default { name: 'UserMenu' };
 </script>
 <script setup>
-import { computed } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@dsp/core';
 import { useDevice } from '@dsp/ui';
+import { useCurrentUser } from '@dsp/core';
 
-const props = defineProps({
-  modelValue: { type: Boolean, required: true }
-});
-const emit = defineEmits(['update:modelValue']);
+const { data: currentUser } = useCurrentUser();
+const toggleElement = ref(null);
+const isOpened = ref(false);
 
 const { logout } = useAuth();
 const { push } = useRouter();
@@ -21,17 +21,20 @@ const onLogout = async () => {
   await logout();
 };
 
-const isOpened = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(val) {
-    emit('update:modelValue', val);
-  }
-});
+const setToggle = el => {
+  toggleElement.value = el;
+};
 </script>
 
 <template>
+  <dsp-plain-button
+    :button-ref="setToggle"
+    class="avatar"
+    @click="isOpened = !isOpened"
+  >
+    <dsp-avatar :user="currentUser" />
+  </dsp-plain-button>
+
   <dsp-drawer
     v-if="device.isMobile"
     :is-opened="isOpened"
@@ -45,7 +48,7 @@ const isOpened = computed({
     </dsp-flex>
   </dsp-drawer>
 
-  <dsp-dropdown v-else v-model:isOpened="isOpened">
+  <dsp-dropdown v-else v-model:isOpened="isOpened" :toggle-ref="toggleElement">
     <template #menu>
       <dsp-dropdown-item @click="onLogout">Logout</dsp-dropdown-item>
     </template>
@@ -61,5 +64,12 @@ ul {
 
 .drawer-item {
   text-align: left;
+}
+
+.avatar {
+  padding: 0;
+  margin-left: auto;
+  position: relative;
+  z-index: 1;
 }
 </style>

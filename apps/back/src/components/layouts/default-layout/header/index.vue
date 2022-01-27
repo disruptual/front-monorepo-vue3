@@ -3,9 +3,8 @@ export default { name: 'DefaultLayoutHeader' };
 </script>
 
 <script setup>
-import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useCurrentUser, useAppContext } from '@dsp/core';
+import { useAppContext } from '@dsp/core';
 import { useDevice } from '@dsp/ui';
 import HeaderMenu from './header-menu/index.vue';
 import HeaderBreadcrumbs from './header-breadcrumbs/index.vue';
@@ -14,11 +13,9 @@ import schema from './index.schema';
 
 const props = defineProps(schema.toProps());
 
-const { data: currentUser } = useCurrentUser();
 const device = useDevice();
 
 const { t } = useI18n();
-const isUserMenuOpened = ref(false);
 
 const context = useAppContext();
 const componentContext = schema.toContext(props);
@@ -37,13 +34,7 @@ const componentContext = schema.toContext(props);
         </h1>
       </router-link>
       <div class="menu">
-        <UserMenu v-model="isUserMenuOpened" class="user-menu" />
-        <dsp-plain-button
-          class="avatar"
-          @click="isUserMenuOpened = !isUserMenuOpened"
-        >
-          <dsp-avatar :user="currentUser" />
-        </dsp-plain-button>
+        <UserMenu />
       </div>
     </dsp-flex>
     <HeaderBreadcrumbs class="breadcrumbs" />
@@ -96,16 +87,5 @@ const componentContext = schema.toContext(props);
 
 .breadcrumbs {
   padding: 0;
-}
-
-.avatar {
-  padding: 0;
-  margin-left: auto;
-  position: relative;
-  z-index: 1;
-}
-
-.user-menu {
-  margin-top: var(--spacing-lg);
 }
 </style>

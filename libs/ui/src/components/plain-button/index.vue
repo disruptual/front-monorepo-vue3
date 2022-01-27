@@ -5,14 +5,18 @@ export default {
 </script>
 
 <script setup>
+import { noop } from '@dsp/core';
+
 defineProps({
-  to: { type: [String, Object], default: null }
+  to: { type: [String, Object], default: null },
+  buttonRef: { type: Function, default: noop }
 });
 </script>
 
 <template>
   <component
     :is="to ? 'router-link' : 'button'"
+    :ref="buttonRef"
     class="dsp-plain-button"
     :to="to"
   >
