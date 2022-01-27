@@ -114,7 +114,7 @@ export const MENU = [
         isEnabled: config => config.features.admin.vouchers?.isEnabled
       },
       {
-        target: { name: 'AdminStore' },
+        target: { name: 'AdminLocation' },
         label: 'Magasins',
         isEnabled: config => config.features.admin.stores?.isEnabled
       },

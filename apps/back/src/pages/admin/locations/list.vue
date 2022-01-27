@@ -1,11 +1,13 @@
 <script>
-export default { name: 'AdminStore' };
+export default { name: 'AdminLocation' };
 </script>
 
 <script setup>
 import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
 import { useI18n } from 'vue-i18n';
-import { useStoreApi } from '@dsp/core';
+import { useLocationApi } from '@dsp/core';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 
 import DataTable from '@/components/data-table/index.vue';
@@ -14,17 +16,22 @@ import DataTableRowAction from '@/components/data-table/data-table-row-action/in
 
 const { t } = useI18n();
 
-useBreadCrumbs('Store');
-
+useBreadCrumbs('Magasins');
+const { push } = useRouter();
 const filters = ref({});
 const onFilterChange = newFilters => {
   filters.value = { ...newFilters };
 };
-const query = useStoreApi().findAllQuery({ filters });
+const query = useLocationApi().findAllQuery({
+  relations: [],
+  requestOptions: {
+    params: { display: 'all' }
+  }
+});
 
 const setDatePicker = () => {};
 
-const { mutateAsync: updateStore } = useStoreApi().updateMutation();
+const { mutateAsync: updateStore } = useLocationApi().updateMutation();
 
 const updateVisiblity = async store => {
   await updateStore({ id: store.id, dto: { enabled: !store.enabled } });
@@ -38,15 +45,18 @@ const onSoftDelete = orders => {
 
 <template>
   <DataTable
-    id="store_list"
+    id="locations-list"
     :query="query"
     :min-row-size="40"
     :has-action-bar="true"
     :has-selector-column="true"
+    :row-detail-target="
+      row => ({ name: 'AdminLocationDetails', params: { id: row.id } })
+    "
     @filter-change="onFilterChange"
   >
     <template #no-result>
-      <dsp-center>Cet utilisateur n'a réalisé aucune commande.</dsp-center>
+      <dsp-center>Ce projet n'a aucun magasin.</dsp-center>
     </template>
 
     <DataTableColumn
