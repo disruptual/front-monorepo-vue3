@@ -22,7 +22,6 @@ const props = defineProps({
   rowDetailTarget: { type: Function, default: null },
   id: { type: String, required: true }
 });
-console.log(props.hasSearchbar);
 const emit = defineEmits(['rowDblClick', 'filterChange']);
 
 const isLoading = computed(() => props.query.isLoadingFirstPage.value);

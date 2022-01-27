@@ -23,7 +23,6 @@ const { mutate: updateAddress } = useAddressApi().updateMutation();
 const { mutate: updateLocation } = useLocationApi().updateMutation();
 
 const onSubmit = async values => {
-  console.log(props.location.address.id);
   try {
     await Promise.all([
       updateAddress({ id: props.location.address.id, entity: values }),
