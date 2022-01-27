@@ -9,6 +9,7 @@ import { useOrderApi, useDeliveryApi } from '@dsp/core';
 import { ORDER_STATES } from '@dsp/business';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { DATATABLE_COLUMN_TYPES } from '@/utils/constants';
+import { ORDER_PROBLEM_STATES } from '@dsp/business';
 
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
@@ -23,7 +24,10 @@ const handleDisputeFilter = newFilters => {
 
   if (!problemState) return filters;
 
-  return { ...filters, problemState: ['DISPUTED', 'PROBLEM'] };
+  return {
+    ...filters,
+    problemState: [ORDER_PROBLEM_STATES.DISPUTED, ORDER_PROBLEM_STATES.PROBLEM]
+  };
 };
 
 const onFilterChange = ({ created, ...newFilters }) => {
