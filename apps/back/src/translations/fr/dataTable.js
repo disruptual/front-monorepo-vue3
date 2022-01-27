@@ -84,7 +84,8 @@ export default {
       visibility: 'Visibilité'
     },
     actions: {
-      goToDetail: 'Voir le détail'
+      goToDetail: 'Voir le détail',
+      resetPreferences: 'Réinitialiser le tableau'
     }
   }
 };

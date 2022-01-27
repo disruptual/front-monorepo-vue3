@@ -4,11 +4,12 @@ export default { name: 'DataTable' };
 
 <script setup>
 import { computed, provide, reactive } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { CONTEXT_KEYS } from '@/utils/constants';
 import { DataTable } from '@/models/DataTable.model';
 import { KEYBOARD, isNumber } from '@dsp/core';
-import { useEventListener } from '@dsp/ui';
+import { vTooltip, useEventListener } from '@dsp/ui';
 
 import DataTableGrid from './data-table-grid/index.vue';
 import DataTableActionBar from './data-table-action-bar/index.vue';
@@ -22,11 +23,11 @@ const props = defineProps({
   rowDetailTarget: { type: Function, default: null },
   id: { type: String, required: true }
 });
-console.log(props.hasSearchbar);
 const emit = defineEmits(['rowDblClick', 'filterChange']);
 
 const isLoading = computed(() => props.query.isLoadingFirstPage.value);
 const { push } = useRouter();
+const { t } = useI18n();
 
 const navigate = row => {
   const target = props.rowDetailTarget(row);
@@ -88,7 +89,10 @@ provide(CONTEXT_KEYS.DATATABLE, {
         <template #no-result><slot name="no-result" /></template>
       </DataTableGrid>
       <div class="reset-preferences">
-        <dsp-button @click="model.resetPreferences">
+        <dsp-button
+          v-tooltip="t('dataTable.actions.resetPreferences')"
+          @click="model.resetPreferences"
+        >
           <dsp-icon icon="reset" />
         </dsp-button>
       </div>
