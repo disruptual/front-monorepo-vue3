@@ -18,17 +18,19 @@ export const vReadableColor = {
     setColor();
 
     const observer = new window.MutationObserver(setColor);
-    observer.observe(el, {
-      attributes: true,
-      childList: false,
-      subtree: false
-    });
-    observers.set(el, observer);
-    el.addEventListener('mouseenter', setColor);
-    el.addEventListener('mouseleave', setColor);
-    el.addEventListener('focus', setColor);
-    el.addEventListener('blur', setColor);
-    el.addEventListener('transitionend', setColor);
+    if (el) {
+      observer.observe(el, {
+        attributes: true,
+        childList: false,
+        subtree: false
+      });
+      observers.set(el, observer);
+      el.addEventListener('mouseenter', setColor);
+      el.addEventListener('mouseleave', setColor);
+      el.addEventListener('focus', setColor);
+      el.addEventListener('blur', setColor);
+      el.addEventListener('transitionend', setColor);
+    }
   },
 
   unmounted(el) {
