@@ -21,7 +21,7 @@ const { t } = useI18n();
 const { data: currentUser } = useCurrentUser();
 const { showError, showSuccess } = useToast();
 const userApi = useUserApi();
-const { mutate: updateUser } = userApi.updateMutation({
+const { mutateAsync: updateUser } = userApi.updateMutation({
   onSuccess() {
     showSuccess(t('toasts.user.updateSuccess'));
     emit('success');
@@ -99,183 +99,278 @@ const ordersLink = computed(() => ({
     </dsp-center>
   </dsp-center>
 
-  <dsp-smart-form :form="form">
-    <div>{{ t('user.details.lastName') }}</div>
-    <dsp-smart-form-field
-      v-if="isEditing"
-      v-slot="slotProps"
-      name="lastName"
-      :initial-value="user.lastName"
-      required
-    >
-      <dsp-input-text v-model="slotProps.field.value" v-bind="slotProps" />
-    </dsp-smart-form-field>
-    <div v-else>{{ user.lastName }}</div>
-
-    <div>{{ t('user.details.firstName') }}</div>
-    <dsp-smart-form-field
-      v-if="isEditing"
-      v-slot="slotProps"
-      name="firstName"
-      :initial-value="user.firstName"
-      required
-    >
-      <dsp-input-text v-model="slotProps.field.value" v-bind="slotProps" />
-    </dsp-smart-form-field>
-    <div v-else>{{ user.firstName }}</div>
-
-    <div>{{ t('user.details.email') }}</div>
-    <dsp-smart-form-field
-      v-if="isEditing"
-      v-slot="slotProps"
-      name="email"
-      :initial-value="user.email"
-      required
-      email
-    >
-      <dsp-input-text v-model="slotProps.field.value" v-bind="slotProps" />
-    </dsp-smart-form-field>
-    <div v-else>{{ user.email }}</div>
-
-    <div>{{ t('user.details.bio') }}</div>
-    <dsp-smart-form-field
-      v-if="isEditing"
-      v-slot="slotProps"
-      name="content"
-      :initial-value="user.content"
-    >
-      <dsp-input-textarea
-        v-model="slotProps.field.value"
-        v-bind="slotProps"
-        :is-resizable="false"
-      />
-    </dsp-smart-form-field>
-    <div v-else>{{ user.content }}</div>
-
-    <div>{{ t('user.details.phone') }}</div>
-    <dsp-smart-form-field
-      v-if="isEditing"
-      v-slot="slotProps"
-      name="phone"
-      :initial-value="user.phone"
-    >
-      <dsp-input-text
-        v-model="slotProps.field.value"
-        type="phone"
-        v-bind="slotProps"
-      />
-    </dsp-smart-form-field>
-    <div v-else>{{ user.phone }}</div>
-
-    <template v-if="isEditing">
-      <div>{{ t('user.details.password') }}</div>
-      <dsp-smart-form-field v-slot="slotProps" name="plainPassword">
-        <dsp-input-password
+  <dsp-smart-form v-if="isEditing" class="edit-mode" :form="form">
+    <dsp-grid :columns="2">
+      <label for="lastName">{{ t('user.details.lastName') }}</label>
+      <dsp-smart-form-field
+        v-slot="slotProps"
+        name="lastName"
+        :initial-value="user.lastName"
+        required
+      >
+        <dsp-input-text
+          id="lastName"
           v-model="slotProps.field.value"
           v-bind="slotProps"
         />
+        <dsp-form-error
+          v-for="(error, key) in slotProps.field?.errors"
+          :key="key"
+          class="errors"
+          :error="error"
+        />
       </dsp-smart-form-field>
 
-      <div>{{ t('user.details.passwordConfirm') }}</div>
+      <label for="firstName">{{ t('user.details.firstName') }}</label>
+      <dsp-smart-form-field
+        v-slot="slotProps"
+        name="firstName"
+        :initial-value="user.firstName"
+        required
+      >
+        <dsp-input-text
+          id="firstName"
+          v-model="slotProps.field.value"
+          v-bind="slotProps"
+        />
+        <dsp-form-error
+          v-for="(error, key) in slotProps.field?.errors"
+          :key="key"
+          class="errors"
+          :error="error"
+        />
+      </dsp-smart-form-field>
+
+      <label for="email">{{ t('user.details.email') }}</label>
+      <dsp-smart-form-field
+        v-slot="slotProps"
+        name="email"
+        :initial-value="user.email"
+        required
+        email
+      >
+        <dsp-input-text
+          id="email"
+          v-model="slotProps.field.value"
+          v-bind="slotProps"
+        />
+        <dsp-form-error
+          v-for="(error, key) in slotProps.field?.errors"
+          :key="key"
+          class="errors"
+          :error="error"
+        />
+      </dsp-smart-form-field>
+
+      <label for="content">{{ t('user.details.bio') }}</label>
+      <dsp-smart-form-field
+        v-slot="slotProps"
+        name="content"
+        :initial-value="user.content"
+      >
+        <dsp-input-textarea
+          id="content"
+          v-model="slotProps.field.value"
+          v-bind="slotProps"
+          :is-resizable="false"
+        />
+        <dsp-form-error
+          v-for="(error, key) in slotProps.field?.errors"
+          :key="key"
+          class="errors"
+          :error="error"
+        />
+      </dsp-smart-form-field>
+
+      <label for="phone">{{ t('user.details.phone') }}</label>
+      <dsp-smart-form-field
+        v-slot="slotProps"
+        name="phone"
+        :pattern="new RegExp('(0|\\+33|0033)[1-9][0-9]{8}')"
+        :maxlength="10"
+        :initial-value="user.phone"
+      >
+        <dsp-input-text
+          id="phone"
+          v-model="slotProps.field.value"
+          type="phone"
+          v-bind="slotProps"
+        />
+        <dsp-form-error
+          v-for="(error, key) in slotProps.field?.errors"
+          :key="key"
+          class="errors"
+          :error="error"
+        />
+      </dsp-smart-form-field>
+
+      <label for="plainPassword">{{ t('user.details.password') }}</label>
+      <dsp-smart-form-field v-slot="slotProps" name="plainPassword">
+        <dsp-input-password
+          id="plainPassword"
+          v-model="slotProps.field.value"
+          v-bind="slotProps"
+        />
+        <dsp-form-error
+          v-for="(error, key) in slotProps.field?.errors"
+          :key="key"
+          class="errors"
+          :error="error"
+        />
+      </dsp-smart-form-field>
+
+      <label for="passwordConfirm">
+        {{ t('user.details.passwordConfirm') }}
+      </label>
       <dsp-smart-form-field
         v-slot="slotProps"
         name="passwordConfirm"
         :validators="passwordConfirmValidators"
       >
         <dsp-input-password
+          id="passwordConfirm"
           v-model="slotProps.field.value"
           v-bind="slotProps"
         />
-      </dsp-smart-form-field>
-    </template>
-    <template v-else>
-      <div>{{ t('user.details.deliveries') }}</div>
-      <dsp-flex gap="sm" wrap="wrap">
-        <div v-for="delivery in user.deliveries" :key="delivery">
-          {{ t(`delivery.modes.${delivery.tag}`) }}
-        </div>
-      </dsp-flex>
-
-      <div>{{ t('user.details.ibanCount') }}</div>
-      <div>{{ user.ibans?.length }}</div>
-
-      <div>{{ t('user.details.itemCount') }}</div>
-      <div>
-        {{ user.items?.length }}
-        <router-link :to="itemsLink">
-          ({{ t('user.details.seeDetails') }})
-        </router-link>
-      </div>
-
-      <div>{{ t('user.details.orderCount') }}</div>
-      <div>
-        {{ user.orders?.length }}
-        <router-link :to="ordersLink">
-          ({{ t('user.details.seeDetails') }})
-        </router-link>
-      </div>
-    </template>
-
-    <div>{{ t('user.details.roles') }}</div>
-    <dsp-smart-form-field
-      v-if="isEditing"
-      v-slot="slotProps"
-      :initial-value="user.roles"
-      name="roles"
-    >
-      <div>
-        <dsp-checkbox
-          v-for="role in availableRoles"
-          :id="role"
-          :key="role"
-          v-model="slotProps.field.value"
-          :value="role"
-          :label="t(`user.roles.${role}`)"
+        <dsp-form-error
+          v-for="(error, key) in slotProps.field?.errors"
+          :key="key"
+          class="errors"
+          :error="error"
         />
-      </div>
-    </dsp-smart-form-field>
-    <div v-else>{{ formattedRoles }}</div>
+      </dsp-smart-form-field>
 
-    <dsp-center v-if="isEditing" direction="row" class="form-actions" gap="sm">
+      <label for="">
+        {{ t('user.details.roles') }}
+      </label>
+      <dsp-smart-form-field
+        v-slot="slotProps"
+        :initial-value="user.roles"
+        name="roles"
+      >
+        <div>
+          <dsp-checkbox
+            v-for="role in availableRoles"
+            :id="role"
+            :key="role"
+            v-model="slotProps.field.value"
+            :value="role"
+            :label="t(`user.roles.${role}`)"
+          />
+        </div>
+        <dsp-form-error
+          v-for="(error, key) in slotProps.field?.errors"
+          :key="key"
+          class="errors"
+          :error="error"
+        />
+      </dsp-smart-form-field>
+    </dsp-grid>
+    <dsp-center direction="row" class="form-actions" gap="sm">
       <dsp-button type="button" is-outlined @click="formActions.reset">
         {{ t('user.details.form.cancel') }}
       </dsp-button>
-      <dsp-smart-form-submit v-if="isEditing">
+      <dsp-smart-form-submit>
         {{ t('user.details.form.submit') }}
       </dsp-smart-form-submit>
     </dsp-center>
   </dsp-smart-form>
+
+  <dsp-flex v-else class="display-mode" justify="center">
+    <dl>
+      <dsp-grid :columns="2">
+        <dt>{{ t('user.details.lastName') }}</dt>
+        <dd>{{ user.lastName }}</dd>
+
+        <dt>{{ t('user.details.firstName') }}</dt>
+        <dd>{{ user.firstName }}</dd>
+
+        <dt>{{ t('user.details.email') }}</dt>
+        <dd>{{ user.email }}</dd>
+
+        <dt>{{ t('user.details.bio') }}</dt>
+        <dd>{{ user.content }}</dd>
+
+        <dt>{{ t('user.details.phone') }}</dt>
+        <dd>{{ user.phone }}</dd>
+
+        <dt>{{ t('user.details.deliveries') }}</dt>
+        <dsp-flex gap="sm">
+          <dd v-for="delivery in user.deliveries" :key="delivery">
+            {{ t(`delivery.modes.${delivery.tag}`) }}
+          </dd>
+        </dsp-flex>
+
+        <dt>{{ t('user.details.ibanCount') }}</dt>
+        <dd>{{ user.ibans?.length }}</dd>
+
+        <dt>{{ t('user.details.itemCount') }}</dt>
+        <dd>
+          {{ user.items?.length }}
+          <router-link :to="itemsLink">
+            ({{ t('user.details.seeDetails') }})
+          </router-link>
+        </dd>
+
+        <dt>{{ t('user.details.orderCount') }}</dt>
+        <dd>
+          {{ user.orders?.length }}
+          <router-link :to="ordersLink">
+            ({{ t('user.details.seeDetails') }})
+          </router-link>
+        </dd>
+
+        <dt>{{ t('user.details.roles') }}</dt>
+        <dd>{{ formattedRoles }}</dd>
+      </dsp-grid>
+    </dl>
+  </dsp-flex>
 </template>
 
 <style lang="scss" scoped>
-form {
-  margin-top: var(--spacing-sm);
-  line-height: 1.5;
+.edit-mode .dsp-grid {
+  margin: var(--spacing-lg) 0 var(--spacing-md) 0;
+}
+.display-mode .dsp-grid {
+  margin: var(--spacing-sm) 0 var(--spacing-sm) 0;
+}
+.display-mode,
+.edit-mode {
+  .dsp-grid {
+    line-height: 1.5;
 
-  @include desktop-only {
-    --label-min-width: 180px;
-    display: grid;
-    grid-template-columns: minmax(var(--label-min-width), auto) 1fr;
-    gap: var(--spacing-sm);
-    align-items: center;
-  }
-
-  & > *:nth-child(odd) {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-light);
     @include desktop-only {
-      text-align: right;
+      --label-min-width: 180px;
+      display: grid;
+      grid-template-columns: minmax(var(--label-min-width), auto) 1fr;
+      gap: var(--spacing-sm);
+      align-items: center;
     }
-    @include not-desktop {
-      margin-top: var(--spacing-md);
+
+    dt,
+    label {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-light);
+
+      @include desktop-only {
+        text-align: end;
+      }
+      @include not-desktop {
+        margin-top: var(--spacing-md);
+      }
+    }
+
+    dd {
+      margin: 0;
     }
   }
 }
 
-.form-actions {
-  grid-column: 1 / -1;
-  button {
-    /* flex-grow: 1; */
+.errors {
+  grid-column: 1/-1;
+  text-align: end;
+  & :deep(.dsp-form-error) {
+    justify-content: end;
   }
 }
 
