@@ -13,6 +13,7 @@ import { USER_DETAILS_TABS as TABS } from '@/utils/constants';
 import UserDetails from '@/components/user-details/index.vue';
 import UserOrders from '@/components/user-orders/index.vue';
 import UserItems from '@/components/user-items/index.vue';
+import UserAutomaticReviews from '@/components/user-automatic-reviews/index.vue';
 
 const props = defineProps({
   slug: { type: String, required: true }
@@ -65,6 +66,15 @@ const activeTab = computed({
       <dsp-tab :name="TABS.ITEMS" :label="t(`user.details.tabs.${TABS.ITEMS}`)">
         <dsp-container>
           <UserItems :user-id="user.id" />
+        </dsp-container>
+      </dsp-tab>
+
+      <dsp-tab
+        :name="TABS.REVIEWS"
+        :label="t(`user.details.tabs.${TABS.REVIEWS}`)"
+      >
+        <dsp-container>
+          <UserAutomaticReviews :user-id="user.id" />
         </dsp-container>
       </dsp-tab>
     </dsp-tabs>

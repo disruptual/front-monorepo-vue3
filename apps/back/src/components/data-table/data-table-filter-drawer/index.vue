@@ -7,6 +7,7 @@ import { inject, ref } from 'vue';
 import { CONTEXT_KEYS, DATATABLE_COLUMN_TYPES } from '@/utils/constants';
 import { vTooltip } from '@dsp/ui';
 import { useI18n } from 'vue-i18n';
+import { noop } from '@dsp/core';
 
 const { model } = inject(CONTEXT_KEYS.DATATABLE);
 
@@ -16,6 +17,7 @@ const { t } = useI18n();
 const formOptions = {
   onSubmit(values) {
     model.filters = values;
+    console.log(values);
     isOpened.value = false;
   }
 };
@@ -61,11 +63,11 @@ const getInitialValue = column => {
                 {{ t('dataTable.label.dateFrom') }}
               </label>
               <dsp-date-picker
-                v-model="slotProps.field.value.before"
+                v-model="slotProps.field.value.after"
                 name="before"
                 v-bind="formControlProps"
                 is-teleport
-                v-on="on"
+                v-on="{ ...on, 'update:modelValue': noop }"
               />
             </div>
             <div>
@@ -73,11 +75,11 @@ const getInitialValue = column => {
                 {{ t('dataTable.label.dateTo') }}
               </label>
               <dsp-date-picker
-                v-model="slotProps.field.value.after"
+                v-model="slotProps.field.value.before"
                 name="after"
                 v-bind="formControlProps"
                 is-teleport
-                v-on="on"
+                v-on="{ ...on, 'update:modelValue': noop }"
               />
             </div>
           </div>

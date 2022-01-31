@@ -2,10 +2,10 @@
 export default { name: 'UserMenu' };
 </script>
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@dsp/core';
-import { useDevice } from '@dsp/ui';
+import { useDevice, useCssVar } from '@dsp/ui';
 import { useCurrentUser } from '@dsp/core';
 
 const { data: currentUser } = useCurrentUser();

@@ -54,7 +54,13 @@ export class BaseModel {
   }
 
   formatCreated(format = DEFAULT_DATE_FORMAT) {
-    return formatDate(new Date(this.created), format, {
+    return formatDate(new Date(this.created || this.createdAt), format, {
+      locale: frLocale
+    });
+  }
+
+  formatUpdated(format = DEFAULT_DATE_FORMAT) {
+    return formatDate(new Date(this.updated || this.updatedAt), format, {
       locale: frLocale
     });
   }

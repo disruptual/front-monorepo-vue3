@@ -25,7 +25,19 @@ export class DisruptualApp {
     this.store = createStore(appContext);
     this.router = createRouter({
       history: createWebHistory(routerBase),
-      routes: routes
+      routes: routes,
+      scrollBehavior(to, from, savedPosition) {
+        if (!to.hash) return;
+        if (!from.name) {
+          // wait until DOM is loaded
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              resolve({ el: to.hash });
+            }, 300);
+          });
+        }
+        return { el: to.hash };
+      }
     });
     this.auth = createAuthProvider({
       http: this.http,

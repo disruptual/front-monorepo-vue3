@@ -5,7 +5,7 @@ export default { name: 'DataTableGridHeader' };
 <script setup>
 import { inject, ref, reactive } from 'vue';
 import { CONTEXT_KEYS } from '@/utils/constants';
-import { vTooltip } from '@dsp/ui';
+import { vReadableColor, vTooltip } from '@dsp/ui';
 
 const { model } = inject(CONTEXT_KEYS.DATATABLE);
 
@@ -81,6 +81,7 @@ const onResizeMove = e => {
 <template>
   <thead
     ref="tableHeadElement"
+    v-readable-color
     class="data-table-grid-header"
     @mousemove="onResizeMove"
   >

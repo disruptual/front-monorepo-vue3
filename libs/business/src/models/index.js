@@ -29,3 +29,4 @@ export { Location } from './Location.model';
 export { Carousel } from './Carousel.model';
 export { Media } from './Media.model';
 export { CarouselItem } from './CarouselItem.model';
+export { Review } from './Review.model';
