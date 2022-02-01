@@ -8,13 +8,13 @@ import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useVoucherApi } from '@dsp/core';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
+import { DATATABLE_COLUMN_TYPES } from '@/utils/constants';
 
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 
 useBreadCrumbs("Bon d'achats");
 
-const { push } = useRouter();
 const { t } = useI18n();
 const filters = ref({});
 const query = useVoucherApi().findAllQuery({
@@ -84,14 +84,14 @@ const onFilterChange = newFilters => {
       name="amount"
       :label="t('dataTable.label.amount')"
       width="100"
-      is-filterable
+      :type="DATATABLE_COLUMN_TYPES.NUMBER"
+      is-highlightable
     />
     <DataTableColumn
       v-slot="{ row }"
       name="generated"
       :label="t('dataTable.label.generated')"
       width="100"
-      is-filterable
     >
       <dsp-center class="dsp-center">
         <dsp-checkbox
@@ -108,5 +108,9 @@ const onFilterChange = newFilters => {
 <style scoped>
 .dsp-center {
   width: 100%;
+}
+
+a {
+  color: inherit;
 }
 </style>

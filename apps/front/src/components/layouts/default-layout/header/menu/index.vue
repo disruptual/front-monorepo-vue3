@@ -41,7 +41,7 @@ const toggleUserMenu = () => {
           size="lg"
         />
       </li>
-      <li v-if="currentUser">
+      <li v-if="device.isDesktop && currentUser">
         <dsp-icon-button
           :to="{ name: 'Cart' }"
           icon="cart"

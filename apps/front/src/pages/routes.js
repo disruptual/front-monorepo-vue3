@@ -28,7 +28,6 @@ export const routes = [
     name: 'Profile',
     component: () => import('@/pages/profile/index.vue'),
     meta: {
-      permissions: [USER_ROLES.USER],
       layout: lazyDefaultLayout
     }
   },
@@ -54,7 +53,18 @@ export const routes = [
     path: '/search/:categoryId?',
     name: 'ItemSearch',
     component: () => import('@/pages/item-search/index.vue'),
+    props: true,
     meta: {
+      layout: lazyDefaultLayout
+    }
+  },
+  {
+    path: '/vendre/:itemId?',
+    name: 'ItemCreation',
+    component: () => import('@/pages/item-creation/index.vue'),
+    props: true,
+    meta: {
+      permissions: [USER_ROLES.USER],
       layout: lazyDefaultLayout
     }
   }

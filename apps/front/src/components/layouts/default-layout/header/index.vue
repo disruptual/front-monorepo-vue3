@@ -28,7 +28,7 @@ const device = useDevice();
   display: grid;
   align-items: center;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  padding: var(--spacing-xs) var(--spacing-sm);
+  padding: var(--spacing-xs) 0;
 
   @include desktop-only {
     padding: var(--spacing-sm) var(--spacing-xl);

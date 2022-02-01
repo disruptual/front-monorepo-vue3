@@ -47,6 +47,8 @@ import euroSign from './euro.svg';
 import heartEmpty from './heartEmpty.svg';
 import heartFilled from './heartFilled.svg';
 import cart from './cart.svg';
+import chevronDown from './chevronDown.svg';
+import chevronUp from './chevronUp.svg';
 
 export default {
   add,
@@ -59,8 +61,10 @@ export default {
   chart,
   checkbox,
   checkboxLight,
+  chevronDown,
   chevronLeft,
   chevronRight,
+  chevronUp,
   circleRegular,
   circleSolid,
   clock,

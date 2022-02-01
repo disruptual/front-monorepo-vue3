@@ -27,7 +27,7 @@ const {
   blockedMutation,
   unblockedMutation
 } = useUserApi();
-const query = findAllQuery({ filters, relations: ['reviewsReceived'] });
+const query = findAllQuery({ filters });
 const { mutateAsync: mute } = muteMutation();
 const { mutateAsync: unmute } = unmuteMutation();
 const { mutateAsync: blocked } = blockedMutation();
