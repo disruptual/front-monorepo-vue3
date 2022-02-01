@@ -19,6 +19,13 @@ const activeFilters = computed(() =>
         [col.filterName, col.name].includes(key)
       );
       if (!column) return false;
+      const isUndefinedDate =
+        column.type === DATATABLE_COLUMN_TYPES.DATE &&
+        !value.before &&
+        !value.after;
+      if (isUndefinedDate) {
+        return false;
+      }
 
       return true;
     })
@@ -30,10 +37,11 @@ const activeFilters = computed(() =>
     }))
 );
 
-const formatDateLabel = dateStr =>
-  formatDate(new Date(dateStr), 'dd-MM-yyyy', {
+const formatDateLabel = dateStr => {
+  return formatDate(new Date(dateStr), 'dd-MM-yyyy', {
     locale: frLocale
   });
+};
 
 const getFilterLabel = filter => {
   const { type, filterTag } = model.columns.find(col =>
@@ -42,20 +50,20 @@ const getFilterLabel = filter => {
 
   if (type === DATATABLE_COLUMN_TYPES.DATE) {
     if (!filter.value.after) {
-      return `${filter.label}: Avant le ${formatDateLabel(
-        filter.value.before
-      )}`;
-    }
-
-    if (!filter.value.before) {
       return `${filter.label}: Après le ${formatDateLabel(
         filter.value.before
       )}`;
     }
 
+    if (!filter.value.before) {
+      return `${filter.label}: Avant le ${formatDateLabel(
+        filter.value.before
+      )}`;
+    }
+
     return `${filter.label}: Entre le ${formatDateLabel(
-      filter.value.before
-    )} et le ${formatDateLabel(filter.value.after)}`;
+      filter.value.after
+    )} et le ${formatDateLabel(filter.value.before)}`;
   }
 
   if (type === DATATABLE_COLUMN_TYPES.BOOLEAN && filterTag) {

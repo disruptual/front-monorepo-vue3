@@ -30,9 +30,8 @@ describe('DspDatePicker', () => {
   });
   describe('emit', () => {
     it('should emit update:modelValue when a date is selected', async () => {
-      const date = new Date(new Date().setHours(0, 0, 0, 0));
+      const date = new Date().setHours(0, 0, 0, 0);
       const modelValue = date;
-      const expectedModelValue = addDays(date, 1);
       const wrapper = mount(DspDatePicker, {
         props: { modelValue: modelValue }
       });
@@ -41,13 +40,15 @@ describe('DspDatePicker', () => {
       await openCalendarButton.trigger('focus');
 
       const nextDayButton = wrapper.find(
-        '.dsp-date-picker__calendar > button.dsp-date-picker__cell--active + button'
+        '.dsp-date-picker__calendar > button:not(.dsp-date-picker__cell--active):not([disabled])'
       );
+      const day = nextDayButton.text();
+      const expectedDate = new Date(new Date(date).setDate(Number(day)));
       await nextDayButton.trigger('click');
 
       expect(wrapper.emitted()).toHaveProperty('update:modelValue');
       expect(wrapper.emitted()['update:modelValue'][0][0]).toEqual(
-        expectedModelValue
+        expectedDate
       );
     });
   });

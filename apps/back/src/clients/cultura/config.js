@@ -12,5 +12,6 @@ export default merge({}, defaultConfig, {
   },
   DefaultLayoutHeader: { isLogoDisplayed: true },
   logo,
-  dataStudio: "https://datastudio.google.com/embed/reporting/a4c1aaf5-8bf1-40e6-a99a-bb7f40da761f/page/hvKhB"
+  dataStudioUrl:
+    'https://datastudio.google.com/embed/reporting/a4c1aaf5-8bf1-40e6-a99a-bb7f40da761f/page/hvKhB'
 });

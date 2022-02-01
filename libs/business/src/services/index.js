@@ -15,3 +15,4 @@ export * from './Location.service';
 export * from './Carousel.service';
 export * from './Media.service';
 export * from './CarouselItem.service';
+export * from './Review.service';

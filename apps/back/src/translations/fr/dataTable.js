@@ -69,6 +69,7 @@ export default {
       modeSilence: 'Mode silencieux',
       name: 'Nom',
       numbArticles: "Nb d'articles",
+      order: 'Commande',
       photo: 'Photo',
       price: 'Prix',
       role: 'Rôle',

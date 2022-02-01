@@ -16,7 +16,8 @@ export default {
       tabs: {
         [USER_DETAILS_TABS.INFOS]: 'Informations',
         [USER_DETAILS_TABS.ITEMS]: 'Articles',
-        [USER_DETAILS_TABS.ORDERS]: 'Commandes'
+        [USER_DETAILS_TABS.ORDERS]: 'Commandes',
+        [USER_DETAILS_TABS.REVIEWS]: 'Avis automatiques'
       },
       editModeSwitchLabel: 'Mode édition',
       lastName: 'Nom',
@@ -40,6 +41,11 @@ export default {
 
     anonymizeModal: {
       title: 'Êtes vous sûr de vouloir anonymiser {user} ?',
+      alert: 'Cette action est irréversible.'
+    },
+
+    deleteReviewModal: {
+      title: 'Êtes vous sûr de vouloir supprimer cet avis ?',
       alert: 'Cette action est irréversible.'
     },
 

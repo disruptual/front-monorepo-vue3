@@ -44,7 +44,7 @@ const query = useOrderApi().findAllQuery({
   filters,
   relations: ['seller', 'buyer', 'orderItems', 'delivery']
 });
-console.log('query.data => ', query.data);
+
 const { data: deliveries } = useDeliveryApi().findAllQuery();
 
 const statuses = Object.values(ORDER_STATES).map(state => ({

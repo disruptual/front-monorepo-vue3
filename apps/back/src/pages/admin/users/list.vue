@@ -4,7 +4,6 @@ export default { name: 'AdminUsersListPage' };
 
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { useUserApi } from '@dsp/core';
@@ -16,7 +15,6 @@ import DataTableColumn from '@/components/data-table/data-table-column/index.vue
 import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
 
 useBreadCrumbs('Utilisateurs');
-const { push } = useRouter();
 const { showSuccess, showError } = useToast();
 const { t } = useI18n();
 
@@ -29,7 +27,7 @@ const {
   blockedMutation,
   unblockedMutation
 } = useUserApi();
-const query = findAllQuery({ filters });
+const query = findAllQuery({ filters, relations: ['reviewsReceived'] });
 const { mutateAsync: mute } = muteMutation();
 const { mutateAsync: unmute } = unmuteMutation();
 const { mutateAsync: blocked } = blockedMutation();

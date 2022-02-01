@@ -17,15 +17,14 @@ useBreadCrumbs('Annonces');
 
 const defaultFilter = { display: 'all', 'sort[updated]': 'desc' };
 const filters = ref({ ...defaultFilter });
+const onFilterChange = newFilters => {
+  filters.value = { ...newFilters, ...defaultFilter };
+};
 
 const query = useItemApi().findAllQuery({
   relations: ['user', 'mainMedia', 'category  '],
   filters
 });
-
-const onFilterChange = newFilters => {
-  filters.value = { ...newFilters, ...defaultFilter };
-};
 
 const { t } = useI18n();
 

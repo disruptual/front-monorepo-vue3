@@ -1,4 +1,4 @@
-import { USER_ROLES } from '@dsp/business';
+import { USER_ROLES, CONTACT_STATUSES } from '@dsp/business';
 
 export const CONTEXT_KEYS = {
   BREADCRUMB: 'breadcrumb',
@@ -67,7 +67,8 @@ export const ORDER_DETAILS_TABS = {
 export const USER_DETAILS_TABS = {
   INFOS: 'infos',
   ORDERS: 'orders',
-  ITEMS: 'items'
+  ITEMS: 'items',
+  REVIEWS: 'reviews'
 };
 
 export const EVENT_DETAILS_TABS = {
@@ -77,9 +78,9 @@ export const EVENT_DETAILS_TABS = {
 };
 
 export const HOME_TABS = {
-  RELEASE: "release",
+  RELEASE: 'release',
   DATA_STUDIO: 'data_studio'
-}
+};
 
 export const MENU = [
   {
@@ -167,7 +168,7 @@ export const MENU = [
     links: [
       {
         target: { name: 'SettingsAnnouncement' },
-        label: "Annonces",
+        label: 'Annonces',
         isEnabled: config => config.features.settings.announcements.isEnabled
       },
       {
@@ -178,3 +179,9 @@ export const MENU = [
     ]
   }
 ];
+
+export const CONTACT_STATUS_COLORS = {
+  [CONTACT_STATUSES.NOT_DONE]: 'var(--color-red-600)',
+  [CONTACT_STATUSES.PENDING]: 'var(--color-orange-500)',
+  [CONTACT_STATUSES.DONE]: 'var(--color-green-700)'
+};

@@ -12,7 +12,6 @@ const submitError = ref(null);
 
 const formOptions = {
   async onSubmit(values) {
-    console.log(values);
     await login(values);
     await authenticate();
     emit('success');

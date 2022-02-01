@@ -38,3 +38,9 @@ export const REMUNERATION_NAMES = {
   CASH: 'CASH',
   GIFTCARD: 'GIFTCARD'
 };
+
+export const CONTACT_STATUSES = {
+  PENDING: 'refused',
+  DONE: 'online',
+  NOT_DONE: 'pending'
+};

@@ -9,26 +9,30 @@ export const vReadableColor = {
       const computedStyle = window.getComputedStyle(el);
       if (!computedStyle.backgroundColor) return;
 
-      el.style.color =
+      const color =
         import.meta.env.NODE_ENV === 'test'
           ? '#000'
           : getReadableColor(computedStyle.backgroundColor);
+
+      el.style.color = color;
     }
 
     setColor();
 
     const observer = new window.MutationObserver(setColor);
-    observer.observe(el, {
-      attributes: true,
-      childList: false,
-      subtree: false
-    });
-    observers.set(el, observer);
-    el.addEventListener('mouseenter', setColor);
-    el.addEventListener('mouseleave', setColor);
-    el.addEventListener('focus', setColor);
-    el.addEventListener('blur', setColor);
-    el.addEventListener('transitionend', setColor);
+    if (el) {
+      observer.observe(el, {
+        attributes: true,
+        childList: false,
+        subtree: false
+      });
+      observers.set(el, observer);
+      el.addEventListener('mouseenter', setColor);
+      el.addEventListener('mouseleave', setColor);
+      el.addEventListener('focus', setColor);
+      el.addEventListener('blur', setColor);
+      el.addEventListener('transitionend', setColor);
+    }
   },
 
   unmounted(el) {
