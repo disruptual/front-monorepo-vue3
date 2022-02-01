@@ -6,8 +6,7 @@ export default {
     },
 
     announcement: {
-      removeError:
-        "Une ou plusieurs annonces n'ont pas pu être supprimées",
+      removeError: "Une ou plusieurs annonces n'ont pas pu être supprimées",
       createError: "L'annonce n'a pas pu être créée.",
       removeSuccess: 'Suppression réussie.'
     },
@@ -40,13 +39,25 @@ export default {
       creditSuccess: "La cagnotte de l'utilisateur a été créditée",
       creditError: "La cagnotte de l'utilisateur n'a pas pu être créditée"
     },
+
     email: {
       updateSuccess: "L'email a été mise à jour",
       updateError: "L'email n'a pas été mise à jour"
     },
-    location:{
-      updateSuccess: "Le magasin a été mise à jour",
+
+    location: {
+      updateSuccess: 'Le magasin a été mise à jour',
       updateError: "Le magasin n'a pas été mise à jour"
+    },
+
+    item: {
+      unpublishInvalid:
+        'Certains articles selectionnés ne peuvent pas être dépubliés.',
+      deletehInvalid:
+        'Certains articles selectionnés ne peuvent pas être supprimés.',
+      republishInvalid:
+        'Certains articles selectionnés ne peuvent pas être republiés.',
+      updateError: "L'opération n'a pas pû être effectuée."
     }
   }
 };

@@ -194,7 +194,7 @@ const onMute = async users => {
     <DataTableRowAction
       name="block"
       :label="t('dataTable.label.blocked')"
-      icon="userDelete"
+      icon="ban"
       :can-batch="false"
       @action="onBlock"
     />

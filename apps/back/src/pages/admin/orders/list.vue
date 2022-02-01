@@ -68,7 +68,12 @@ const getStatusClass = order => ({
     "
     @filter-change="onFilterChange"
   >
-    <DataTableColumn name="id" :label="t('dataTable.label.id')" width="80" />
+    <DataTableColumn
+      name="id"
+      :label="t('dataTable.label.id')"
+      width="80"
+      is-filterable
+    />
 
     <DataTableColumn
       v-slot="{ row }"

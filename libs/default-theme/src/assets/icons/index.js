@@ -49,10 +49,16 @@ import heartFilled from './heartFilled.svg';
 import cart from './cart.svg';
 import chevronDown from './chevronDown.svg';
 import chevronUp from './chevronUp.svg';
+import ban from './ban.svg';
+import unpublish from './unpublish.svg';
+import trash from './trash.svg';
+import boxOpen from './boxOpen.svg';
 
 export default {
   add,
+  ban,
   bars,
+  boxOpen,
   calendar,
   caretDown,
   caretLeft,
@@ -98,6 +104,8 @@ export default {
   speechBubble,
   speechBubbleSlash,
   store,
+  trash,
+  unpublish,
   user,
   userDelete,
   userSlash,

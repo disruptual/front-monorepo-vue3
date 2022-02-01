@@ -1,4 +1,5 @@
 export * from './order.enums';
+export * from './item.enums';
 
 export const USER_ROLES = {
   USER: 'ROLE_USER',
@@ -23,15 +24,6 @@ export const DELIVERY_MODES = {
   HAND: 'handdelivery',
   RELAIS_COLIS: 'relaiscolis',
   COCOLIS: 'cocolis'
-};
-
-export const ITEM_PUBLICATION_STATES = {
-  PUBLISHED: 'PUBLISHED',
-  VACANCY: 'VACANCY',
-  ORDERED: 'ORDERED',
-  PURCHASED: 'PURCHASED',
-  UNPUBLISHED: 'UNPUBLISHED',
-  DELETED: 'DELETED'
 };
 
 export const REMUNERATION_NAMES = {

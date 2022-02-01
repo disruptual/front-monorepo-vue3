@@ -73,6 +73,7 @@ export default {
       order: 'Commande',
       photo: 'Photo',
       price: 'Prix',
+      republish: 'Republier',
       role: 'Rôle',
       seller: 'Vendeur',
       service: 'Service',
@@ -83,6 +84,7 @@ export default {
       storeOrganizer: 'Magasin organisateur',
       title: 'Titre',
       unblocked: 'Débloquer',
+      unpublish: 'Dépublier',
       visibility: 'Visibilité'
     },
     actions: {

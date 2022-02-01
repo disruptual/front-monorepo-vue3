@@ -7,13 +7,20 @@ import { ref } from 'vue';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { useItemApi } from '@dsp/core';
 import { useI18n } from 'vue-i18n';
-import { ITEM_PUBLICATION_STATES } from '@dsp/business';
+import {
+  ITEM_PUBLICATION_STATES,
+  ITEM_PUBLICATION_STATE_TRANSITIONS
+} from '@dsp/business';
+import { useToast } from '@dsp/ui';
 import { DATATABLE_COLUMN_TYPES } from '@/utils/constants';
 
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
+import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
 
 useBreadCrumbs('Annonces');
+const { t } = useI18n();
+const { showError } = useToast();
 
 const defaultFilter = { display: 'all', 'sort[updated]': 'desc' };
 const filters = ref({ ...defaultFilter });
@@ -21,17 +28,66 @@ const onFilterChange = newFilters => {
   filters.value = { ...newFilters, ...defaultFilter };
 };
 
-const query = useItemApi().findAllQuery({
+const { findAllQuery, updateManyMutation } = useItemApi();
+const query = findAllQuery({
   relations: ['user', 'mainMedia', 'category  '],
   filters
 });
+const { mutate: updateItems } = updateManyMutation({
+  onError() {
+    showError(t('toasts.item.updateError'));
+  },
 
-const { t } = useI18n();
+  onSettled() {
+    query.refetch.value();
+  }
+});
 
 const publicationStates = Object.values(ITEM_PUBLICATION_STATES).map(state => ({
   value: state,
   label: t(`item.publicationState.${state}`)
 }));
+
+const onUnpublish = rows => {
+  if (!rows.some(row => row.canUnpublish)) {
+    showError(t('toasts.item.unpublishInvalid'));
+  }
+
+  updateItems(
+    rows.map(row => ({
+      id: row.id,
+      entity: { publicationStateTransition: row.unpublishTransition }
+    }))
+  );
+};
+
+const onDelete = rows => {
+  if (!rows.some(row => row.canDelete)) {
+    showError(t('toasts.item.deleteInvalid'));
+  }
+
+  updateItems(
+    rows.map(row => ({
+      id: row.id,
+      entity: { publicationStateTransition: row.deleteTransition }
+    }))
+  );
+};
+
+const onRepublish = rows => {
+  if (!rows.some(row => row.canRepublish)) {
+    showError(t('toasts.item.republishInvalid'));
+  }
+
+  updateItems(
+    rows.map(row => ({
+      id: row.id,
+      entity: {
+        publicationStateTransition: ITEM_PUBLICATION_STATE_TRANSITIONS.REPUBLISH
+      }
+    }))
+  );
+};
 </script>
 
 <template>
@@ -44,12 +100,7 @@ const publicationStates = Object.values(ITEM_PUBLICATION_STATES).map(state => ({
     "
     @filter-change="onFilterChange"
   >
-    <DataTableColumn
-      name="id"
-      :label="t('dataTable.label.id')"
-      width="80"
-      is-filterable
-    />
+    <DataTableColumn name="id" :label="t('dataTable.label.id')" width="80" />
     <DataTableColumn
       v-slot="{ row }"
       name="photo"
@@ -75,7 +126,17 @@ const publicationStates = Object.values(ITEM_PUBLICATION_STATES).map(state => ({
       :label="t('dataTable.label.title')"
       width="80"
       is-filterable
+      is-highlightable
     />
+
+    <DataTableColumn
+      name="slug"
+      :label="t('dataTable.label.slug')"
+      is-filterable
+      is-highlightable
+      is-hidden
+    />
+
     <DataTableColumn
       name="formatedPrice"
       :label="t('dataTable.label.price')"
@@ -97,6 +158,8 @@ const publicationStates = Object.values(ITEM_PUBLICATION_STATES).map(state => ({
       name="seller"
       :label="t('dataTable.label.seller')"
       is-filterable
+      is-highlightable
+      :highlight-options="{ predicate: row => row.user?.email }"
     >
       <router-link
         v-if="row.user"
@@ -117,6 +180,27 @@ const publicationStates = Object.values(ITEM_PUBLICATION_STATES).map(state => ({
     >
       {{ t(`item.publicationState.${row.publicationState}`) }}
     </DataTableColumn>
+
+    <DataTableRowAction
+      name="unpublish"
+      :label="t('dataTable.label.unpublish')"
+      icon="unpublish"
+      @action="onUnpublish"
+    />
+
+    <DataTableRowAction
+      name="delete"
+      :label="t('dataTable.label.delete')"
+      icon="trash"
+      @action="onDelete"
+    />
+
+    <DataTableRowAction
+      name="republish"
+      :label="t('dataTable.label.republish')"
+      icon="boxOpen"
+      @action="onRepublish"
+    />
   </DataTable>
 </template>
 
