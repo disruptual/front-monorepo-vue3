@@ -41,16 +41,20 @@ const matchers = {
 };
 
 export class DataTableHighlight {
-  constructor({ column, color, value, operator, name }) {
+  constructor({ column, color, value, operator, name, isActive = true }) {
     this.column = column;
     this.color = color;
     this.value = value;
     this.operator = operator;
     this.name = name;
-    this.isActive = true;
+    this.isActive = isActive;
   }
 
   isMatch(predicate) {
     return matchers[this.operator](predicate, this.value);
+  }
+
+  getPlainObject() {
+    return JSON.stringify(this);
   }
 }
