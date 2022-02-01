@@ -58,6 +58,10 @@ const search = computed({
     }
   }, 1000)
 });
+
+const onUpdateHighlight = () => {
+  model.debouncedSavePreferences();
+};
 </script>
 
 <template>
@@ -128,6 +132,7 @@ const search = computed({
                 <dsp-checkbox
                   v-model="highlight.isActive"
                   :label="highlight.name"
+                  @update:modelValue="onUpdateHighlight()"
                 />
                 <dsp-icon-button
                   icon="remove"

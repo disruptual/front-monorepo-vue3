@@ -90,6 +90,7 @@ const form = useForm({
     const highlight = toRaw({ ...values, column: selectedColumn.value });
     if (props.highlight) {
       Object.assign(props.highlight, highlight);
+      model.debouncedSavePreferences();
     } else {
       model.addHighlight(highlight);
     }

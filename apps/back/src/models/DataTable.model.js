@@ -26,7 +26,6 @@ export class DataTable {
     this.selectedRowIds = [];
     this.visibleRowIds = [];
     this.rowActions = [];
-    this.highlights = [];
     this.minRowSize = minRowSize;
     this.focusedRowIndex = null;
     this.hasSelectorColumn = hasSelectorColumn;
@@ -36,10 +35,11 @@ export class DataTable {
 
     this.tableElement = tableElement;
 
-    this._debouncedSavePreferences = debounce(
+    this.debouncedSavePreferences = debounce(
       this._savePreferences.bind(this),
       1000
     );
+    this.highlights = this.highlightFromStorage || [];
     this.filters = this.userPreferences?.filters || {};
     this.resetPreferences = this.resetPreferences.bind(this);
   }
@@ -65,7 +65,28 @@ export class DataTable {
   set filters(value) {
     this._filters = value;
     this.onFilterChange(this._filters);
-    this._debouncedSavePreferences();
+    this.debouncedSavePreferences();
+  }
+
+  get highlights() {
+    return this._highlights;
+  }
+
+  set highlights(value) {
+    this._highlights = value;
+    this.debouncedSavePreferences();
+  }
+
+  get highlightFromStorage() {
+    if (
+      this.userPreferences?.highlights &&
+      this.userPreferences?.highlights.length === 0
+    )
+      return null;
+
+    return this.userPreferences?.highlights.map(
+      highlight => new DataTableHighlight(JSON.parse(highlight))
+    );
   }
 
   get displayedColumns() {
@@ -135,12 +156,13 @@ export class DataTable {
 
   _onColumnUpdate() {
     this._setColumnOffsets();
-    this._debouncedSavePreferences();
+    this.debouncedSavePreferences();
   }
 
   _savePreferences() {
     this.userPreferences = {
       filters: this.filters,
+      highlights: this.highlights.map(highlight => highlight.getPlainObject()),
       columns: this.columns.map(column => ({
         name: column.name,
         width: column.width,
@@ -207,11 +229,14 @@ export class DataTable {
   }
 
   addHighlight(highlight) {
-    this.highlights.push(new DataTableHighlight(highlight));
+    const newHighlight = new DataTableHighlight(highlight);
+    this.highlights = [...this.highlights, newHighlight];
   }
 
   removeHighlight(highlight) {
-    this.highlights.splice(this.highlights.indexOf(highlight), 1);
+    this.highlights = this.highlights.filter(function (val) {
+      return val.name !== highlight.name;
+    });
   }
 
   getRowHighlight(row) {
