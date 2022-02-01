@@ -19,22 +19,12 @@ useBreadCrumbs('Commandes');
 const { t } = useI18n();
 const filters = ref({});
 
-const handleDisputeFilter = newFilters => {
-  const { problemState, ...filters } = newFilters;
-
-  if (!problemState) return filters;
-
-  return {
-    ...filters,
-    problemState: [ORDER_PROBLEM_STATES.DISPUTED, ORDER_PROBLEM_STATES.PROBLEM]
-  };
-};
-
 const onFilterChange = ({ created, ...newFilters }) => {
-  newFilters = handleDisputeFilter(newFilters);
-
   filters.value = {
     ...newFilters,
+    problemState: newFilters.problemState
+      ? [ORDER_PROBLEM_STATES.DISPUTED, ORDER_PROBLEM_STATES.PROBLEM]
+      : undefined,
     'created[before]': created?.before,
     'created[after]': created?.after
   };
@@ -78,12 +68,7 @@ const getStatusClass = order => ({
     "
     @filter-change="onFilterChange"
   >
-    <DataTableColumn
-      name="id"
-      :label="t('dataTable.label.id')"
-      width="80"
-      is-filterable
-    />
+    <DataTableColumn name="id" :label="t('dataTable.label.id')" width="80" />
 
     <DataTableColumn
       v-slot="{ row }"

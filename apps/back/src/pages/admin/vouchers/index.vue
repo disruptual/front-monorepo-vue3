@@ -4,7 +4,6 @@ export default { name: 'AdminVoucher' };
 
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useVoucherApi } from '@dsp/core';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
@@ -17,13 +16,24 @@ useBreadCrumbs("Bon d'achats");
 
 const { t } = useI18n();
 const filters = ref({});
-const query = useVoucherApi().findAllQuery({
+const onFilterChange = ({ created, ...newFilters }) => {
+  filters.value = {
+    ...newFilters,
+    'created[before]': created?.before,
+    'created[after]': created?.after
+  };
+};
+
+const { findAllQuery, updateMutation } = useVoucherApi();
+const query = findAllQuery({
   filters,
   requestOptions: { params: { display: 'all' } }
 });
 
-const onFilterChange = newFilters => {
-  filters.value = { ...newFilters };
+const { mutate: updateVoucher } = updateMutation();
+
+const onCheckboxChange = (id, generated) => {
+  updateVoucher({ id, entity: { generated } });
 };
 </script>
 
@@ -40,26 +50,23 @@ const onFilterChange = newFilters => {
       <dsp-center>Cet utilisateur n'a réalisé aucune commande.</dsp-center>
     </template>
 
-    <DataTableColumn
-      name="id"
-      :label="t('dataTable.label.id')"
-      width="100"
-      is-filterable
-    />
+    <DataTableColumn name="id" :label="t('dataTable.label.id')" width="50" />
     <DataTableColumn
       v-slot="{ row }"
       name="createdAt"
       :label="t('dataTable.label.created')"
       width="200"
+      is-filterable
       :tooltip-label="({ row }) => row.formatCreatedAt()"
     >
       {{ row.formatCreatedAt() }}
     </DataTableColumn>
     <DataTableColumn
       v-slot="{ row }"
-      name="createdAt"
-      :label="t('dataTable.label.dateValidated')"
+      name="validatedAt"
+      :label="t('dataTable.label.expirationDate')"
       width="200"
+      :type="DATATABLE_COLUMN_TYPES.DATE"
       :tooltip-label="({ row }) => row.formatValidatedAt()"
     >
       {{ row.formatValidatedAt() }}
@@ -68,7 +75,7 @@ const onFilterChange = newFilters => {
       v-slot="{ row }"
       name="user.email"
       :label="t('dataTable.label.email')"
-      width="100"
+      width="200"
       is-filterable
     >
       <dsp-truncated-text>
@@ -89,6 +96,14 @@ const onFilterChange = newFilters => {
     />
     <DataTableColumn
       v-slot="{ row }"
+      name="code"
+      :label="t('dataTable.label.code')"
+      is-highlightable
+    >
+      {{ row.code || row.enum }}
+    </DataTableColumn>
+    <DataTableColumn
+      v-slot="{ row }"
       name="generated"
       :label="t('dataTable.label.generated')"
       width="100"
@@ -98,7 +113,7 @@ const onFilterChange = newFilters => {
           label=""
           :model-value="row.generated"
           readonly
-          @click.prevent
+          @update:modelValue="onCheckboxChange(row.id, $event)"
         />
       </dsp-center>
     </DataTableColumn>

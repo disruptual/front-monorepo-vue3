@@ -78,13 +78,7 @@ export class DataTable {
   }
 
   get highlightFromStorage() {
-    if (
-      this.userPreferences?.highlights &&
-      this.userPreferences?.highlights.length === 0
-    )
-      return null;
-
-    return this.userPreferences?.highlights.map(
+    return this.userPreferences?.highlights?.map(
       highlight => new DataTableHighlight(JSON.parse(highlight))
     );
   }

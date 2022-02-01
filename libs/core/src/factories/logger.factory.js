@@ -25,7 +25,7 @@ class Logger {
   }
 
   mutechannel(channelName) {
-    if (this.mutedChannels.includes(channelName)) {
+    if (!this.mutedChannels.includes(channelName)) {
       this.mutedChannels = [...this.mutedChannels, channelName];
     }
   }
@@ -69,7 +69,8 @@ class Logger {
 
   set mutedChannels(channels) {
     localStorage.setItem(
-      JSON.stringify(this.localStorageMutedChannelsKey, channels)
+      this.localStorageMutedChannelsKey,
+      JSON.stringify(channels)
     );
   }
 
