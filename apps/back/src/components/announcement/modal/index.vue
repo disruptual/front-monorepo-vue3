@@ -41,7 +41,7 @@ const formOptions = {
       <dsp-smart-form-field
         v-slot="slotProps"
         name="startAt"
-        :initial-value="announcement?.dateFormatStartAt() || null"
+        :initial-value="announcement?.dateFormatStartAt?.() || null"
         required
       >
         <dsp-form-control
@@ -62,7 +62,7 @@ const formOptions = {
       <dsp-smart-form-field
         v-slot="slotProps"
         name="endAt"
-        :initial-value="announcement?.dateFormatEndAt() || null"
+        :initial-value="announcement?.dateFormatEndAt?.() || null"
         required
       >
         <dsp-form-control

@@ -3,11 +3,16 @@ export default { name: 'App' };
 </script>
 
 <script setup>
+import { reactive, provide } from 'vue';
 import { AppProvider } from '@dsp/core';
 import AppLoading from 'client/components/app-loader.vue';
 import ErrorBoundary from './components/error-boundary/index.vue';
 import FeatureControl from './components/feature-control/index.vue';
+import { CONTEXT_KEYS } from './utils/constants';
 // import { VueQueryDevTools } from 'vue-query/devtools';
+
+const globalState = reactive({});
+provide(CONTEXT_KEYS.GLOBAL_STATE, globalState);
 </script>
 
 <template>

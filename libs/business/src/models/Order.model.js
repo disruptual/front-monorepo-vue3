@@ -177,6 +177,30 @@ export class Order extends BaseModel {
     return this.delivery.tag === DELIVERY_MODES.LAPOSTE_LETTER;
   }
 
+  get trackingNumber() {
+    switch (this.delivery?.tag) {
+      case DELIVERY_MODES.MONDIAL_RELAY:
+        return this.deliveryData?.MondialRelay?.ExpeditionNum;
+      case DELIVERY_MODES.RELAIS_COLIS:
+      case DELIVERY_MODES.LAPOSTE_COLISSIMO:
+        return this.deliveryDetail?.expeditionNum;
+      case DELIVERY_MODES.LAPOSTE_LETTER_FOLLOW:
+        return this.deliveryDetail?.externalTicketId;
+      default:
+        return null;
+    }
+  }
+
+  get trackingUrl() {
+    switch (this.delivery?.tag) {
+      case DELIVERY_MODES.LAPOSTE_COLISSIMO:
+      case DELIVERY_MODES.LAPOSTE_LETTER_FOLLOW:
+        return `https://www.laposte.fr/outils/suivre-vos-envois?code=${this.trackingNumber}`;
+      default:
+        return null;
+    }
+  }
+
   get history() {
     return [...this.orderStateHistos, ...this.deliveryStateHistos].sort(
       (a, b) => new Date(b.updated) - new Date(a.updated)

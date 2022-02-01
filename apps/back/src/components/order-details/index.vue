@@ -15,8 +15,8 @@ import SolveProblemModal from './modals/solve-problem.vue';
 const props = defineProps({
   order: { type: Order, required: true }
 });
-const emit = defineEmits(['update']);
 
+const emit = defineEmits(['update']);
 const { t } = useI18n();
 
 const MODALS = { CLOSE: 'CLOSE', SOLVE: 'SOLVE' };
@@ -111,33 +111,16 @@ const buyerLabel = computed(() =>
           </dd>
         </template>
 
-        <template v-if="order.deliveryData?.MondialRelay">
-          <dt>{{ t(`order.details.label.mondialRelay.trackingNumber`) }}</dt>
+        <template v-if="order.trackingNumber">
+          <dt>{{ t(`order.details.label.trackingNumber`) }}</dt>
           <dd>
-            <span>{{ order.deliveryData.MondialRelay.ExpeditionNum }}</span>
-            <br />
-            <a
-              :href="order.deliveryData.MondialRelay.URL_Etiquette"
+            <component
+              :is="order.trackingUrl ? 'a' : 'span'"
+              :href="order.trackingUrl"
               target="_blank"
             >
-              {{ t(`order.details.label.mondialRelay.downloadEtiquette`) }}
-            </a>
-          </dd>
-        </template>
-
-        <template
-          v-if="order.isRelaisColis && order.deliveryDetail?.expeditionNum"
-        >
-          <dt>{{ t(`order.details.label.relaisColis.trackingNumber`) }}</dt>
-          <dd>
-            <span>{{ order.deliveryDetail.expeditionNum }}</span>
-            <br />
-            <a
-              :href="order.deliveryDetail.buyerDeliveryFormUrl"
-              target="_blank"
-            >
-              {{ t(`order.details.label.relaisColis.downloadEtiquette`) }}
-            </a>
+              {{ order.trackingNumber }}
+            </component>
           </dd>
         </template>
       </dl>
@@ -209,7 +192,7 @@ const buyerLabel = computed(() =>
     :is-opened="openedModal === MODALS.CLOSE"
     :order="order"
     @close="openedModal = null"
-    @success="$emit('update')"
+    @success="emit('update')"
   />
   <SolveProblemModal
     :is-opened="openedModal === MODALS.SOLVE"

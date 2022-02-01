@@ -3,7 +3,8 @@ import { USER_ROLES, CONTACT_STATUSES } from '@dsp/business';
 export const CONTEXT_KEYS = {
   BREADCRUMB: 'breadcrumb',
   DATATABLE: 'dataTable',
-  CAROUSEL: 'carousel'
+  CAROUSEL: 'carousel',
+  GLOBAL_STATE: 'globalState'
 };
 
 export const EVENTS = {

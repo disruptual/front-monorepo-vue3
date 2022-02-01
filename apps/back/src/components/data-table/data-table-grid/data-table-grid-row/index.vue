@@ -57,9 +57,9 @@ watch(
       isHighlighted && 'data-table-grid-row--highlighted'
     ]"
     tabIndex="0"
-    @dblclick="model.onGoToDetail(row)"
+    @dblclick="model.onGoToDetail?.(row)"
     @focus="model.focusedRowIndex = index"
-    @keyup.enter="model.onRowDblClick(row, $event)"
+    @keyup.enter="model.onGoToDetail?.(row)"
   >
     <template v-if="isVisible">
       <td

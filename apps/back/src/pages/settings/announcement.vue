@@ -51,7 +51,7 @@ const onDelete = async rows => {
   }
 };
 
-const onEdit = row => {
+const onEdit = ([row]) => {
   selectedAnnouncement.value = row;
   isEditing.value = true;
 };
