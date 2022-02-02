@@ -133,9 +133,14 @@ export class DataTable {
   }
 
   get totalWidth() {
+    // if the grid contains at least one fluid width column,
+    // we want it to be the size of the parent element to allow the guild column to expand
+    if (this.displayedColumns.some(col => col.width === '*')) {
+      return this.tableElement.parentElement.offsetWidth;
+    }
+
     return this.displayedColumns.reduce((total, column) => {
       if (!column.headerElement) return total;
-
       return total + column.headerElement.offsetWidth;
     }, this.selectorColumnWidth + this.actionColumnWidth);
   }
