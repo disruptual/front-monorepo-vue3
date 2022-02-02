@@ -51,10 +51,7 @@ const device = useDevice();
       />
     </dsp-flex>
 
-    <dsp-aspect-ratio
-      class="item-card__image-wrapper"
-      :ratio="device.isMobile ? 2 / 3 : 1"
-    >
+    <dsp-aspect-ratio class="item-card__image-wrapper" ratio="1">
       <dsp-image :src="imageUrl" :alt="item.title" />
     </dsp-aspect-ratio>
 
@@ -76,7 +73,7 @@ const device = useDevice();
 
 <style lang="scss" scoped>
 .item-card {
-  padding: var(--spacing-md);
+  padding: var(--spacing-sm);
   margin: 0;
 
   @include mobile-only {
@@ -125,9 +122,9 @@ header {
 }
 
 .item-card__favorite-button {
+  padding-right: 0;
   @include mobile-only {
     padding-left: 0;
-    padding-right: 0;
   }
 }
 </style>

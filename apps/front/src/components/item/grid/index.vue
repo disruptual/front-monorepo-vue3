@@ -36,8 +36,8 @@ const onIntersect = item => entry => {
   place-content: center;
 
   @include mobile-only {
-    --grid-size: min(10em, calc(100vw - var(--spacing-md)));
-    gap: 0;
+    --grid-size: min(14em, calc(100vw - var(--spacing-md)));
+    grid-column-gap: 0;
   }
 }
 </style>
