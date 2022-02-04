@@ -126,7 +126,7 @@ export const MENU = [
       },
       {
         target: { name: 'AdminEvent' },
-        label: 'Evenements',
+        label: 'Évenements',
         isEnabled: config => config.features.admin.events?.isEnabled
       }
     ]
