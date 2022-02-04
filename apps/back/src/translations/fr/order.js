@@ -32,14 +32,8 @@ export default {
         modeDelivery: 'Mode de livraison',
         numExpedition: "Numéro d'expédition",
         storeInOut: 'Magasin de dépôt/retrait',
-        mondialRelay: {
-          trackingNumber: 'Numéro de Suivi MondialRelay',
-          downloadEtiquette: "Télécharger l'étiquette de suivi MondialRelay"
-        },
-        relaisColis: {
-          trackingNumber: 'Numéro de Suivi Relais Colis',
-          downloadEtiquette: "Télécharger l'étiquette de suivi Relais Colis"
-        },
+        trackingNumber: 'Numéro de Suivi',
+        downloadEtiquette: "Télécharger l'étiquette de suivi",
         modeRemuneration: 'Mode de rémunération',
         serviceFees: 'Frais de service',
         shippingFees: 'Frais de livraison',

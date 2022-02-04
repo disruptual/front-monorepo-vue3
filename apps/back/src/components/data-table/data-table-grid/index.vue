@@ -3,7 +3,7 @@ export default { name: 'DataTableGrid' };
 </script>
 
 <script setup>
-import { inject, ref, watch, nextTick } from 'vue';
+import { inject, ref, watch, nextTick, onMounted, onBeforeUnmount } from 'vue';
 import { debounce } from 'lodash-es';
 import { useEventListener } from '@dsp/ui';
 import { CONTEXT_KEYS } from '@/utils/constants';
@@ -30,6 +30,19 @@ useEventListener('resize', updateTotalWidth);
 
 watch(tableElement, () => {
   model.tableElement = tableElement.value;
+});
+
+const globalState = inject(CONTEXT_KEYS.GLOBAL_STATE);
+onMounted(() => {
+  if (!globalState[model.id]) return;
+
+  tableElement.value.scrollTop = globalState[model.id].scrollPosition;
+});
+
+onBeforeUnmount(() => {
+  globalState[model.id] = {
+    scrollPosition: tableElement.value.scrollTop
+  };
 });
 </script>
 
