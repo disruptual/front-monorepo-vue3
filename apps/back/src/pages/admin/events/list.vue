@@ -17,7 +17,7 @@ const { mutateAsync: updateEvent } = updateMutation();
 const { mutateAsync: deleteEvent } = deleteMutation();
 const { mutateAsync: createEvent } = createMutation();
 
-useBreadCrumbs('Evenement');
+useBreadCrumbs('Événements');
 const { t } = useI18n();
 const { showSuccess, showError } = useToast();
 const isEditing = ref(false);

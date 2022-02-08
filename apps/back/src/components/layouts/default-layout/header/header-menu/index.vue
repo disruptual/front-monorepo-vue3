@@ -4,6 +4,7 @@ export default { name: 'HeaderMenu' };
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useCurrentUser, useAppContext, isFunction } from '@dsp/core';
 import { useReadableColor } from '@dsp/ui';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
@@ -12,6 +13,7 @@ import { MENU } from '@/utils/constants';
 const isOpened = ref(false);
 const search = ref('');
 
+const { t } = useI18n();
 const { data: currentUser } = useCurrentUser();
 const breadcrumbs = useBreadCrumbs();
 const context = useAppContext();
@@ -28,7 +30,7 @@ const displayedLinksForSection = section =>
   section.links
     .filter(link => !isFunction(link.isEnabled) || link.isEnabled(context))
     .filter(link =>
-      link.label.toLowerCase().includes(search.value.toLowerCase())
+      t(`menu.links.${link.id}`).includes(search.value.toLowerCase())
     );
 
 const onLinkClick = () => {
@@ -63,22 +65,20 @@ const focusedTextColor = useReadableColor('--color-brand-500');
 
       <dsp-flex
         v-for="section in allowedSections"
-        :key="section.name"
+        :key="section.id"
         as="section"
         direction="column"
       >
-        <h3>{{ section.name }}</h3>
+        <h3>{{ t(`menu.sections.${section.id}`) }}</h3>
+
         <ul class="section-list">
-          <li
-            v-for="link in displayedLinksForSection(section)"
-            :key="link.label"
-          >
+          <li v-for="link in displayedLinksForSection(section)" :key="link.id">
             <router-link
               :to="link.target"
               class="menu-item"
               @click="onLinkClick"
             >
-              {{ link.label }}
+              {{ t(`menu.links.${link.id}`) }}
             </router-link>
           </li>
         </ul>

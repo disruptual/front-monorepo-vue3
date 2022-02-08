@@ -27,7 +27,7 @@ const getItemClasses = item => ({
         :class="getItemClasses(item)"
       >
         <slot v-bind="{ item }">
-          <dsp-plain-button @click="emit('click', item)">
+          <dsp-plain-button @click="emit('click', item.name)">
             {{ item.label }}
           </dsp-plain-button>
         </slot>

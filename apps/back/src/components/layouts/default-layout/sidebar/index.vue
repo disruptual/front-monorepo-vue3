@@ -4,11 +4,13 @@ export default { name: 'DefaultLayoutSidebar' };
 
 <script setup>
 import { computed, ref, nextTick } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { vReadableColor } from '@dsp/ui';
 import { useCurrentUser, useAppContext, isFunction } from '@dsp/core';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
-
 import { MENU } from '@/utils/constants';
+
+const { t } = useI18n();
 const { data: currentUser } = useCurrentUser();
 const context = useAppContext();
 const containerEl = ref(null);
@@ -56,7 +58,7 @@ const onmouseleave = () => {
     <nav role="navigation">
       <dsp-flex
         v-for="section in allowedSections"
-        :key="section.name"
+        :key="section.id"
         as="section"
         direction="column"
       >
@@ -73,7 +75,9 @@ const onmouseleave = () => {
             is-inline
             class="section__icon"
           />
-          <span class="section__name">{{ section.name }}</span>
+          <span class="section__name">
+            {{ t(`menu.sections.${section.id}`) }}
+          </span>
           <dsp-icon icon="caretDown" class="section__caret" />
         </dsp-flex>
         <ul v-if="isSectionOpened(section.name)" class="section-list">
@@ -84,7 +88,7 @@ const onmouseleave = () => {
               class="menu-item"
               @click="onLinkClick"
             >
-              {{ link.label }}
+              {{ t(`menu.links.${link.id}`) }}
             </router-link>
           </li>
         </ul>

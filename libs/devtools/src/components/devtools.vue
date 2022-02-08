@@ -3,24 +3,20 @@ export default { name: 'DspDevtools' };
 </script>
 
 <script setup>
-import { inject, ref, computed } from 'vue';
-import { set } from 'lodash-es';
-import { useAppContext } from '@dsp/core';
-import ComponentForm from './component-form.vue';
+import { inject, ref, computed, markRaw } from 'vue';
+import { PANELS } from '../constants';
+import ColorsPanel from './panels/colors.vue';
+import ComponentsPanel from './panels/components.vue';
+import GlobalPanel from './panels/global.vue';
+import IconsPanel from './panels/icons.vue';
+import TranslationsPanel from './panels/translations.vue';
+import TypographyPanel from './panels/typography.vue';
 
 const devtoolsContext = inject('devtoolsContext');
-const appContext = useAppContext();
-if (devtoolsContext.options.isDetached) {
-  Object.assign(appContext, window.disruptualDevtoolsInitialState);
-}
 
 const isPopupOpened = ref(false);
 const detach = () => {
-  let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
-width=800,height=600,left=100,top=100`;
-
-  const popup = window.open('/?devtools=1', 'devtools', params);
-  popup.disruptualDevtoolsInitialState = appContext;
+  const popup = devtoolsContext.createPopup();
   isPopupOpened.value = true;
   popup.onbeforeunload = () => {
     isPopupOpened.value = false;
@@ -35,21 +31,36 @@ const isConsoleDisplayed = computed(() => {
   return isDisplayed.value && !isPopupOpened.value;
 });
 
-const onUpdate = ({ path, value }) => {
-  if (devtoolsContext.options.isDetached) {
-    window.opener.disruptualDevtoolsUpdate({ path, value });
+const tabs = ref([
+  { name: PANELS.GLOBAL, label: 'Global', component: markRaw(GlobalPanel) },
+  {
+    name: PANELS.COMPONENTS,
+    label: 'Composants',
+    component: markRaw(ComponentsPanel),
+    isActive: true
+  },
+  { name: PANELS.COLORS, label: 'Couleurs', component: markRaw(ColorsPanel) },
+  {
+    name: PANELS.TYPOGRAPHY,
+    label: 'Typographie',
+    component: markRaw(TypographyPanel)
+  },
+  { name: PANELS.ICONS, label: 'Icônes', component: markRaw(IconsPanel) },
+  {
+    name: PANELS.TRANSLATIONS,
+    label: 'Traductions',
+    component: markRaw(TranslationsPanel)
   }
-  set(appContext, path, value);
+]);
+const onMenuClick = tabName => {
+  tabs.value.forEach(tab => {
+    tab.isActive = tab.name === tabName;
+  });
 };
-window.disruptualDevtoolsUpdate = onUpdate;
 
-const tabs = [
-  { name: 'components', label: 'Composants' },
-  { name: 'colors', label: 'Couleurs' },
-  { name: 'typography', label: 'Typography' },
-  { name: 'icons', label: 'Icônes' },
-  { name: 'translations', label: 'Wordings' }
-];
+const currentPanel = computed(
+  () => tabs.value.find(tab => tab.isActive).component
+);
 </script>
 
 <template>
@@ -66,7 +77,7 @@ const tabs = [
   >
     <dsp-flex as="header" justify="space-between" align="center">
       <h2>Devtools</h2>
-      <dsp-menu :items="tabs" />
+      <dsp-menu :items="tabs" @click="onMenuClick" />
       <dsp-button
         v-if="!$route.query.devtools"
         is-outlined
@@ -76,11 +87,7 @@ const tabs = [
         Detach
       </dsp-button>
     </dsp-flex>
-    <ul>
-      <li v-for="(value, key) in devtoolsContext.schema" :key="key">
-        <ComponentForm :component="key" :schema="value" @update="onUpdate" />
-      </li>
-    </ul>
+    <component :is="currentPanel" />
   </dsp-surface>
 </template>
 
@@ -101,7 +108,7 @@ const tabs = [
     bottom: 0;
     left: 0;
     right: 0;
-    max-height: 40vh;
+    height: 40vh;
     overflow: auto;
     box-shadow: 0 -5px 5px 0 rgba(0, 0, 0, 0.15);
   }

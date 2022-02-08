@@ -4,7 +4,7 @@ export default { name: 'DspDevtools' };
 
 <script setup>
 import { inject } from 'vue';
-import ComponentForm from './component-form.vue';
+import ComponentForm from '../component-form.vue';
 
 const devtoolsContext = inject('devtoolsContext');
 </script>
@@ -12,9 +12,13 @@ const devtoolsContext = inject('devtoolsContext');
 <template>
   <ul>
     <li v-for="(value, key) in devtoolsContext.schema" :key="key">
-      <ComponentForm :component="key" :schema="value" @update="onUpdate" />
+      <ComponentForm :component="key" :schema="value" />
     </li>
   </ul>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+li {
+  margin-bottom: var(--spacing-md);
+}
+</style>
