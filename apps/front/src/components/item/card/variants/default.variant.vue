@@ -51,7 +51,7 @@ const device = useDevice();
       />
     </dsp-flex>
 
-    <dsp-aspect-ratio class="item-card__image-wrapper" ratio="1">
+    <dsp-aspect-ratio class="item-card__image-wrapper">
       <dsp-image :src="imageUrl" :alt="item.title" />
     </dsp-aspect-ratio>
 

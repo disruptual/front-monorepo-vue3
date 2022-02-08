@@ -11,9 +11,21 @@ const isJs = computed(() => activePanel.value === 'js');
 <template>
   <dsp-surface class="code-example">
     <dsp-flex class="toolbar" gap="md" justify="flex-end">
-      <dsp-plain-button :class="isPreview && 'active'" @click="activePanel = 'preview'">Preview</dsp-plain-button>
-      <dsp-plain-button :class="isHtml && 'active'" @click="activePanel = 'html'">HTML</dsp-plain-button>
-      <dsp-plain-button :class="isJs && 'active'" @click="activePanel = 'js'">JS</dsp-plain-button>
+      <dsp-plain-button
+        :class="isPreview && 'active'"
+        @click="activePanel = 'preview'"
+      >
+        Preview
+      </dsp-plain-button>
+      <dsp-plain-button
+        :class="isHtml && 'active'"
+        @click="activePanel = 'html'"
+      >
+        HTML
+      </dsp-plain-button>
+      <dsp-plain-button :class="isJs && 'active'" @click="activePanel = 'js'">
+        JS
+      </dsp-plain-button>
     </dsp-flex>
 
     <dsp-surface v-if="activePanel === 'preview'">

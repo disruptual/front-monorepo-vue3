@@ -17,6 +17,7 @@ const releaseNotes = Object.entries(releaseNotesModules)
     version: path.replace('./release-notes/', '').replace('.md', ''),
     component: module.default
   }))
+  .filter(({ version }) => import.meta.env.DEV || version !== 'Latest')
   .reverse();
 
 const activeTab = computed({
@@ -37,7 +38,7 @@ const activeTab = computed({
         <ul class="release-notes__summary">
           <li v-for="(releaseNote, index) in releaseNotes" :key="index">
             <a :href="`#${releaseNote.version}`">
-              Version {{ releaseNote.version }}
+              {{ releaseNote.version }}
             </a>
           </li>
         </ul>

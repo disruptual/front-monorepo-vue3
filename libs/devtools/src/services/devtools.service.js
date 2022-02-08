@@ -1,8 +1,9 @@
 import DevtoolsComponent from '@dsp/devtools/components/devtools.vue';
 
 export class DevtoolsService {
-  constructor(app) {
+  constructor(app, options) {
     this.disruptualApp = app;
+    this.options = options;
     this.schema = null;
   }
 
@@ -24,5 +25,12 @@ export class DevtoolsService {
 
     this.disruptualApp.vueApp.component('dsp-devtools', DevtoolsComponent);
     this.disruptualApp.vueApp.provide('devtoolsContext', this);
+    if (this.options.isDetached) {
+      this.disruptualApp.router.options.routes.forEach(route => {
+        this.disruptualApp.router.removeRoute(route.name);
+      });
+    }
   }
+
+  updateAppContext(path, value) {}
 }

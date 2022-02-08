@@ -169,13 +169,18 @@ export const MENU = [
     links: [
       {
         target: { name: 'SettingsAnnouncement' },
-        label: 'Annonces',
+        label: 'Bandeaux',
         isEnabled: config => config.features.settings.announcements.isEnabled
       },
       {
         target: { name: 'SettingsCarousel' },
         label: 'Carrousel',
         isEnabled: config => config.features.settings.carousel.isEnabled
+      },
+      {
+        target: { name: 'SettingsHomeBlocks' },
+        label: 'Blocks push',
+        isEnabled: config => config.features.settings.homeBlocks.isEnabled
       }
     ]
   }

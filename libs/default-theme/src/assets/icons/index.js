@@ -53,9 +53,13 @@ import ban from './ban.svg';
 import unpublish from './unpublish.svg';
 import trash from './trash.svg';
 import boxOpen from './boxOpen.svg';
+import arrowUp from './arrow-up.svg';
+import arrowDown from './arrow-down.svg';
 
 export default {
   add,
+  arrowUp,
+  arrowDown,
   ban,
   bars,
   boxOpen,

@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, reactive } from 'vue';
 import { HttpService } from './http.service';
 import { createQueryClient } from '../factories/queryClient.factory';
 import { createAuthProvider } from '../factories/authProvider.factory';
@@ -18,7 +18,7 @@ export class DisruptualApp {
     plugins
   } = {}) {
     this.routes = routes;
-    this.appContext = appContext;
+    this.appContext = reactive(appContext);
 
     this.http = new HttpService({ baseURL: apiBaseUrl });
     this.queryClient = createQueryClient();
