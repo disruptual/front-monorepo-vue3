@@ -156,6 +156,7 @@ const onMute = async users => {
       :tooltip-label="({ row }) => row.formatCreated()"
       :type="DATATABLE_COLUMN_TYPES.DATE"
       is-highlightable
+      is-filterable
     >
       <dsp-truncated-text :has-tooltip="false">
         {{ row.formatCreated('EEEE d MMMM yyyy') }}
@@ -173,6 +174,34 @@ const onMute = async users => {
     >
       <dsp-truncated-text :has-tooltip="false">
         {{ row.silentModeActivatedAt ? t('yes') : t('no') }}
+      </dsp-truncated-text>
+    </DataTableColumn>
+    <DataTableColumn
+      v-slot="{ row }"
+      name="AnonymizedModeActivatedAt"
+      :label="t('dataTable.label.modeAnonymizedAction')"
+      is-hidden
+      :tooltip-label="({ row }) => !!row.anonymize"
+      :type="DATATABLE_COLUMN_TYPES.BOOLEAN"
+      is-highlightable
+      :highlight-options="{ predicate: row => !!row.anonymize }"
+    >
+      <dsp-truncated-text :has-tooltip="false">
+        {{ row.anonymize ? t('yes') : t('no') }}
+      </dsp-truncated-text>
+    </DataTableColumn>
+    <DataTableColumn
+      v-slot="{ row }"
+      name="blockedModeActivated"
+      :label="t('dataTable.label.modeBlockedAction')"
+      is-hidden
+      :tooltip-label="({ row }) => !!row.blocked"
+      :type="DATATABLE_COLUMN_TYPES.BOOLEAN"
+      is-highlightable
+      :highlight-options="{ predicate: row => !!row.blocked }"
+    >
+      <dsp-truncated-text :has-tooltip="false">
+        {{ row.blocked ? t('yes') : t('no') }}
       </dsp-truncated-text>
     </DataTableColumn>
 

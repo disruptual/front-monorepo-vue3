@@ -67,6 +67,8 @@ export default {
       lastname: 'Nom',
       modeShipping: 'Mode de livraison',
       modeSilenceAction: 'Mode silencieux',
+      modeBlockedAction: 'Bloqué',
+      modeAnonymizedAction: 'Anonymisé',
       modeSilence: 'Mode silencieux',
       name: 'Nom',
       numbArticles: "Nb d'articles",
