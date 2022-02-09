@@ -81,7 +81,7 @@ export const vTooltip = {
     });
   },
 
-  unmounted(el) {
+  beforeUnmount(el) {
     destroyTooltip(el);
   }
 };

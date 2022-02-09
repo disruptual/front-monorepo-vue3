@@ -34,6 +34,7 @@ export default defineConfig({
       '@dsp/ui': '@dsp/ui/src',
       '@dsp/business': '@dsp/business/src',
       '@dsp/default-theme': '@dsp/default-theme/src',
+      '@dsp/devtools': '@dsp/devtools/src',
       'vue-query/devtools': 'vue-query/devtools',
       'vue-query': '@dsp/core/src/libs/vue-query.js',
       client: `${__dirname}/src/clients/${process.env.VITE_CLIENT}`

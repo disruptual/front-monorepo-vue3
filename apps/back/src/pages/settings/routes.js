@@ -24,5 +24,16 @@ export default [
       isEnabled: config => config.features.settings.carousel.isEnabled,
       layout: layouts.default
     }
+  },
+  {
+    path: '/parametres/home-blocks',
+    name: 'SettingsHomeBlocks',
+    props: true,
+    component: () => import('@/pages/settings/home-blocks.vue'),
+    meta: {
+      permissions: [USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.settings.homeBlocks.isEnabled,
+      layout: layouts.default
+    }
   }
 ];

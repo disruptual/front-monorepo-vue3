@@ -9,10 +9,11 @@ import toastService from '@dsp/ui/services/toast.service';
 import { CONTEXT_KEYS } from './utils/constants';
 
 export const plugin = theme => {
-  new ThemeService(theme).setup();
-
+  const themeService = new ThemeService(theme);
+  themeService.setup();
   return {
     install: app => {
+      app.provide(CONTEXT_KEYS.THEME_SERVICE, themeService);
       app.provide(CONTEXT_KEYS.THEME, theme);
       app.provide(CONTEXT_KEYS.TOAST, toastService);
       Object.entries(components).forEach(([name, component]) => {

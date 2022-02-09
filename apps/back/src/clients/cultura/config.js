@@ -6,7 +6,7 @@ export default merge({}, defaultConfig, {
   features: {
     admin: {
       isEnabled: true,
-      events: { isEnabled: true },
+      events: { isEnabled: false },
       stores: { isEnabled: false }
     }
   },

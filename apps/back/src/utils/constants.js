@@ -85,55 +85,53 @@ export const HOME_TABS = {
 
 export const MENU = [
   {
-    name: 'Administration',
     id: 'admin',
     icon: 'chart',
     permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
     links: [
       {
         target: { name: 'AdminItems' },
-        label: 'Annonces',
+        id: 'items',
         isEnabled: config => config.features.admin.items?.isEnabled
       },
       {
         target: { name: 'AdminUsers' },
-        label: 'Utilisateurs',
+        id: 'users',
         isEnabled: config => config.features.admin.users?.isEnabled
       },
       {
         target: { name: 'AdminOrders' },
-        label: 'Commandes',
+        id: 'orders',
         isEnabled: config => config.features.admin.orders?.isEnabled
       },
       {
         target: { name: 'AdminContact' },
-        label: 'Support client',
+        id: 'contacts',
         isEnabled: config => config.features.admin.contacts?.isEnabled
       },
       {
         target: { name: 'AdminVoucher' },
-        label: "Bons d'achat",
+        id: 'vouchers',
         isEnabled: config => config.features.admin.vouchers?.isEnabled
       },
       {
         target: { name: 'AdminLocation' },
-        label: 'Magasins',
+        id: 'locations',
         isEnabled: config => config.features.admin.stores?.isEnabled
       },
       {
         target: { name: 'AdminEmail' },
-        label: 'Mails',
+        id: 'mails',
         isEnabled: config => config.features.admin.emails?.isEnabled
       },
       {
         target: { name: 'AdminEvent' },
-        label: 'Évenements',
+        id: 'events',
         isEnabled: config => config.features.admin.events?.isEnabled
       }
     ]
   },
   {
-    name: 'Magasin',
     id: 'store',
     icon: 'store',
     permissions: [
@@ -142,13 +140,12 @@ export const MENU = [
       USER_ROLES.STORE
     ],
     links: [
-      { target: '/', label: 'Dépôt / retrait' },
-      { target: '/', label: 'Rechercher un utilisateur' },
-      { target: '/', label: 'Gestion des stocks' }
+      { target: '/', id: 'storeDeposit' },
+      { target: '/', id: 'userSearch' },
+      { target: '/', id: 'stocks' }
     ]
   },
   {
-    name: 'Evenements',
     id: 'eventStore',
     icon: 'handshake',
     permissions: [
@@ -157,25 +154,29 @@ export const MENU = [
       USER_ROLES.EVENT_MANAGER
     ],
     links: [
-      { target: '/', label: 'Dépôt' },
-      { target: '/', label: 'Vente' }
+      { target: '/', id: 'eventDeposit' },
+      { target: '/', id: 'eventSales' }
     ]
   },
   {
-    name: 'Paramètres',
     id: 'settings',
     icon: 'settings',
     permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
     links: [
       {
         target: { name: 'SettingsAnnouncement' },
-        label: 'Annonces',
+        id: 'announcements',
         isEnabled: config => config.features.settings.announcements.isEnabled
       },
       {
         target: { name: 'SettingsCarousel' },
-        label: 'Carrousel',
+        id: 'carousel',
         isEnabled: config => config.features.settings.carousel.isEnabled
+      },
+      {
+        target: { name: 'SettingsHomeBlocks' },
+        id: 'blocks',
+        isEnabled: config => config.features.settings.homeBlocks.isEnabled
       }
     ]
   }

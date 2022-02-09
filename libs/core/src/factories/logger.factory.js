@@ -41,7 +41,7 @@ class Logger {
   }
 
   get localStorageMutedchannelsKey() {
-    return 'dsp-loger-level';
+    return 'dsp-loger-muted-channels';
   }
 
   get logLevel() {
@@ -62,14 +62,14 @@ class Logger {
   }
 
   get mutedChannels() {
-    const channels = localStorage.getItem(this.localStorageMutedChannelsKey);
+    const channels = localStorage.getItem(this.localStorageMutedchannelsKey);
 
     return JSON.parse(channels) || [];
   }
 
   set mutedChannels(channels) {
     localStorage.setItem(
-      this.localStorageMutedChannelsKey,
+      this.localStorageMutedchannelsKey,
       JSON.stringify(channels)
     );
   }

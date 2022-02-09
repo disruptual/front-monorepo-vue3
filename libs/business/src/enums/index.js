@@ -36,3 +36,22 @@ export const CONTACT_STATUSES = {
   DONE: 'online',
   NOT_DONE: 'pending'
 };
+
+export const HOME_BLOCK_TYPES = {
+  ITEM: 'ITEM',
+  USER: 'USER',
+  BRAND: 'BRAND'
+};
+
+export const HOME_BLOCK_QUERIES = {
+  [HOME_BLOCK_TYPES.ITEM]: {
+    LAST: 'LAST_ITEMS',
+    RECOMMENDED: 'RECOMMENDED_ITEMS'
+  },
+  [HOME_BLOCK_TYPES.USER]: {
+    RECOMMENDED: 'RECOMMENDED_USERS'
+  },
+  [HOME_BLOCK_TYPES.BRAND]: {
+    RECOMMENDED: 'RECOMMENDED_BRANDS'
+  }
+};

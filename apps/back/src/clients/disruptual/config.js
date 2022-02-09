@@ -19,7 +19,8 @@ export default {
     settings: {
       isEnabled: true,
       carousel: { isEnabled: true },
-      announcements: { isEnabled: true }
+      announcements: { isEnabled: true },
+      homeBlocks: { isEnabled: true }
     },
     store: {
       isEnabled: false
@@ -28,6 +29,5 @@ export default {
       isEnabled: false
     }
   },
-  logo,
-
+  logo
 };

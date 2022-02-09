@@ -19,7 +19,6 @@ const onModalClose = () => {
 
 const formOptions = {
   onSubmit(values) {
-    console.log(values);
     emit('submit', { ...props.announcement, ...values });
     onModalClose();
   }

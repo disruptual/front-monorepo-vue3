@@ -12,7 +12,9 @@ export const extractIdFromUri = uri => {
   const match = /\/[^/]+\/(.*)/.exec(uri);
   if (match && match.length === 2) {
     return match[1];
-  } else return uri;
+  }
+
+  return uri;
 };
 
 export const getCookies = () =>

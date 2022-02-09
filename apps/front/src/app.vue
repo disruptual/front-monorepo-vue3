@@ -6,6 +6,7 @@ export default { name: 'App' };
 import { AppProvider } from '@dsp/core';
 import AppLoading from 'client/components/app-loader.vue';
 // import { VueQueryDevTools } from 'vue-query/devtools';
+import { DisruptualDevtools } from '@dsp/devtools';
 </script>
 
 <template>
@@ -17,12 +18,15 @@ import AppLoading from 'client/components/app-loader.vue';
     <!-- <VueQueryDevTools /> -->
     <dsp-toasts-container />
 
-    <keep-alive>
-      <component :is="$route?.meta.layout">
-        <router-view />
-      </component>
-    </keep-alive>
+    <component :is="$route?.meta.layout || 'div'">
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
+    </component>
   </AppProvider>
+  <DisruptualDevtools />
 </template>
 
 <style>
