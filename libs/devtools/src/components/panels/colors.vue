@@ -1,7 +1,8 @@
 <script setup>
 import { ref } from 'vue';
-import { useThemeService, vReadableColor } from '@dsp/ui';
+import { useThemeService, vReadableColor, getCssVarValue } from '@dsp/ui';
 import ColorModal from '../modals/color-modal.vue';
+import ThemeColorPicker from '../controls/theme-color-picker.vue';
 
 const themeService = useThemeService();
 const selectedPalette = ref(null);
@@ -13,23 +14,30 @@ const selectPalette = (color, name) => {
     selectedPalette.value = { ...color, name };
   }
 };
+
+const updateColor = (name, newValue) => {
+  themeService.theme.colors[name] = newValue;
+  themeService.setupVariables();
+};
 </script>
 
 <template>
   <h3>Palettes</h3>
-  <dsp-flex gap="sm" class="palettes">
-    <dsp-center
+  <dsp-flex gap="sm" class="palettes" direction="column">
+    <dsp-flex
       v-for="(color, name) in themeService.theme.palettes"
       :key="color"
+      gap="sm"
+      align="center"
     >
-      <dsp-button
+      <div
         class="palette-name"
         right-icon="edit"
         is-outlined
         @click="selectPalette(color, name)"
       >
         {{ name }}
-      </dsp-button>
+      </div>
       <dsp-center
         v-for="i in 9"
         :key="i"
@@ -39,10 +47,28 @@ const selectPalette = (color, name) => {
       >
         {{ i }}00
       </dsp-center>
-    </dsp-center>
-    <dsp-button class="add-palette-button" left-icon="add">
-      New Palette
-    </dsp-button>
+      <dsp-button
+        left-icon="edit"
+        is-outlined
+        @click="selectPalette(color, name)"
+      >
+        Editer
+      </dsp-button>
+    </dsp-flex>
+  </dsp-flex>
+
+  <h3>Couleurs</h3>
+  <dsp-flex
+    v-for="(color, name) in themeService.theme.colors"
+    :key="color"
+    gap="sm"
+  >
+    <label :for="name">{{ name }}</label>
+    <ThemeColorPicker
+      :id="name"
+      :model-value="color"
+      @update:modelValue="updateColor(name, $event)"
+    />
   </dsp-flex>
 
   <ColorModal
@@ -58,14 +84,12 @@ const selectPalette = (color, name) => {
   overflow-x: auto;
 }
 .palette-name {
-  text-transform: capitalize;
-  margin: var(--spacing-sm) 0;
   width: 7em;
+  text-transform: capitalize;
 }
 
 .color-square {
-  width: 100%;
-  padding: var(--spacing-sm) var(--spacing-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
   background-color: var(--bg, white);
 }
 

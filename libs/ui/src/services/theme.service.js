@@ -54,7 +54,7 @@ export class ThemeService {
     Object.entries(colors).forEach(([name, value]) => {
       document.documentElement.style.setProperty(
         `--color-${camelToKebabCase(name)}`,
-        value
+        `var(--color-${value})`
       );
     });
 

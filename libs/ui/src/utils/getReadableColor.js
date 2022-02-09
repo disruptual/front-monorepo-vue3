@@ -6,17 +6,16 @@ const rootStyle = document.documentElement.style;
 const isCssVariable = string =>
   string.startsWith('--') || string.startsWith('var(');
 
-const getCssVarValue = cssVar => {
+export const getCssVarValue = cssVar => {
   const normalizedValue = cssVar.replace('var(', '').replace(')', '');
-
   const value = rootStyle.getPropertyValue(normalizedValue);
 
   return isCssVariable(value) ? getCssVarValue(value) : value;
 };
 
 export const getReadableColor = color => {
-  const dark = rootStyle.getPropertyValue('--color-text');
-  const light = rootStyle.getPropertyValue('--color-text-lighter');
+  const dark = getCssVarValue('--color-text');
+  const light = getCssVarValue('--color-text-lighter');
 
   const bg = isCssVariable(color) ? getCssVarValue(color) : color;
 

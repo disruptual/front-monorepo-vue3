@@ -31,7 +31,7 @@ const remainingPrices = computed(() => {
   const { buyerPrice, buyerFees, buyerDelivery } = formValues.value;
 
   return {
-    items: (props.order.totalItemPrices - buyerPrice).toFixed(2),
+    items: (props.order.itemsAmount - buyerPrice).toFixed(2),
     fees: (props.order.serviceFeeAmount - buyerFees).toFixed(2),
     delivery: (props.order.deliveryPrice - buyerDelivery).toFixed(2)
   };
@@ -103,7 +103,7 @@ const remunerationOptions = computed(() =>
             <dsp-smart-form-field
               v-slot="slotProps"
               name="buyerPrice"
-              :max="order.totalItemPrices"
+              :max="order.itemsAmount"
               :initial-value="0"
             >
               <dsp-form-control

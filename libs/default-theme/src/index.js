@@ -52,6 +52,7 @@ export default {
     pink: { baseColor: '#f229da', minLightness: 0.14 },
     gray: {
       baseColor: 'hsl(0,0%,50%)',
+      lightnessAdjust: 0.075,
       minLightness: 0,
       maxLightness: 1
     },
@@ -67,14 +68,14 @@ export default {
     }
   },
   colors: {
-    text: '#000',
-    textLight: '#666',
-    textLighter: '#fff',
-    textDisabled: '#999',
-    background: '#f0f0f0',
-    surface: '#fff',
-    separator: '#c0c0c0',
-    disabled: '#cccccc',
-    primary: 'var(--color-brand-400)'
+    text: 'gray-900',
+    textLight: 'gray-700',
+    textLighter: 'gray-100',
+    textDisabled: 'gray-500',
+    background: 'gray-200',
+    surface: 'gray-100',
+    separator: 'gray-200',
+    disabled: 'gray-200',
+    primary: 'brand-400'
   }
 };

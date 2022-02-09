@@ -73,6 +73,10 @@ export class Order extends BaseModel {
     return this.orderState === ORDER_STATES.END;
   }
 
+  get isOrdered() {
+    return this.orderState === ORDER_STATES.ORDERED;
+  }
+
   get isCancelled() {
     return (
       this.isEnded &&
@@ -136,7 +140,7 @@ export class Order extends BaseModel {
     );
   }
 
-  get totalItemPrices() {
+  get itemsAmount() {
     const amount =
       (this.totalAmount || this.moneyBox) -
       this.deliveryPrice -
@@ -215,7 +219,7 @@ export class Order extends BaseModel {
     ) {
       return nextTransitions[this.delivery.tag][this.deliveryState];
     }
-
+    console.log(nextTransitions, this.delivery.tag);
     return nextTransitions[this.delivery.tag][this.orderState];
   }
 }
@@ -246,7 +250,7 @@ const nextTransitions = {
     [ORDER_STATES.DELIVERED]:
       ORDER_STATE_TRANSITIONS.VALIDATION_AUTOMATIC_BY_DELIVERED
   },
-  [DELIVERY_MODES.LAPOSTE_LETTER_FOLLOW]: {
+  [DELIVERY_MODES.LAPOSTE_LETTER]: {
     [ORDER_STATES.ORDER_ACCEPTED]: ORDER_STATE_TRANSITIONS.SEND,
     [ORDER_STATES.SENT]: ORDER_STATE_TRANSITIONS.DELIVERY_BY_SENT,
     [ORDER_STATES.DELIVERED]:

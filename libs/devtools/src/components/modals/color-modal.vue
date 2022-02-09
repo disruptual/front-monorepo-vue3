@@ -35,7 +35,17 @@ watch(
   }
 );
 
-const palette = computed(() => themeService.createColorScale(baseColor.value));
+const palettePreview = computed(() =>
+  themeService.createColorScale(baseColor.value)
+);
+
+const onCopyPalette = paletteName => {
+  const palette = themeService.theme.palettes[paletteName];
+  const newColor =
+    typeof palette === 'string' ? { baseColor: palette } : palette;
+
+  Object.assign(baseColor.value, defaultSettings, newColor);
+};
 
 const onSubmit = () => {
   const { name, ...color } = baseColor.value;
@@ -52,7 +62,7 @@ const onSubmit = () => {
     </header>
     <dsp-flex gap="sm" class="preview">
       <dsp-center
-        v-for="(paletteColor, index) in palette"
+        v-for="(paletteColor, index) in palettePreview"
         :key="paletteColor + index"
         v-readable-color
         class="color-square"
@@ -61,6 +71,17 @@ const onSubmit = () => {
         {{ index + 1 }}00
       </dsp-center>
     </dsp-flex>
+    <label>Copier une palette existante</label>
+    <select @change="onCopyPalette($event.target.value)">
+      <option disabled selected>Choisissez une palette</option>
+      <option
+        v-for="(themePalette, name) in themeService.theme.palettes"
+        :key="name"
+        :value="name"
+      >
+        {{ name }}
+      </option>
+    </select>
     <form @submit.prevent="onSubmit">
       <fieldset>
         <label>Couleur de base</label>
@@ -146,9 +167,14 @@ fieldset {
   display: flex;
   justify-content: space-between;
   border: none;
+  padding: 0;
 }
 
 footer {
   margin-top: var(--spacing-md);
+}
+
+input {
+  accent-color: var(--color-brand-500);
 }
 </style>

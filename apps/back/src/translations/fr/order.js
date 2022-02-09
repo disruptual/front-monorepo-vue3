@@ -40,7 +40,8 @@ export default {
         reimbursementAmount: 'Montant remboursé',
         abundantAmount: 'Montant abondé',
         totalAmount: 'Montant total',
-        totalAmountAfterNego: 'Montant total après négociation'
+        totalAmountAfterNego: 'Montant total après négociation',
+        itemsAmount: 'Montant des articles'
       },
       closeProblemButton: 'Clore le litige',
       solveProblemButton: 'Résoudre le litige'

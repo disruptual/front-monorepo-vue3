@@ -79,7 +79,7 @@ const buyerLabel = computed(() =>
         </dsp-flex>
 
         <dt>{{ t(`order.details.label.orderDate`) }}</dt>
-        <dd>{{ order.formatCreated() }}</dd>
+        <dd>{{ order.formatCreated('dd-MM-yyyy à hh:mm') }}</dd>
 
         <dt>{{ t(`order.details.label.numberArticles`) }}</dt>
         <dd>
@@ -130,7 +130,16 @@ const buyerLabel = computed(() =>
       <h3>{{ t(`order.details.title.remuneration`) }}</h3>
       <dl>
         <dt>{{ t(`order.details.label.modeRemuneration`) }}</dt>
-        <dd>{{ t(`remuneration.${order.remuneration.remunerationName}`) }}</dd>
+        <dd>
+          {{
+            order.remuneration
+              ? t(`remuneration.${order.remuneration.remunerationName}`)
+              : t(`remuneration.pending`)
+          }}
+        </dd>
+
+        <dt>{{ t(`order.details.label.itemsAmount`) }}</dt>
+        <dd>{{ formatPrice(order.itemsAmount || 0) }}</dd>
 
         <dt>{{ t(`order.details.label.serviceFees`) }}</dt>
         <dd>{{ formatPrice(order.serviceFeeAmount || 0) }}</dd>
@@ -138,11 +147,13 @@ const buyerLabel = computed(() =>
         <dt>{{ t(`order.details.label.shippingFees`) }}</dt>
         <dd>{{ formatPrice(order.deliveryPrice || 0) }}</dd>
 
-        <dt>{{ t(`order.details.label.reimbursementAmount`) }}</dt>
-        <dd>{{ formatPrice(order.refundAmount || 0) }}</dd>
+        <template v-if="!order.remuneration.isGiftcard">
+          <dt>{{ t(`order.details.label.reimbursementAmount`) }}</dt>
+          <dd>{{ formatPrice(order.refundAmount || 0) }}</dd>
 
-        <dt>{{ t(`order.details.label.abundantAmount`) }}</dt>
-        <dd>{{ formatPrice(order.abundedPriceSeller || 0) }}</dd>
+          <dt>{{ t(`order.details.label.abundantAmount`) }}</dt>
+          <dd>{{ formatPrice(order.abundedPriceSeller || 0) }}</dd>
+        </template>
 
         <dt>{{ t(`order.details.label.totalAmount`) }}</dt>
         <dd>{{ formatPrice(order.totalAmountBeforeNegotiation) }}</dd>
@@ -160,7 +171,10 @@ const buyerLabel = computed(() =>
       <h3>{{ buyerLabel }}</h3>
       <router-link
         v-if="order.buyer"
-        :to="{ name: 'AdminUserDetails', params: { slug: order.buyer?.slug } }"
+        :to="{
+          name: 'AdminUserDetails',
+          params: { slug: order.buyer?.slug }
+        }"
         class="user-card"
       >
         <dsp-avatar :user="order.buyer" size="lg" />
@@ -264,10 +278,10 @@ h3 {
 .user-card {
   color: inherit;
   text-decoration: none;
-  transition: transform var(--transition-sm);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
+  align-items: center;
 }
 
 .order-status {

@@ -34,6 +34,7 @@ const focusedMenuElementIndex = ref(0);
 const toggleButton = computed(() => props.toggleRef || unref(toggleElement));
 
 const toggle = () => {
+  console.log('toggle');
   emit('update:isOpened', !props.isOpened);
 };
 
@@ -128,6 +129,7 @@ const onFocusOutside = e => {
 
 const onToggleMousedown = e => {
   if (toggleButton.value.contains(document.activeElement)) {
+    console.log('mousedown toggle');
     toggle();
   }
 };
@@ -140,12 +142,12 @@ provide(CONTEXT_KEYS.DROPDOWN, { toggle, close });
 
 <template>
   <div class="dropdown">
-    <div v-if="!toggleRef" ref="toggleElement" @focus.capture="toggle">
+    <div v-if="!toggleRef" ref="toggleElement">
       <dsp-plain-button
         class="dropdown-toggle"
         type="button"
         @keyup.enter="focusFirstElement"
-        @mousedown="onToggleMousedown"
+        @click="toggle"
       >
         <slot name="toggle" />
 
