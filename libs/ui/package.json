@@ -13,6 +13,7 @@
     "@vue/test-utils": "^2.0.0-rc.16",
     "axios-mock-adapter": "^1.20.0",
     "camelcase": "^6.2.0",
+    "chroma-js": "^2.4.2",
     "focus-visible": "^5.2.0",
     "inert-polyfill": "^0.2.5"
   },

@@ -13,18 +13,58 @@ export default {
     }
   },
   palettes: {
-    brand: '#FF6600',
+    brand: {
+      baseColor: '#e87c3a',
+      minLightness: 0.1,
+      maxLightness: 0.8,
+      saturationAdjust: 0.25,
+      lightnessAdjust: 0.13
+    },
     success: '#1e7a3a',
-    error: '#C95242',
-    warning: '#efd037',
-    gray: '#777',
-    blue: '#4287f5',
+    error: '#f54242',
+    warning: {
+      baseColor: 'hsl(50,100%,50%)',
+      minLightness: 0.08,
+      maxLightness: 0.88,
+      saturationAdjust: 0.5,
+      lightnessAdjust: 0.05
+    },
     red: '#f54242',
-    orange: '#ed9c2b',
-    yellow: '#f0de16',
-    green: '#4be620',
-    teal: '#13f0cf',
-    purple: '#8913f0'
+    orange: {
+      baseColor: '#e87c3a',
+      minLightness: 0.03,
+      maxLightness: 0.8,
+      saturationAdjust: 0.25,
+      lightnessAdjust: 0.13
+    },
+    yellow: {
+      baseColor: 'hsl(50,100%,50%)',
+      minLightness: 0.08,
+      maxLightness: 0.88,
+      saturationAdjust: 0.5,
+      lightnessAdjust: 0.05
+    },
+    green: { baseColor: '#4be620', minLightness: 0.12 },
+    teal: { baseColor: '#13f0cf', minLightness: 0.1 },
+    blue: { baseColor: '#4287f5', saturationAdjust: 0.05 },
+    indigo: { baseColor: '#1714e2', lightnessAdjust: 0.05 },
+    purple: '#8913f0',
+    pink: { baseColor: '#f229da', minLightness: 0.14 },
+    gray: {
+      baseColor: 'hsl(0,0%,50%)',
+      minLightness: 0,
+      maxLightness: 1
+    },
+    coldgray: {
+      baseColor: 'hsl(210,8%,50%)',
+      minLightness: 0.1,
+      maxLightness: 0.98
+    },
+    warmgray: {
+      baseColor: 'hsl(25,8%,50%)',
+      minLightness: 0.1,
+      maxLightness: 0.98
+    }
   },
   colors: {
     text: '#000',

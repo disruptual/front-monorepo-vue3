@@ -70,25 +70,29 @@ const currentPanel = computed(
     class="toggle"
     @click="isDisplayed = !isDisplayed"
   />
-  <dsp-surface
-    v-if="isConsoleDisplayed"
+  <dsp-slide-transition
+    :is-visible="isConsoleDisplayed"
+    direction="vertical"
     class="console"
-    :class="devtoolsContext.options.isDetached && 'console--is-detached'"
   >
-    <dsp-flex as="header" justify="space-between" align="center">
-      <h2>Devtools</h2>
-      <dsp-menu :items="tabs" @click="onMenuClick" />
-      <dsp-button
-        v-if="!$route.query.devtools"
-        is-outlined
-        size="sm"
-        @click="detach"
-      >
-        Detach
-      </dsp-button>
-    </dsp-flex>
-    <component :is="currentPanel" />
-  </dsp-surface>
+    <dsp-surface
+      :class="devtoolsContext.options.isDetached && 'console--is-detached'"
+    >
+      <dsp-flex as="header" justify="space-between" align="center">
+        <h2>Devtools</h2>
+        <dsp-menu :items="tabs" @click="onMenuClick" />
+        <dsp-button
+          v-if="!$route.query.devtools"
+          is-outlined
+          size="sm"
+          @click="detach"
+        >
+          Detach
+        </dsp-button>
+      </dsp-flex>
+      <component :is="currentPanel" />
+    </dsp-surface>
+  </dsp-slide-transition>
 </template>
 
 <style lang="scss" scoped>
@@ -101,10 +105,14 @@ const currentPanel = computed(
 }
 
 .console {
-  padding: 0 var(--spacing-md) var(--spacing-md) !important;
+  > * {
+    padding: 0 var(--spacing-md) var(--spacing-md) !important;
+    height: 100%;
+    overflow-y: auto;
+  }
   &:not(.console--is-detached) {
     position: sticky;
-    z-index: 9998;
+    z-index: 1;
     bottom: 0;
     left: 0;
     right: 0;
