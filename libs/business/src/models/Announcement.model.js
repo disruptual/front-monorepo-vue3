@@ -19,6 +19,7 @@ export class Announcement extends BaseModel {
   dateFormatStartAt() {
     return new Date(this.startAt);
   }
+
   dateFormatEndAt() {
     return new Date(this.endAt);
   }

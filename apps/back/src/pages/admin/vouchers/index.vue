@@ -88,7 +88,7 @@ const onCheckboxChange = (id, generated) => {
       </dsp-truncated-text>
     </DataTableColumn>
     <DataTableColumn
-      name="amount"
+      name="formatedAmount"
       :label="t('dataTable.label.amount')"
       width="100"
       :type="DATATABLE_COLUMN_TYPES.NUMBER"
