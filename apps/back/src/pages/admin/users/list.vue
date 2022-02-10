@@ -110,7 +110,7 @@ const onMute = async users => {
   <DataTable
     id="users-list"
     :query="query"
-    :min-row-size="48"
+    :min-row-size="58"
     :row-detail-target="
       row => ({ name: 'AdminUserDetails', params: { slug: row.slug } })
     "
@@ -120,10 +120,9 @@ const onMute = async users => {
       v-slot="{ row }"
       name="avatar"
       :label="t('dataTable.label.avatar')"
-      width="50"
       is-pinned
     >
-      <dsp-avatar :user="row" />
+      <dsp-center style="flex: 1"><dsp-avatar :user="row" /></dsp-center>
     </DataTableColumn>
     <DataTableColumn
       name="slug"
