@@ -3,8 +3,11 @@ import {
   ORDER_STATES,
   ORDER_PROBLEM_STATES,
   ORDER_STATE_TRANSITIONS,
-  ORDER_PROBLEM_STATE_TRANSITIONS
+  ORDER_PROBLEM_STATE_TRANSITIONS,
+  ORDER_DELAYS
 } from '../enums/order.enums';
+import { format, addHours } from 'date-fns';
+import frLocale from 'date-fns/locale/fr';
 
 export class OrderStateHisto extends BaseModel {
   get isEnded() {
@@ -103,5 +106,15 @@ export class OrderStateHisto extends BaseModel {
     }
 
     return true;
+  }
+
+  getMaxDate(delivery) {
+    const delayInHours = ORDER_DELAYS[delivery.tag][this.orderState] || 0;
+
+    const maxDate = addHours(new Date(this.created), delayInHours);
+
+    return format(maxDate, 'dd/MM/yy à HH:mm', {
+      locale: frLocale
+    });
   }
 }

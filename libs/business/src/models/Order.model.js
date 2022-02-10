@@ -51,6 +51,11 @@ export class Order extends BaseModel {
         model: Store
       },
       {
+        name: 'warehouseLocation',
+        getUri: entity => entity._warehouseLocation,
+        model: Store
+      },
+      {
         name: 'orderStateHistos',
         getUri: entity => entity._orderStateHistos,
         model: OrderStateHisto

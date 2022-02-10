@@ -13,7 +13,7 @@ const props = defineProps({
   order: { type: Order, required: true }
 });
 const emit = defineEmits(['rollback', 'forward']);
-const { t } = useI18n();
+const { t, te } = useI18n();
 const { data: currentUser } = useCurrentUser();
 const { showError } = useToast();
 
@@ -49,6 +49,32 @@ const onForward = async () => {
     showError(t('toasts.orderHistory.forwardError'));
   }
 };
+
+const getStepDescription = step => {
+  const translationKey = `orderHistory.${props.order.delivery.tag}.${step.status}.description`;
+
+  if (!te(translationKey)) return '';
+
+  return t(translationKey, getStepTranslationVariables(step));
+};
+
+const getStepTranslationVariables = step => {
+  return {
+    orderId: props.order.id,
+    delivery: props.order.delivery.name,
+    buyer: props.order.buyer.firstName,
+    seller: props.order.seller.firstName,
+    refundAmount: props.order.refundAmount,
+    orderNumber: props.order.id,
+    orderPrice: props.order.totalPrice,
+    orderPriceWithFees: props.order.totalAmount,
+    location: props.order.location?.name,
+    warehouseLocation: props.order.warehouseLocation?.name,
+    depositRelay: props.order.deliveryDetail?.depositRelayName,
+    destinationRelay: props.order.deliveryDetail?.destinationRelayName,
+    maxDate: step.getMaxDate(props.order.delivery)
+  };
+};
 </script>
 
 <template>
@@ -57,40 +83,37 @@ const onForward = async () => {
   </dsp-alert>
 
   <ul>
-    <dsp-flex
-      v-for="(step, index) in order.history"
-      :key="step.id"
-      as="li"
-      justify="space-between"
-      align="center"
-    >
-      <dsp-truncated-text>
-        <span class="step__date">
-          {{ step.formatCreated('d MMM yyyy à HH:mm') }}
-        </span>
-        <span>{{ t(`order.status.${step.status}`) }}</span>
-      </dsp-truncated-text>
-      <dsp-loading-button
-        v-if="currentUser.isProjectManager && index !== 0"
-        left-icon="reset"
-        :disabled="!step.isRollbackable(order)"
-        is-outlined
-        :is-loading="isRollbackLoading"
-        @click="onRollback(step)"
-      >
-        <span class="button-label">{{ t('orderHistory.previous') }}</span>
-      </dsp-loading-button>
+    <li v-for="(step, index) in order.history" :key="step.id" as="li">
+      <dsp-flex justify="space-between" align="center">
+        <dsp-truncated-text>
+          <span class="step__date">
+            {{ step.formatCreated('d MMM yyyy à HH:mm') }}
+          </span>
+          <span>{{ t(`order.status.${step.status}`) }}</span>
+        </dsp-truncated-text>
+        <dsp-loading-button
+          v-if="currentUser.isProjectManager && index !== 0"
+          left-icon="reset"
+          :disabled="!step.isRollbackable(order)"
+          is-outlined
+          :is-loading="isRollbackLoading"
+          @click="onRollback(step)"
+        >
+          <span class="button-label">{{ t('orderHistory.previous') }}</span>
+        </dsp-loading-button>
 
-      <dsp-loading-button
-        v-else-if="currentUser.isProjectManager"
-        :disabled="!order.nextTransition"
-        left-icon="fastForward"
-        :is-loading="isForwardLoading"
-        @click="onForward"
-      >
-        <span class="button-label">{{ t('orderHistory.next') }}</span>
-      </dsp-loading-button>
-    </dsp-flex>
+        <dsp-loading-button
+          v-else-if="currentUser.isProjectManager"
+          :disabled="!order.nextTransition"
+          left-icon="fastForward"
+          :is-loading="isForwardLoading"
+          @click="onForward"
+        >
+          <span class="button-label">{{ t('orderHistory.next') }}</span>
+        </dsp-loading-button>
+      </dsp-flex>
+      <div class="step__description">{{ getStepDescription(step) }}</div>
+    </li>
   </ul>
 </template>
 
@@ -111,6 +134,10 @@ li {
 .step__date {
   font-size: var(--font-size-sm);
   margin-right: var(--spacing-sm);
+}
+
+.step__description {
+  font-size: var(--font-size-sm);
 }
 
 button {
