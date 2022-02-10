@@ -41,7 +41,7 @@ defineProps({
     }
 
     &:focus-visible {
-      background-color: var(--color-brand-quarter);
+      background-color: var(--color-brand-100);
       outline: none;
     }
   }

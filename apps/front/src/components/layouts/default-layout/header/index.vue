@@ -4,7 +4,7 @@ export default { name: 'DefaultLayoutHeader' };
 <script setup>
 import HeaderMenu from './menu/index.vue';
 import HeaderSearchBar from './search-bar/index.vue';
-import { useDevice } from '@dsp/ui';
+import { useDevice, vReadableColor } from '@dsp/ui';
 import BurgerMenu from './burger-menu/index.vue';
 
 const device = useDevice();
@@ -15,7 +15,7 @@ const device = useDevice();
     <HeaderSearchBar v-if="device.isDesktop" class="header-search-bar" />
     <dsp-flex v-else><BurgerMenu /></dsp-flex>
     <router-link :to="{ name: 'Home' }" class="logo">
-      <h1>DISRUPTUAL</h1>
+      <h1 v-readable-color>DISRUPTUAL</h1>
     </router-link>
     <HeaderMenu class="menu" />
   </header>

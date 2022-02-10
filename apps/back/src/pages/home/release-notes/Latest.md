@@ -4,6 +4,8 @@
 
 ### Bugs corrigés
 
+- Mauvais affichage du fil d'arianne sur mobile lorsque celui-ci comporte beaucoup de liens
+
 ### Problèmes connus
 
 - Editeur de carousel : la preview des slides desktop s'affiche incorrectement sur mobile

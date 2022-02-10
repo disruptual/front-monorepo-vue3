@@ -23,6 +23,7 @@ const onSoftDelete = rows => {
 };
 
 const updateClosable = row => {
+  console.log('update closable');
   row.closable = !row.closable;
   emit('update', row);
 };
@@ -91,7 +92,7 @@ const isActive = announcement => {
         <dsp-checkbox
           label=""
           :model-value="row.closable"
-          @change="updateClosable(row)"
+          @update:modelValue="updateClosable(row)"
         />
       </dsp-flex>
     </DataTableColumn>

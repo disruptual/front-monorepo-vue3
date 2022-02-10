@@ -71,17 +71,19 @@ const onSubmit = () => {
         {{ index + 1 }}00
       </dsp-center>
     </dsp-flex>
-    <label>Copier une palette existante</label>
-    <select @change="onCopyPalette($event.target.value)">
-      <option disabled selected>Choisissez une palette</option>
-      <option
-        v-for="(themePalette, name) in themeService.theme.palettes"
-        :key="name"
-        :value="name"
-      >
-        {{ name }}
-      </option>
-    </select>
+    <fieldset>
+      <label>Copier une palette existante</label>
+      <select @change="onCopyPalette($event.target.value)">
+        <option disabled selected>Choisissez une palette</option>
+        <option
+          v-for="(themePalette, name) in themeService.theme.palettes"
+          :key="name"
+          :value="name"
+        >
+          {{ name }}
+        </option>
+      </select>
+    </fieldset>
     <form @submit.prevent="onSubmit">
       <fieldset>
         <label>Couleur de base</label>
@@ -168,6 +170,7 @@ fieldset {
   justify-content: space-between;
   border: none;
   padding: 0;
+  margin-bottom: var(--spacing-md);
 }
 
 footer {
@@ -176,5 +179,12 @@ footer {
 
 input {
   accent-color: var(--color-brand-500);
+}
+
+input[type='color']::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+input[type='color']::-webkit-color-swatch {
+  border: none;
 }
 </style>

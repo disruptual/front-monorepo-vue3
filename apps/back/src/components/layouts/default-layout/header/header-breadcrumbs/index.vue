@@ -14,23 +14,27 @@ const textColor = useReadableColor('--color-brand-500');
 </script>
 
 <template>
-  <dsp-flex class="header-breadcrumbs" align="center">
+  <dsp-flex class="header-breadcrumbs" align="center" wrap="nowrap">
     <router-link :to="{ name: 'Home' }" class="home-entry">
       <dsp-icon icon="home" />
       <span v-if="!device.isMobile">Home</span>
     </router-link>
-
-    <router-link
-      v-for="breadcrumb in breadcrumbs.breadcrumbs"
-      :key="breadcrumb.id"
-      class="entry"
-      :to="breadcrumb.target"
-      @click="breadcrumbs.goTo(breadcrumb.id)"
-    >
-      <dsp-truncated-text width="15ch">
-        {{ breadcrumb.label }}
-      </dsp-truncated-text>
-    </router-link>
+    <dsp-swiper>
+      <dsp-swiper-item
+        v-for="breadcrumb in breadcrumbs.breadcrumbs"
+        :key="breadcrumb.id"
+        class="entry"
+      >
+        <router-link
+          :to="breadcrumb.target"
+          @click="breadcrumbs.goTo(breadcrumb.id)"
+        >
+          <dsp-truncated-text width="15ch">
+            {{ breadcrumb.label }}
+          </dsp-truncated-text>
+        </router-link>
+      </dsp-swiper-item>
+    </dsp-swiper>
   </dsp-flex>
 </template>
 
@@ -75,10 +79,6 @@ a {
     border-top: solid 1px v-bind(textColor);
     border-right: solid 1px v-bind(textColor);
     background: inherit;
-  }
-
-  &:not(:nth-of-type(2)) {
-    padding-left: var(--spacing-lg);
   }
 
   > div {

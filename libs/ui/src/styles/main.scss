@@ -12,10 +12,12 @@ body {
   box-sizing: border-box;
 }
 
-button,
-input,
-textarea {
+button {
   color: inherit;
+}
+
+[data-readable-color] {
+  color: var(--readable-color) !important;
 }
 
 :root {

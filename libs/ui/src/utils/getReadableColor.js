@@ -1,6 +1,6 @@
 import { readableColor } from 'polished';
 
-const TRANSPARENT_VALUES = ['transparent', 'rgba(0, 0, 0, 0)'];
+export const TRANSPARENT_VALUES = ['transparent', 'rgba(0, 0, 0, 0)'];
 const rootStyle = document.documentElement.style;
 
 const isCssVariable = string =>

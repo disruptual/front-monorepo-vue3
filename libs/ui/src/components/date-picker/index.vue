@@ -60,7 +60,9 @@ const onCellClick = d => {
 };
 
 const inputValue = computed(() =>
-  format(props.modelValue || new Date(), 'dd-MM-yyyy', { locale: frLocale })
+  props.modelValue
+    ? format(props.modelValue, 'dd-MM-yyyy', { locale: frLocale })
+    : null
 );
 
 const isActive = d =>
@@ -142,6 +144,9 @@ const onFocus = () => {
     &:hover,
     &:focus {
       outline: solid 1px var(--color-brand-500);
+    }
+    &:focus {
+      background-color: var(--color-brand-200);
     }
   }
 

@@ -61,6 +61,8 @@ const updateColor = (name, newValue) => {
   <dsp-flex
     v-for="(color, name) in themeService.theme.colors"
     :key="color"
+    align="center"
+    class="color__form-control"
     gap="sm"
   >
     <label :for="name">{{ name }}</label>
@@ -96,5 +98,13 @@ const updateColor = (name, newValue) => {
 .add-palette-button {
   align-self: flex-start;
   margin-top: var(--spacing-sm);
+}
+
+.color__form-control {
+  margin-bottom: var(--spacing-sm);
+
+  label {
+    width: 8em;
+  }
 }
 </style>

@@ -63,7 +63,7 @@ const onAdd = () => {
 
 <template>
   <dsp-surface>
-    <h2>Annonces</h2>
+    <h2>{{ t('menu.links.announcements') }}</h2>
     <dsp-alert>
       Définissez ici des annonces qui apparaitront en haut de votre application
       sur une période définie.

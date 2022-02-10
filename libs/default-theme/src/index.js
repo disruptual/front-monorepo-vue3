@@ -74,7 +74,7 @@ export default {
     textDisabled: 'gray-500',
     background: 'gray-200',
     surface: 'gray-100',
-    separator: 'gray-200',
+    separator: 'gray-300',
     disabled: 'gray-200',
     primary: 'brand-400'
   }

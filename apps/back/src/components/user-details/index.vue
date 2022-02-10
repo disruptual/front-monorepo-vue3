@@ -5,7 +5,7 @@ export default { name: 'UserDetails' };
 <script setup>
 import { ref, unref, computed } from 'vue';
 import { User, USER_ROLES } from '@dsp/business';
-import { useForm, useToast } from '@dsp/ui';
+import { useForm, useToast, useDevice } from '@dsp/ui';
 import { useI18n } from 'vue-i18n';
 import { useUserApi, useCurrentUser } from '@dsp/core';
 import { USER_DETAILS_TABS as TABS } from '@/utils/constants';
@@ -17,6 +17,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['success']);
 
+const device = useDevice();
 const { t } = useI18n();
 const { data: currentUser } = useCurrentUser();
 const { showError, showSuccess } = useToast();
@@ -278,7 +279,7 @@ const ordersLink = computed(() => ({
 
   <dsp-flex v-else class="display-mode" justify="center">
     <dl>
-      <dsp-grid :columns="2">
+      <dsp-grid :columns="device.isMobile ? 1 : 2">
         <dt>{{ t('user.details.lastName') }}</dt>
         <dd>{{ user.lastName }}</dd>
 

@@ -23,7 +23,7 @@ const themeService = useThemeService();
 </script>
 
 <template>
-  <input
+  <dsp-input-text
     v-model="model"
     :list="`colors-${$attrs.id}`"
     v-bind="$attrs"

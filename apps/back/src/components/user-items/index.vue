@@ -24,7 +24,7 @@ const query = useItemApi().findAllByUserIdQuery(props.userId);
     :has-action-bar="false"
     :has-selector-column="false"
     :row-detail-target="
-      row => ({ name: 'AdminItemDetails', params: { id: row.item.id } })
+      row => ({ name: 'AdminItemDetails', params: { id: row.id } })
     "
   >
     <template #no-result>
