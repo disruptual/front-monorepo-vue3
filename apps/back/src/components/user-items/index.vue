@@ -66,9 +66,12 @@ const query = useItemApi().findAllByUserIdQuery(props.userId);
       {{ row.category?.name }}
     </DataTableColumn>
     <DataTableColumn
+      v-slot="{ row }"
       name="publicationState"
       :label="t('dataTable.label.status')"
-    />
+    >
+      {{ t(`item.publicationState.${row.publicationState}`) }}
+    </DataTableColumn>
   </DataTable>
 </template>
 
