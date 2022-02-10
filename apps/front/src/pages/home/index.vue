@@ -15,19 +15,21 @@ const carouselQuery = useCarouselApi().findAllQuery();
 </script>
 
 <template>
-  <dsp-query-loader :query="carouselQuery">
-    <template #loader>
-      <div class="carousel-loader" />
-    </template>
+  <div class="home-page">
+    <dsp-query-loader :query="carouselQuery">
+      <template #loader>
+        <div class="carousel-loader" />
+      </template>
 
-    <template #default="{ entity: carousels }">
-      <Carousel :carousel="carousels[0]" />
-    </template>
-  </dsp-query-loader>
+      <template #default="{ entity: carousels }">
+        <Carousel :carousel="carousels[0]" />
+      </template>
+    </dsp-query-loader>
 
-  <dsp-container is-large class="content-blocks">
-    <ItemGrid :query="query" />
-  </dsp-container>
+    <dsp-container is-large class="content-blocks">
+      <ItemGrid :query="query" />
+    </dsp-container>
+  </div>
 </template>
 
 <style lang="scss" scoped>

@@ -25,7 +25,15 @@ provide(CONTEXT_KEYS.GLOBAL_STATE, globalState);
       <dsp-toasts-container />
       <ErrorBoundary>
         <FeatureControl>
-          <router-view :key="$route.path" />
+          <router-view v-slot="{ Component, route }">
+            <div class="view-container">
+              <transition name="router-slide">
+                <div :key="route.path">
+                  <component :is="Component" />
+                </div>
+              </transition>
+            </div>
+          </router-view>
         </FeatureControl>
       </ErrorBoundary>
     </component>
@@ -54,5 +62,28 @@ provide(CONTEXT_KEYS.GLOBAL_STATE, globalState);
 
 ul {
   list-style: none;
+}
+
+.view-container {
+  display: grid;
+  > * {
+    grid-column: 1;
+    grid-row: 1;
+    max-width: 100vw;
+    @include mobile-only {
+      transition: transform var(--transition-sm);
+    }
+  }
+}
+
+.router-slide-enter-from {
+  @include mobile-only {
+    transform: translateX(100%);
+  }
+}
+.router-slide-leave-to {
+  @include mobile-only {
+    transform: translateX(-100%);
+  }
 }
 </style>

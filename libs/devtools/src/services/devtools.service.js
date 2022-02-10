@@ -9,6 +9,9 @@ export class DevtoolsService {
   }
 
   async register(ownSchemaGlob = {}) {
+    // window.addEventListener('click', e => {
+    //   console.log(e.target.__vueParentComponent.type.name);
+    // });
     const globs = await Promise.all([
       import('@dsp/ui/register-devtools'),
       import('@dsp/core/register-devtools')

@@ -25,7 +25,7 @@ export default { name: 'AppBar' };
       </li>
       <li>
         <dsp-icon-button
-          :to="{ name: 'Inbox' }"
+          :to="{ name: 'ItemCreation' }"
           icon="add"
           is-plain
           size="lg"

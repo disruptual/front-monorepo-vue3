@@ -34,7 +34,6 @@ const focusedMenuElementIndex = ref(0);
 const toggleButton = computed(() => props.toggleRef || unref(toggleElement));
 
 const toggle = () => {
-  console.log('toggle');
   emit('update:isOpened', !props.isOpened);
 };
 

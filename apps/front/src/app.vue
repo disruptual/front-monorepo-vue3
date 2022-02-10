@@ -19,20 +19,52 @@ import { DisruptualDevtools } from '@dsp/devtools';
     <dsp-toasts-container />
 
     <component :is="$route?.meta.layout || 'div'">
-      <router-view v-slot="{ Component }">
-        <keep-alive>
-          <component :is="Component" />
-        </keep-alive>
+      <router-view v-slot="{ Component, route }">
+        <div class="view-container">
+          <transition name="router-slide">
+            <div :key="route.path">
+              <component :is="Component" />
+            </div>
+          </transition>
+        </div>
       </router-view>
     </component>
   </AppProvider>
   <DisruptualDevtools />
 </template>
 
-<style>
+<style lang="scss">
 ul {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+.view-container {
+  display: grid;
+  > * {
+    grid-column: 1;
+    grid-row: 1;
+  }
+}
+
+.router-slide-enter-from,
+.router-slide-enter-active,
+.router-slide-leave-active,
+.router-slide-leave-to {
+  @include mobile-only {
+    transition: transform 0.3s;
+  }
+}
+
+.router-slide-enter-from {
+  @include mobile-only {
+    transform: translateX(100%);
+  }
+}
+.router-slide-leave-to {
+  @include mobile-only {
+    transform: translateX(-100%);
+  }
 }
 </style>
