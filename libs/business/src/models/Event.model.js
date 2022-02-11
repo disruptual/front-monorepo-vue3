@@ -4,6 +4,10 @@ import { format as formatDate, isWithinInterval, isAfter } from 'date-fns';
 import { SLASH_DATE_FORMAT } from '../utils/constants';
 
 export class Event extends BaseModel {
+  constructor(...args) {
+    super(...args);
+  }
+
   get isDigitalPeriod() {
     return this.isNowInInterval(
       new Date(this.digitalSubmissionStartAt),

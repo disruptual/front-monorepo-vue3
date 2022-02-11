@@ -102,6 +102,10 @@ const currentPanel = computed(
   right: var(--spacing-md);
   bottom: var(--spacing-md);
   z-index: 9999;
+  @include mobile-only {
+    bottom: var(--spacing-xl);
+    right: var(--spacing-sm);
+  }
 }
 
 .console {

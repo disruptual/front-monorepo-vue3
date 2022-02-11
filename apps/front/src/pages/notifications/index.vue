@@ -2,6 +2,6 @@
 
 <template>
   <dsp-surface>
-    <h1>Cart</h1>
+    <h1>Notifications</h1>
   </dsp-surface>
 </template>

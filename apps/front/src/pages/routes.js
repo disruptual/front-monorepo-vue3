@@ -67,5 +67,14 @@ export const routes = [
       permissions: [USER_ROLES.USER],
       layout: lazyDefaultLayout
     }
+  },
+  {
+    path: '/notifications',
+    name: 'Notifications',
+    component: () => import('@/pages/notifications/index.vue'),
+    meta: {
+      permissions: [USER_ROLES.USER],
+      layout: lazyDefaultLayout
+    }
   }
 ];

@@ -35,6 +35,14 @@ const toggleUserMenu = () => {
       </li>
       <li v-if="device.isDesktop && currentUser">
         <dsp-icon-button
+          :to="{ name: 'Notifications' }"
+          icon="bell"
+          is-plain
+          size="lg"
+        />
+      </li>
+      <li v-if="device.isDesktop && currentUser">
+        <dsp-icon-button
           :to="{ name: 'Inbox' }"
           icon="speechBubble"
           is-plain
