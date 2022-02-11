@@ -277,7 +277,7 @@ const formOptions = {
                 <dsp-smart-form-field
                   v-slot="slotProps"
                   name="categories"
-                  :initial-value="event?.getCategories()"
+                  :initial-value="event?.categories"
                   required
                 >
                   <dsp-form-control

@@ -5,6 +5,11 @@ import { SLASH_DATE_FORMAT } from '../utils/constants';
 import { Category } from './Category.model';
 
 export class Event extends BaseModel {
+  constructor(...args) {
+    super(...args);
+
+    this.categories = this.categories.map(c => new Category(c));
+  }
   get isDigitalPeriod() {
     return this.isNowInInterval(
       new Date(this.digitalSubmissionStartAt),
@@ -124,9 +129,5 @@ export class Event extends BaseModel {
     return formatDate(new Date(this.salesEndAt), format, {
       locale: frLocale
     });
-  }
-
-  getCategories() {
-    return this.categories.map(category => new Category(category));
   }
 }
