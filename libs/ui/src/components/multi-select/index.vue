@@ -4,7 +4,7 @@ export default { name: 'DspMultiSelect' };
 
 <script setup>
 import { computed } from 'vue';
-import { vReadableColor } from '@dsp/ui';
+import { vReadableColor } from '@dsp/ui/directives/readableColor';
 
 import Multiselect from '@vueform/multiselect';
 
