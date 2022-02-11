@@ -2,6 +2,7 @@ import { BaseModel } from './Base.model';
 import frLocale from 'date-fns/locale/fr';
 import { format as formatDate, isWithinInterval, isAfter } from 'date-fns';
 import { SLASH_DATE_FORMAT } from '../utils/constants';
+import { Category } from './Category.model';
 
 export class Event extends BaseModel {
   get isDigitalPeriod() {
@@ -123,5 +124,9 @@ export class Event extends BaseModel {
     return formatDate(new Date(this.salesEndAt), format, {
       locale: frLocale
     });
+  }
+
+  getCategories() {
+    return this.categories.map(category => new Category(category));
   }
 }

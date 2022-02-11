@@ -44,3 +44,4 @@ export { default as DspCenter } from './center/index.vue';
 export { default as DspToastsContainer } from './toasts-container/index.vue';
 export { default as DspAlert } from './alert/index.vue';
 export { default as DspMenu } from './menu/index.vue';
+export { default as DspMultiSelect } from './multi-select/index.vue';

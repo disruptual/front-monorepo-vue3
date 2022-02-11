@@ -11,6 +11,7 @@
     "@dsp/test-utils": "*",
     "@popperjs/core": "^2.10.2",
     "@vue/test-utils": "^2.0.0-rc.16",
+    "@vueform/multiselect": "^2.3.2",
     "axios-mock-adapter": "^1.20.0",
     "camelcase": "^6.2.0",
     "focus-visible": "^5.2.0",

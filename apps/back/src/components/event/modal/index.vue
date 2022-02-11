@@ -226,7 +226,7 @@ const formOptions = {
           <dsp-center>
             <h3>{{ t('event.title.informations') }}</h3>
           </dsp-center>
-          <dsp-flex wrap="nowrap">
+          <dsp-flex gap="xl" wrap="nowrap">
             <dsp-flex>
               <dsp-smart-form-field
                 v-slot="slotProps"
@@ -273,27 +273,26 @@ const formOptions = {
                   />
                 </dsp-form-control>
               </dsp-smart-form-field>
-              <dsp-smart-form-field
-                v-slot="slotProps"
-                name="categories"
-                :initial-value="event?.categories"
-                required
-              >
-                <dsp-form-control
-                  v-slot="{ on, ...formControlProps }"
-                  v-model="slotProps.field.value"
-                  v-bind="slotProps"
-                  :label="t('event.label.category')"
+              <div class="categories">
+                <dsp-smart-form-field
+                  v-slot="slotProps"
+                  name="categories"
+                  :initial-value="event?.getCategories()"
+                  required
                 >
-                  <dsp-select
+                  <dsp-form-control
                     v-model="slotProps.field.value"
-                    :options="queryCategories?.data?.value"
-                    :multiple="true"
-                    v-bind="formControlProps"
-                    v-on="on"
-                  />
-                </dsp-form-control>
-              </dsp-smart-form-field>
+                    v-bind="slotProps"
+                    :label="t('event.label.category')"
+                  >
+                    <dsp-multi-select
+                      v-model="slotProps.field.value"
+                      :options="queryCategories?.data?.value"
+                      :placeholder="t('event.label.category')"
+                    />
+                  </dsp-form-control>
+                </dsp-smart-form-field>
+              </div>
             </dsp-flex>
             <dsp-flex>
               <dsp-smart-form-field
@@ -368,7 +367,6 @@ const formOptions = {
               v-slot="slotProps"
               name="schedule.MONDAY"
               :initial-value="event?.schedule.MONDAY || ''"
-              required
             >
               <dsp-form-control
                 v-model="slotProps.field.value"
@@ -380,7 +378,6 @@ const formOptions = {
               v-slot="slotProps"
               name="schedule.TUESDAY"
               :initial-value="event?.schedule.TUESDAY || ''"
-              required
             >
               <dsp-form-control
                 v-model="slotProps.field.value"
@@ -394,7 +391,6 @@ const formOptions = {
               v-slot="slotProps"
               name="schedule.WEDNESDAY"
               :initial-value="event?.schedule.WEDNESDAY || ''"
-              required
             >
               <dsp-form-control
                 v-model="slotProps.field.value"
@@ -406,7 +402,6 @@ const formOptions = {
               v-slot="slotProps"
               name="schedule.FRIDAY"
               :initial-value="event?.schedule.FRIDAY || ''"
-              required
             >
               <dsp-form-control
                 v-model="slotProps.field.value"
@@ -420,7 +415,6 @@ const formOptions = {
               v-slot="slotProps"
               name="schedule.THURSDAY"
               :initial-value="event?.schedule.THURSDAY || ''"
-              required
             >
               <dsp-form-control
                 v-model="slotProps.field.value"
@@ -432,7 +426,6 @@ const formOptions = {
               v-slot="slotProps"
               name="schedule.SATURDAY"
               :initial-value="event?.schedule.SATURDAY || ''"
-              required
             >
               <dsp-form-control
                 v-model="slotProps.field.value"
@@ -446,7 +439,6 @@ const formOptions = {
               v-slot="slotProps"
               name="schedule.SUNDAY"
               :initial-value="event?.schedule.SUNDAY || ''"
-              required
             >
               <dsp-form-control
                 v-model="slotProps.field.value"
@@ -487,15 +479,21 @@ const formOptions = {
     }
   }
   .informations {
+    margin-bottom: var(--spacing-lg);
     @include not-mobile {
       grid-area: informations;
     }
     > div.dsp-flex {
       > div.dsp-flex {
+        flex: 1 1 0;
         > div.dsp-flex {
           margin-right: var(--spacing-md);
         }
       }
+    }
+
+    .categories {
+      flex-basis: 100%;
     }
   }
   .address {
