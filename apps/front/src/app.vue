@@ -3,10 +3,13 @@ export default { name: 'App' };
 </script>
 
 <script setup>
+import { ref } from 'vue';
 import { AppProvider } from '@dsp/core';
 import AppLoading from 'client/components/app-loader.vue';
 // import { VueQueryDevTools } from 'vue-query/devtools';
 import { DisruptualDevtools } from '@dsp/devtools';
+
+const isNavigating = ref(false);
 </script>
 
 <template>
@@ -21,7 +24,11 @@ import { DisruptualDevtools } from '@dsp/devtools';
     <component :is="$route?.meta.layout || 'div'">
       <router-view v-slot="{ Component, route }">
         <div class="view-container">
-          <transition name="router-slide">
+          <transition
+            name="router-slide"
+            @before-enter="isNavigating = true"
+            @after-leave="isNavigating = false"
+          >
             <div :key="route.path">
               <component :is="Component" />
             </div>
@@ -42,6 +49,9 @@ ul {
 
 .view-container {
   display: grid;
+  max-width: 100vw;
+  overflow-x: v-bind("isNavigating ? 'hidden': 'visible'");
+
   > * {
     grid-column: 1;
     grid-row: 1;
@@ -53,7 +63,7 @@ ul {
 .router-slide-leave-active,
 .router-slide-leave-to {
   @include mobile-only {
-    transition: transform 0.3s;
+    transition: all var(--transition-sm);
   }
 }
 

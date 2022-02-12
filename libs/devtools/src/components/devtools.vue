@@ -74,10 +74,9 @@ const currentPanel = computed(
     :is-visible="isConsoleDisplayed"
     direction="vertical"
     class="console"
+    :class="devtoolsContext.options.isDetached && 'console--is-detached'"
   >
-    <dsp-surface
-      :class="devtoolsContext.options.isDetached && 'console--is-detached'"
-    >
+    <dsp-surface>
       <dsp-flex as="header" justify="space-between" align="center">
         <h2>Devtools</h2>
         <dsp-menu :items="tabs" @click="onMenuClick" />
