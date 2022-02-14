@@ -64,10 +64,10 @@ const isSelected = option => {
     <option
       v-for="(option, i) of options"
       :key="i"
-      :value="option.id"
+      :value="option.value"
       :selected="isSelected(option)"
     >
-      {{ option.name }}
+      {{ option.label }}
     </option>
   </select>
 </template>

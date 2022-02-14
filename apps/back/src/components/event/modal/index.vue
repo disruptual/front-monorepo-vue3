@@ -3,6 +3,7 @@ export default { name: 'EventModal' };
 </script>
 
 <script setup>
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Event } from '@dsp/business';
 import { useCategoryApi, useLocationApi } from '@dsp/core';
@@ -27,10 +28,19 @@ const formOptions = {
     onModalClose();
   }
 };
+
+const locationSelectOptions = computed(() => {
+  if (queryLocation.data.value) return [];
+
+  return queryLocation.data.value.map(location => ({
+    label: location.name,
+    value: location.uri
+  }));
+});
 </script>
 
 <template>
-  <dsp-modal :is-opened="isOpened" @close="onModalClose()">
+  <dsp-modal :is-opened="isOpened" class="event-modal" @close="onModalClose()">
     <dsp-center>
       <h2>
         {{ t(event ? 'event.title.edit' : 'event.title.create') }}
@@ -231,7 +241,7 @@ const formOptions = {
               <dsp-smart-form-field
                 v-slot="slotProps"
                 name="title"
-                :initial-value="event?.title || ''"
+                :initial-value="props.event?.title || undefined"
                 required
               >
                 <dsp-form-control
@@ -266,7 +276,7 @@ const formOptions = {
                 >
                   <dsp-select
                     v-model="slotProps.field.value"
-                    :options="queryLocation?.data?.value"
+                    :options="locationSelectOptions"
                     :multiple="false"
                     v-bind="formControlProps"
                     v-on="on"

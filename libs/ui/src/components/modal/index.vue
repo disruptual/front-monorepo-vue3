@@ -111,8 +111,11 @@ watch(focusRef, newVal => {
 }
 
 .content {
-  margin-top: 10em;
+  margin-top: var(--spacing-3xl);
   animation: modal-content-enter var(--transition-md);
+  @include not-mobile {
+    max-width: 80vw;
+  }
   @include mobile-only {
     margin: var(--spacing-xl) var(--spacing-md);
     width: 100%;
