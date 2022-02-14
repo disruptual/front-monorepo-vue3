@@ -50,7 +50,7 @@ const onSubmit = async row => {
     } else {
       await createEvent(row);
     }
-    showError(t('toasts.event.updateSuccess'));
+    showSuccess(t('toasts.event.updateSuccess'));
     query.refetch.value();
   } catch (err) {
     showError(t('toasts.event.createError'));

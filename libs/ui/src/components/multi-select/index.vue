@@ -9,14 +9,14 @@ import { vReadableColor } from '@dsp/ui/directives/readableColor';
 import Multiselect from '@vueform/multiselect';
 
 const props = defineProps({
-  modelValue: { type: Object, required: true },
+  modelValue: { type: null, required: true },
   options: { type: Array, required: true },
   placeholder: { type: String, default: '' }
 });
 
 const emit = defineEmits(['update:modelValue']);
 
-const datas = computed({
+const vModel = computed({
   get() {
     return props.modelValue;
   },
@@ -33,23 +33,20 @@ const defaultClasses = computed(() => {
 <template>
   <Multiselect
     ref="refMultiSelect"
-    v-model="datas"
+    v-model="vModel"
     mode="tags"
     :placeholder="placeholder"
     track-by="name"
-    value-prop="uri"
-    label="name"
     open-direction="top"
     :classes="defaultClasses"
     :searchable="true"
     :can-clear="false"
     :options="options"
-    :object="true"
   >
     <template #tag="{ option, handleTagRemove }">
       <dsp-flex>
         <div v-readable-color class="multiselect-tag badge">
-          {{ option?.name }}
+          {{ option.label }}
           <span
             class="multiselect-tag-remove"
             @mousedown.prevent="handleTagRemove(option, $event)"

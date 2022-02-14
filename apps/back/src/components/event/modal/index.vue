@@ -30,22 +30,41 @@ const formOptions = {
 };
 
 const locationSelectOptions = computed(() => {
-  if (queryLocation.data.value) return [];
+  if (!queryLocation.data.value) return [];
 
   return queryLocation.data.value.map(location => ({
     label: location.name,
     value: location.uri
   }));
 });
+
+const categoriesSelectOptions = computed(() => {
+  if (!queryCategories.data.value) return [];
+
+  return queryCategories.data.value.map(category => ({
+    label: category.name,
+    value: category.uri
+  }));
+});
 </script>
 
 <template>
-  <dsp-modal :is-opened="isOpened" class="event-modal" @close="onModalClose()">
+  <dsp-modal
+    :is-opened="isOpened"
+    :focus-inside-on-open="false"
+    @close="onModalClose()"
+  >
     <dsp-center>
       <h2>
         {{ t(event ? 'event.title.edit' : 'event.title.create') }}
       </h2>
     </dsp-center>
+    <dsp-alert color-scheme="yellow" icon="warning">
+      * Les dates doivent être supérieures à la date du jour.
+      <br />
+      * Les dates de dépôt digital, dépôt physique et vente doivent commencer
+      apres la date de début et finir avant la date de fin
+    </dsp-alert>
     <dsp-smart-form :form-options="formOptions" class="form">
       <div class="grid">
         <dsp-flex
@@ -76,6 +95,7 @@ const locationSelectOptions = computed(() => {
                 <dsp-date-picker
                   v-model="slotProps.field.value"
                   v-bind="formControlProps"
+                  datetime
                   v-on="on"
                 />
               </dsp-form-control>
@@ -95,6 +115,7 @@ const locationSelectOptions = computed(() => {
                 <dsp-date-picker
                   v-model="slotProps.field.value"
                   v-bind="formControlProps"
+                  datetime
                   v-on="on"
                 />
               </dsp-form-control>
@@ -119,6 +140,7 @@ const locationSelectOptions = computed(() => {
                 <dsp-date-picker
                   v-model="slotProps.field.value"
                   v-bind="formControlProps"
+                  datetime
                   v-on="on"
                 />
               </dsp-form-control>
@@ -138,6 +160,7 @@ const locationSelectOptions = computed(() => {
                 <dsp-date-picker
                   v-model="slotProps.field.value"
                   v-bind="formControlProps"
+                  datetime
                   v-on="on"
                 />
               </dsp-form-control>
@@ -164,6 +187,7 @@ const locationSelectOptions = computed(() => {
                 <dsp-date-picker
                   v-model="slotProps.field.value"
                   v-bind="formControlProps"
+                  datetime
                   v-on="on"
                 />
               </dsp-form-control>
@@ -183,6 +207,7 @@ const locationSelectOptions = computed(() => {
                 <dsp-date-picker
                   v-model="slotProps.field.value"
                   v-bind="formControlProps"
+                  datetime
                   v-on="on"
                 />
               </dsp-form-control>
@@ -207,6 +232,7 @@ const locationSelectOptions = computed(() => {
                 <dsp-date-picker
                   v-model="slotProps.field.value"
                   v-bind="formControlProps"
+                  datetime
                   v-on="on"
                 />
               </dsp-form-control>
@@ -226,6 +252,7 @@ const locationSelectOptions = computed(() => {
                 <dsp-date-picker
                   v-model="slotProps.field.value"
                   v-bind="formControlProps"
+                  datetime
                   v-on="on"
                 />
               </dsp-form-control>
@@ -297,13 +324,14 @@ const locationSelectOptions = computed(() => {
                   >
                     <dsp-multi-select
                       v-model="slotProps.field.value"
-                      :options="queryCategories?.data?.value"
+                      :options="categoriesSelectOptions"
                       :placeholder="t('event.label.category')"
                     />
                   </dsp-form-control>
                 </dsp-smart-form-field>
               </div>
             </dsp-flex>
+
             <dsp-flex>
               <dsp-smart-form-field
                 v-slot="slotProps"
@@ -470,7 +498,7 @@ const locationSelectOptions = computed(() => {
   grid-gap: var(--spacing-md);
 
   @include not-mobile {
-    grid-template-columns: 4fr 3fr;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 3fr);
     grid-template-areas:
       'dateEvent schedule'
       'informations informations';

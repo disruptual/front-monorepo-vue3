@@ -8,8 +8,8 @@ export default {
     hasEventStarted: 'Pas encore commencé',
     finished: 'Terminé',
     title: {
-      edit: "Modification d'événement",
-      create: "Création d'événement",
+      edit: "Modifier l'événement",
+      create: 'Créer un nouvel événement',
       date: 'Date',
       address: 'Adresse',
       schedule: 'Horaire du magasin',
