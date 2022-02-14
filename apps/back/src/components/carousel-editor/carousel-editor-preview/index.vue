@@ -193,10 +193,10 @@ watch(
 }
 
 .slide-content {
-  --x: v-bind('model.selectedSlide.textPositionX || 2');
-  --x-end: v-bind('model.selectedSlide.textPositionXEnd || -1');
-  --y: v-bind('model.selectedSlide.textPositionY || 4');
-  --y-end: v-bind('model.selectedSlide.textPositionYEnd || 4');
+  --x: v-bind('model.selectedSlide?.textPositionX || 2');
+  --x-end: v-bind('model.selectedSlide?.textPositionXEnd || -1');
+  --y: v-bind('model.selectedSlide?.textPositionY || 4');
+  --y-end: v-bind('model.selectedSlide?.textPositionYEnd || 4');
   position: relative;
   font-size: 16px;
   grid-column: var(--x) / var(--x-end);

@@ -48,7 +48,7 @@ export const usePreviewStyle = ({ isExpanded, model, containerWidth }) => {
   );
 
   const overlay = computed(() =>
-    model.selectedSlide.textHasAnOverlay ? 'rgba(0,0,0,0.5)' : 'transparent'
+    model.selectedSlide?.textHasAnOverlay ? 'rgba(0,0,0,0.5)' : 'transparent'
   );
 
   return {
