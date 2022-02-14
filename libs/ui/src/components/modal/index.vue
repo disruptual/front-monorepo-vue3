@@ -12,7 +12,8 @@ import { useEventListener } from '@dsp/ui/hooks/useEventListener';
 import { getFocusableChildren } from '@dsp/ui/utils/getFocusableChildren';
 
 const props = defineProps({
-  isOpened: { type: Boolean, required: true }
+  isOpened: { type: Boolean, required: true },
+  focusInsideOnOpen: { type: Boolean, default: true }
 });
 const emit = defineEmits(['close']);
 
@@ -39,6 +40,7 @@ watch(
   () => props.isOpened,
   async newVal => {
     if (!newVal) return;
+    if (!props.focusInsideOnOpen) return;
     // We need a small timeout because sometimes on the next tick the modal content won't be fully loaded into the DOM
     setTimeout(() => {
       const children = getFocusableChildren(contentEl.value.$el);

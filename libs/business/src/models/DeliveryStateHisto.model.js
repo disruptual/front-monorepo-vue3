@@ -15,4 +15,8 @@ export class DeliveryStateHisto extends BaseModel {
 
     return this.problemStateTransition;
   }
+
+  isRollbackable(order) {
+    return false;
+  }
 }

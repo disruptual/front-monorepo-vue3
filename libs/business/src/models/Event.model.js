@@ -10,6 +10,7 @@ export class Event extends BaseModel {
 
     this.categories = this.categories.map(c => new Category(c));
   }
+
   get isDigitalPeriod() {
     return this.isNowInInterval(
       new Date(this.digitalSubmissionStartAt),

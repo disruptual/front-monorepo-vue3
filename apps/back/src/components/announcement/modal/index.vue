@@ -3,6 +3,7 @@ export default { name: 'AnnouncementModal' };
 </script>
 
 <script setup>
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Announcement } from '@dsp/business';
 
@@ -23,19 +24,22 @@ const formOptions = {
     onModalClose();
   }
 };
-</script>
 
+const title = computed(() =>
+  t(
+    props.announcement
+      ? 'announcement.form.edit.title'
+      : 'announcement.form.create.title'
+  )
+);
+</script>
 <template>
-  <dsp-modal :is-opened="isOpened" @close="onModalClose()">
-    <h2>
-      {{
-        t(
-          announcement
-            ? 'announcement.form.edit.title'
-            : 'announcement.form.create.title'
-        )
-      }}
-    </h2>
+  <dsp-modal
+    :is-opened="isOpened"
+    :focus-inside-on-open="false"
+    @close="onModalClose()"
+  >
+    <h2>{{ title }}</h2>
     <dsp-smart-form :form-options="formOptions" class="form">
       <dsp-smart-form-field
         v-slot="slotProps"
@@ -101,7 +105,7 @@ const formOptions = {
       <dsp-smart-form-field
         v-slot="slotProps"
         name="content"
-        :initial-value="announcement?.content || ''"
+        :initial-value="announcement?.content || null"
         required
       >
         <dsp-form-control
@@ -130,4 +134,8 @@ const formOptions = {
   </dsp-modal>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+h2 {
+  margin-top: 0;
+}
+</style>

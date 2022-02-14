@@ -25,7 +25,7 @@ export default { name: 'AppBar' };
       </li>
       <li>
         <dsp-icon-button
-          :to="{ name: 'Inbox' }"
+          :to="{ name: 'ItemCreation' }"
           icon="add"
           is-plain
           size="lg"
@@ -41,8 +41,8 @@ export default { name: 'AppBar' };
       </li>
       <li>
         <dsp-icon-button
-          :to="{ name: 'Home' }"
-          icon="heartEmpty"
+          :to="{ name: 'Notifications' }"
+          icon="bell"
           is-plain
           size="lg"
         />

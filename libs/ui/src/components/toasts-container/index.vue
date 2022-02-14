@@ -78,7 +78,7 @@ const icons = {
 }
 
 .toast--error {
-  --toast-bg-color: var(--color-red-50);
+  --toast-bg-color: var(--color-red-100);
   --toast-color: var(--color-red-700);
 }
 

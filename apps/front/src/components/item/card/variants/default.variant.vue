@@ -18,8 +18,6 @@ const {
   canFavorite,
   imageUrl
 } = useItemCard(props);
-
-const device = useDevice();
 </script>
 
 <template>
@@ -86,7 +84,6 @@ figcaption {
 }
 
 header {
-  background: rgba(255, 255, 255, 0.7);
   margin-bottom: var(--spacing-xs);
 
   button {

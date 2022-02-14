@@ -1,9 +1,9 @@
+import { formatPrice } from '@dsp/core';
 import { BaseModel } from './Base.model';
 import { Category } from './Category.model';
 import { Color } from './Color.model';
 import { User } from './User.model';
 import { Media } from './Media.model';
-import { formatPrice } from '@dsp/core';
 import { Size } from './Size.model';
 import { Brand } from './Brand.model';
 import { Condition } from './Condition.model';

@@ -4,8 +4,7 @@
 
 ### Bugs corrigés
 
-- Soucis de tailles des colonnes sur les pages liste lorsque l'on redimensionne la fenêtre
-
 ### Problèmes connus
 
 - Editeur de carousel : la preview des slides desktop s'affiche incorrectement sur mobile
+- Accessibilité: les menu déroulants ne s'ouvrent plus automatiquement lorsqu'ils reçoivent le focus

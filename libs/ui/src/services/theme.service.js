@@ -1,10 +1,11 @@
 import { camelToKebabCase } from '@dsp/core';
-import Color from 'color';
+import { reactive } from 'vue';
 import { useReadableColor } from '@dsp/ui/hooks/useReadableColor';
+import { createColorScale } from '@dsp/ui/utils/themeUtils';
 
 export class ThemeService {
   constructor(theme) {
-    this.theme = theme;
+    this.theme = reactive(theme);
   }
 
   async setup() {
@@ -34,21 +35,26 @@ export class ThemeService {
         `Disruptual ${name}`
       );
     });
+
     Object.entries(palettes).forEach(([name, baseValue]) => {
-      Object.entries(this.generateColorScale(baseValue)).forEach(
-        ([variant, value]) => {
-          document.documentElement.style.setProperty(
-            `--color-${camelToKebabCase(name)}-${variant}`,
-            value
-          );
-        }
-      );
+      const options =
+        typeof baseValue === 'object'
+          ? baseValue
+          : {
+              baseColor: baseValue
+            };
+      Object.entries(createColorScale(options)).forEach(([i, value]) => {
+        document.documentElement.style.setProperty(
+          `--color-${camelToKebabCase(name)}-${Number(i) + 1}00`,
+          value
+        );
+      });
     });
 
     Object.entries(colors).forEach(([name, value]) => {
       document.documentElement.style.setProperty(
         `--color-${camelToKebabCase(name)}`,
-        value
+        `var(--color-${value})`
       );
     });
 
@@ -67,47 +73,7 @@ export class ThemeService {
     document.fonts.add(await fontFace.load());
   }
 
-  generateColorScale(baseColor) {
-    const MAX_LUMINOSITY = 95;
-    const MIN_LUMINOSITY = 10;
-    const LIGHT_VALUES = 5;
-    const DARK_VALUES = 4;
-
-    const [, , luminosity] = Color(baseColor).hsl().array();
-    const lightStep = (MAX_LUMINOSITY - luminosity) / LIGHT_VALUES;
-    const darkStep = (luminosity - MIN_LUMINOSITY) / DARK_VALUES;
-
-    return {
-      50: Color(baseColor)
-        .lightness(luminosity + 5 * lightStep)
-        .hex(),
-      100: Color(baseColor)
-        .lightness(luminosity + 4 * lightStep)
-        .hex(),
-      200: Color(baseColor)
-        .lightness(luminosity + 3 * lightStep)
-        .hex(),
-      300: Color(baseColor)
-        .lightness(luminosity + 2 * lightStep)
-        .hex(),
-      400: Color(baseColor)
-        .lightness(luminosity + lightStep)
-        .hex(),
-      500: Color(baseColor).hex(),
-      600: Color(baseColor)
-        .lightness(luminosity - darkStep)
-        .hex(),
-      700: Color(baseColor)
-        .lightness(luminosity - 2 * darkStep)
-        .hex(),
-      800: Color(baseColor)
-        .lightness(luminosity - 3 * darkStep)
-        .hex(),
-      900: Color(baseColor)
-        .lightness(luminosity - 4 * darkStep)
-        .hex(),
-      half: Color(baseColor).fade(0.5).hsl().string(),
-      quarter: Color(baseColor).fade(0.75).hsl().string()
-    };
+  createColorScale(baseColor) {
+    return createColorScale(baseColor);
   }
 }

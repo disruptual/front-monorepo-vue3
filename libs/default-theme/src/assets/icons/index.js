@@ -55,6 +55,7 @@ import trash from './trash.svg';
 import boxOpen from './boxOpen.svg';
 import arrowUp from './arrow-up.svg';
 import arrowDown from './arrow-down.svg';
+import bell from './bell.svg';
 
 export default {
   add,
@@ -62,6 +63,7 @@ export default {
   arrowDown,
   ban,
   bars,
+  bell,
   boxOpen,
   calendar,
   caretDown,

@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div>
+  <dsp-surface>
     <h1>Cart</h1>
-  </div>
+  </dsp-surface>
 </template>

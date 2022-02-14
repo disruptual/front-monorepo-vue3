@@ -4,7 +4,8 @@ import { nanoid } from 'nanoid';
 export class CarouselEditor {
   constructor({ settings }) {
     this.settings = settings;
-    this.selectedSlideId = this.desktopSlides[0].id;
+    this.settings.carouselItems = [];
+    this.selectedSlideId = this.desktopSlides[0]?.id;
     this.createdIds = [];
     this.deletedIds = [];
     this.newMedias = {};
@@ -37,6 +38,8 @@ export class CarouselEditor {
   }
 
   get viewMode() {
+    if (!this.selectedSlide) return CAROUSEL_VIEW_MODES.DESKTOP;
+
     return this.selectedSlide.desktop
       ? CAROUSEL_VIEW_MODES.DESKTOP
       : CAROUSEL_VIEW_MODES.MOBILE;
@@ -57,6 +60,8 @@ export class CarouselEditor {
   }
 
   getSlideSrc(slide) {
+    if (!slide) return null;
+
     return this.newMedias[slide.id]?.data ?? slide.media?.url;
   }
 
@@ -110,7 +115,7 @@ export class CarouselEditor {
     }
 
     if (this.selectedSlideId === slideId) {
-      this.selectedSlideId = this.desktopSlides[0].id;
+      this.selectedSlideId = this.desktopSlides[0]?.id;
     }
   }
 

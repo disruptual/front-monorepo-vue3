@@ -20,7 +20,7 @@ export default {
       stocks: 'Gestion des stocks',
       eventDeposit: 'Dépôt',
       eventSales: 'Vente',
-      announcements: 'Bandeaux',
+      announcements: "Bandeaux d'information",
       carousel: 'Carrousel',
       blocks: 'Blocks push'
     }

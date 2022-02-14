@@ -12,7 +12,7 @@ const props = defineProps({
 });
 
 const scheme = {
-  bg: 100,
+  bg: 200,
   text: 800,
   iconBg: 600
 };

@@ -81,7 +81,11 @@ useBreadCrumbs(breadCrumbLabel);
       >
         <dsp-container as="section">
           <dsp-surface>
-            <OrderHistory :order="order" @rollback="query.refetch()" />
+            <OrderHistory
+              :order="order"
+              @rollback="query.refetch()"
+              @forward="query.refetch()"
+            />
           </dsp-surface>
         </dsp-container>
       </dsp-tab>

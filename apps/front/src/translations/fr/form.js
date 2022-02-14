@@ -1,7 +1,7 @@
 export default {
   form: {
     errors: {
-      required: 'Veuillez remplir de champ',
+      required: 'Veuillez remplir ce champ',
       min: 'Ce champ doit superieur à {min}',
       max: 'Ce champ doit inférieur à {max}',
       minlength: 'Ce champ doit comporter au moins {length} caractères',

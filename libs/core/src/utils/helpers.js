@@ -49,8 +49,8 @@ export const formatPrice = (
 ) => {
   const number = Number.parseFloat(price);
   const isDecimal = (number * 100) % 100 > 0;
-  if (isDecimal) return `${number.toFixed(digits)}€`;
-  else return `${number}€`;
+  if (isDecimal) return `${number.toFixed(digits).replace('.', ',')}€`;
+  else return `${String(number).replace('.', ',')}€`;
 };
 
 export const makeRandomId = (length = 6) => {

@@ -3,14 +3,12 @@ export default { name: 'DspMenu' };
 </script>
 
 <script setup>
-import { useReadableColor } from '@dsp/ui/hooks/useReadableColor';
+import { vReadableColor } from '@dsp/ui/directives/readableColor';
 
 const emit = defineEmits(['click']);
 const props = defineProps({
   items: { type: Array, required: true }
 });
-
-const menuTextColor = useReadableColor('--color-background');
 
 const getItemClasses = item => ({
   'menu-item--is-active': item.isActive
@@ -18,7 +16,7 @@ const getItemClasses = item => ({
 </script>
 
 <template>
-  <nav class="menu">
+  <nav v-readable-color class="menu">
     <dsp-swiper as="ul">
       <dsp-swiper-item
         v-for="item in props.items"
@@ -43,7 +41,6 @@ const getItemClasses = item => ({
   width: fit-content;
   max-width: 100%;
   overflow-x: hidden;
-  color: v-bind(menuTextColor);
 
   li {
     border-bottom: 2px solid var(--color-disabled);

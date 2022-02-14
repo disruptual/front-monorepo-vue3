@@ -17,10 +17,10 @@ const app = new DisruptualApp({
 
 async function setupDevtools() {
   if (!import.meta.env.VITE_DEVTOOLS) return;
-
+  const schemas = await import('./register-devtools');
   const devtools = await import('@dsp/devtools');
 
-  return devtools.createDevtools(app);
+  return devtools.createDevtools(app, schemas);
 }
 
 async function start() {
