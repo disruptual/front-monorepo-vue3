@@ -10,7 +10,8 @@ import { useReadableColor } from '@dsp/ui//hooks';
 
 const props = defineProps({
   user: { type: User, required: true },
-  size: oneOf(['xs', 'sm', 'md', 'lg', 'xl'], 'sm')
+  size: oneOf(['xs', 'sm', 'md', 'lg', 'xl'], 'sm'),
+  thumbnail: oneOf(['avatar', 'avatarList'], 'avatar')
 });
 
 const initials = computed(
@@ -27,7 +28,7 @@ const textColor = useReadableColor('--color-brand-500');
   <div class="avatar">
     <dsp-image
       v-if="user.avatar"
-      :src="user.avatar.thumbnails.avatar"
+      :src="user.avatar.thumbnails[props.thumbnail]"
       :alt="user.firstName"
     />
     <dsp-flex v-else class="initials" align="center" justify="center">
