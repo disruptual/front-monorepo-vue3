@@ -9,7 +9,7 @@ import AppLoading from 'client/components/app-loader.vue';
 import ErrorBoundary from './components/error-boundary/index.vue';
 import FeatureControl from './components/feature-control/index.vue';
 import { CONTEXT_KEYS } from './utils/constants';
-// import { VueQueryDevTools } from 'vue-query/devtools';
+import { VueQueryDevTools } from 'vue-query/devtools';
 
 const globalState = reactive({});
 provide(CONTEXT_KEYS.GLOBAL_STATE, globalState);
@@ -21,7 +21,7 @@ provide(CONTEXT_KEYS.GLOBAL_STATE, globalState);
       <AppLoading />
     </template>
     <component :is="$route?.meta.layout">
-      <!-- <VueQueryDevTools /> -->
+      <VueQueryDevTools />
       <dsp-toasts-container />
       <ErrorBoundary>
         <FeatureControl>

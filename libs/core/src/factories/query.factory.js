@@ -37,6 +37,8 @@ export class QueryBuilder {
         .map(uri => {
           const relation = this.getRelation(`${prefix}${name}`);
           if (!relation) return;
+          if (!uri) return;
+
           return {
             relation: `${prefix}${name}`,
             queryKey: uri,

@@ -60,6 +60,7 @@ class BoundModelFactory {
   }
 
   buildOneToOne(entity, { name, uri, prefix, normalizer, model }) {
+    if (!uri) return;
     const child = this.queryClient.getQueryData(uri);
     if (!child) return;
 

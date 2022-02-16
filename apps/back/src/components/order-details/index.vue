@@ -147,7 +147,7 @@ const buyerLabel = computed(() =>
         <dt>{{ t(`order.details.label.shippingFees`) }}</dt>
         <dd>{{ formatPrice(order.deliveryPrice || 0) }}</dd>
 
-        <template v-if="!order.remuneration.isGiftcard">
+        <template v-if="order.remuneration && !order.remuneration?.isGiftcard">
           <dt>{{ t(`order.details.label.reimbursementAmount`) }}</dt>
           <dd>{{ formatPrice(order.refundAmount || 0) }}</dd>
 
