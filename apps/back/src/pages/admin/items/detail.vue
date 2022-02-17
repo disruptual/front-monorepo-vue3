@@ -258,7 +258,6 @@ dd {
 }
 .seller {
   border: 1px solid var(--color-separator);
-  width: 20vw;
   @include mobile-only {
     width: 60vw;
   }
