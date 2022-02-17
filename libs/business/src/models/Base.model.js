@@ -19,7 +19,7 @@ export class BaseModel {
   constructor(dto) {
     this.__isLazyDetectionDisabled = true;
     Object.assign(this, this.fromJSON(dto));
-    this.__isLazyDetectionDisabled = false;
+    delete this.__isLazyDetectionDisabled;
   }
 
   fromJSON(dto) {

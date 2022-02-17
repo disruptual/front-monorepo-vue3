@@ -11,9 +11,7 @@ export class DeliveryStateHisto extends BaseModel {
   }
 
   get status() {
-    if (this.problemState === ORDER_PROBLEM_STATES.NONE) return this.transition;
-
-    return this.problemStateTransition;
+    return this.transition ?? this.state;
   }
 
   isRollbackable(order) {

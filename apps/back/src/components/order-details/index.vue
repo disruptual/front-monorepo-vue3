@@ -37,6 +37,12 @@ const buyerLabel = computed(() =>
     ? t(`order.details.title.buyer.female`)
     : t(`order.details.title.buyer.male`)
 );
+
+const totalAmountLabel = computed(() =>
+  props.order.isNegotiated
+    ? t(`order.details.label.totalAmountAfterNego`)
+    : t(`order.details.label.totalAmount`)
+);
 </script>
 
 <template>
@@ -155,15 +161,15 @@ const buyerLabel = computed(() =>
           <dd>{{ formatPrice(order.abundedPriceSeller || 0) }}</dd>
         </template>
 
-        <dt>{{ t(`order.details.label.totalAmount`) }}</dt>
-        <dd>{{ formatPrice(order.totalAmountBeforeNegotiation) }}</dd>
-
         <template v-if="order.isNegotiated">
           <dt class="title">
-            {{ t(`order.details.label.totalAmountAfterNego`) }}
+            {{ t(`order.details.label.totalAmountBeforeNego`) }}
           </dt>
-          <dd>{{ formatPrice(order.totalAmount || order.moneyBox) }}</dd>
+          <dd>{{ formatPrice(order.totalAmountBeforeNegotiation) }}</dd>
         </template>
+
+        <dt>{{ totalAmountLabel }}</dt>
+        <dd>{{ formatPrice(order.totalAmount || order.moneyBox) }}</dd>
       </dl>
     </dsp-surface>
 

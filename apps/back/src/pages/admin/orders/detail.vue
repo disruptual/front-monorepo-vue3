@@ -62,7 +62,7 @@ useBreadCrumbs(breadCrumbLabel);
         :label="t(`order.details.tabs.${TABS.INFOS}`)"
       >
         <dsp-container as="section">
-          <OrderDetails :order="order" @update="query.refetch()" />
+          <OrderDetails :order="order" @update="query.refetch.value()" />
         </dsp-container>
       </dsp-tab>
 
@@ -83,8 +83,8 @@ useBreadCrumbs(breadCrumbLabel);
           <dsp-surface>
             <OrderHistory
               :order="order"
-              @rollback="query.refetch()"
-              @forward="query.refetch()"
+              @rollback="query.refetch.value()"
+              @forward="query.refetch.value()"
             />
           </dsp-surface>
         </dsp-container>

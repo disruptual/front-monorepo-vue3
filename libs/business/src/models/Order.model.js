@@ -212,7 +212,8 @@ export class Order extends BaseModel {
 
   get history() {
     return [...this.orderStateHistos, ...this.deliveryStateHistos].sort(
-      (a, b) => new Date(b.updated) - new Date(a.updated)
+      (a, b) =>
+        new Date(b.updated ?? b.updatedAt) - new Date(a.updated ?? a.updatedAt)
     );
   }
 
@@ -224,7 +225,7 @@ export class Order extends BaseModel {
     ) {
       return nextTransitions[this.delivery.tag][this.deliveryState];
     }
-    console.log(nextTransitions, this.delivery.tag);
+
     return nextTransitions[this.delivery.tag][this.orderState];
   }
 }

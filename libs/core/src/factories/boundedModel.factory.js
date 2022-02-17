@@ -67,13 +67,14 @@ class BoundModelFactory {
     entity.__isLazyDetectionDisabled = true;
     const normalized =
       entity[name] instanceof model ? entity[name] : normalizer(child);
-    entity.__isLazyDetectionDisabled = false;
+    delete entity.__isLazyDetectionDisabled;
 
     entity[name] = this.buildRelations(normalized, `${prefix}${name}.`);
   }
 
   buildOneToMany(entity, { uri: uris, name, prefix, normalizer, model }) {
     const children = uris
+      .filter(Boolean)
       .map(uri => this.queryClient.getQueryData(uri))
       .filter(Boolean)
       .map(normalizer);
@@ -82,7 +83,7 @@ class BoundModelFactory {
       entity.__isLazyDetectionDisabled = true;
       const normalizedChild =
         child instanceof model ? child : normalizer(child);
-      entity.__isLazyDetectionDisabled = false;
+      delete entity.__isLazyDetectionDisabled;
 
       return this.buildRelations(normalizedChild, `${prefix}${name}.`);
     });

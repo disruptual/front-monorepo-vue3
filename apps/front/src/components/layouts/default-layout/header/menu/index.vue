@@ -20,6 +20,9 @@ const toggleUserMenu = () => {
 <template>
   <nav class="header-menu">
     <dsp-flex as="ul" align="center">
+      <li v-if="!device.isMobile">
+        <dsp-button is-rounded>Vendre</dsp-button>
+      </li>
       <li v-if="currentUser">
         <UserMenu v-model="isUserMenuOpened">
           <dsp-avatar :user="currentUser" />
@@ -63,7 +66,7 @@ const toggleUserMenu = () => {
 
 <style lang="scss" scoped>
 .header-menu {
-  button {
+  .dsp-icon-button {
     padding: 0;
   }
 }

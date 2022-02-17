@@ -50,6 +50,7 @@ ul {
 .view-container {
   display: grid;
   max-width: 100vw;
+  height: 100%;
   overflow-x: v-bind("isNavigating ? 'hidden': 'visible'");
 
   > * {

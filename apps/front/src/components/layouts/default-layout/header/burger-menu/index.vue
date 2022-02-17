@@ -65,12 +65,11 @@ h2 {
 
   li {
     padding: var(--spacing-sm);
-    font-size: var(--font-size-lg);
   }
 
   img {
-    width: 1.5em;
-    height: 1.5em;
+    width: 1em;
+    height: 1em;
     object-fit: cover;
   }
 }

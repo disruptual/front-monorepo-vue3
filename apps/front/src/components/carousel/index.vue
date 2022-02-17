@@ -3,7 +3,7 @@ export default { name: 'Carousel' };
 </script>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { Carousel } from '@dsp/business';
 import { useDevice, vOnSwipe } from '@dsp/ui';
 
@@ -13,14 +13,28 @@ const props = defineProps({
 
 const device = useDevice();
 
-const carouselHeight = computed(() => {
+const aspectRatio = ref(null);
+const imageReference = computed(() => {
   const { carousel } = props;
-  const height = device.isMobile
-    ? carousel.carouselMobileHeight
-    : carousel.carouselHeight;
+  const slide = carousel.carouselItems.find(item =>
+    device.isMobile ? !item.desktop : item.desktop
+  );
 
-  return `${height}px`;
+  return slide.media.url;
 });
+watch(
+  imageReference,
+  url => {
+    aspectRatio.value = null;
+    const img = new Image();
+    img.src = url;
+    img.onload = () => {
+      aspectRatio.value = `${img.naturalWidth} / ${img.naturalHeight}`;
+      console.log(aspectRatio.value);
+    };
+  },
+  { immediate: true }
+);
 
 const displayedSlides = computed(() =>
   props.carousel.carouselItems
@@ -65,7 +79,7 @@ const getSlideStyle = slide => {
       name="carousel-slide"
     >
       <div
-        v-if="index === currentIndex"
+        v-if="index === currentIndex && aspectRatio"
         class="carousel__slide"
         :style="{ '--background': `url(${slide.media.url})` }"
       >
@@ -120,7 +134,8 @@ const getSlideStyle = slide => {
 .carousel__slide {
   --grid-size: v-bind('carousel.contentGridSize');
   width: 100%;
-  height: v-bind(carouselHeight);
+  aspect-ratio: v-bind('aspectRatio');
+  /* height: v-bind(carouselHeight); */
   padding: var(--spacing-md);
   background: var(--background, #444);
   background-size: cover;
