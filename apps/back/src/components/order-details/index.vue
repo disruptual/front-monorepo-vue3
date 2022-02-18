@@ -112,8 +112,8 @@ const totalAmountLabel = computed(() =>
         <template v-if="order.isLocationDelivery">
           <dt>{{ t(`order.details.label.storeInOut`) }}</dt>
           <dd>
-            {{ order.location.name }} {{ order.location.address.route }}
-            {{ order.location.address.postalCode }} {{ order.address.city }}
+            {{ order.location?.name }} {{ order.location?.address?.route }}
+            {{ order.location?.address?.postalCode }} {{ order.address?.city }}
           </dd>
         </template>
 
