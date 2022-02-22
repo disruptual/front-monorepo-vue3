@@ -21,7 +21,7 @@ const toggleUserMenu = () => {
   <nav class="header-menu">
     <dsp-flex as="ul" align="center">
       <li v-if="!device.isMobile">
-        <dsp-button is-rounded>Vendre</dsp-button>
+        <dsp-button :to="{ name: 'ItemCreation' }">Vendre</dsp-button>
       </li>
       <li v-if="currentUser">
         <UserMenu v-model="isUserMenuOpened">
@@ -34,6 +34,7 @@ const toggleUserMenu = () => {
           size="lg"
           :to="{ name: 'Login' }"
           is-plain
+          aria-label="login"
         />
       </li>
       <li v-if="device.isDesktop && currentUser">
@@ -42,6 +43,7 @@ const toggleUserMenu = () => {
           icon="bell"
           is-plain
           size="lg"
+          aria-label="notifications"
         />
       </li>
       <li v-if="device.isDesktop && currentUser">
@@ -50,6 +52,7 @@ const toggleUserMenu = () => {
           icon="speechBubble"
           is-plain
           size="lg"
+          aria-label="messagerie"
         />
       </li>
       <li v-if="device.isDesktop && currentUser">
@@ -58,6 +61,7 @@ const toggleUserMenu = () => {
           icon="cart"
           is-plain
           size="lg"
+          aria-label="panier"
         />
       </li>
     </dsp-flex>

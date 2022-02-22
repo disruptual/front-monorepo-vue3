@@ -4,24 +4,26 @@ export default { name: 'ItemCard' };
 
 <script setup>
 import { Item } from '@dsp/business';
-import { useDevice } from '@dsp/ui';
 import { useItemCard } from './index';
+import ItemFavoriteButton from '@/components/item/favorite-button/index.vue';
+import ItemCardInfos from '@/components/item/card/infos/index.vue';
 
 const props = defineProps({
   item: { type: Item, required: true }
 });
 
-const {
-  toggleFavorite,
-  favoriteButtonIcon,
-  favoriteButtonTitle,
-  canFavorite,
-  imageUrl
-} = useItemCard(props);
+const { imageUrl } = useItemCard(props);
 </script>
 
 <template>
-  <dsp-surface as="figure" class="item-card">
+  <dsp-surface as="article" class="item-card">
+    <router-link
+      :to="{ name: 'ItemDetails', params: { slug: item.slug } }"
+      class="item-card__link-overlay"
+    >
+      {{ item.title }}
+    </router-link>
+
     <dsp-flex
       as="header"
       align="center"
@@ -29,23 +31,26 @@ const {
       class="item-card__seller"
       wrap="nowrap"
     >
-      <dsp-avatar
-        v-if="item.user"
-        :user="item?.user"
-        size="sm"
-        class="item-card__avatar"
-      />
-      <dsp-truncated-text width="auto">
-        {{ item.user?.firstName }}
-      </dsp-truncated-text>
+      <dsp-flex
+        as="router-link"
+        align="center"
+        gap="xs"
+        :to="{ name: 'Profile', params: { slug: item.user?.slug } }"
+      >
+        <dsp-avatar
+          v-if="item.user"
+          :user="item?.user"
+          size="sm"
+          class="item-card__avatar"
+        />
+        <dsp-truncated-text width="auto">
+          {{ item.user?.firstName }}
+        </dsp-truncated-text>
+      </dsp-flex>
 
-      <dsp-icon-button
-        v-if="canFavorite"
-        :icon="favoriteButtonIcon"
-        :title="favoriteButtonTitle"
+      <ItemFavoriteButton
+        :item="props.item"
         class="item-card__favorite-button"
-        is-plain
-        @click="toggleFavorite"
       />
     </dsp-flex>
 
@@ -53,19 +58,9 @@ const {
       <dsp-image :src="imageUrl" :alt="item.title" />
     </dsp-aspect-ratio>
 
-    <figcaption>
-      <div class="item-card__price">{{ item.formatedPrice }}</div>
-
-      <div class="item-card__brand">
-        {{ item.brand?.name }}
-      </div>
-
-      <div>{{ item.title }}</div>
-
-      <dsp-truncated-text as="div">
-        {{ item.category?.name }}
-      </dsp-truncated-text>
-    </figcaption>
+    <div class="item-card__infos">
+      <ItemCardInfos :item="props.item" />
+    </div>
   </dsp-surface>
 </template>
 
@@ -73,13 +68,32 @@ const {
 .item-card {
   padding: var(--spacing-sm);
   margin: 0;
+  position: relative;
+
+  &:hover img {
+    transform: scale(1.05);
+  }
 
   @include mobile-only {
     padding: var(--spacing-sm);
   }
 }
 
-figcaption {
+.item-card__link-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+}
+
+.item-card__seller {
+  position: relative;
+  z-index: 1;
+}
+
+.item-card__infos {
   margin-top: var(--spacing-sm);
 }
 
@@ -95,13 +109,10 @@ header {
   margin-left: calc(-1 * var(--spacing-sm));
   margin-right: calc(-1 * var(--spacing-sm));
   overflow: hidden;
+  pointer-events: none;
 
   img {
     transition: var(--transition-sm);
-  }
-
-  &:hover img {
-    transform: scale(1.05);
   }
 }
 
@@ -109,17 +120,8 @@ header {
   flex-shrink: 0;
 }
 
-.item-card__brand {
-  font-weight: var(--font-weight-bold);
-}
-
-.item-card__price {
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-lg);
-}
-
 .item-card__favorite-button {
-  padding-right: 0;
+  margin-right: calc(-1 * var(--spacing-sm));
   @include mobile-only {
     padding-left: 0;
   }

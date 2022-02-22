@@ -4,11 +4,14 @@ export default { name: 'DspInputSearch' };
 
 <script setup>
 import { ref, computed } from 'vue';
+import { nanoid } from 'nanoid';
 import { oneOf } from '@dsp/core';
 
 const props = defineProps({
   buttonPosition: oneOf(['right', 'left'], 'right'),
-  modelValue: { type: String, default: '' }
+  modelValue: { type: String, default: '' },
+  ariaLabel: { type: String, default: '' },
+  id: { type: String, default: () => nanoid() }
 });
 defineEmits(['input', 'change']);
 const value = ref(props.modelValue);
@@ -27,7 +30,13 @@ const direction = computed(() =>
     :direction="direction"
     gap="xxs"
   >
+    <dsp-visually-hidden>
+      <label :for="props.id">
+        {{ props.ariaLabel }}
+      </label>
+    </dsp-visually-hidden>
     <input
+      :id="props.id"
       v-model="value"
       type="search"
       class="input"
@@ -35,7 +44,10 @@ const direction = computed(() =>
       @input="$emit('input', value)"
       @keyup.enter="$emit('change', value)"
     />
-    <dsp-plain-button @click="$emit('change', value)">
+    <dsp-plain-button
+      aria-label="props.ariaLabel"
+      @click="$emit('change', value)"
+    >
       <dsp-icon icon="search" />
     </dsp-plain-button>
   </dsp-flex>

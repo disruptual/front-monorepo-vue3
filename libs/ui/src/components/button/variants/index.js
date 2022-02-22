@@ -1,7 +1,7 @@
 import { computed } from 'vue';
 import { useColorScheme } from '@dsp/ui/hooks';
 
-export const useButton = props => {
+export const useButton = (props, attrs) => {
   const classes = computed(() => [
     `dsp-button--${props.size}`,
     {
@@ -20,6 +20,12 @@ export const useButton = props => {
   });
 
   const colors = useColorScheme(scheme, props);
+  const is = computed(() => {
+    if (attrs.to) return 'router-link';
+    if (attrs.href) return 'a';
 
-  return { classes, colors };
+    return 'button';
+  });
+
+  return { is, classes, colors };
 };

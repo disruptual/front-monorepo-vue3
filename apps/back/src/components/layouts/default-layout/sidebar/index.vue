@@ -67,7 +67,7 @@ const onmouseleave = () => {
           as="button"
           align="center"
           class="section__toggle"
-          @click="toggleSection(section.name)"
+          @click="toggleSection(section.id)"
         >
           <dsp-icon
             :icon="section.icon"
@@ -80,7 +80,7 @@ const onmouseleave = () => {
           </span>
           <dsp-icon icon="caretDown" class="section__caret" />
         </dsp-flex>
-        <ul v-if="isSectionOpened(section.name)" class="section-list">
+        <ul v-if="isSectionOpened(section.id)" class="section-list">
           <li v-for="link in getEnabledLinks(section.links)" :key="link.label">
             <router-link
               v-readable-color

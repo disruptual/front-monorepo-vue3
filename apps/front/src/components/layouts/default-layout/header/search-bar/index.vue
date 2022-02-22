@@ -17,6 +17,7 @@ const onChange = () => {
   <dsp-input-search
     v-model="search"
     button-position="right"
+    aria-label="rechercher"
     @change="onChange"
   />
 </template>

@@ -59,6 +59,11 @@ const icons = {
 
   @include not-mobile {
     border-radius: var(--border-radius-md);
+
+    > span {
+      display: block;
+      max-width: 30ch;
+    }
   }
 
   > * {

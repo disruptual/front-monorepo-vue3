@@ -21,7 +21,8 @@ const { t } = useI18n();
 useBreadCrumbs('Contacts');
 
 const defaultFilters = {
-  'root[exists]': 'false'
+  'root[exists]': 'false',
+  'sort[created]': 'desc'
 };
 
 const filters = ref({ ...defaultFilters });

@@ -29,19 +29,22 @@ const onIntersect = item => entry => {
 
 <style lang="scss" scoped>
 .item-grid {
-  --grid-min-size: 14em;
-  --grid-max-size: calc(25vw - var(--spacing-xl));
-  --grid-size: min(var(--grid-min-size), var(--grid-max-size));
   display: grid;
   gap: var(--spacing-lg);
-  grid-template-columns: repeat(auto-fit, var(--grid-size));
-  place-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(min-content, 200px));
+
+  @include not-mobile {
+    place-content: center;
+  }
 
   @include mobile-only {
-    --grid-min-size: 11em;
-    --grid-max-size: calc(100vw - var(--spacing-md));
-    grid-template-columns: repeat(auto-fit, minmax(var(--grid-size), 1fr));
-    grid-column-gap: 0;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  > li:focus {
+    outline: none;
+    box-shadow: var(--box-shadow-md);
   }
 }
 </style>

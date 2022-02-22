@@ -177,7 +177,7 @@ const isDropdownOpened = ref(false);
             </dd>
 
             <dt>{{ t('contact.details.content') }}</dt>
-            <dd>{{ contact.content }}lorem</dd>
+            <dd>{{ contact.content }}</dd>
 
             <dt>{{ t('contact.details.response') }}</dt>
             <dd>

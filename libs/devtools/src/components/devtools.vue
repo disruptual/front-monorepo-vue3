@@ -68,6 +68,7 @@ const currentPanel = computed(
     v-if="!devtoolsContext.options.isDetached"
     icon="settings"
     class="toggle"
+    aria-label="open Disruptual devtools"
     @click="isDisplayed = !isDisplayed"
   />
   <dsp-slide-transition

@@ -16,3 +16,4 @@ export * from './useCarouselApi';
 export * from './useMediaApi';
 export * from './useCarouselItemApi';
 export * from './useReviewApi';
+export * from './useCmsPageApi';

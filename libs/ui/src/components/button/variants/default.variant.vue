@@ -3,6 +3,7 @@ export default { name: 'DspButtonDefault' };
 </script>
 
 <script setup>
+import { useAttrs } from 'vue';
 import { useButton } from './index';
 import schema from '../index.schema';
 import { vReadableColor } from '@dsp/ui/directives';
@@ -18,11 +19,12 @@ const props = defineProps({
   ...schema.toVariantProps()
 });
 
-const { classes, colors } = useButton(props);
+const attrs = useAttrs();
+const { is, classes, colors } = useButton(props, attrs);
 </script>
 
 <template>
-  <button v-readable-color class="dsp-button" :class="classes">
+  <component :is="is" v-readable-color class="dsp-button" :class="classes">
     <slot name="left-icon">
       <dsp-icon v-if="props.leftIcon" class="icon-left" :icon="leftIcon" />
     </slot>
@@ -30,7 +32,7 @@ const { classes, colors } = useButton(props);
     <slot name="right-icon">
       <dsp-icon v-if="props.rightIcon" class="icon-right" :icon="rightIcon" />
     </slot>
-  </button>
+  </component>
 </template>
 
 <style lang="scss" scoped>

@@ -78,4 +78,9 @@ ul {
     transform: translateX(-100%);
   }
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
 </style>

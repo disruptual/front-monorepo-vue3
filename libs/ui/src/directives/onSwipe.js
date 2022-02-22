@@ -20,7 +20,7 @@ class Swiper {
     this.destroy = this.destroy.bind(this);
     this.handleGesture = this.handleGesture.bind(this);
 
-    let eventOptions = this.options.passive ? { passive: true } : false;
+    let eventOptions = { passive: true };
 
     this.element = element;
 

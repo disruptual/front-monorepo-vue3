@@ -3,7 +3,6 @@ import { Collection } from '@dsp/business';
 export const createEntityNormalizer = (model, proxyHandler = {}) => {
   return function normalizeEntity(data) {
     if (!data) return null;
-
     if (data.pages) {
       const allEntities = data.pages
         .flatMap(page => page['hydra:member'])

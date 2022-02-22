@@ -6,11 +6,13 @@ import HeaderMenu from './menu/index.vue';
 import HeaderSearchBar from './search-bar/index.vue';
 import { useDevice, vReadableColor } from '@dsp/ui';
 import BurgerMenu from './burger-menu/index.vue';
+import HeaderAnnouncement from './announcement/index.vue';
 
 const device = useDevice();
 </script>
 
 <template>
+  <HeaderAnnouncement />
   <header class="header" justify="space-around" align="center">
     <HeaderSearchBar v-if="device.isDesktop" class="header-search-bar" />
     <dsp-flex v-else><BurgerMenu /></dsp-flex>

@@ -24,7 +24,16 @@ export const routes = [
     }
   },
   {
-    path: '/profile',
+    path: '/inscription',
+    name: 'SignUp',
+    component: () => import('@/pages/sign-up/index.vue'),
+    meta: {
+      permissions: [],
+      layout: lazyDefaultLayout
+    }
+  },
+  {
+    path: '/profile/:slug?',
     name: 'Profile',
     component: () => import('@/pages/profile/index.vue'),
     meta: {
@@ -59,6 +68,15 @@ export const routes = [
     }
   },
   {
+    path: '/article/:slug',
+    name: 'ItemDetails',
+    component: () => import('@/pages/item-details/index.vue'),
+    props: true,
+    meta: {
+      layout: lazyDefaultLayout
+    }
+  },
+  {
     path: '/vendre/:itemId?',
     name: 'ItemCreation',
     component: () => import('@/pages/item-creation/index.vue'),
@@ -74,6 +92,15 @@ export const routes = [
     component: () => import('@/pages/notifications/index.vue'),
     meta: {
       permissions: [USER_ROLES.USER],
+      layout: lazyDefaultLayout
+    }
+  },
+  {
+    path: '/cms/:slug',
+    name: 'Cms',
+    component: () => import('@/pages/cms/index.vue'),
+    props: true,
+    meta: {
       layout: lazyDefaultLayout
     }
   }
