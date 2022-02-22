@@ -34,14 +34,14 @@ const query = findContactById(props.id, {
   relations: []
 });
 
-const userQueryOptions = computed(() => ({
-  filters: {
-    email: query.data.value?.email
-  },
-  enabled: query.isSuccess.value
-}));
-
-const { data: users } = useUserApi().findAllQuery(userQueryOptions);
+const { data: users } = useUserApi().findAllQuery(
+  computed(() => ({
+    filters: {
+      email: query.data.value?.email
+    },
+    enabled: query.isSuccess.value
+  }))
+);
 
 const { mutateAsync: createContact } = createContactMutation({
   onSuccess() {

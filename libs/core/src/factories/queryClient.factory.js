@@ -13,6 +13,7 @@ export function createQueryClient() {
           if (!data) return;
 
           if (!(data instanceof Collection)) return;
+          console.log(data.uri);
           const rawJson = data.toJSON();
           rawJson['hydra:member'].forEach(entity => {
             if (!entity['@id']) return;
