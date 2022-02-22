@@ -103,8 +103,8 @@ const sortedReplies = computed(() =>
     .slice()
     .sort(
       (contact1, contact2) =>
-        new Date(contact1.created).getTime() -
-        new Date(contact2.created).getTime()
+        new Date(contact2.created).getTime() -
+        new Date(contact1.created).getTime()
     )
 );
 
@@ -129,7 +129,7 @@ const isDropdownOpened = ref(false);
 
             <h2>{{ contact.firstName }} {{ contact.lastName }}</h2>
             <span class="contact__date">
-              {{ contact.formatCreated('dd/MM/yyyy') }}
+              {{ contact.formatCreated("dd/MM/yyyy à hh'h'mm") }}
             </span>
           </dsp-flex>
 
@@ -177,7 +177,7 @@ const isDropdownOpened = ref(false);
             </dd>
 
             <dt>{{ t('contact.details.content') }}</dt>
-            <dd>{{ contact.content }}</dd>
+            <dd class="content">{{ contact.content }}</dd>
 
             <dt>{{ t('contact.details.response') }}</dt>
             <dd>
@@ -255,15 +255,23 @@ dt {
   padding: 0 var(--spacing-sm);
 }
 
+.content {
+  background-color: var(--color-gray-200);
+  padding: var(--spacing-sm);
+}
+
 .form {
   margin: var(--spacing-md) 0;
   position: sticky;
   bottom: 0;
   background: var(--color-surface);
+  border-top: solid 1px var(--color-gray-300);
 }
 
 .resppnse {
-  margin-bottom: var(--spacing-md);
+  border-bottom: solid 1px var(--color-gray-300);
+  padding-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
 }
 
 .response__timestamp {

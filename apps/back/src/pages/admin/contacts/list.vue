@@ -85,29 +85,29 @@ const contactStatuses = Object.values(CONTACT_STATUSES).map(status => ({
       :type="DATATABLE_COLUMN_TYPES.DATE"
       :tooltip-label="({ row }) => row.formatCreated()"
       is-filterable
+      is-highlightable
     >
       {{ row.formatCreated() }}
     </DataTableColumn>
-    <DataTableColumn
-      name="service"
-      :label="t('dataTable.label.service')"
-      width="100"
-    />
+
     <DataTableColumn
       name="firstName"
       :label="t('dataTable.label.firstname')"
       width="150"
+      is-highlightable
     />
     <DataTableColumn
       name="lastName"
       :label="t('dataTable.label.lastname')"
       width="150"
+      is-highlightable
     />
     <DataTableColumn
       name="email"
       :label="t('dataTable.label.email')"
       width="200"
       is-filterable
+      is-highlightable
     />
     <DataTableColumn
       name="content"

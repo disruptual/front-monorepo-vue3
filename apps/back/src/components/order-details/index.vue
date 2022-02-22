@@ -85,7 +85,7 @@ const totalAmountLabel = computed(() =>
         </dsp-flex>
 
         <dt>{{ t(`order.details.label.orderDate`) }}</dt>
-        <dd>{{ order.formatCreated('dd-MM-yyyy à hh:mm') }}</dd>
+        <dd>{{ order.formatCreated("dd-MM-yyyy à hh'h'mm") }}</dd>
 
         <dt>{{ t(`order.details.label.numberArticles`) }}</dt>
         <dd>
