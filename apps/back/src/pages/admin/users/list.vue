@@ -13,6 +13,7 @@ import { DATATABLE_COLUMN_TYPES } from '@/utils/constants';
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
+import DataTableCustomFilter from '@/components/data-table/data-datble-custom-filter/index.vue';
 
 useBreadCrumbs('Utilisateurs');
 const { showSuccess, showError } = useToast();
@@ -30,8 +31,8 @@ const {
 const query = findAllQuery({ filters });
 const { mutateAsync: mute } = muteMutation();
 const { mutateAsync: unmute } = unmuteMutation();
-const { mutateAsync: blocked } = blockedMutation();
-const { mutateAsync: unblocked } = unblockedMutation();
+const { mutateAsync: block } = blockedMutation();
+const { mutateAsync: unblock } = unblockedMutation();
 const { mutate: anonymize, isLoading: isAnonymizing } = anonymizeMutation({
   onSuccess() {
     showSuccess(t('toasts.user.anonymizeSuccess'));
@@ -45,8 +46,11 @@ const { mutate: anonymize, isLoading: isAnonymizing } = anonymizeMutation({
   }
 });
 
-const onFilterChange = newFilters => {
-  filters.value = newFilters;
+const onFilterChange = ({ transactionWithdraw, ...newFilters }) => {
+  filters.value = {
+    ...newFilters,
+    'transactionWithdrawBlockedAt[]': transactionWithdraw
+  };
 };
 
 const anonymizedUser = ref(null);
@@ -55,9 +59,10 @@ const onAnonymize = ([user]) => {
   anonymizedUser.value = user;
   isAnonymizeModalOpened.value = true;
 };
+
 const onBlock = async ([user]) => {
   try {
-    user.blockedAt ? await unblocked(user.id) : await blocked(user.id);
+    user.blockedAt ? await unblock(user.id) : await block(user.id);
     user.blockedAt
       ? showSuccess(t('toasts.user.unblockSuccess'))
       : showSuccess(t('toasts.user.blockSuccess'));
@@ -116,6 +121,14 @@ const onMute = async users => {
     "
     @filter-change="onFilterChange"
   >
+    <DataTableCustomFilter
+      v-slot="{ on, ...slotProps }"
+      name="transactionWithdraw"
+      label="Suspecté de fraude"
+    >
+      <dsp-checkbox v-bind="slotProps" v-on="on" />
+    </DataTableCustomFilter>
+
     <DataTableColumn
       v-slot="{ row }"
       name="avatar"

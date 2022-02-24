@@ -23,7 +23,7 @@ const { data: currentUser } = useCurrentUser();
 const isDropdownOpened = ref(false);
 const isCreditModalOpened = ref(false);
 
-const { muteMutation, unmuteMutation } = useUserApi();
+const { muteMutation, unmuteMutation, updateMutation } = useUserApi();
 const { mutate: mute } = muteMutation({
   onSuccess() {
     showSuccess(t('toasts.user.muteSuccess', 1));

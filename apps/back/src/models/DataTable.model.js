@@ -32,6 +32,7 @@ export class DataTable {
     this.hasSearchbar = hasSearchbar;
     this.onGoToDetail = onGoToDetail;
     this.onFilterChange = onFilterChange;
+    this.customFilters = [];
 
     this.tableElement = tableElement;
 
@@ -136,7 +137,7 @@ export class DataTable {
     // if the grid contains at least one fluid width column,
     // we want it to be the size of the parent element to allow the guild column to expand
     if (this.displayedColumns.some(col => col.width === '*')) {
-      return this.tableElement.parentElement.offsetWidth;
+      return this.tableElement?.parentElement?.offsetWidth;
     }
 
     return this.displayedColumns.reduce((total, column) => {
@@ -209,6 +210,10 @@ export class DataTable {
 
   addRowAction(action) {
     this.rowActions.push(action);
+  }
+
+  addCustomFilter(filter) {
+    this.customFilters.push(filter);
   }
 
   moveColumn(column, newIndex) {

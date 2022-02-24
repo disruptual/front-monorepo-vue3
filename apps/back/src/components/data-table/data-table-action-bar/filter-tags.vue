@@ -15,10 +15,14 @@ const activeFilters = computed(() =>
     .filter(([key, value]) => {
       if (!value) return false;
       if (value === '') return false;
+      const isCustomFilter = model.customFilters.some(f => f.name === key);
+      if (isCustomFilter) return true;
+
       const column = model.columns.find(col =>
         [col.filterName, col.name].includes(key)
       );
       if (!column) return false;
+
       const isUndefinedDate =
         column.type === DATATABLE_COLUMN_TYPES.DATE &&
         !value.before &&
@@ -44,6 +48,9 @@ const formatDateLabel = dateStr => {
 };
 
 const getFilterLabel = filter => {
+  const customFilter = model.customFilters.find(f => f.name === filter.name);
+  if (customFilter) return customFilter.filterTag;
+
   const { type, filterTag } = model.columns.find(col =>
     [col.name, col.filterName].includes(filter.name)
   );
@@ -66,9 +73,7 @@ const getFilterLabel = filter => {
     )} et le ${formatDateLabel(filter.value.before)}`;
   }
 
-  if (type === DATATABLE_COLUMN_TYPES.BOOLEAN && filterTag) {
-    return `${filterTag}`;
-  }
+  if (filterTag) return filterTag;
 
   return `${filter.label}: ${filter.value}`;
 };

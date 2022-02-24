@@ -17,7 +17,6 @@ const { t } = useI18n();
 const formOptions = {
   onSubmit(values) {
     model.filters = values;
-    console.log(values);
     isOpened.value = false;
   }
 };
@@ -114,6 +113,23 @@ const getInitialValue = column => {
             v-bind="formControlProps"
             v-on="on"
           />
+        </dsp-form-control>
+      </dsp-smart-form-field>
+
+      <dsp-smart-form-field
+        v-for="filter in model.customFilters"
+        v-slot="slotProps"
+        :key="filter.name"
+        :name="filter.name"
+        :initial-value="getInitialValue(filter)"
+      >
+        <dsp-form-control
+          v-slot="formControlProps"
+          v-model="slotProps.field.value"
+          v-bind="slotProps"
+          :label="filter.label"
+        >
+          <dsp-v-node :vnode="filter.template" v-bind="formControlProps" />
         </dsp-form-control>
       </dsp-smart-form-field>
 

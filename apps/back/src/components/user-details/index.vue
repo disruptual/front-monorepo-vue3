@@ -95,8 +95,11 @@ const ordersLink = computed(() => ({
       <UserActionsDropdown :user="user" @success="$emit('success')" />
     </dsp-flex>
     <dsp-avatar :user="user" size="lg" />
-    <dsp-center v-if="user.isMuted" class="muted-badge">
+    <dsp-center v-if="user.isMuted" class="badge">
       {{ t('user.isMuted') }}
+    </dsp-center>
+    <dsp-center v-if="user.transactionWithdrawBlockedAt" class="badge">
+      {{ t('user.transactionWithdrawn') }}
     </dsp-center>
   </dsp-center>
 
@@ -385,7 +388,7 @@ a {
   font-size: var(--font-size-sm);
 }
 
-.muted-badge {
+.badge {
   margin-top: var(--spacing-sm);
   color: var(--color-red-500);
   border-radius: var(--border-radius-pill);

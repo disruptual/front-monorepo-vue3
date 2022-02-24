@@ -56,6 +56,8 @@ export default {
 
     mute: 'Bloquer',
     unmute: 'Débloquer',
-    isMuted: 'Mode silencieux'
+    isMuted: 'Mode silencieux',
+
+    transactionWithdrawn: 'Suspecté de fraude'
   }
 };

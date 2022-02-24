@@ -4,6 +4,7 @@ export default { name: 'DataTableGrid' };
 
 <script setup>
 import { inject, computed, ref, watch } from 'vue';
+import { get } from 'lodash';
 import { CONTEXT_KEYS } from '@/utils/constants';
 import { vOnIntersect, vTooltip } from '@dsp/ui';
 
@@ -36,7 +37,7 @@ const columnStyle = column => {
 const isSelected = computed(() => model.selectedRowIds.includes(props.row.id));
 const highlight = computed(() => model.getRowHighlight(props.row));
 const isHighlighted = computed(() => !!highlight.value);
-
+const getCellContent = columnName => get(props.row, columnName);
 watch(
   () => model.focusedRowIndex,
   () => {
@@ -89,7 +90,7 @@ watch(
           :column="column.name"
         />
         <dsp-truncated-text v-else as="span" :has-tooltip="false">
-          {{ row[column.name] }}
+          {{ getCellContent(column.name) }}
         </dsp-truncated-text>
       </td>
       <td

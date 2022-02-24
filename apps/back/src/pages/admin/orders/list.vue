@@ -109,7 +109,7 @@ const getStatusClass = order => ({
 
     <DataTableColumn
       v-slot="{ row }"
-      name="buyer"
+      name="buyer.email"
       :label="t('dataTable.label.buyer')"
       width="200"
       is-filterable
