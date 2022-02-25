@@ -141,7 +141,7 @@ const buyerLabel = computed(() =>
         <dt>{{ t(`order.details.label.itemsAmount`) }}</dt>
         <dd>
           {{ formatPrice(order.itemsAmount ?? 0) }}
-          <span v-if="order.isNegotiated">
+          <span v-if="order.isNegotiated" class="non-negotiated-price">
             ({{ formatPrice(order.itemsAmountBeforeNegotiation ?? 0) }})
           </span>
         </dd>
@@ -164,7 +164,7 @@ const buyerLabel = computed(() =>
 
         <template v-if="order.isFinished">
           <dt>{{ t(`order.details.label.creditedTotal`) }}</dt>
-          <dd>{{ formatPrice(order.abundedPriceSeller ?? 0) }}</dd>
+          <dd>{{ formatPrice(order.creditedTotal ?? 0) }}</dd>
         </template>
 
         <dt>{{ t(`order.details.label.totalAmount`) }}</dt>
@@ -298,5 +298,9 @@ h3 {
 
 .order-status--finished {
   color: var(--color-green-700);
+}
+
+.non-negotiated-price {
+  text-decoration: line-through;
 }
 </style>
