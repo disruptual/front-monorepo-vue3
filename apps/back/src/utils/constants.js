@@ -65,6 +65,13 @@ export const ORDER_DETAILS_TABS = {
   HISTORY: 'history'
 };
 
+export const SETTINGS_HOMEPAGE_TABS = {
+  EDITOR: 'editor',
+  USER: 'user',
+  BRAND: 'brand',
+  CATEGORY: 'category'
+};
+
 export const USER_DETAILS_TABS = {
   INFOS: 'infos',
   ORDERS: 'orders',

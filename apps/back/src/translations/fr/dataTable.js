@@ -72,6 +72,7 @@ export default {
       modeSilence: 'Mode silencieux',
       name: 'Nom',
       numbArticles: "Nb d'articles",
+      note: 'Note',
       order: 'Commande',
       photo: 'Photo',
       price: 'Prix',
@@ -87,6 +88,7 @@ export default {
       title: 'Titre',
       unblocked: 'Débloquer',
       unpublish: 'Dépublier',
+      username: 'Pseudo',
       visibility: 'Visibilité'
     },
     actions: {

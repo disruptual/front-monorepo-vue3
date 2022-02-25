@@ -117,7 +117,7 @@ const onResizeMove = e => {
           />
         </dsp-flex>
       </th>
-      <th class="column--is-pinned-right" />
+      <th v-if="model.hasActionColumn" class="column--is-pinned-right" />
     </tr>
   </thead>
 </template>
