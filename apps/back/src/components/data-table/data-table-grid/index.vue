@@ -35,13 +35,14 @@ watch(tableElement, () => {
 const globalState = inject(CONTEXT_KEYS.GLOBAL_STATE);
 onMounted(() => {
   if (!globalState[model.id]) return;
+  if (!tableElement.value) return;
 
   tableElement.value.scrollTop = globalState[model.id].scrollPosition;
 });
 
 onBeforeUnmount(() => {
   globalState[model.id] = {
-    scrollPosition: tableElement.value.scrollTop
+    scrollPosition: tableElement.value?.scrollTop
   };
 });
 </script>
@@ -49,7 +50,7 @@ onBeforeUnmount(() => {
 <template>
   <table ref="tableElement" class="data-table-grid">
     <DataTableGridHeader />
-    <tbody v-if="data.length === 0">
+    <tbody v-if="data?.length === 0">
       <tr class="no-result">
         <div>
           <slot name="no-result">

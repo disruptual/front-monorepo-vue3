@@ -119,7 +119,7 @@ export const createBoundedModel = (
         onLazyRelationDetected
       })
     );
-    normalizedEntity = initialValue ?? normalizer(entity);
+    normalizedEntity = normalizer(entity);
   }
 
   const boundModel = Array.isArray(normalizedEntity)

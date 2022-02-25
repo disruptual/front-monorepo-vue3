@@ -140,6 +140,6 @@ const getInitialValue = column => {
 
 <style lang="scss" scoped>
 .data-table-filter-drawer {
-  padding: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
 }
 </style>

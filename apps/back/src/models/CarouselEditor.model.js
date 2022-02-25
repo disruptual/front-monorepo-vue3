@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 export class CarouselEditor {
   constructor({ settings }) {
     this.settings = settings;
-    this.settings.carouselItems = [];
+    this.settings.carouselItems = this.settings.carouselItems ?? [];
     this.selectedSlideId = this.desktopSlides[0]?.id;
     this.createdIds = [];
     this.deletedIds = [];

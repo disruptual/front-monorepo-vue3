@@ -33,6 +33,7 @@ export default {
       orderCount: 'Nombre de commandes',
       roles: 'Rôles',
       seeDetails: 'Voir le détail',
+      transactionWithdrawn: 'Suspecté de fraude depuis le {date}',
       form: {
         cancel: 'Annuler',
         submit: 'Enregistrer'
@@ -54,10 +55,8 @@ export default {
       alert: 'Cette action est irréversible.'
     },
 
-    mute: 'Bloquer',
-    unmute: 'Débloquer',
-    isMuted: 'Mode silencieux',
-
-    transactionWithdrawn: 'Suspecté de fraude'
+    mute: 'Passer en mode silencieux',
+    unmute: 'Retirer le mode silencieux',
+    isMuted: 'Mode silencieux'
   }
 };

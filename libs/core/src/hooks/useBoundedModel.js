@@ -1,18 +1,24 @@
 import { useHttp } from './useHttp';
-import { computed, ref, unref, watch } from 'vue';
+import { computed, ref, unref, watch, watchEffect } from 'vue';
 import { useQueries, useQueryClient } from 'vue-query';
 import { debounce } from 'lodash-es';
 import { createBoundedModel } from '../factories/boundedModel.factory';
 import { createQueries } from '../factories/query.factory';
-import math from '../../../../node_modules/lodash-es/math';
 
 const QUERY_BINDING_DEBOUNCE_TIMEOUT = 50;
 const QUERY_BINDING_DEBOUNCE_OPTIONS = { leading: true, trailing: true };
+const REBIND_REASONS = {
+  DATA_HAS_CHANGED: 'queryData',
+  KEY_HAS_CHANGED: 'queryKey',
+  RELATIONS_ARRAY_HAS_CHANGED: 'relations',
+  CHILD_QUERY_HAVE_SETTLED: 'childQueries'
+};
 
 export function useBoundedModel(query, { queryKey, model, relations = [] }) {
   const queryClient = useQueryClient();
   const http = useHttp();
   const instance = ref(null);
+  let rebindReasons = [];
 
   const lazyRelations = ref([]);
   const allRelations = computed(() => [
@@ -20,7 +26,12 @@ export function useBoundedModel(query, { queryKey, model, relations = [] }) {
     ...unref(lazyRelations)
   ]);
 
-  const bindQuery = (reuseInstance = true) => {
+  const bindQuery = () => {
+    const reuseInstance =
+      !rebindReasons.includes(REBIND_REASONS.DATA_HAS_CHANGED) &&
+      !rebindReasons.includes(REBIND_REASONS.KEY_HAS_CHANGED);
+    rebindReasons = [];
+
     const newValue = createBoundedModel(unref(queryKey), {
       modelClass: model,
       queryClient,
@@ -45,7 +56,10 @@ export function useBoundedModel(query, { queryKey, model, relations = [] }) {
     return createQueries(instance.value, {
       fetcher: uri => http.get(uri),
       relations: unref(allRelations),
-      onSettled: () => debouncedBindQuery()
+      onSettled: () => {
+        rebindReasons.push(REBIND_REASONS.CHILD_QUERY_HAVE_SETTLED);
+        debouncedBindQuery();
+      }
     });
   });
 
@@ -71,14 +85,24 @@ export function useBoundedModel(query, { queryKey, model, relations = [] }) {
 
   watch(
     () => unref(queryKey),
-    () => debouncedBindQuery(false)
+    () => {
+      rebindReasons.push(REBIND_REASONS.KEY_HAS_CHANGED);
+      debouncedBindQuery();
+    }
   );
-  watch(query.data, () => debouncedBindQuery(false));
+  watch(query.data, data => {
+    rebindReasons.push(REBIND_REASONS.DATA_HAS_CHANGED);
+    debouncedBindQuery();
+  });
   watch(
     () => unref(allRelations),
-    () => debouncedBindQuery(),
+    () => {
+      rebindReasons.push(REBIND_REASONS.RELATIONS_ARRAY_HAS_CHANGED);
+      debouncedBindQuery();
+    },
     { deep: true }
   );
+
   debouncedBindQuery();
 
   return {

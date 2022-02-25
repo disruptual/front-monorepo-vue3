@@ -13,6 +13,7 @@ import { VueQueryDevTools } from 'vue-query/devtools';
 
 const globalState = reactive({});
 provide(CONTEXT_KEYS.GLOBAL_STATE, globalState);
+const isProd = import.meta.env.PROD;
 </script>
 
 <template>
@@ -21,7 +22,7 @@ provide(CONTEXT_KEYS.GLOBAL_STATE, globalState);
       <AppLoading />
     </template>
     <component :is="$route?.meta.layout">
-      <VueQueryDevTools />
+      <VueQueryDevTools v-if="!isProd" />
       <dsp-toasts-container />
       <ErrorBoundary>
         <FeatureControl>

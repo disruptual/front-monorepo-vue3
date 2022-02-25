@@ -7,7 +7,7 @@ import { ref, unref, computed } from 'vue';
 import { User, USER_ROLES } from '@dsp/business';
 import { useForm, useToast, useDevice } from '@dsp/ui';
 import { useI18n } from 'vue-i18n';
-import { useUserApi, useCurrentUser } from '@dsp/core';
+import { useUserApi, useCurrentUser, useDateFormat } from '@dsp/core';
 import { USER_DETAILS_TABS as TABS } from '@/utils/constants';
 
 import UserActionsDropdown from './actions-dropdown/index.vue';
@@ -18,6 +18,7 @@ const props = defineProps({
 const emit = defineEmits(['success']);
 
 const device = useDevice();
+const { format } = useDateFormat();
 const { t } = useI18n();
 const { data: currentUser } = useCurrentUser();
 const { showError, showSuccess } = useToast();
@@ -89,7 +90,7 @@ const ordersLink = computed(() => ({
     class="editing-switch"
     :label="t('user.details.editModeSwitchLabel')"
   />
-  <dsp-center>
+  <dsp-center as="header">
     <dsp-flex justify="center" align="center" as="h3">
       {{ user.fullName }}
       <UserActionsDropdown :user="user" @success="$emit('success')" />
@@ -99,12 +100,16 @@ const ordersLink = computed(() => ({
       {{ t('user.isMuted') }}
     </dsp-center>
     <dsp-center v-if="user.transactionWithdrawBlockedAt" class="badge">
-      {{ t('user.transactionWithdrawn') }}
+      {{
+        t('user.details.transactionWithdrawn', {
+          date: format(user.transactionWithdrawBlockedAt)
+        })
+      }}
     </dsp-center>
   </dsp-center>
 
   <dsp-smart-form v-if="isEditing" class="edit-mode" :form="form">
-    <dsp-grid :columns="2">
+    <dsp-grid :columns="device.isDesktop ? 2 : 1">
       <label for="lastName">{{ t('user.details.lastName') }}</label>
       <dsp-smart-form-field
         v-slot="slotProps"
@@ -191,7 +196,6 @@ const ordersLink = computed(() => ({
         v-slot="slotProps"
         name="phone"
         :pattern="new RegExp('(0|\\+33|0033)[1-9][0-9]{8}')"
-        :maxlength="10"
         :initial-value="user.phone"
       >
         <dsp-input-text
@@ -300,8 +304,12 @@ const ordersLink = computed(() => ({
 
         <dt>{{ t('user.details.deliveries') }}</dt>
         <dsp-flex gap="sm">
-          <dd v-for="delivery in user.deliveries" :key="delivery">
-            {{ t(`delivery.modes.${delivery.tag}`) }}
+          <dd>
+            <ul>
+              <li v-for="delivery in user.deliveries" :key="delivery">
+                {{ t(`delivery.modes.${delivery.tag}`) }}
+              </li>
+            </ul>
           </dd>
         </dsp-flex>
 
@@ -395,5 +403,13 @@ a {
   padding: var(--spacing-xxs) var(--spacing-xs);
   font-size: var(--font-size-sm);
   border: solid 2px var(--color-red-500);
+}
+
+dd ul {
+  padding-left: 0;
+}
+
+header h3 {
+  margin-top: 0;
 }
 </style>

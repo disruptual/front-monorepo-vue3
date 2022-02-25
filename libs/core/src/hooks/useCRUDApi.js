@@ -40,6 +40,7 @@ export function useCRUDApi(
           return data;
         };
 
+        if (!oldData) return;
         if (oldData['@id'] === newData['@id']) {
           return { ...oldData, ...newData };
         } else if (oldData.pages) {
@@ -49,6 +50,12 @@ export function useCRUDApi(
         }
       }
     );
+
+    queryClient.invalidateQueries({
+      predicate: ({ queryKey }) => {
+        return queryKey.startsWith(serviceInstance.endpoint + '?');
+      }
+    });
   };
 
   const onCreateSuccess = newData => {
@@ -125,7 +132,7 @@ export function useCRUDApi(
           ...options,
           onSuccess(data) {
             onUpdateSuccess(data);
-            return options.onSuccess(data);
+            return options.onSuccess?.(data);
           }
         }
       );
@@ -153,7 +160,7 @@ export function useCRUDApi(
           ...options,
           onSuccess(data) {
             onCreateSuccess(data);
-            return options.onSuccess(data);
+            return options.onSuccess?.(data);
           }
         }
       );
