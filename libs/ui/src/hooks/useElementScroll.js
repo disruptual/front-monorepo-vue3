@@ -10,7 +10,7 @@ export const useElementScroll = elementRef => {
 
   onMounted(() => {
     scrollTop.value = elementRef.value.scrollTop;
-    elementRef.value.addEventListener('scroll', onScroll);
+    elementRef.value.addEventListener('scroll', onScroll, { passive: true });
   });
 
   onUnmounted(() => {

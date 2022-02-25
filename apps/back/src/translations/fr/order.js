@@ -38,10 +38,9 @@ export default {
         serviceFees: 'Frais de service',
         shippingFees: 'Frais de livraison',
         reimbursementAmount: 'Montant remboursé',
-        abundantAmount: 'Montant abondé',
+        abundantAmount: 'Montant abondement',
+        creditedTotal: 'Total crédité au vendeur',
         totalAmount: 'Montant total',
-        totalAmountBeforeNego: 'Montant total (avant négociation)',
-        totalAmountAfterNego: 'Montant total (après négociation)',
         itemsAmount: 'Montant des articles'
       },
       closeProblemButton: 'Clore le litige',

@@ -2,7 +2,7 @@ import { computed, ref, toRaw, watch } from 'vue';
 import { noop } from '@dsp/core';
 import { useFormField } from '@dsp/ui/hooks/useFormField';
 import { VALIDATION_MODES } from '@dsp/ui/utils/constants';
-import { set } from 'lodash';
+import { set } from 'lodash-es';
 
 export function useForm({
   onSubmit = noop,

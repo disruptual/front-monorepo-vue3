@@ -37,12 +37,6 @@ const buyerLabel = computed(() =>
     ? t(`order.details.title.buyer.female`)
     : t(`order.details.title.buyer.male`)
 );
-
-const totalAmountLabel = computed(() =>
-  props.order.isNegotiated
-    ? t(`order.details.label.totalAmountAfterNego`)
-    : t(`order.details.label.totalAmount`)
-);
 </script>
 
 <template>
@@ -145,31 +139,36 @@ const totalAmountLabel = computed(() =>
         </dd>
 
         <dt>{{ t(`order.details.label.itemsAmount`) }}</dt>
-        <dd>{{ formatPrice(order.itemsAmount || 0) }}</dd>
+        <dd>
+          {{ formatPrice(order.itemsAmount ?? 0) }}
+          <span v-if="order.isNegotiated">
+            ({{ formatPrice(order.itemsAmountBeforeNegotiation ?? 0) }})
+          </span>
+        </dd>
 
         <dt>{{ t(`order.details.label.serviceFees`) }}</dt>
-        <dd>{{ formatPrice(order.serviceFeeAmount || 0) }}</dd>
+        <dd>{{ formatPrice(order.serviceFeeAmount ?? 0) }}</dd>
 
         <dt>{{ t(`order.details.label.shippingFees`) }}</dt>
-        <dd>{{ formatPrice(order.deliveryPrice || 0) }}</dd>
+        <dd>{{ formatPrice(order.deliveryPrice ?? 0) }}</dd>
 
-        <template v-if="order.remuneration && !order.remuneration?.isGiftcard">
+        <template v-if="order.hasPoblem">
           <dt>{{ t(`order.details.label.reimbursementAmount`) }}</dt>
-          <dd>{{ formatPrice(order.refundAmount || 0) }}</dd>
+          <dd>{{ formatPrice(order.refundAmount ?? 0) }}</dd>
+        </template>
 
+        <template v-if="order.remuneration && order.remuneration?.isGiftcard">
           <dt>{{ t(`order.details.label.abundantAmount`) }}</dt>
-          <dd>{{ formatPrice(order.abundedPriceSeller || 0) }}</dd>
+          <dd>{{ formatPrice(order.abundedPriceSeller ?? 0) }}</dd>
         </template>
 
-        <template v-if="order.isNegotiated">
-          <dt class="title">
-            {{ t(`order.details.label.totalAmountBeforeNego`) }}
-          </dt>
-          <dd>{{ formatPrice(order.totalAmountBeforeNegotiation) }}</dd>
+        <template v-if="order.isFinished">
+          <dt>{{ t(`order.details.label.creditedTotal`) }}</dt>
+          <dd>{{ formatPrice(order.abundedPriceSeller ?? 0) }}</dd>
         </template>
 
-        <dt>{{ totalAmountLabel }}</dt>
-        <dd>{{ formatPrice(order.totalAmount || order.moneyBox) }}</dd>
+        <dt>{{ t(`order.details.label.totalAmount`) }}</dt>
+        <dd>{{ formatPrice(order.paidTotal ?? 0) }}</dd>
       </dl>
     </dsp-surface>
 

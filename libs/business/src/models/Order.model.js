@@ -133,25 +133,41 @@ export class Order extends BaseModel {
   }
 
   get isNegotiated() {
-    const amount = this.totalAmountBeforeNegotiation;
+    return this.itemsAmountBeforeNegotiation !== this.itemsAmount;
+  }
 
-    return amount > this.totalAmount && amount > this.moneyBox;
+  get itemsAmountBeforeNegotiation() {
+    return this.orderItems?.reduce?.(
+      (total, current) => total + current.price,
+      0
+    );
   }
 
   get totalAmountBeforeNegotiation() {
-    return this.orderItems?.reduce?.(
-      (total, current) => total + current.price,
-      this.serviceFeeAmount + this.deliveryPrice
+    return (
+      this.itemsAmountBeforeNegotiation +
+      this.serviceFeeAmount +
+      this.deliveryPrice
     );
   }
 
   get itemsAmount() {
-    const amount =
-      (this.totalAmount || this.moneyBox) -
-      this.deliveryPrice -
-      this.serviceFeeAmount;
+    const amount = this.totalPrice;
 
     return Math.round(amount * 100) / 100;
+  }
+
+  get creditedTotal() {
+    if (!this.remuneration) return null;
+    if (this.remuneration.isGiftcard) {
+      return this.itemsAmouht + this.abundedPriceSeller;
+    }
+
+    return this.itemsAmount;
+  }
+
+  get paidTotal() {
+    return this.moneyBox + this.totalAmount;
   }
 
   get isMondialRelay() {

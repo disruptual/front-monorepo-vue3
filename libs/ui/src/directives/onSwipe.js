@@ -44,8 +44,12 @@ class Swiper {
   }
 
   destroy() {
-    this.element.removeEventListener('touchstart', this.onTouchStart);
-    this.element.removeEventListener('touchend', this.onTouchEnd);
+    this.element.removeEventListener('touchstart', this.onTouchStart, {
+      passive: true
+    });
+    this.element.removeEventListener('touchend', this.onTouchEnd, {
+      passive: true
+    });
   }
 
   handleGesture() {
