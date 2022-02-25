@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import Markdown from 'vite-plugin-md';
 import { visualizer } from 'rollup-plugin-visualizer';
-// import svgLoader from 'vite-svg-loader';
+import svgLoader from 'vite-svg-loader';
 
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 
@@ -21,7 +21,7 @@ export default defineConfig({
       include: [/\.vue$/, /\.md$/]
     }),
     Markdown(),
-    // svgLoader(),
+    svgLoader(),
     viteESLint(),
     minifyHtml(),
     injectHtml({

@@ -15,24 +15,29 @@ const props = defineProps({
 });
 
 const theme = useTheme();
-const url = computed(() => theme.icons[props.icon]);
-const size = computed(() => `var(--spacing-${props.size})`);
-const http = useHttp();
-
-const getSvg = () => {
-  return http.get(url.value, { baseURL: '', responseType: 'text' });
-};
-
-const key = computed(() => `icon-${props.icon}`);
-const { data: svg } = useReactiveQuery(key, getSvg, {
-  staleTime: Infinity
+const iconComponent = computed(() => {
+  console.log(props.icon, theme.icons);
+  return theme.icons[props.icon];
 });
+const size = computed(() => `var(--spacing-${props.size})`);
+// const http = useHttp();
+
+// const getSvg = () => {
+//   return http.get(url.value, { baseURL: '', responseType: 'text' });
+// };
+
+// const key = computed(() => `icon-${props.icon}`);
+// const { data: svg } = useReactiveQuery(key, getSvg, {
+//   staleTime: Infinity
+// });
 const display = computed(() => (props.isInline ? 'inline-flex' : 'flex'));
 </script>
 
 <template>
   <!-- eslint-disable vue/no-v-html-->
-  <component :is="as" class="dsp-icon" v-html="svg" />
+  <component :is="as" class="dsp-icon">
+    <component :is="iconComponent" />
+  </component>
 </template>
 
 <style lang="scss" scoped>
