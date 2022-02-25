@@ -3,7 +3,7 @@ export default { name: 'AdminUsersListPage' };
 </script>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { useUserApi } from '@dsp/core';

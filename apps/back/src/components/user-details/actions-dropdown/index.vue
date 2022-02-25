@@ -5,6 +5,7 @@ export default { name: 'UserActionsDropdown' };
 <script setup>
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useQueryClient } from 'vue-query';
 import { User } from '@dsp/business';
 import { useUserApi, useCurrentUser } from '@dsp/core';
 import { useToast } from '@dsp/ui';
@@ -20,6 +21,7 @@ const { t } = useI18n();
 const { showError, showSuccess } = useToast();
 
 const { data: currentUser } = useCurrentUser();
+const queryClient = useQueryClient();
 const isDropdownOpened = ref(false);
 const isCreditModalOpened = ref(false);
 
@@ -57,11 +59,17 @@ const transactionBlockLabel = computed(() =>
 
 const toggleTransactionBlockStatus = async () => {
   const isCurrentlyBlocked = props.user.transactionWithdrawBlockedAt;
+  const newValue = isCurrentlyBlocked ? null : new Date();
   try {
+    queryClient.setQueryData(`/users/slug/${props.user.slug}`, old => ({
+      ...old,
+      transactionWithdrawBlockedAt: newValue
+    }));
+
     await update({
       id: props.user.id,
       entity: {
-        transactionWithdrawBlockedAt: isCurrentlyBlocked ? null : new Date()
+        transactionWithdrawBlockedAt: newValue
       }
     });
 
