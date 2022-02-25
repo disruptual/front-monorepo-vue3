@@ -152,15 +152,14 @@ export class Order extends BaseModel {
   }
 
   get itemsAmount() {
-    const amount = this.totalPrice;
-
-    return Math.round(amount * 100) / 100;
+    return Math.round(this.totalPrice * 100) / 100;
   }
 
   get creditedTotal() {
     if (!this.remuneration) return null;
+    console.log(this.remuneration.isGiftcard);
     if (this.remuneration.isGiftcard) {
-      return this.itemsAmouht + this.abundedPriceSeller;
+      return this.itemsAmount + this.abundedPriceSeller;
     }
 
     return this.itemsAmount;
