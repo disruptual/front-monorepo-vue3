@@ -157,7 +157,7 @@ const buyerLabel = computed(() =>
           <dd>{{ formatPrice(order.refundAmount ?? 0) }}</dd>
         </template>
 
-        <template v-if="order.remuneration && order.remuneration?.isGiftcard">
+        <template v-if="order.remuneration && order.remuneration?.isGiftCard">
           <dt>{{ t(`order.details.label.abundantAmount`) }}</dt>
           <dd>{{ formatPrice(order.abundedPriceSeller ?? 0) }}</dd>
         </template>

@@ -157,8 +157,7 @@ export class Order extends BaseModel {
 
   get creditedTotal() {
     if (!this.remuneration) return null;
-    console.log(this.remuneration);
-    if (this.remuneration.isGiftcard) {
+    if (this.remuneration.isGiftCard) {
       return this.itemsAmount + this.abundedPriceSeller;
     }
 
