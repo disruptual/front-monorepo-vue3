@@ -1,6 +1,8 @@
-import logo from 'client/assets/logo.svg';
+import logo from 'client/assets/logo.svg?url';
 
 export default {
+  DefaultLayoutHeader: { isLogoDisplayed: true },
+
   sso: {
     isEnabled: false
   },
