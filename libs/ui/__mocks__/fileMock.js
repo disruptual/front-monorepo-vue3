@@ -1,1 +1,1 @@
-export default 'test-file-path';
+export default 'svg';

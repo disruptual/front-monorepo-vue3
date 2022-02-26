@@ -16,7 +16,6 @@ const props = defineProps({
 
 const theme = useTheme();
 const iconComponent = computed(() => {
-  console.log(props.icon, theme.icons);
   return theme.icons[props.icon];
 });
 const size = computed(() => `var(--spacing-${props.size})`);

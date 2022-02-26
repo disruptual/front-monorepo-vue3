@@ -17,7 +17,7 @@ const formOptions = {
     emit('success');
   },
   onError(error) {
-    console.log(error.response);
+    console.error(error);
     const status = error.response?.status ?? 'generic';
     submitError.value = t(`login.error.${status}`);
   },

@@ -5,7 +5,6 @@ import { createColorScale } from '@dsp/ui/utils/themeUtils';
 
 export class ThemeService {
   constructor(theme) {
-    console.log(theme);
     this.theme = reactive(theme);
   }
 

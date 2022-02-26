@@ -54,7 +54,6 @@ export class DevtoolsService {
   }
 
   update({ path, value }) {
-    console.log(path, value);
     if (this.options.isDetached) {
       window.opener.disruptualDevtoolsUpdate({ path, value });
     }

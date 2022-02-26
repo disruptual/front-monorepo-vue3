@@ -13,7 +13,6 @@ const model = computed({
   },
   set(val) {
     const cssVal = getCssVarValue(`--color-${val}`);
-    console.log(val, cssVal);
     if (!cssVal) return;
 
     emit('update:modelValue', val);

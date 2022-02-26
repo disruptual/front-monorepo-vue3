@@ -37,10 +37,6 @@ const updateVisiblity = async store => {
   await updateStore({ id: store.id, dto: { enabled: !store.enabled } });
   query.refetch.value();
 };
-
-const onSoftDelete = orders => {
-  console.log(orders);
-};
 </script>
 
 <template>
@@ -103,12 +99,6 @@ const onSoftDelete = orders => {
         />
       </dsp-center>
     </DataTableColumn>
-    <DataTableRowAction
-      name="block"
-      :label="t('dataTable.label.edit')"
-      icon="userDelete"
-      @action="onSoftDelete"
-    />
   </DataTable>
 </template>
 

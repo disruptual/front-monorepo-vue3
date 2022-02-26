@@ -7,7 +7,6 @@ export class ReviewService extends BaseCRUDService {
   }
 
   findAllByUserId(userId, options) {
-    console.log(options);
     return this._http.get(`users/${userId}/reviews_tos`, options);
   }
 }
