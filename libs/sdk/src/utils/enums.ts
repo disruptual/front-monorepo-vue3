@@ -1,5 +1,3 @@
-import { IBaseEntity } from '@/interfaces/base-entity.interface';
-
 export enum httpVerbs {
   GET = 'get',
   POST = 'post',

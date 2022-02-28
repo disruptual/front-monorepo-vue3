@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { httpVerbs } from '@/utils/enums';
-import { IHttp } from '@/interfaces/http.interface';
+import { HttpRequestConfig, IHttp } from '@/interfaces/http.interface';
 import { autoBind } from '@/utils/decorators';
 import { Endpoint, MaybeAsync } from '@/utils/types';
 
@@ -25,10 +25,9 @@ export class HttpService implements IHttp {
 
   async makeRequest<T = any>(
     url: string,
-    config: AxiosRequestConfig
+    config: Omit<HttpRequestConfig, 'url'>
   ): Promise<T> {
-    console.log(`DEBUG: ${config.method?.toUpperCase()} ${url}`);
-    const response = await this.axios(url, { ...config });
+    const response = await this.axios(url, config);
 
     return response.data;
   }

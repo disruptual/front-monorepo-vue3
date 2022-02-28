@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daria UI example</title>
+    <meta
+      name="description"
+      content="An exemple webpage using the DariaUI Vue framework !"
+    />
+  </head>
+  <body>
+    <h1>Disruptual</h1>
+
+    <form class="hidden" id="login-form">
+      <fieldset>
+        <label>
+          E-mail
+          <input type="email" name="username" />
+        </label>
+        <label>
+          Password
+          <input type="password" name="password" />
+        </label>
+        <button>Login</button>
+      </fieldset>
+    </form>
+    <div class="profile hidden">
+      <h2>
+        Welcome Back,
+        <span class="username"></span>
+      </h2>
+      <button id="logout-button">Logout</button>
+    </div>
+
+    <script type="module" src="/demo/main.ts"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        text-align: center;
+        font-family: Helvetica;
+        background-color: #eee;
+      }
+
+      .formErrorSubmit {
+        color: red;
+      }
+
+      .formErrorSubmit input {
+        border: solid 1px red;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      form {
+        margin: 0;
+        display: inline-block;
+        text-align: left;
+        background-color: white;
+      }
+
+      form input,
+      form label input {
+        display: block;
+        border: solid 1px #999;
+      }
+
+      form fieldset {
+        border: none;
+      }
+
+      form label {
+        font-size: 0.85rem;
+      }
+      form input {
+        margin: 0.25rem 0 1rem;
+        max-width: 100%;
+        padding: 0.25rem;
+        font-size: 1rem;
+      }
+
+      form button {
+        width: 100%;
+      }
+
+      button {
+        padding: 0.5rem 1rem;
+        background-color: #75b3de;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #85c3ee;
+      }
+    </style>
+  </body>
+</html>

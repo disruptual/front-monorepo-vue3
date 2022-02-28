@@ -1,85 +1,97 @@
-import { BaseDto } from '@/dtos/base.dto';
-import { CartDto } from '@/dtos/cart.dto';
-import { CollectionDto } from '@/dtos/collection.dto';
-import { Cart } from '@/entities/cart.entity';
-import { Collection } from '@/entities/collection.entity';
-import { createEntity } from '@/factories/entity.factory';
 import { IAuth } from '@/interfaces/auth.interface';
-import { IBaseEntity } from '@/interfaces/base-entity.interface';
 import { IHttp } from '@/interfaces/http.interface';
-import { endpoints } from '@/utils/enums';
-import { Endpoint, Maybe } from '@/utils/types';
-import { AxiosRequestConfig } from 'axios';
-import {
-  AuthService,
-  AuthServiceOptions,
-  LoginCredentials,
-  WithSSO
-} from './auth.service';
+import { Maybe } from '@/utils/types';
+import { AuthService, AuthServiceOptions, WithSSO } from './auth.service';
+import { EventEmitter } from './event-emitter.service';
 import { HttpService } from './http.service';
+import clients from '@/clients.json';
 
 export type DisruptualClientOptions = {
-  http: IHttp;
-  auth: IAuth;
+  APIKey: string;
+  options: WithSSO<{
+    autoConnect: boolean;
+  }>;
 };
 
 export type CreateClientOptions = WithSSO<{
-  baseURL: string;
+  APIKey: string;
+  autoConnect?: boolean;
 }>;
 
-type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
+export type DisruptualEvents = {
+  ready: void;
+};
 
-export class DisruptualClient {
-  private http: IHttp;
-  private auth: IAuth;
+export class DisruptualClient extends EventEmitter<DisruptualEvents> {
+  http!: IHttp;
 
-  private constructor({ http, auth }: DisruptualClientOptions) {
-    this.http = http;
-    this.auth = auth;
+  auth!: IAuth;
+
+  private APIKey: string;
+
+  private options: DisruptualClientOptions['options'];
+
+  private isInitialized: boolean = false;
+
+  private constructor({ APIKey, options }: DisruptualClientOptions) {
+    super();
+    this.APIKey = APIKey;
+    this.options = options;
   }
 
-  static instance: Maybe<DisruptualClient> = null;
+  private static _instance: Maybe<DisruptualClient> = null;
 
-  static create({ baseURL, sso, ssoOptions }: CreateClientOptions) {
-    if (!DisruptualClient.instance) {
-      const http = new HttpService({ baseURL });
-      const auth = new AuthService({
-        http,
+  static get instance() {
+    if (!this._instance) throw new Error('Disruptual client not instanciated');
+
+    return this._instance;
+  }
+
+  static create({
+    APIKey,
+    autoConnect = true,
+    sso,
+    ssoOptions
+  }: CreateClientOptions) {
+    DisruptualClient._instance = new DisruptualClient({
+      APIKey,
+      // @ts-ignore
+      options: {
+        autoConnect,
         sso,
         ssoOptions
-      } as AuthServiceOptions);
-
-      DisruptualClient.instance = new DisruptualClient({ http, auth });
-    }
+      }
+    });
 
     return DisruptualClient.instance;
   }
 
-  async httpRequest<T extends IBaseEntity<any> | Collection<IBaseEntity<any>>>(
-    url: Endpoint,
-    config?: AxiosRequestConfig & { method?: Method | Lowercase<Method> }
-  ): Promise<T> {
-    const method = config?.method?.toLowerCase?.() || 'get';
+  private async getConfig() {
+    const config = clients[this.APIKey as keyof typeof clients];
+    if (!config) throw new Error('Wrong API Key');
 
-    // @ts-ignore
-    const dto = await this.http[method as keyof IHttp]<T>(url, config);
-
-    // @ts-ignore
-    return createEntity(dto) as T;
+    return config;
   }
 
-  login(credentials: LoginCredentials) {
-    return this.auth.login(credentials);
-  }
+  async init() {
+    if (this.isInitialized) {
+      console.warn('Disrutual client already initialized.');
+    }
+    this.isInitialized = true;
 
-  logout() {
-    return this.auth.logout();
-  }
+    const { baseURL } = await this.getConfig();
 
-  async getCarts(): Promise<Maybe<Collection<Cart>>> {
-    const currentUser = await this.auth.getCurrentUser();
-    if (!currentUser) return null;
+    this.http = new HttpService({ baseURL });
+    this.auth = new AuthService({
+      http: this.http,
+      sso: this.options.sso,
+      ssoOptions: this.options.ssoOptions
+    } as AuthServiceOptions);
 
-    return this.httpRequest<Collection<Cart>>(`${currentUser.uri}/carts`, {});
+    if (this.options.autoConnect) {
+      await this.auth.authenticate();
+    }
+
+    this.emit('ready');
   }
 }

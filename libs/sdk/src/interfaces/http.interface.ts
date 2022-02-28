@@ -1,9 +1,14 @@
 import { Endpoint, MaybeAsync } from '@/utils/types';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-export type HttpRequest = <T = any>(
+export type HttpRequestConfig = Pick<
+  AxiosRequestConfig,
+  'url' | 'headers' | 'params' | 'data' | 'method'
+>;
+
+export type HttpRequest = <T = unknown>(
   url: Endpoint,
-  config?: AxiosRequestConfig
+  config?: HttpRequestConfig
 ) => Promise<T>;
 
 export interface IHttp {
@@ -12,7 +17,7 @@ export interface IHttp {
   put: HttpRequest;
   delete: HttpRequest;
   onRequest: (
-    cb: (config: AxiosRequestConfig) => MaybeAsync<AxiosRequestConfig>
+    cb: (config: HttpRequestConfig) => MaybeAsync<HttpRequestConfig>
   ) => IHttp;
   onResponse: (
     cb: (config: AxiosResponse) => MaybeAsync<AxiosResponse>

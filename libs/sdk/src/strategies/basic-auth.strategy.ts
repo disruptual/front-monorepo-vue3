@@ -8,6 +8,11 @@ export type BasicAuthStrategyOptions = {
   http: IHttp;
 };
 
+export type BasicAuthSuccessResponse = {
+  token: string;
+  refresh_token: string;
+};
+
 export class BasicAuthStrategy implements IAuthStrategy<LoginDto> {
   protected http: IHttp;
 
@@ -16,9 +21,10 @@ export class BasicAuthStrategy implements IAuthStrategy<LoginDto> {
   }
 
   async handleLogin(credentials: LoginDto) {
-    const { token, refresh_token } = await this.http.post(endpoints.LOGIN, {
-      data: credentials
-    });
+    const { token, refresh_token } =
+      await this.http.post<BasicAuthSuccessResponse>(endpoints.LOGIN, {
+        data: credentials
+      });
 
     return { accessToken: token, refreshToken: refresh_token };
   }
@@ -26,12 +32,10 @@ export class BasicAuthStrategy implements IAuthStrategy<LoginDto> {
   async handleLogout() {}
 
   async handleRefresh(refreshToken: JWT) {
-    const { token, refresh_token } = await this.http.post(
-      endpoints.REFRESH_TOKEN,
-      {
+    const { token, refresh_token } =
+      await this.http.post<BasicAuthSuccessResponse>(endpoints.REFRESH_TOKEN, {
         data: { refresh_token: refreshToken }
-      }
-    );
+      });
 
     return { accessToken: token, refreshToken: refresh_token };
   }

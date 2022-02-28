@@ -15,3 +15,8 @@ export type SSOToken = string;
 export type Timestamp = number;
 
 export type Constructor<T> = new (...args: any[]) => T;
+
+export type JwtPayload = {
+  exp: Timestamp;
+  id: UUID;
+};

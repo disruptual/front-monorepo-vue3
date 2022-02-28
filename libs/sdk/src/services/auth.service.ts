@@ -2,22 +2,21 @@ import jwtDecode from 'jwt-decode';
 import { isBefore } from 'date-fns';
 
 import { LoginDto } from '@/dtos/login.dto';
-import { User } from '@/entities/user.entity';
+import { User } from '@/models/user.model';
 import { IAuthStrategy } from '@/interfaces/auth-strategy.interface';
 import { IAuth } from '@/interfaces/auth.interface';
-import { IHttp } from '@/interfaces/http.interface';
+import { HttpRequestConfig, IHttp } from '@/interfaces/http.interface';
 import { BasicAuthStrategy } from '@/strategies/basic-auth.strategy';
 import { SSOAuthStrategy, SSOOptions } from '@/strategies/sso-auth.strategy';
-import { JWT, Maybe, SSOToken, Timestamp, UUID } from '@/utils/types';
+import { JWT, JwtPayload, Maybe, SSOToken } from '@/utils/types';
 import { endpoints } from '@/utils/enums';
 import { autoBind } from '@/utils/decorators';
-import { AxiosRequestConfig } from 'axios';
 import { UserDto } from '@/dtos/user.dto';
 
 export type WithSSO<T> =
   | ({
       sso: false;
-      ssoOptions: never;
+      ssoOptions?: never;
     } & T)
   | ({
       sso: true;
@@ -30,16 +29,12 @@ export type AuthServiceOptions = WithSSO<{
 
 export type LoginCredentials = SSOToken | LoginDto;
 
-type JwtPayload = {
-  exp: Timestamp;
-  id: UUID;
-};
-
 type AuthTokens = {
   accessToken: JWT;
   refreshToken: JWT;
 };
 
+// These URL do not need to be checked for token refresh before being requested
 const REFRESH_EXCLUDED_URLS: string[] = [
   endpoints.LOGIN,
   endpoints.SSO_LOGIN,
@@ -51,16 +46,25 @@ export class AuthService implements IAuth {
 
   private strategy: IAuthStrategy<LoginCredentials>;
 
-  private tokens: Maybe<AuthTokens> = null;
+  private get tokens(): Maybe<AuthTokens> {
+    const tokens = localStorage.getItem('dsp-auth-tokens');
+
+    return tokens ? JSON.parse(tokens) : tokens;
+  }
+
+  private set tokens(tokens) {
+    localStorage.setItem('dsp-auth-tokens', JSON.stringify(tokens));
+  }
 
   private refreshPromise: Maybe<Promise<any>> = null;
 
-  private currentUser: Maybe<User> = null;
+  private _currentUser: Maybe<User> = null;
 
   constructor({ http, sso, ssoOptions }: AuthServiceOptions) {
     this.http = http;
-    const StrategyClass = sso ? SSOAuthStrategy : BasicAuthStrategy;
-    this.strategy = new StrategyClass({ http, options: ssoOptions });
+    this.strategy = sso
+      ? new SSOAuthStrategy({ http, options: ssoOptions })
+      : new BasicAuthStrategy({ http });
     this.http.onRequest(this.refreshIfNeeded).onRequest(this.setHeaders);
   }
 
@@ -80,7 +84,7 @@ export class AuthService implements IAuth {
   }
 
   @autoBind()
-  private setHeaders(config: AxiosRequestConfig) {
+  private setHeaders(config: HttpRequestConfig) {
     if (!this.tokens?.accessToken) return config;
     if (!config.headers) config.headers = {};
 
@@ -90,7 +94,7 @@ export class AuthService implements IAuth {
   }
 
   @autoBind()
-  private async refreshIfNeeded(config: AxiosRequestConfig) {
+  private async refreshIfNeeded(config: HttpRequestConfig) {
     if (!config.url) return config;
     if (REFRESH_EXCLUDED_URLS.includes(config.url)) return config;
 
@@ -108,6 +112,7 @@ export class AuthService implements IAuth {
   @autoBind()
   private async refresh() {
     if (!this.tokens?.refreshToken) return;
+    // make a new refresh request only if the tokens are not already being refreshed
     if (!this.refreshPromise) {
       this.refreshPromise = (async () => {
         if (!this.tokens) return;
@@ -125,20 +130,24 @@ export class AuthService implements IAuth {
   @autoBind()
   async authenticate() {
     if (!this.jwtPayload) return null;
+    try {
+      const userDto = await this.http.get<UserDto>(
+        `${endpoints.USERS}/${this.jwtPayload.id}`
+      );
+      this._currentUser = new User(userDto);
 
-    const userDto = await this.http.get<UserDto>(
-      `${endpoints.USERS}/${this.jwtPayload.id}`
-    );
+      return this._currentUser;
+    } catch (err) {
+      console.error(err);
+      this.tokens = null;
+      this._currentUser = null;
 
-    this.currentUser = new User(userDto);
-
-    return this.currentUser;
+      return this._currentUser;
+    }
   }
 
-  async getCurrentUser() {
-    if (this.currentUser) return this.currentUser;
-
-    return this.authenticate();
+  get currentUser() {
+    return this._currentUser;
   }
 
   @autoBind()
