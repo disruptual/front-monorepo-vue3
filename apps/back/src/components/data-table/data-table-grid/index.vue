@@ -3,7 +3,9 @@ export default { name: 'DataTableGrid' };
 </script>
 
 <script setup>
-import { inject, ref, watch, nextTick } from 'vue';
+import { inject, ref, watch, nextTick, onMounted, onBeforeUnmount } from 'vue';
+import { debounce } from 'lodash-es';
+import { useEventListener } from '@dsp/ui';
 import { CONTEXT_KEYS } from '@/utils/constants';
 
 import DataTableGridRow from './data-table-grid-row/index.vue';
@@ -18,25 +20,37 @@ const {
 const tableElement = ref(null);
 
 const totalWidth = ref(null);
-watch(
-  model,
-  () => {
-    nextTick(() => {
-      totalWidth.value = model.totalWidth;
-    });
-  },
-  { immediate: true, deep: true }
-);
+const updateTotalWidth = debounce(() => {
+  nextTick(() => {
+    totalWidth.value = model.totalWidth;
+  });
+}, 50);
+watch(model, updateTotalWidth, { immediate: true, deep: true });
+useEventListener('resize', updateTotalWidth);
 
 watch(tableElement, () => {
   model.tableElement = tableElement.value;
+});
+
+const globalState = inject(CONTEXT_KEYS.GLOBAL_STATE);
+onMounted(() => {
+  if (!globalState[model.id]) return;
+  if (!tableElement.value) return;
+
+  tableElement.value.scrollTop = globalState[model.id].scrollPosition;
+});
+
+onBeforeUnmount(() => {
+  globalState[model.id] = {
+    scrollPosition: tableElement.value?.scrollTop
+  };
 });
 </script>
 
 <template>
   <table ref="tableElement" class="data-table-grid">
     <DataTableGridHeader />
-    <tbody v-if="data.length === 0">
+    <tbody v-if="data?.length === 0">
       <tr class="no-result">
         <div>
           <slot name="no-result">

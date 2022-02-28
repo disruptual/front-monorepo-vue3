@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue';
 import viteESLint from '@ehutch79/vite-eslint';
 import { minifyHtml, injectHtml } from 'vite-plugin-html';
 import dotenv from 'dotenv';
+import svgLoader from 'vite-svg-loader';
 import path from 'path';
 
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
@@ -12,6 +13,7 @@ export default defineConfig({
     vue(),
     viteESLint(),
     minifyHtml(),
+    svgLoader(),
     injectHtml({
       injectData: {
         favicon16x16: `/src/clients/${process.env.CLIENT}/assets/favicons/favicon-16x16.png`,
@@ -34,6 +36,7 @@ export default defineConfig({
       '@dsp/ui': '@dsp/ui/src',
       '@dsp/business': '@dsp/business/src',
       '@dsp/default-theme': '@dsp/default-theme/src',
+      '@dsp/devtools': '@dsp/devtools/src',
       'vue-query/devtools': 'vue-query/devtools',
       'vue-query': '@dsp/core/src/libs/vue-query.js',
       client: `${__dirname}/src/clients/${process.env.VITE_CLIENT}`
@@ -43,5 +46,9 @@ export default defineConfig({
     fs: {
       strict: false
     }
+  },
+  build: {
+    target: 'es2015',
+    sourcemap: true
   }
 });

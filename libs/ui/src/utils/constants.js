@@ -6,6 +6,7 @@ export const VALIDATION_MODES = {
 };
 
 export const CONTEXT_KEYS = {
+  THEME_SERVICE: 'themeServiceContext',
   THEME: 'themeContext',
   FORM: 'formContext',
   DRAWER: 'drawerContext',

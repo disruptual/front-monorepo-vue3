@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, reactive } from 'vue';
 import { HttpService } from './http.service';
 import { createQueryClient } from '../factories/queryClient.factory';
 import { createAuthProvider } from '../factories/authProvider.factory';
@@ -13,18 +13,31 @@ export class DisruptualApp {
     appContext,
     rootComponent,
     routes,
+    routerBase = '/',
     translations,
     plugins
-  }) {
+  } = {}) {
     this.routes = routes;
-    this.appContext = appContext;
+    this.appContext = reactive(appContext);
 
     this.http = new HttpService({ baseURL: apiBaseUrl });
     this.queryClient = createQueryClient();
     this.store = createStore(appContext);
     this.router = createRouter({
-      history: createWebHistory(),
-      routes: routes
+      history: createWebHistory(routerBase),
+      routes: routes,
+      scrollBehavior(to, from, savedPosition) {
+        if (!to.hash) return;
+        if (!from.name) {
+          // wait until DOM is loaded
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              resolve({ el: to.hash });
+            }, 300);
+          });
+        }
+        return { el: to.hash };
+      }
     });
     this.auth = createAuthProvider({
       http: this.http,

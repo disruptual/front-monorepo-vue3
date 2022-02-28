@@ -8,12 +8,16 @@ export default {
 import logo from '../assets/logo.svg';
 
 if (CSS.registerProperty) {
-  CSS.registerProperty({
-    name: '--progress',
-    syntax: '<percentage>',
-    inherits: false,
-    initialValue: '0%'
-  });
+  try {
+    CSS.registerProperty({
+      name: '--progress',
+      syntax: '<percentage>',
+      inherits: false,
+      initialValue: '0%'
+    });
+  } catch (err) {
+    console.error(err);
+  }
 }
 </script>
 

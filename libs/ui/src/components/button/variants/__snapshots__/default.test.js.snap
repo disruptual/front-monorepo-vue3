@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DspButtonDefault should render correctly 1`] = `
+"<button class=\\"dsp-button dsp-button--md\\">
+  <!--v-if-->
+  <!--v-if-->
+</button>"
+`;

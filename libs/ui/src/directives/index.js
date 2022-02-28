@@ -5,3 +5,4 @@ export * from './onResize';
 export * from './tooltip';
 export * from './lazyText';
 export * from './readableColor';
+export * from './onSwipe';

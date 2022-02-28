@@ -18,13 +18,19 @@ import { DAYS } from '@dsp/ui/utils/constants';
 import { vReadableColor } from '@dsp/ui/directives/readableColor';
 
 const props = defineProps({
-  modelValue: { type: [Date, null], required: true }
+  modelValue: { type: [Date, null], required: true },
+  isTeleport: { type: Boolean, default: false },
+  datetime: { type: Boolean, default: false }
 });
 const emit = defineEmits(['update:modelValue']);
 
 const state = reactive({
   isCalendarOpened: false,
-  internalValue: props.modelValue
+  internalValue: props.modelValue,
+  time: {
+    hour: null,
+    minute: null
+  }
 });
 
 watchEffect(() => {
@@ -55,11 +61,15 @@ const getCalendarCellLabel = d => getDate(d);
 const isCellDisabled = d => getMonth(d) !== getMonth(state.internalValue);
 const onCellClick = d => {
   emit('update:modelValue', d);
-  state.isCalendarOpened = false;
+  if (!props.datetime) {
+    state.isCalendarOpened = false;
+  }
 };
 
 const inputValue = computed(() =>
-  format(props.modelValue || new Date(), 'dd-MM-yyyy', { locale: frLocale })
+  props.modelValue
+    ? format(props.modelValue, 'dd-MM-yyyy', { locale: frLocale })
+    : null
 );
 
 const isActive = d =>
@@ -70,6 +80,18 @@ const isActive = d =>
 
 const onFocus = () => {
   state.isCalendarOpened = true;
+};
+
+const updateHours = hours => {
+  const newDate = new Date(props.modelValue);
+  newDate.setHours(hours);
+  emit('update:modelValue', newDate);
+};
+
+const updateMinutes = minutes => {
+  const newDate = new Date(props.modelValue);
+  newDate.setMinutes(minutes);
+  emit('update:modelValue', newDate);
 };
 </script>
 
@@ -82,7 +104,7 @@ const onFocus = () => {
   />
   <dsp-dropdown
     v-model:is-opened="state.isCalendarOpened"
-    :is-teleport="false"
+    :is-teleport="props.isTeleport"
     :close-on-focus-outside="false"
     class="dsp-date-picker"
   >
@@ -113,6 +135,29 @@ const onFocus = () => {
           </dsp-plain-button>
         </div>
       </div>
+      <dsp-flex
+        v-if="props.datetime"
+        justify="center"
+        align="center"
+        gap="sm"
+        class="time-picker"
+      >
+        <input
+          type="number"
+          min="0"
+          max="59"
+          :value="modelValue?.getHours?.() || 0"
+          @input="updateHours($event.target.value)"
+        />
+        h
+        <input
+          type="number"
+          min="0"
+          max="59"
+          :value="modelValue?.getMinutes?.() || 0"
+          @input="updateMinutes($event.target.value)"
+        />
+      </dsp-flex>
     </template>
   </dsp-dropdown>
 </template>
@@ -142,10 +187,18 @@ const onFocus = () => {
     &:focus {
       outline: solid 1px var(--color-brand-500);
     }
+    &:focus {
+      background-color: var(--color-brand-200);
+    }
   }
 
   .dsp-date-picker__cell--active {
     background-color: var(--color-brand-500);
   }
+}
+
+.time-picker {
+  border-top: solid 1px var(--color-separator);
+  padding: var(--spacing-md);
 }
 </style>

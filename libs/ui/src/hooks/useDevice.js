@@ -5,10 +5,7 @@ import { getBreakpoints } from '@dsp/ui/utils/getBreakpoints';
 const state = reactive({
   isMobile: false,
   isTablet: false,
-  isLaptop: false,
-  isDesktop: false,
-  isUpToLaptop: false,
-  isUpToDesktop: false
+  isDesktop: false
 });
 
 const checkCurrentDevice = debounce(() => {

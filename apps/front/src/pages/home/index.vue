@@ -1,39 +1,44 @@
 <script setup>
-import { useI18n } from 'vue-i18n';
 import { useItemApi } from '@dsp/core';
-import ItemCard from '@/components/item-card/index.vue';
+import { useCarouselApi } from '@dsp/core';
 
-const { t } = useI18n();
-const query = useItemApi().searchQuery({});
+import ItemGrid from '@/components/item/grid/index.vue';
+import Carousel from '@/components/carousel/index.vue';
+
+const query = useItemApi().searchQuery({
+  filters: {
+    'sort[updated]': 'desc'
+  },
+  relations: ['user', 'brand', 'category']
+});
+const carouselQuery = useCarouselApi().findAllQuery();
 </script>
 
 <template>
-  <div>
-    <h1>{{ t('home.title') }}</h1>
-    <dsp-infinite-query-loader
-      v-slot="{ entity }"
-      :query="query"
-      class="item-list"
-    >
-      <ItemCard :item="entity" />
-    </dsp-infinite-query-loader>
+  <div class="home-page">
+    <dsp-query-loader :query="carouselQuery">
+      <template #loader>
+        <div class="carousel-loader" />
+      </template>
+
+      <template #default="{ entity: carousels }">
+        <Carousel :carousel="carousels[0]" />
+      </template>
+    </dsp-query-loader>
+
+    <dsp-container is-large class="content-blocks">
+      <ItemGrid :query="query" />
+    </dsp-container>
   </div>
 </template>
 
 <style lang="scss" scoped>
-:deep(.item-list) {
-  --grid-size: 12em;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  display: grid;
-  gap: var(--spacing-lg);
-  grid-template-columns: repeat(auto-fit, var(--grid-size));
-  place-content: center;
+.carousel-loader {
+  animation: placeholderShimmer 1s;
+  height: 320px;
+}
 
-  @include mobile-only {
-    --grid-size: calc(50vw - var(--spacing-sm));
-    gap: var(--spacing-sm);
-  }
+.content-blocks {
+  margin-top: var(--spacing-lg);
 }
 </style>

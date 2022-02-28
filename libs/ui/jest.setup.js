@@ -1,4 +1,6 @@
 import '@testing-library/jest-dom';
+import '@dsp/test-utils';
+
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: jest.fn().mockImplementation(query => ({
@@ -12,3 +14,12 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: jest.fn()
   }))
 });
+
+global.console = {
+  error: jest.fn(),
+
+  log: console.log,
+  warn: console.warn,
+  info: console.info,
+  debug: console.debug
+};

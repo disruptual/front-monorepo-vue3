@@ -4,7 +4,6 @@ export default { name: 'DspDrawerContent', inheritAttrs: false };
 <script setup>
 import { inject, computed } from 'vue';
 import { CONTEXT_KEYS } from '@dsp/ui/utils/constants';
-import { vClickOutside } from '@dsp/ui/directives/clickOutside';
 
 const context = inject(CONTEXT_KEYS.DRAWER);
 

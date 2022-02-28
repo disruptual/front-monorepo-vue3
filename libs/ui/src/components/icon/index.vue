@@ -5,7 +5,7 @@ export default { name: 'DspIcon' };
 <script setup>
 import { computed } from 'vue';
 import { useTheme } from '@dsp/ui/hooks/useTheme';
-import { oneOf, useReactiveQuery } from '@dsp/core';
+import { oneOf, useReactiveQuery, useHttp } from '@dsp/core';
 
 const props = defineProps({
   as: { type: String, default: 'div' },
@@ -15,24 +15,28 @@ const props = defineProps({
 });
 
 const theme = useTheme();
-const url = computed(() => theme.icons[props.icon]);
-const size = computed(() => `var(--spacing-${props.size})`);
-
-const getSvg = async () => {
-  const resp = await fetch(url.value);
-  return resp.text();
-};
-
-const key = computed(() => `icon-${props.icon}`);
-const { data: svg } = useReactiveQuery(key, getSvg, {
-  staleTime: Infinity
+const iconComponent = computed(() => {
+  return theme.icons[props.icon];
 });
+const size = computed(() => `var(--spacing-${props.size})`);
+// const http = useHttp();
+
+// const getSvg = () => {
+//   return http.get(url.value, { baseURL: '', responseType: 'text' });
+// };
+
+// const key = computed(() => `icon-${props.icon}`);
+// const { data: svg } = useReactiveQuery(key, getSvg, {
+//   staleTime: Infinity
+// });
 const display = computed(() => (props.isInline ? 'inline-flex' : 'flex'));
 </script>
 
 <template>
   <!-- eslint-disable vue/no-v-html-->
-  <component :is="as" class="dsp-icon" v-html="svg" />
+  <component :is="as" class="dsp-icon">
+    <component :is="iconComponent" />
+  </component>
 </template>
 
 <style lang="scss" scoped>

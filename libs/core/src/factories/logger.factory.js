@@ -25,7 +25,7 @@ class Logger {
   }
 
   mutechannel(channelName) {
-    if (this.mutedChannels.includes(channelName)) {
+    if (!this.mutedChannels.includes(channelName)) {
       this.mutedChannels = [...this.mutedChannels, channelName];
     }
   }
@@ -41,7 +41,7 @@ class Logger {
   }
 
   get localStorageMutedchannelsKey() {
-    return 'dsp-loger-level';
+    return 'dsp-loger-muted-channels';
   }
 
   get logLevel() {
@@ -62,19 +62,21 @@ class Logger {
   }
 
   get mutedChannels() {
-    const channels = localStorage.getItem(this.localStorageMutedChannelsKey);
+    const channels = localStorage.getItem(this.localStorageMutedchannelsKey);
 
     return JSON.parse(channels) || [];
   }
 
   set mutedChannels(channels) {
     localStorage.setItem(
-      JSON.stringify(this.localStorageMutedChannelsKey, channels)
+      this.localStorageMutedchannelsKey,
+      JSON.stringify(channels)
     );
   }
 
   log(level, color, ...args) {
     if (import.meta.env.PROD) return;
+    if (import.meta.env.NODE_ENV === 'test') return;
     if (level < this.logLevel) return;
     if (this.mutedChannels.includes(this.label)) return;
 

@@ -3,7 +3,7 @@ import '@dsp/ui/styles/main.scss';
 import DefaultTheme from 'vitepress/theme';
 import { QueryClient } from 'vue-query';
 import { createStore } from '@dsp/core/factories/store.factory';
-import { PROVIDER_KEYS } from '@dsp/core';
+import { PROVIDER_KEYS, HttpService } from '@dsp/core';
 import { plugin } from '@dsp/ui/plugin';
 
 import theme from '@dsp/default-theme';
@@ -24,6 +24,7 @@ export default {
     app.component('CodeExample', CodeExample);
     app.component('VariantSelector', VariantSelector);
     app.provide(PROVIDER_KEYS.VUE_QUERY_CLIENT, new QueryClient());
+    app.provide(PROVIDER_KEYS.HTTP_SERVICE, new HttpService({ baseURL: '/' }));
     app.provide(PROVIDER_KEYS.APP_CONTEXT, {});
   }
 };

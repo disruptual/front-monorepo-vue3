@@ -3,34 +3,36 @@ export default { name: 'DspButtonDefault' };
 </script>
 
 <script setup>
+import { useAttrs } from 'vue';
 import { useButton } from './index';
 import schema from '../index.schema';
 import { vReadableColor } from '@dsp/ui/directives';
+import { oneOf } from '@dsp/core';
 
 const props = defineProps({
   isFullWidth: { type: Boolean, default: false },
   isOutlined: { type: Boolean, default: false },
   leftIcon: { type: String, default: null },
   rightIcon: { type: String, default: null },
+  size: oneOf(['sm', 'md', 'lg'], 'md'),
   colorScheme: { type: String, default: 'brand' },
   ...schema.toVariantProps()
 });
 
-const { classes, colors } = useButton(props);
+const attrs = useAttrs();
+const { is, classes, colors } = useButton(props, attrs);
 </script>
 
 <template>
-  <button v-readable-color class="dsp-button" :class="classes">
+  <component :is="is" v-readable-color class="dsp-button" :class="classes">
     <slot name="left-icon">
       <dsp-icon v-if="props.leftIcon" class="icon-left" :icon="leftIcon" />
     </slot>
-
     <slot />
-
     <slot name="right-icon">
       <dsp-icon v-if="props.rightIcon" class="icon-right" :icon="rightIcon" />
     </slot>
-  </button>
+  </component>
 </template>
 
 <style lang="scss" scoped>
@@ -38,7 +40,6 @@ const { classes, colors } = useButton(props);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-xs) var(--spacing-sm);
   cursor: pointer;
   border: solid 1px transparent;
   font-family: var(--font-body);
@@ -57,11 +58,25 @@ const { classes, colors } = useButton(props);
 
   &:disabled {
     background-color: var(--color-disabled);
-    color: var(--color-text-disabled);
+    color: var(--color-text-disabled) !important;
     cursor: default;
   }
 }
 
+.dsp-button--sm {
+  padding: var(--spacing-xxs) var(--spacing-xs);
+  font-size: var(--font-size-sm);
+}
+
+.dsp-button--md {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-md);
+}
+
+.dsp-button--lg {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-lg);
+}
 .dsp-button--is-fullwidth {
   display: flex;
   width: 100%;

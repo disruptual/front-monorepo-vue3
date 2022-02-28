@@ -19,7 +19,7 @@ export class BaseModel {
   constructor(dto) {
     this.__isLazyDetectionDisabled = true;
     Object.assign(this, this.fromJSON(dto));
-    this.__isLazyDetectionDisabled = false;
+    delete this.__isLazyDetectionDisabled;
   }
 
   fromJSON(dto) {
@@ -53,7 +53,13 @@ export class BaseModel {
   }
 
   formatCreated(format = DEFAULT_DATE_FORMAT) {
-    return formatDate(new Date(this.created), format, {
+    return formatDate(new Date(this.created || this.createdAt), format, {
+      locale: frLocale
+    });
+  }
+
+  formatUpdated(format = DEFAULT_DATE_FORMAT) {
+    return formatDate(new Date(this.updated || this.updatedAt), format, {
       locale: frLocale
     });
   }

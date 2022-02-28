@@ -19,7 +19,8 @@ const props = defineProps({
   email: { type: Boolean, default: null },
   validators: { type: Array, default: () => [] },
   initialValue: { type: null, default: null },
-  useInitialValueOnReset: { type: Boolean, default: true }
+  useInitialValueOnReset: { type: Boolean, default: true },
+  mode: { type: String, default: null }
 });
 
 const formContext = inject(CONTEXT_KEYS.FORM);
@@ -27,7 +28,8 @@ const formContext = inject(CONTEXT_KEYS.FORM);
 const buildField = () => {
   const field = new FormField({
     initialValue: props.initialValue,
-    useInitialValueOnReset: props.useInitialValueOnReset
+    useInitialValueOnReset: props.useInitialValueOnReset,
+    mode: props.mode
   });
   if (props.required) field.required();
   if (props.min) field.min(props.min);
@@ -43,7 +45,6 @@ const buildField = () => {
 
   return field;
 };
-
 formContext.value.register(props.name, buildField());
 
 onUnmounted(() => {
@@ -69,5 +70,5 @@ const slotProps = computed(() => {
 </script>
 
 <template>
-  <slot v-if="field" v-bind="slotProps" />
+  <slot v-if="field && $slots.default" v-bind="slotProps" />
 </template>

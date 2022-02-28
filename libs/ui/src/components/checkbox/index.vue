@@ -9,7 +9,7 @@ import { makeRandomId } from '@dsp/core';
 const props = defineProps({
   label: {
     type: [String, Number],
-    required: true
+    default: null
   },
   id: {
     type: String,
@@ -44,7 +44,7 @@ const model = computed({
       />
       <dsp-icon icon="checkbox" size="md" class="check" />
     </div>
-    <label :for="id" class="label">
+    <label v-if="label" :for="id" class="label">
       <slot>{{ props.label }}</slot>
     </label>
   </div>
@@ -54,6 +54,9 @@ const model = computed({
 .dsp-checkbox {
   display: flex;
   flex-wrap: nowrap;
+  input {
+    cursor: pointer;
+  }
   --checkbox-color: var(--color-text);
 
   &:focus-within {

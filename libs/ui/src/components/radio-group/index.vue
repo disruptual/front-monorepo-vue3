@@ -22,7 +22,8 @@ const props = defineProps({
   id: {
     type: String,
     default: () => makeRandomId(6)
-  }
+  },
+  disabled: { type: Boolean, default: false }
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -51,6 +52,7 @@ const direction = computed(() => (props.row ? 'row' : 'column'));
           :label="value.label"
           :value="value.value"
           class="radio"
+          :disabled="disabled"
         />
       </dsp-flex>
     </fieldset>

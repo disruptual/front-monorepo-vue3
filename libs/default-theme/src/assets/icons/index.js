@@ -1,67 +1,119 @@
-import checkbox from './checkbox.svg';
-import checkboxLight from './checkboxLight.svg';
-import warning from './warning.svg';
-import circleRegular from './circleRegular.svg';
-import circleSolid from './circleSolid.svg';
-import eye from './eye.svg';
-import eyeSlash from './eyeSlash.svg';
-import loader from './loader.svg';
-import chevronLeft from './chevronLeft.svg';
-import search from './search.svg';
-import user from './user.svg';
-import home from './home.svg';
-import bars from './bars.svg';
-import pin from './pin.svg';
-import ellipsisH from './ellipsisH.svg';
-import speechBubble from './speechBubble.svg';
-import speechBubbleSlash from './speechBubbleSlash.svg';
-import userDelete from './userDelete.svg';
-import edit from './edit.svg';
-import caretDown from './caretDown.svg';
-import caretLeft from './caretLeft.svg';
-import caretRight from './caretRight.svg';
-import filter from './filter.svg';
-import remove from './delete.svg';
-import userSlash from './userSlash.svg';
-import plus from './plus.svg';
-import columns from './columns.svg';
-import highlight from './highlight.svg';
-import store from './store.svg';
-import chart from './chart.svg';
-import handshake from './handshake.svg';
-import reset from './reset.svg';
+import bars from './bars.svg?component';
+import calendar from './calendar.svg?component';
+import caretDown from './caretDown.svg?component';
+import caretLeft from './caretLeft.svg?component';
+import caretRight from './caretRight.svg?component';
+import chart from './chart.svg?component';
+import checkbox from './checkbox.svg?component';
+import checkboxLight from './checkboxLight.svg?component';
+import chevronLeft from './chevronLeft.svg?component';
+import circleRegular from './circleRegular.svg?component';
+import circleSolid from './circleSolid.svg?component';
+import clock from './clock.svg?component';
+import columns from './columns.svg?component';
+import edit from './edit.svg?component';
+import ellipsisH from './ellipsisH.svg?component';
+import eye from './eye.svg?component';
+import eyeSlash from './eyeSlash.svg?component';
+import chevronRight from './chevronRight.svg?component';
+import filter from './filter.svg?component';
+import highlight from './highlight.svg?component';
+import handshake from './handshake.svg?component';
+import home from './home.svg?component';
+import loader from './loader.svg?component';
+import minus from './minus.svg?component';
+import pin from './pin.svg?component';
+import plus from './plus.svg?component';
+import remove from './delete.svg?component';
+import reset from './reset.svg?component';
+import settings from './settings.svg?component';
+import search from './search.svg?component';
+import speechBubble from './speechBubble.svg?component';
+import speechBubbleSlash from './speechBubbleSlash.svg?component';
+import store from './store.svg?component';
+import user from './user.svg?component';
+import userDelete from './userDelete.svg?component';
+import userSlash from './userSlash.svg?component';
+import warning from './warning.svg?component';
+import info from './info.svg?component';
+import fastForward from './fastForward.svg?component';
+import add from './add.svg?component';
+import fileUpload from './file-upload.svg?component';
+import save from './save.svg?component';
+import download from './download.svg?component';
+import fileImport from './fileImport.svg?component';
+import expand from './expand.svg?component';
+import euroSign from './euro.svg?component';
+import heartEmpty from './heartEmpty.svg?component';
+import heartFilled from './heartFilled.svg?component';
+import cart from './cart.svg?component';
+import chevronDown from './chevronDown.svg?component';
+import chevronUp from './chevronUp.svg?component';
+import ban from './ban.svg?component';
+import unpublish from './unpublish.svg?component';
+import trash from './trash.svg?component';
+import boxOpen from './boxOpen.svg?component';
+import arrowUp from './arrow-up.svg?component';
+import arrowDown from './arrow-down.svg?component';
+import bell from './bell.svg?component';
 
 export default {
+  add,
+  arrowUp,
+  arrowDown,
+  ban,
   bars,
+  bell,
+  boxOpen,
+  calendar,
   caretDown,
   caretLeft,
   caretRight,
+  cart,
   chart,
   checkbox,
   checkboxLight,
+  chevronDown,
   chevronLeft,
+  chevronRight,
+  chevronUp,
   circleRegular,
   circleSolid,
+  clock,
   columns,
-  remove,
+  download,
   edit,
   ellipsisH,
+  euroSign,
+  expand,
   eye,
   eyeSlash,
+  fastForward,
+  fileUpload,
+  fileImport,
   filter,
   handshake,
+  heartEmpty,
+  heartFilled,
   highlight,
   home,
+  info,
   loader,
+  minus,
   pin,
   plus,
+  remove,
   reset,
+  save,
+  settings,
   search,
   speechBubble,
   speechBubbleSlash,
   store,
-  userDelete,
+  trash,
+  unpublish,
   user,
+  userDelete,
   userSlash,
   warning
 };

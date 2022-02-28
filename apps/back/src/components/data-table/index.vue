@@ -4,10 +4,12 @@ export default { name: 'DataTable' };
 
 <script setup>
 import { computed, provide, reactive } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import { CONTEXT_KEYS } from '@/utils/constants';
 import { DataTable } from '@/models/DataTable.model';
 import { KEYBOARD, isNumber } from '@dsp/core';
-import { useEventListener } from '@dsp/ui';
+import { vTooltip, useEventListener } from '@dsp/ui';
 
 import DataTableGrid from './data-table-grid/index.vue';
 import DataTableActionBar from './data-table-action-bar/index.vue';
@@ -17,11 +19,20 @@ const props = defineProps({
   minRowSize: { type: Number, default: 40 },
   hasActionBar: { type: Boolean, default: true },
   hasSelectorColumn: { type: Boolean, default: true },
+  hasSearchbar: { type: Boolean, default: false },
+  rowDetailTarget: { type: Function, default: null },
   id: { type: String, required: true }
 });
 const emit = defineEmits(['rowDblClick', 'filterChange']);
 
-const isLoading = computed(() => props.query.isLoading.value);
+const isLoading = computed(() => props.query.isLoadingFirstPage.value);
+const { push } = useRouter();
+const { t } = useI18n();
+
+const navigate = row => {
+  const target = props.rowDetailTarget(row);
+  push(target);
+};
 
 const model = reactive(
   new DataTable({
@@ -29,16 +40,15 @@ const model = reactive(
     query: props.query,
     minRowSize: props.minRowSize,
     hasSelectorColumn: props.hasSelectorColumn,
-    onRowDblClick(row) {
-      emit('rowDblClick', row);
-    },
+    hasSearchbar: props.hasSearchbar,
+    onGoToDetail: props.rowDetailTarget && navigate,
     onFilterChange(filters) {
       emit('filterChange', filters);
     }
   })
 );
 
-const onKeyPress = e => {
+useEventListener('keydown', e => {
   if (!isNumber(model.focusedRowIndex)) return;
 
   switch (e.key) {
@@ -55,8 +65,7 @@ const onKeyPress = e => {
     default:
       return;
   }
-};
-useEventListener('keydown', onKeyPress);
+});
 
 provide(CONTEXT_KEYS.DATATABLE, {
   query: props.query,
@@ -65,18 +74,29 @@ provide(CONTEXT_KEYS.DATATABLE, {
 </script>
 
 <template>
+  <!-- <pre>
+    <code>{{props.query.key.value}}</code>
+    <code>{{props.query.isStale.value}}</code>
+  </pre> -->
   <div class="data-table">
     <dsp-flex v-if="isLoading" justify="center" class="loader">
       <dsp-loader />
     </dsp-flex>
     <template v-else>
-      <DataTableActionBar v-if="props.hasActionBar" />
+      <DataTableActionBar v-if="props.hasActionBar">
+        <template #custom-actions>
+          <slot name="custom-actions" />
+        </template>
+      </DataTableActionBar>
 
       <DataTableGrid>
         <template #no-result><slot name="no-result" /></template>
       </DataTableGrid>
       <div class="reset-preferences">
-        <dsp-button @click="model.resetPreferences">
+        <dsp-button
+          v-tooltip="t('dataTable.actions.resetPreferences')"
+          @click="model.resetPreferences"
+        >
           <dsp-icon icon="reset" />
         </dsp-button>
       </div>

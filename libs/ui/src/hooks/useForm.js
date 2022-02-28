@@ -2,6 +2,7 @@ import { computed, ref, toRaw, watch } from 'vue';
 import { noop } from '@dsp/core';
 import { useFormField } from '@dsp/ui/hooks/useFormField';
 import { VALIDATION_MODES } from '@dsp/ui/utils/constants';
+import { set } from 'lodash-es';
 
 export function useForm({
   onSubmit = noop,
@@ -16,7 +17,6 @@ export function useForm({
 
   const register = (name, field) => {
     if (fields.value[name]) {
-      console.warn(`the form field ${name} already exists.`);
       return;
     }
 
@@ -24,7 +24,7 @@ export function useForm({
       ...field,
       name: name,
       mode: field.mode || mode,
-      initialValue: field.initialValue || initialValues[name]
+      initialValue: field.initialValue ?? initialValues[name]
     });
   };
 
@@ -45,7 +45,7 @@ export function useForm({
   const values = computed(() => {
     const result = {};
     Object.entries(fields.value).forEach(([key, field]) => {
-      result[key] = field.value;
+      set(result, key, field.value);
     });
 
     return result;
@@ -63,6 +63,7 @@ export function useForm({
       await validate();
       if (!isValid.value) return;
       isSubmitted.value = true;
+
       return await onSubmit(values.value);
     } catch (err) {
       console.error(err);

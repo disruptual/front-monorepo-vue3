@@ -4,70 +4,34 @@ export default { name: 'HeaderMenu' };
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useCurrentUser } from '@dsp/core';
-import { USER_ROLES } from '@dsp/business';
+import { useI18n } from 'vue-i18n';
+import { useCurrentUser, useAppContext, isFunction } from '@dsp/core';
 import { useReadableColor } from '@dsp/ui';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
+import { MENU } from '@/utils/constants';
 
 const isOpened = ref(false);
 const search = ref('');
 
+const { t } = useI18n();
 const { data: currentUser } = useCurrentUser();
 const breadcrumbs = useBreadCrumbs();
-
-const sections = [
-  {
-    name: 'Administration',
-    permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
-    links: [
-      { target: { name: 'AdminItems' }, label: 'Annonces' },
-      { target: { name: 'AdminUsers' }, label: 'Utilisateurs' },
-      { target: { name: 'AdminOrders' }, label: 'Commandes' },
-      { target: { name: 'AdminContact' }, label: 'Support client' },
-      { target: { name: 'AdminVoucher' }, label: "Bons d'achat" },
-      { target: { name: 'AdminStore' }, label: 'Magasins' },
-      { target: { name: 'AdminEmail' }, label: 'Mails' }
-    ]
-  },
-  {
-    name: 'Interface Magasin',
-    permissions: [
-      USER_ROLES.ADMIN,
-      USER_ROLES.PROJECT_MANAGER,
-      USER_ROLES.STORE
-    ],
-    links: [
-      { target: '/', label: 'Dépôt / retrait' },
-      { target: '/', label: 'Rechercher un utilisateur' },
-      { target: '/', label: 'Gestion des stocks' }
-    ]
-  },
-  {
-    name: 'Interface Evenements',
-    permissions: [
-      USER_ROLES.ADMIN,
-      USER_ROLES.PROJECT_MANAGER,
-      USER_ROLES.EVENT_MANAGER
-    ],
-    links: [
-      { target: '/', label: 'Dépôt' },
-      { target: '/', label: 'Vente' }
-    ]
-  }
-];
+const context = useAppContext();
 
 const allowedSections = computed(() =>
-  sections.filter(section =>
+  MENU.filter(section =>
     section.permissions.some(permission =>
       currentUser.value.hasRole(permission)
     )
-  )
+  ).filter(section => context.features[section.id].isEnabled)
 );
 
 const displayedLinksForSection = section =>
-  section.links.filter(link =>
-    link.label.toLowerCase().includes(search.value.toLowerCase())
-  );
+  section.links
+    .filter(link => !isFunction(link.isEnabled) || link.isEnabled(context))
+    .filter(link =>
+      t(`menu.links.${link.id}`).includes(search.value.toLowerCase())
+    );
 
 const onLinkClick = () => {
   isOpened.value = false;
@@ -93,6 +57,7 @@ const focusedTextColor = useReadableColor('--color-brand-500');
         <dsp-icon-button
           class="close-button"
           icon="remove"
+          is-plain
           size="lg"
           @click="isOpened = false"
         />
@@ -100,22 +65,20 @@ const focusedTextColor = useReadableColor('--color-brand-500');
 
       <dsp-flex
         v-for="section in allowedSections"
-        :key="section.name"
+        :key="section.id"
         as="section"
         direction="column"
       >
-        <h3>{{ section.name }}</h3>
+        <h3>{{ t(`menu.sections.${section.id}`) }}</h3>
+
         <ul class="section-list">
-          <li
-            v-for="link in displayedLinksForSection(section)"
-            :key="link.label"
-          >
+          <li v-for="link in displayedLinksForSection(section)" :key="link.id">
             <router-link
               :to="link.target"
               class="menu-item"
               @click="onLinkClick"
             >
-              {{ link.label }}
+              {{ t(`menu.links.${link.id}`) }}
             </router-link>
           </li>
         </ul>

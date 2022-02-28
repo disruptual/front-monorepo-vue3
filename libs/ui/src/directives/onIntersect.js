@@ -1,3 +1,4 @@
+import { isFunction } from '@dsp/core';
 const observers = new WeakMap();
 
 export const vOnIntersect = {
@@ -5,10 +6,12 @@ export const vOnIntersect = {
     try {
       const onIntersect = entries => {
         entries.forEach(entry => {
-          cb(entry);
+          cb?.(entry);
         });
       };
-      const observer = new window.IntersectionObserver(onIntersect, arg || {});
+
+      const options = isFunction(arg) ? arg(el) : arg ?? {};
+      const observer = new window.IntersectionObserver(onIntersect, options);
       observers.set(el, observer);
       observer.observe(el);
     } catch (err) {
@@ -18,7 +21,7 @@ export const vOnIntersect = {
 
   unmounted(el) {
     const observer = observers.get(el);
-    observer.unobserve(el);
+    observer?.unobserve(el);
     observers.delete(el);
   }
 };

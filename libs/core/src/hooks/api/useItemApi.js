@@ -1,23 +1,17 @@
-import { computed, reactive } from 'vue';
+import { computed, unref } from 'vue';
 import { Item, ItemService } from '@dsp/business';
-import { useHttp } from '@dsp/core/hooks/useHttp';
+
 import { useCollectionQuery } from '@dsp/core/hooks/useCollectionQuery';
-import { useModelQuery } from '@dsp/core/hooks/useModelQuery';
+
 import { SORT_ORDERS } from '@dsp/core/utils/constants';
 import { serializeQueryString } from '@dsp/core/utils/helpers';
+import { useCRUDApi } from '../useCRUDApi';
 
 export function useItemApi() {
-  const http = useHttp();
-  const itemService = new ItemService({ http });
-
-  return {
-    searchQuery({ relations = [], itemsPerPage = 30 } = {}) {
-      const filters = reactive({
-        'sort[created]': SORT_ORDERS.DESC
-      });
-
+  return useCRUDApi({ model: Item, service: ItemService }, itemService => ({
+    searchQuery({ relations = [], itemsPerPage = 30, filters } = {}) {
       const queryKey = computed(
-        () => `/items/search?${serializeQueryString(filters)}`
+        () => `/items/search?${serializeQueryString(unref(filters))}`
       );
 
       const options = {
@@ -27,36 +21,12 @@ export function useItemApi() {
       };
 
       const queryFn = ({ pageParam = { page: 1, itemsPerPage } }) => {
-        return itemService.findAll({ params: { ...pageParam, ...filters } });
+        return itemService.search({
+          params: { ...pageParam, ...unref(filters) }
+        });
       };
 
       return useCollectionQuery(queryKey, queryFn, options);
-    },
-
-    findAllQuery({ relations = [], itemsPerPage = 30 } = {}) {
-      const queryKey = computed(() => `/users`);
-
-      const options = {
-        model: Item,
-        itemsPerPage,
-        relations
-      };
-
-      const queryFn = ({ pageParam = { page: 1, itemsPerPage } }) =>
-        itemService.findAll({ params: { ...pageParam } });
-
-      return useCollectionQuery(queryKey, queryFn, options);
-    },
-
-    findByIdQuery(id, { relations = [] } = {}) {
-      const queryKey = computed(() => `/items/${id}`);
-
-      const options = {
-        model: Item,
-        relations
-      };
-
-      return useModelQuery(queryKey, () => itemService.findById(id), options);
     },
 
     findAllByUserIdQuery(userId, { relations = [] } = {}) {
@@ -67,6 +37,32 @@ export function useItemApi() {
         () => itemService.findAllByUserId(userId),
         { model: Item, relations }
       );
+    },
+
+    findAllByEventPhysicalDepositedIdQuery(eventId, { relations = [] } = {}) {
+      const queryKey = computed(
+        () => `${eventId}/items?exists[eventPhysicalDepositedAt]=true`
+      );
+
+      const queryFn = ({ pageParam = { page: 1 } }) => {
+        return itemService.findAllByEventPhysicalDepositedId(eventId, {
+          params: { ...pageParam }
+        });
+      };
+
+      return useCollectionQuery(queryKey, queryFn, { model: Item, relations });
+    },
+
+    findAllByEventDigitalDepositedIdQuery(eventId, { relations = [] } = {}) {
+      const queryKey = computed(() => `${eventId}/items`);
+
+      const queryFn = ({ pageParam = { page: 1 } }) => {
+        return itemService.findAllByEventDigitalDepositedId(eventId, {
+          params: { ...pageParam }
+        });
+      };
+
+      return useCollectionQuery(queryKey, queryFn, { model: Item, relations });
     }
-  };
+  }));
 }

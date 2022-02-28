@@ -1,11 +1,35 @@
-import logo from 'client/assets/logo.svg';
+import logo from 'client/assets/logo.svg?url';
 
 export default {
+  DefaultLayoutHeader: { isLogoDisplayed: true },
+
   sso: {
     isEnabled: false
   },
-  logo,
-  DspButton: {
-    isRounded: false
-  }
+  features: {
+    admin: {
+      isEnabled: true,
+      contacts: { isEnabled: true },
+      emails: { isEnabled: true },
+      events: { isEnabled: true },
+      items: { isEnabled: true },
+      orders: { isEnabled: true },
+      stores: { isEnabled: true },
+      users: { isEnabled: true },
+      vouchers: { isEnabled: true }
+    },
+    settings: {
+      isEnabled: true,
+      carousel: { isEnabled: true },
+      announcements: { isEnabled: true },
+      homeBlocks: { isEnabled: true }
+    },
+    store: {
+      isEnabled: false
+    },
+    eventStore: {
+      isEnabled: false
+    }
+  },
+  logo
 };

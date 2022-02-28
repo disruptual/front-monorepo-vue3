@@ -13,7 +13,7 @@ const minValidator = (val, min) => isNumber(val) && val >= min;
 const maxValidator = (val, max) => isNumber(val) && val <= max;
 const minlengthValidator = (val, length) =>
   isString(val) && val.length >= length;
-const maxlengthValidator = (length, val) =>
+const maxlengthValidator = (val, length) =>
   isString(val) && val.length <= length;
 const patternValidator = (val, regexp) => val && regexp.test(val);
 const isInValidator = (val, acceptedValues) => acceptedValues.includes(val);

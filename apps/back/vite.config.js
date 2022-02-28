@@ -5,15 +5,23 @@ import legacy from '@vitejs/plugin-legacy';
 import { minifyHtml, injectHtml } from 'vite-plugin-html';
 import dotenv from 'dotenv';
 import path from 'path';
+import Markdown from 'vite-plugin-md';
+import { visualizer } from 'rollup-plugin-visualizer';
+import svgLoader from 'vite-svg-loader';
 
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 
 export default defineConfig({
+  base: process.env.VITE_BASE_PATH || '/',
   plugins: [
     legacy({
       targets: ['defaults', 'not IE 11']
     }),
-    vue(),
+    vue({
+      include: [/\.vue$/, /\.md$/]
+    }),
+    Markdown(),
+    svgLoader(),
     viteESLint(),
     minifyHtml(),
     injectHtml({
@@ -45,7 +53,11 @@ export default defineConfig({
     }
   },
   build: {
-    target: 'es2015'
+    target: 'es2015',
+    sourcemap: true,
+    rollupOptions: {
+      plugins: [visualizer()]
+    }
   },
   server: {
     fs: {

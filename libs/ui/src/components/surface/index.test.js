@@ -1,42 +1,17 @@
 import { mount } from '@vue/test-utils';
 import Surface from './index.vue';
-import { createStore } from 'vuex';
-
-const store = createStore({
-  state() {
-    return { appContext: {} };
-  },
-  getters: {
-    appContext(state) {
-      return state.appContext;
-    },
-    componentContext: state => name => {
-      return state.appContext[name];
-    }
-  }
-});
-
-const setup = ({ props, slots } = {}) => {
-  const wrapper = mount(Surface, {
-    props,
-    slots,
-    global: {
-      provide: { store }
-    }
-  });
-
-  return { wrapper };
-};
 
 describe('DspSurface', () => {
   it('should render correctly', () => {
-    const { wrapper } = setup();
+    const wrapper = mount(Surface);
 
     expect(wrapper.find('.dsp-surface')).toBeDefined();
   });
 
   it('should have rounded corners', () => {
-    const { wrapper } = setup({ props: { isRounded: true } });
+    const wrapper = mount(Surface, {
+      props: { isRounded: true }
+    });
 
     const classes = wrapper.find('.dsp-surface').classes();
 
@@ -44,7 +19,9 @@ describe('DspSurface', () => {
   });
 
   it('should render slot', () => {
-    const { wrapper } = setup({ slots: { default: 'Test Slot' } });
+    const wrapper = mount(Surface, {
+      slots: { default: 'Test Slot' }
+    });
 
     expect(wrapper.find('.dsp-surface').text()).toContain('Test Slot');
   });

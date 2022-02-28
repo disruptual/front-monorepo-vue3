@@ -10,19 +10,40 @@ export class UserService extends BaseCRUDService {
     return this._http.get(`${this.endpoint}/slug/${slug}`, options);
   }
 
-  muteUser(userId) {
+  mute(userId) {
     return this.update(userId, {
       silentModeActivatedAt: new Date()
     });
   }
 
-  unmuteUser(userId) {
+  unmute(userId) {
     return this.update(userId, {
       silentModeActivatedAt: null
     });
   }
 
-  anonymizeUser(userId) {
+  anonymize(userId) {
     return this._http.put(`${this.endpoint}/${userId}/anonymize`);
+  }
+
+  blocked(userId) {
+    return this.update(userId, {
+      blockedAt: new Date()
+    });
+  }
+
+  unblocked(userId) {
+    return this.update(userId, {
+      blockedAt: null
+    });
+  }
+
+  credit({ userId, remuneration, amount }) {
+    return this._http.post(
+      `${this.endpoint}/${userId}/society_money_transfer/${remuneration}`,
+      {
+        data: { amount }
+      }
+    );
   }
 }

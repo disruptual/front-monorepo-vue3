@@ -1,4 +1,5 @@
 import { computed } from 'vue';
+import { useMutation } from 'vue-query';
 import { User, UserService } from '@dsp/business';
 import { useModelQuery } from '@dsp/core/hooks/useModelQuery';
 import { useCRUDApi } from '../useCRUDApi';
@@ -12,6 +13,54 @@ export function useUserApi() {
         model: User,
         relations
       });
+    },
+
+    muteMutation(options) {
+      return useMutation(
+        `muteUser`,
+        userId => userService.mute(userId),
+        options
+      );
+    },
+
+    unmuteMutation(options) {
+      return useMutation(
+        `unmuteUser`,
+        userId => userService.unmute(userId),
+        options
+      );
+    },
+
+    blockedMutation(options) {
+      return useMutation(
+        `blockedUser`,
+        userId => userService.blocked(userId),
+        options
+      );
+    },
+
+    unblockedMutation(options) {
+      return useMutation(
+        `unblockedUser`,
+        userId => userService.unblocked(userId),
+        options
+      );
+    },
+
+    anonymizeMutation(options) {
+      return useMutation(
+        `anonymizeUser`,
+        userId => userService.anonymize(userId),
+        options
+      );
+    },
+
+    creditMutation(options) {
+      return useMutation(
+        'creditUser',
+        formValues => userService.credit(formValues),
+        options
+      );
     }
   }));
 }

@@ -1,0 +1,10 @@
+{
+  "name": "@dsp/test-utils",
+  "version": "0.0.0",
+  "dependencies": {
+    "@dsp/default-theme": "*",
+    "@dsp/ui": "*",
+    "axios-mock-adapter": "^1.20.0",
+    "fast-glob": "^3.2.11"
+  }
+}

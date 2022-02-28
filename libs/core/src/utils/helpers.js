@@ -12,7 +12,9 @@ export const extractIdFromUri = uri => {
   const match = /\/[^/]+\/(.*)/.exec(uri);
   if (match && match.length === 2) {
     return match[1];
-  } else return uri;
+  }
+
+  return uri;
 };
 
 export const getCookies = () =>
@@ -47,8 +49,8 @@ export const formatPrice = (
 ) => {
   const number = Number.parseFloat(price);
   const isDecimal = (number * 100) % 100 > 0;
-  if (isDecimal) return `${number.toFixed(digits)}€`;
-  else return `${number}€`;
+  if (isDecimal) return `${number.toFixed(digits).replace('.', ',')}€`;
+  else return `${String(number).replace('.', ',')}€`;
 };
 
 export const makeRandomId = (length = 6) => {
@@ -64,7 +66,7 @@ export const makeRandomId = (length = 6) => {
   return result;
 };
 
-export const serializeQueryString = obj => {
+export const serializeQueryString = (obj = {}) => {
   const searchParams = new URLSearchParams();
   Object.entries(obj).forEach(([key, value]) => {
     if (isUndefinedOrNull(value)) return;

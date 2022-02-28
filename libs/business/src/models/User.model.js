@@ -4,6 +4,7 @@ import { Delivery } from './Delivery.model';
 import { Iban } from './Iban.model';
 import { Item } from './Item.model';
 import { Order } from './Order.model';
+import { Review } from './Review.model';
 
 export class User extends BaseModel {
   static get relations() {
@@ -32,6 +33,16 @@ export class User extends BaseModel {
         name: 'sales',
         getUri: entity => `${entity.uri}/sales`,
         model: Order
+      },
+      {
+        name: 'reviewsReceived',
+        getUri: entity => `${entity.uri}/reviews_tos`,
+        model: Review
+      },
+      {
+        name: 'reviewsGiven',
+        getUri: entity => `${entity.uri}/reviews_froms`,
+        model: Review
       }
     ];
   }
@@ -66,6 +77,10 @@ export class User extends BaseModel {
 
   get isStore() {
     return this.hasRole(USER_ROLES.STORE);
+  }
+
+  get isDAF() {
+    return this.hasRole(USER_ROLES.DAF);
   }
 
   get isMuted() {

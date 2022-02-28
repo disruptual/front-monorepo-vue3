@@ -41,12 +41,12 @@ const initObserver = () => {
 };
 
 const cleanup = () => {
-  unref(root).removeEventListener('scroll', initObserver);
+  unref(root).removeEventListener('scroll', initObserver, { passive: true });
 };
 
 onMounted(() => {
   nextTick(() => {
-    unref(root).addEventListener('scroll', initObserver);
+    unref(root).addEventListener('scroll', initObserver, { passive: true });
   });
 });
 

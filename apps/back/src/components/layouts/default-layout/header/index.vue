@@ -3,17 +3,22 @@ export default { name: 'DefaultLayoutHeader' };
 </script>
 
 <script setup>
-import { ref } from 'vue';
-import { useCurrentUser } from '@dsp/core';
+import { useI18n } from 'vue-i18n';
+import { useAppContext } from '@dsp/core';
 import { useDevice } from '@dsp/ui';
 import HeaderMenu from './header-menu/index.vue';
 import HeaderBreadcrumbs from './header-breadcrumbs/index.vue';
 import UserMenu from '@/components/user-menu/index.vue';
+import schema from './index.schema';
 
-const { data: currentUser } = useCurrentUser();
+const props = defineProps(schema.toProps());
+
 const device = useDevice();
 
-const isUserMenuOpened = ref(false);
+const { t } = useI18n();
+
+const context = useAppContext();
+const componentContext = schema.toContext(props);
 </script>
 
 <template>
@@ -21,16 +26,16 @@ const isUserMenuOpened = ref(false);
     <dsp-flex justify="space-between" align="center" class="header" gap="sm">
       <HeaderMenu v-if="device.isMobile" />
       <router-link :to="{ name: 'Home' }" class="logo">
-        <h1>DISRUPTUAL</h1>
+        <h1>
+          <img v-if="componentContext.isLogoDisplayed" :src="context.logo" />
+          <span v-else>
+            {{ t('platformName') }}
+          </span>
+        </h1>
       </router-link>
-      <dsp-plain-button
-        class="avatar"
-        @click="isUserMenuOpened = !isUserMenuOpened"
-      >
-        <dsp-avatar :user="currentUser" />
-      </dsp-plain-button>
-
-      <UserMenu v-model="isUserMenuOpened" />
+      <div class="menu">
+        <UserMenu />
+      </div>
     </dsp-flex>
     <HeaderBreadcrumbs class="breadcrumbs" />
   </header>
@@ -39,8 +44,7 @@ const isUserMenuOpened = ref(false);
 <style lang="scss" scoped>
 .header {
   background-color: var(--color-surface);
-  padding: var(--spacing-sm) var(--spacing-xl) var(--spacing-sm)
-    var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
 
   @include mobile-only {
     padding: var(--spacing-xs) var(--spacing-sm);
@@ -48,7 +52,11 @@ const isUserMenuOpened = ref(false);
 }
 
 .menu {
-  justify-self: end;
+  display: grid;
+  > * {
+    grid-column: 1;
+    grid-row: 1;
+  }
 }
 
 .logo {
@@ -69,15 +77,15 @@ const isUserMenuOpened = ref(false);
     @include mobile-only {
       font-size: var(--font-size-md);
     }
+
+    > img {
+      display: block;
+      height: 1.5em;
+    }
   }
 }
 
 .breadcrumbs {
   padding: 0;
-}
-
-.avatar {
-  padding: 0;
-  margin-left: auto;
 }
 </style>

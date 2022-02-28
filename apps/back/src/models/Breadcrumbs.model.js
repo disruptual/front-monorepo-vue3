@@ -7,6 +7,8 @@ export class Breadcrumbs {
 
   goTo(id) {
     const index = this.breadcrumbs.findIndex(b => b.id === id);
+    if (index === this.breadcrumbs.length - 1) return;
+
     this.breadcrumbs = this.breadcrumbs.slice(0, index);
   }
 
@@ -14,11 +16,12 @@ export class Breadcrumbs {
     this.breadcrumbs = [];
   }
 
-  add({ label, target }) {
+  add({ label, target, path }) {
     this.breadcrumbs.push({
       id: makeRandomId(4),
       label,
-      target
+      target,
+      path
     });
   }
 

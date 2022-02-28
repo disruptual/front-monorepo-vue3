@@ -1,18 +1,18 @@
 import { onMounted, onUnmounted, unref, watch } from 'vue';
 
-export const useEventListener = (eventName, handler) => {
+export const useEventListener = (eventName, handler, element = window) => {
   const removeListener = () => {
-    window.removeEventListener(unref(eventName), unref(handler));
+    element.removeEventListener(unref(eventName), unref(handler));
   };
 
   const addListener = () => {
-    window.addEventListener(unref(eventName), unref(handler));
+    element.addEventListener(unref(eventName), unref(handler));
   };
 
   watch(
     () => eventName,
     (_, oldVal) => {
-      window.removeEventListener(unref(oldVal), unref(handler));
+      element.removeEventListener(unref(oldVal), unref(handler));
       addListener();
     }
   );
@@ -20,7 +20,7 @@ export const useEventListener = (eventName, handler) => {
   watch(
     () => handler,
     (_, oldVal) => {
-      window.removeEventListener(unref(eventName), unref(oldVal));
+      element.removeEventListener(unref(eventName), unref(oldVal));
       addListener();
     }
   );

@@ -11,7 +11,7 @@ defineProps({
 <template>
   <dsp-fade-transition :is-visible="!!error" appear>
     <div class="dsp-form-error">
-      <dsp-icon icon="warning" size="sm" />
+      <dsp-icon icon="warning" />
       <span>{{ error }}</span>
     </div>
   </dsp-fade-transition>

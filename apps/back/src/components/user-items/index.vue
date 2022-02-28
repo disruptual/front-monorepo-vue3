@@ -3,21 +3,17 @@ export default { name: 'UserItems' };
 </script>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
 import { useItemApi } from '@dsp/core';
-import { useRouter } from 'vue-router';
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
-
 const props = defineProps({
   userId: { type: String, required: true }
 });
 
-const query = useItemApi().findAllByUserIdQuery(props.userId);
+const { t } = useI18n();
 
-const { push } = useRouter();
-const goToDetail = row => {
-  push({ name: 'AdminItemDetails', params: { id: row.id } });
-};
+const query = useItemApi().findAllByUserIdQuery(props.userId);
 </script>
 
 <template>
@@ -27,17 +23,19 @@ const goToDetail = row => {
     :min-row-size="50"
     :has-action-bar="false"
     :has-selector-column="false"
-    @row-dbl-click="goToDetail"
+    :row-detail-target="
+      row => ({ name: 'AdminItemDetails', params: { id: row.id } })
+    "
   >
     <template #no-result>
-      <dsp-center>Cet tilisateur ne possède aucun article.</dsp-center>
+      <dsp-center>Cet utilisateur ne possède aucun article.</dsp-center>
     </template>
 
-    <DataTableColumn name="id" label="Id" width="40" />
+    <DataTableColumn name="id" :label="t('dataTable.label.id')" width="40" />
     <DataTableColumn
       v-slot="{ row }"
       name="photo"
-      label="Photo"
+      :label="t('dataTable.label.photo')"
       :tooltip-label="({ row }) => row.mainMedia?.url"
       width="100"
     >
@@ -46,20 +44,34 @@ const goToDetail = row => {
     <DataTableColumn
       v-slot="{ row }"
       name="created"
-      label="Date de création"
+      :label="t('dataTable.label.created')"
       :tooltip-label="({ row }) => row.formatCreated()"
     >
       {{ row.formatCreated() }}
     </DataTableColumn>
 
-    <DataTableColumn v-slot="{ row }" name="price" label="Prix">
+    <DataTableColumn
+      v-slot="{ row }"
+      name="price"
+      :label="t('dataTable.label.price')"
+    >
       {{ row.formatedPrice }}
     </DataTableColumn>
 
-    <DataTableColumn v-slot="{ row }" name="category" label="Catégorie">
+    <DataTableColumn
+      v-slot="{ row }"
+      name="category"
+      :label="t('dataTable.label.category')"
+    >
       {{ row.category?.name }}
     </DataTableColumn>
-    <DataTableColumn name="publicationState" label="status" />
+    <DataTableColumn
+      v-slot="{ row }"
+      name="publicationState"
+      :label="t('dataTable.label.status')"
+    >
+      {{ t(`item.publicationState.${row.publicationState}`) }}
+    </DataTableColumn>
   </DataTable>
 </template>
 

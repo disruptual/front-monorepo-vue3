@@ -5,7 +5,7 @@ export default { name: 'DataTableGridHeader' };
 <script setup>
 import { inject, ref, reactive } from 'vue';
 import { CONTEXT_KEYS } from '@/utils/constants';
-import { vTooltip } from '@dsp/ui';
+import { vReadableColor, vTooltip } from '@dsp/ui';
 
 const { model } = inject(CONTEXT_KEYS.DATATABLE);
 
@@ -47,9 +47,11 @@ const state = reactive({
 const onResizeStart = (e, column) => {
   state.resizedColumn = column;
 
-  // @FIXME not clean
-  const normalizedWidth = e.target.parentNode.parentNode.offsetWidth;
-  state.resizedColumn.resize(normalizedWidth);
+  model.columns.forEach(column => {
+    if (!column.isHidden) {
+      column.resize(column.headerElement.offsetWidth);
+    }
+  });
 
   state.isResizing = true;
   state.resizedColumnInitialWidth = column.width;
@@ -79,6 +81,7 @@ const onResizeMove = e => {
 <template>
   <thead
     ref="tableHeadElement"
+    v-readable-color
     class="data-table-grid-header"
     @mousemove="onResizeMove"
   >
@@ -104,6 +107,7 @@ const onResizeMove = e => {
           <dsp-icon-button
             icon="pin"
             class="pin-button"
+            is-plain
             @click="column.togglePinned()"
           />
           <dsp-truncated-text>{{ column.label }}</dsp-truncated-text>
@@ -113,7 +117,7 @@ const onResizeMove = e => {
           />
         </dsp-flex>
       </th>
-      <th v-if="model.rowActions.length > 0" class="column--is-pinned-right" />
+      <th class="column--is-pinned-right" />
     </tr>
   </thead>
 </template>

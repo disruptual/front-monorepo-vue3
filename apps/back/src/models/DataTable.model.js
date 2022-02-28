@@ -12,7 +12,8 @@ export class DataTable {
     query,
     minRowSize,
     hasSelectorColumn,
-    onRowDblClick,
+    hasSearchbar,
+    onGoToDetail,
     onFilterChange,
     tableElement = null
   }) {
@@ -25,20 +26,21 @@ export class DataTable {
     this.selectedRowIds = [];
     this.visibleRowIds = [];
     this.rowActions = [];
-    this.highlights = [];
     this.minRowSize = minRowSize;
     this.focusedRowIndex = null;
     this.hasSelectorColumn = hasSelectorColumn;
-
-    this.onRowDblClick = onRowDblClick;
+    this.hasSearchbar = hasSearchbar;
+    this.onGoToDetail = onGoToDetail;
     this.onFilterChange = onFilterChange;
+    this.customFilters = [];
 
     this.tableElement = tableElement;
 
-    this._debouncedSavePreferences = debounce(
+    this.debouncedSavePreferences = debounce(
       this._savePreferences.bind(this),
       1000
     );
+    this.highlights = this.highlightFromStorage || [];
     this.filters = this.userPreferences?.filters || {};
     this.resetPreferences = this.resetPreferences.bind(this);
   }
@@ -64,7 +66,22 @@ export class DataTable {
   set filters(value) {
     this._filters = value;
     this.onFilterChange(this._filters);
-    this._debouncedSavePreferences();
+    this.debouncedSavePreferences();
+  }
+
+  get highlights() {
+    return this._highlights;
+  }
+
+  set highlights(value) {
+    this._highlights = value;
+    this.debouncedSavePreferences();
+  }
+
+  get highlightFromStorage() {
+    return this.userPreferences?.highlights?.map(
+      highlight => new DataTableHighlight(JSON.parse(highlight))
+    );
   }
 
   get displayedColumns() {
@@ -113,13 +130,18 @@ export class DataTable {
   }
 
   get actionColumnWidth() {
-    return this.rowActions.length > 0 ? ACTIONS_COLUMN_WIDTH : 0;
+    return this.hasActionColumn ? ACTIONS_COLUMN_WIDTH : 0;
   }
 
   get totalWidth() {
+    // if the grid contains at least one fluid width column,
+    // we want it to be the size of the parent element to allow the guild column to expand
+    if (this.displayedColumns.some(col => col.width === '*')) {
+      return this.tableElement?.parentElement?.offsetWidth;
+    }
+
     return this.displayedColumns.reduce((total, column) => {
       if (!column.headerElement) return total;
-
       return total + column.headerElement.offsetWidth;
     }, this.selectorColumnWidth + this.actionColumnWidth);
   }
@@ -128,14 +150,19 @@ export class DataTable {
     return this.query.data?.length;
   }
 
+  get hasActionColumn() {
+    return this.rowActions.length > 0 || !!this.onGoToDetail;
+  }
+
   _onColumnUpdate() {
     this._setColumnOffsets();
-    this._debouncedSavePreferences();
+    this.debouncedSavePreferences();
   }
 
   _savePreferences() {
     this.userPreferences = {
       filters: this.filters,
+      highlights: this.highlights.map(highlight => highlight.getPlainObject()),
       columns: this.columns.map(column => ({
         name: column.name,
         width: column.width,
@@ -185,6 +212,10 @@ export class DataTable {
     this.rowActions.push(action);
   }
 
+  addCustomFilter(filter) {
+    this.customFilters.push(filter);
+  }
+
   moveColumn(column, newIndex) {
     const oldIndex = this.columns.indexOf(column);
     if (oldIndex === newIndex) return;
@@ -202,11 +233,14 @@ export class DataTable {
   }
 
   addHighlight(highlight) {
-    this.highlights.push(new DataTableHighlight(highlight));
+    const newHighlight = new DataTableHighlight(highlight);
+    this.highlights = [...this.highlights, newHighlight];
   }
 
   removeHighlight(highlight) {
-    this.highlights.splice(this.highlights.indexOf(highlight), 1);
+    this.highlights = this.highlights.filter(function (val) {
+      return val.name !== highlight.name;
+    });
   }
 
   getRowHighlight(row) {

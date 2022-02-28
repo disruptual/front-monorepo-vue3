@@ -4,9 +4,12 @@ export default { name: 'DefaultLayout' };
 <script setup>
 import DefaultLayoutHeader from './header/index.vue';
 import DefaultLayoutFooter from './footer/index.vue';
-import { ref } from 'vue';
-import { vOnResize, useCssVar } from '@dsp/ui';
+import DefaultLayoutAppBar from './app-bar/index.vue';
 
+import { ref } from 'vue';
+import { vOnResize, useCssVar, useDevice } from '@dsp/ui';
+
+const device = useDevice();
 const headerHeight = ref(null);
 
 useCssVar('--header-height', headerHeight);
@@ -20,14 +23,17 @@ const onHeaderResize = entries => {
 
 <template>
   <div class="default-layout">
-    <div v-on-resize="onHeaderResize" class="header-wrapper">
+    <div v-on-resize="onHeaderResize" class="default-layout__header-wrapper">
       <DefaultLayoutHeader />
     </div>
     <main><slot /></main>
 
-    <div class="footer">
-      <DefaultLayoutFooter />
-    </div>
+    <DefaultLayoutFooter />
+
+    <DefaultLayoutAppBar
+      v-if="device.isMobile"
+      class="default-layout__app-bar"
+    />
   </div>
 </template>
 
@@ -41,13 +47,22 @@ const onHeaderResize = entries => {
     display: flex;
     flex-direction: column;
     scroll-behavior: smooth;
+    @include desktop-only {
+      margin: var(--spacing-lg) 0;
+    }
   }
 }
 
-.header-wrapper {
+.default-layout__header-wrapper {
   position: sticky;
   top: 0;
   width: 100%;
   z-index: 3;
+}
+
+.default-layout__app-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
 }
 </style>

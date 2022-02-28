@@ -24,7 +24,12 @@ const style = computed(() => ({
 </script>
 
 <template>
-  <transition name="slide" :appear="props.appear" :duration="props.duration">
+  <transition
+    name="slide"
+    mode="out-in"
+    :appear="props.appear"
+    :duration="props.duration"
+  >
     <div
       v-if="props.isVisible"
       class="slide-transition"
@@ -52,7 +57,7 @@ const style = computed(() => ({
   &.slide-transition--vertical {
     &.slide-enter-from,
     &.slide-leave-to {
-      transform: translateY(var(--slide-transition-distance));
+      transform: translateY(v-bind('style.distance'));
     }
   }
 }

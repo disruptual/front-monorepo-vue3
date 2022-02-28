@@ -3,8 +3,17 @@ export default { name: 'App' };
 </script>
 
 <script setup>
+import { reactive, provide } from 'vue';
 import { AppProvider } from '@dsp/core';
 import AppLoading from 'client/components/app-loader.vue';
+import ErrorBoundary from './components/error-boundary/index.vue';
+import FeatureControl from './components/feature-control/index.vue';
+import { CONTEXT_KEYS } from './utils/constants';
+import { VueQueryDevTools } from 'vue-query/devtools';
+
+const globalState = reactive({});
+provide(CONTEXT_KEYS.GLOBAL_STATE, globalState);
+const isProd = import.meta.env.PROD;
 </script>
 
 <template>
@@ -12,9 +21,22 @@ import AppLoading from 'client/components/app-loader.vue';
     <template #loading>
       <AppLoading />
     </template>
-
     <component :is="$route?.meta.layout">
-      <router-view :key="$route.path" />
+      <VueQueryDevTools v-if="!isProd" />
+      <dsp-toasts-container />
+      <ErrorBoundary>
+        <FeatureControl>
+          <router-view v-slot="{ Component, route }">
+            <div class="view-container">
+              <transition name="router-slide">
+                <div :key="route.path">
+                  <component :is="Component" />
+                </div>
+              </transition>
+            </div>
+          </router-view>
+        </FeatureControl>
+      </ErrorBoundary>
     </component>
   </AppProvider>
 </template>
@@ -41,5 +63,28 @@ import AppLoading from 'client/components/app-loader.vue';
 
 ul {
   list-style: none;
+}
+
+.view-container {
+  display: grid;
+  > * {
+    grid-column: 1;
+    grid-row: 1;
+    max-width: 100vw;
+    @include mobile-only {
+      transition: transform var(--transition-sm);
+    }
+  }
+}
+
+.router-slide-enter-from {
+  @include mobile-only {
+    transform: translateX(100%);
+  }
+}
+.router-slide-leave-to {
+  @include mobile-only {
+    transform: translateX(-100%);
+  }
 }
 </style>

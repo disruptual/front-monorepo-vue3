@@ -7,7 +7,6 @@ const props = defineProps({
   src: { type: String, default: null }
 });
 </script>
-});
 
 <template>
   <div v-if="!props.src" class="dsp-image__placeholder"></div>
@@ -17,5 +16,11 @@ const props = defineProps({
 <style lang="scss" scoped>
 .dsp-image__placeholder {
   @include loading-content;
+}
+
+.dsp-image {
+  display: block;
+  max-width: 100%;
+  object-fit: cover;
 }
 </style>

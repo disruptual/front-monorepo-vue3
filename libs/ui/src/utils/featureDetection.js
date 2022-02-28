@@ -1,4 +1,10 @@
+import { isBoolean } from '@dsp/core';
+
+let isFlexboxGapSupported;
+
 export const checkFlexGap = () => {
+  if (isBoolean(isFlexboxGapSupported)) return isFlexboxGapSupported;
+
   // create flex container with row-gap set
   var flex = document.createElement('div');
   flex.style.display = 'flex';
@@ -11,8 +17,8 @@ export const checkFlexGap = () => {
 
   // append to the DOM (needed to obtain scrollHeight)
   document.body.appendChild(flex);
-  var isSupported = flex.scrollHeight >= 1; // flex container should be 1px high from the row-gap
+  isFlexboxGapSupported = flex.scrollHeight >= 1; // flex container should be 1px high from the row-gap
   flex.parentNode.removeChild(flex);
 
-  return isSupported;
+  return isFlexboxGapSupported;
 };

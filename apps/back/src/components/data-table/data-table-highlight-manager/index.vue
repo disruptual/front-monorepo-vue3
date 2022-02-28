@@ -23,18 +23,66 @@ const props = defineProps({
 const emit = defineEmits(['update:isOpened']);
 
 const colors = [
-  { text: 'var(--color-red-600)', bg: 'var(--color-red-100)' },
-  { text: 'var(--color-red-50)', bg: 'var(--color-red-600)' },
-  { text: 'var(--color-orange-800)', bg: 'var(--color-orange-100)' },
-  { text: 'var(--color-orange-50)', bg: 'var(--color-orange-600)' },
-  { text: 'var(--color-blue-600)', bg: 'var(--color-blue-100)' },
-  { text: 'var(--color-blue-50)', bg: 'var(--color-blue-600)' },
-  { text: 'var(--color-green-700)', bg: 'var(--color-green-100)' },
-  { text: 'var(--color-green-50)', bg: 'var(--color-green-700)' },
-  { text: 'var(--color-teal-700)', bg: 'var(--color-teal-100)' },
-  { text: 'var(--color-teal-50)', bg: 'var(--color-teal-800)' },
-  { text: 'var(--color-purple-600)', bg: 'var(--color-purple-100)' },
-  { text: 'var(--color-purple-50)', bg: 'var(--color-purple-600)' }
+  {
+    text: 'var(--color-red-600)',
+    bg: 'var(--color-red-100)',
+    label: t('dataTable.highlights.colors.red')
+  },
+  {
+    text: 'var(--color-red-50)',
+    bg: 'var(--color-red-600)',
+    label: t('dataTable.highlights.colors.deepRed')
+  },
+  {
+    text: 'var(--color-orange-800)',
+    bg: 'var(--color-orange-100)',
+    label: t('dataTable.highlights.colors.orange')
+  },
+  {
+    text: 'var(--color-orange-50)',
+    bg: 'var(--color-orange-600)',
+    label: t('dataTable.highlights.colors.deepOrange')
+  },
+  {
+    text: 'var(--color-blue-600)',
+    bg: 'var(--color-blue-100)',
+    label: t('dataTable.highlights.colors.blue')
+  },
+  {
+    text: 'var(--color-blue-50)',
+    bg: 'var(--color-blue-600)',
+    label: t('dataTable.highlights.colors.deepBlue')
+  },
+  {
+    text: 'var(--color-green-700)',
+    bg: 'var(--color-green-100)',
+    label: t('dataTable.highlights.colors.green')
+  },
+  {
+    text: 'var(--color-green-50)',
+    bg: 'var(--color-green-700)',
+    label: t('dataTable.highlights.colors.deepGreen')
+  },
+  {
+    text: 'var(--color-teal-700)',
+    bg: 'var(--color-teal-100)',
+    label: t('dataTable.highlights.colors.teal')
+  },
+  {
+    text: 'var(--color-teal-50)',
+    bg: 'var(--color-teal-800)',
+    label: t('dataTable.highlights.colors.deepTeal')
+  },
+  {
+    text: 'var(--color-purple-600)',
+    bg: 'var(--color-purple-100)',
+    label: t('dataTable.highlights.colors.purple')
+  },
+  {
+    text: 'var(--color-purple-50)',
+    bg: 'var(--color-purple-600)',
+    label: t('dataTable.highlights.colors.deepPurple')
+  }
 ];
 
 const form = useForm({
@@ -42,6 +90,7 @@ const form = useForm({
     const highlight = toRaw({ ...values, column: selectedColumn.value });
     if (props.highlight) {
       Object.assign(props.highlight, highlight);
+      model.debouncedSavePreferences();
     } else {
       model.addHighlight(highlight);
     }
@@ -68,8 +117,7 @@ const initialValue = computed(() => ({
   value: props.highlight?.value ?? null
 }));
 
-const [, formActions] = form;
-const formValues = computed(() => formActions.values.value);
+const [, { values: formValues }] = form;
 const selectedColumn = computed(() =>
   model.columns.find(col => col.name === formValues.value.column)
 );
@@ -79,6 +127,14 @@ const operators = computed(() =>
 
 const isDateHighlight = computed(
   () => selectedColumn.value.type === DATATABLE_COLUMN_TYPES.DATE
+);
+
+const isEnumHighlight = computed(
+  () => selectedColumn.value.type === DATATABLE_COLUMN_TYPES.ENUM
+);
+
+const isBooleanHighlight = computed(
+  () => selectedColumn.value.type === DATATABLE_COLUMN_TYPES.BOOLEAN
 );
 </script>
 
@@ -150,14 +206,14 @@ const isDateHighlight = computed(
                 :key="operator"
                 :value="operator"
               >
-                {{ t(`dataTable.highlights.${operator}`) }}
+                {{ t(`dataTable.highlights.operators.${operator}`) }}
               </option>
             </select>
           </dsp-form-control>
         </dsp-smart-form-field>
 
         <dsp-smart-form-field
-          v-if="selectedColumn"
+          v-if="selectedColumn && !isBooleanHighlight"
           v-slot="slotProps"
           name="value"
           :initial-value="initialValue.value"
@@ -176,6 +232,21 @@ const isDateHighlight = computed(
               v-on="on"
               @click.stop
             />
+            <select
+              v-else-if="isEnumHighlight"
+              v-model="slotProps.field.value"
+              v-bind="formControlProps"
+              v-on="on"
+            >
+              <option disabled :value="null">Valeur</option>
+              <option
+                v-for="(option, index) in selectedColumn.enumValues"
+                :key="index"
+                :value="option.value"
+              >
+                {{ option.label }}
+              </option>
+            </select>
             <dsp-input-text
               v-else
               v-model="slotProps.field.value"
@@ -203,14 +274,14 @@ const isDateHighlight = computed(
               v-bind="formControlProps"
               v-on="on"
             >
-              <option disabled :value="null">Aa</option>
+              <option disabled :value="null">Couleur</option>
               <option
                 v-for="(color, index) in colors"
                 :key="index"
                 :value="color"
                 :style="{ color: color.text, backgroundColor: color.bg }"
               >
-                Aa
+                {{ color.label }}
               </option>
             </select>
           </dsp-form-control>

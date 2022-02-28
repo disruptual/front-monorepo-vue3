@@ -9,7 +9,13 @@ module.exports = {
   ],
   rules: {
     'no-unused-vars': 'off',
-    'vue/script-setup-uses-vars': 1
+    'vue/script-setup-uses-vars': 1,
+    'vue/no-unused-vars': [
+      'error',
+      {
+        ignorePattern: '^_'
+      }
+    ]
   },
   env: {
     node: true,

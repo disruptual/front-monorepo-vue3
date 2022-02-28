@@ -4,7 +4,6 @@ export default { name: 'DspDropdown' };
 
 <script setup>
 import { nextTick, ref, unref, watch, provide, computed } from 'vue';
-import { createPopper } from '@popperjs/core';
 import { KEYBOARD } from '@dsp/core';
 import { vClickOutside } from '@dsp/ui/directives/clickOutside';
 import { vFocusOutside } from '@dsp/ui/directives/focusOutside';
@@ -19,7 +18,8 @@ const props = defineProps({
   closeOnFocusOutside: { type: Boolean, default: true },
   closeOnClickOutside: { type: Boolean, default: true },
   as: { type: String, default: 'ul' },
-  withToggleIcon: { type: Boolean, default: false }
+  withToggleIcon: { type: Boolean, default: false },
+  toggleRef: { type: null, default: false }
 });
 const emit = defineEmits(['update:isOpened']);
 
@@ -30,6 +30,8 @@ const menuElement = ref(null);
 const toggleElement = ref(null);
 const popperInstance = ref(null);
 const focusedMenuElementIndex = ref(0);
+
+const toggleButton = computed(() => props.toggleRef || unref(toggleElement));
 
 const toggle = () => {
   emit('update:isOpened', !props.isOpened);
@@ -52,12 +54,15 @@ const focusCurrentItem = () => {
 
 const toggleMenu = isOpened => {
   if (isOpened) {
-    nextTick(() => {
+    nextTick(async () => {
+      const { createPopper } = await import('@popperjs/core');
       popperInstance.value = createPopper(
-        toggleElement.value,
+        toggleButton.value,
         menuElement.value,
         { placement: 'bottom' }
       );
+
+      focusFirstElement();
     });
   } else {
     popperInstance.value?.destroy?.();
@@ -88,10 +93,13 @@ const focusNextElement = () => {
 };
 
 const onKeyDown = e => {
+  const children = getFocusableChildren(toggleButton.value);
   switch (e.code) {
     case KEYBOARD.ESCAPE:
       e.stopPropagation();
-      return close();
+      close();
+      children[0]?.focus?.();
+      return;
     case KEYBOARD.ARROW_DOWN:
       e.preventDefault();
       return focusNextElement();
@@ -103,12 +111,25 @@ const onKeyDown = e => {
   }
 };
 
-const onClickOutside = () => {
+const onClickOutside = e => {
+  if (toggleButton.value.contains(e.target)) return;
   if (props.closeOnClickOutside) close();
 };
 
-const onFocusOutside = () => {
+const onFocusOutside = e => {
+  if (toggleButton.value.contains(e.target)) return;
   if (props.closeOnFocusOutside) close();
+
+  // FIXME auto focusing toggle on close causes problem with custom content in toggle slot
+  // see dsp-datepicker
+  // const children = getFocusableChildren(toggleButton.value);
+  // children[0]?.focus?.();
+};
+
+const onToggleMousedown = e => {
+  if (toggleButton.value.contains(document.activeElement)) {
+    toggle();
+  }
 };
 
 watch(() => unref(props.isOpened), toggleMenu);
@@ -119,12 +140,12 @@ provide(CONTEXT_KEYS.DROPDOWN, { toggle, close });
 
 <template>
   <div class="dropdown">
-    <div ref="toggleElement">
+    <div v-if="!toggleRef" ref="toggleElement">
       <dsp-plain-button
         class="dropdown-toggle"
         type="button"
-        @click="toggle"
         @keyup.enter="focusFirstElement"
+        @click="toggle"
       >
         <slot name="toggle" />
 

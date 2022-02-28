@@ -3,7 +3,6 @@ import {
   toProps as toMappedProps,
   toConfig
 } from '@dsp/core/types/schemaValidation';
-import * as foo from '@dsp/core/types/schemaValidation';
 import { types } from '@dsp/core/types/helpers';
 import { useAppContext } from '@dsp/core/hooks';
 
@@ -31,11 +30,15 @@ export const createComponentSchema = (name, schema) => {
     const attrs = useAttrs();
     const config = toContext(props);
     const variantComponent = shallowRef(null);
-    const variantProps = computed(() => ({
-      ...attrs,
-      ...props,
-      ...config.value
-    }));
+    const variantProps = computed(() => {
+      const { variant, ...otherProps } = {
+        ...attrs,
+        ...props,
+        ...config.value
+      };
+
+      return otherProps;
+    });
 
     watchEffect(async () => {
       const module = await config.value.variant();

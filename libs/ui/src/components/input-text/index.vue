@@ -8,12 +8,14 @@ export default {
 <script setup>
 import { computed } from 'vue';
 import { useReadableColor } from '@dsp/ui/hooks/useReadableColor';
+import { noop } from '@dsp/core';
 
 const emit = defineEmits(['update:modelValue']);
 const props = defineProps({
-  modelValue: { type: String, default: null },
+  modelValue: { type: [String, Number], default: null },
   leftIcon: { type: String, default: null },
-  rightIcon: { type: String, default: null }
+  rightIcon: { type: String, default: null },
+  inputRef: { type: Function, default: noop }
 });
 
 const model = computed({
@@ -31,12 +33,16 @@ const textColor = useReadableColor('--color-surface');
 <template>
   <div class="dsp-input-text">
     <slot name="left-icon">
-      <dsp-icon v-if="props.leftIcon" :icon="props.leftIcon" class="icon" />
+      <div v-if="props.leftIcon" class="icon">
+        <dsp-icon :icon="props.leftIcon" />
+      </div>
     </slot>
-    <input v-model="model" v-bind="$attrs" />
+    <input :ref="inputRef" v-model="model" v-bind="$attrs" />
 
     <slot name="right-icon">
-      <dsp-icon v-if="props.rightIcon" :icon="props.rightIcon" class="icon" />
+      <div v-if="props.rightIcon" class="icon">
+        <dsp-icon :icon="props.rightIcon" />
+      </div>
     </slot>
   </div>
 </template>

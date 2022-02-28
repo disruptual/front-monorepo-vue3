@@ -1,9 +1,9 @@
 const clones = new WeakMap();
 
+const isEmpty = el => [...el.childNodes].every(node => !node.textContent);
 export const vLazyText = {
   mounted(el) {
-    const childNodes = [...el.childNodes];
-    if (childNodes.every(node => !node.textContent)) {
+    if (isEmpty(el)) {
       if (clones.get(el)) return;
       clones.set(el, document.createTextNode('\u200b'));
       el.parentNode.insertBefore(clones.get(el), el);
@@ -14,8 +14,7 @@ export const vLazyText = {
   },
 
   updated(el) {
-    const childNodes = [...el.childNodes];
-    if (childNodes.every(node => !node.textContent)) {
+    if (isEmpty(el)) {
       if (clones.get(el)) return;
       clones.set(el, document.createTextNode('\u200b'));
       el.parentNode.insertBefore(clones.get(el), el);

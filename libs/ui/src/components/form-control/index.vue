@@ -3,26 +3,39 @@ export default { name: 'DspFormControl', inheritAttrs: false };
 </script>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, useAttrs } from 'vue';
 import { makeRandomId } from '@dsp/core';
 import { vTooltip } from '@dsp/ui/directives/tooltip';
 import { useI18n } from 'vue-i18n';
 import schema from './index.schema';
 
-defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue']);
 const props = defineProps({
   modelValue: { type: null, required: true },
-  field: { type: Object, required: true },
+  field: { type: Object, default: () => ({ listeners: {}, errors: [] }) },
   label: { type: [String, null], default: null },
   ...schema.toProps()
 });
+const attrs = useAttrs();
 const context = schema.toContext(props);
 const { t } = useI18n();
 
 const id = makeRandomId(6);
 const isRequired = computed(() =>
-  Object.keys(props.field.errors).includes('required')
+  Object.keys(props.field?.errors).includes('required')
 );
+
+const slotBindings = computed(() => ({
+  on: {
+    ...(props.field?.listeners || {}),
+    'update:modelValue'(val) {
+      emit('update:modelValue', val);
+    }
+  },
+  modelValue: props.modelValue,
+  id,
+  ...attrs
+}));
 </script>
 
 <template>
@@ -39,18 +52,18 @@ const isRequired = computed(() =>
       </label>
     </slot>
 
-    <slot v-bind="{ id, on: field.listeners, ...$attrs }">
+    <slot v-bind="slotBindings">
       <dsp-input-text
         :id="id"
         :model-value="modelValue"
         v-bind="$attrs"
         @update:modelValue="$emit('update:modelValue', $event)"
-        v-on="field.listeners"
+        v-on="field?.listeners"
       />
     </slot>
 
     <dsp-form-error
-      v-for="(error, key) in field.errors"
+      v-for="(error, key) in field?.errors"
       :key="key"
       :error="error"
     />

@@ -6,14 +6,17 @@ export function createQueryClient() {
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
-        staleTime: 30000,
+        staleTime: 30 * 1000,
         retry: false,
         notifyOnChangeProps: 'tracked',
         onSuccess(data) {
           if (!data) return;
+
           if (!(data instanceof Collection)) return;
           const rawJson = data.toJSON();
           rawJson['hydra:member'].forEach(entity => {
+            if (!entity['@id']) return;
+
             queryClient.setQueryData(entity['@id'], entity);
           });
         }

@@ -18,21 +18,19 @@ const error = computed(() => props.query.error.value);
 </script>
 
 <template>
-  <div class="query-loader">
-    <slot v-if="isLoading" name="loader">
-      <dsp-flex justify="center" align="center" class="loader">
-        <dsp-loader size="xl" />
-      </dsp-flex>
-    </slot>
+  <slot v-if="isLoading" name="loader">
+    <dsp-flex justify="center" align="center" class="loader">
+      <dsp-loader size="xl" />
+    </dsp-flex>
+  </slot>
 
-    <slot v-else-if="error" name="error" :error="error">
-      Oops, an error has occured.
-    </slot>
+  <slot v-else-if="error" name="error" :error="error">
+    Oops, an error has occured.
+  </slot>
 
-    <slot v-else-if="!data" name="no-result">No Result.</slot>
+  <slot v-else-if="!data" name="no-result">No Result.</slot>
 
-    <slot v-else-if="data" :entity="data" />
-  </div>
+  <slot v-else-if="data" :entity="data" />
 </template>
 
 <style lang="scss" scoped>

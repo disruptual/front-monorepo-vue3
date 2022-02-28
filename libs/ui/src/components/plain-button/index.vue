@@ -5,14 +5,18 @@ export default {
 </script>
 
 <script setup>
+import { noop } from '@dsp/core';
+
 defineProps({
-  to: { type: Object, default: null }
+  to: { type: [String, Object], default: null },
+  buttonRef: { type: Function, default: noop }
 });
 </script>
 
 <template>
   <component
     :is="to ? 'router-link' : 'button'"
+    :ref="buttonRef"
     class="dsp-plain-button"
     :to="to"
   >
@@ -31,16 +35,18 @@ defineProps({
   color: inherit;
   text-decoration: none;
 
-  &:hover {
-    color: var(--color-brand-500);
+  &:not(:disabled) {
+    &:hover {
+      color: var(--color-brand-500);
+    }
+
+    &:focus-visible {
+      background-color: var(--color-brand-100);
+      outline: none;
+    }
   }
 
-  &:focus-visible {
-    background-color: var(--color-brand-quarter);
-    outline: none;
-  }
-
-  [disabled] {
+  &:disabled {
     color: var(--color-text-disabled);
     cursor: default;
   }

@@ -36,7 +36,7 @@ const context = schema.toContext(props);
 
 <style lang="scss" scoped>
 .back-link {
-  padding: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
   background-color: v-bind('context.bgColor');
 
   > button {

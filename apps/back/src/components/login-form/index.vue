@@ -1,22 +1,26 @@
 <script setup>
-import { useAuth } from '@dsp/core/hooks';
+import { ref } from 'vue';
+import { useAuth } from '@dsp/core';
 import { VALIDATION_MODES } from '@dsp/ui';
+import { useI18n } from 'vue-i18n';
 
 const emit = defineEmits(['success']);
+const { t } = useI18n();
 const { login, authenticate } = useAuth();
 
-const onSubmit = async values => {
-  try {
+const submitError = ref(null);
+
+const formOptions = {
+  async onSubmit(values) {
     await login(values);
     await authenticate();
     emit('success');
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-const formOptions = {
-  onSubmit,
+  },
+  onError(error) {
+    console.error(error);
+    const status = error.response?.status ?? 'generic';
+    submitError.value = t(`login.error.${status}`);
+  },
   mode: VALIDATION_MODES.ON_BLUR
 };
 </script>
@@ -38,16 +42,20 @@ const formOptions = {
         label="Mot de passe"
         v-bind="slotProps"
       >
-        <dsp-input-password
-          v-model="slotProps.field.value"
-          v-bind="formControlProps"
-          v-on="on"
-        />
+        <dsp-input-password v-bind="formControlProps" v-on="on" />
       </dsp-form-control>
     </dsp-smart-form-field>
 
     <dsp-flex direction="row-reverse" justify="space-between">
       <dsp-smart-form-submit>Submit</dsp-smart-form-submit>
     </dsp-flex>
+
+    <dsp-form-error :error="submitError" class="submit-error" />
   </dsp-smart-form>
 </template>
+
+<style scoped lang="scss">
+.submit-error {
+  margin-top: var(--spacing-sm);
+}
+</style>
