@@ -21,7 +21,7 @@ export const createComponentSchema = (name, schema) => {
   }
 
   function toVariantProps() {
-    const { variant, ...props } = toProps(name, schema);
+    const { variant, ...props } = toProps(name, schema, { isVariant: true });
 
     return props;
   }

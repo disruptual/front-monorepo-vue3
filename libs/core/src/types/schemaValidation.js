@@ -64,7 +64,7 @@ export const toConfig = (name, schema, config, props) => {
   return Object.fromEntries(entries);
 };
 
-export const toProps = (name, schema) => {
+export const toProps = (name, schema, { isVariant = false } = {}) => {
   const definition = schema(helpers);
 
   const entries = Object.entries(definition).map(([key, schema]) => [
@@ -74,7 +74,12 @@ export const toProps = (name, schema) => {
       validator(value) {
         return _validateValue(name, key, schema, value);
       },
-      default: undefined
+      default: _normalizeValue(
+        name,
+        key,
+        schema,
+        isVariant ? schema.default : undefined
+      )
     }
   ]);
 
