@@ -7,7 +7,7 @@ import { inject, ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { debounce } from 'lodash-es';
 import { CONTEXT_KEYS } from '@/utils/constants';
-import { useDevice, vTooltip } from '@dsp/ui';
+import { useDevice } from '@dsp/ui';
 
 import DataTableFilterDrawer from '../data-table-filter-drawer/index.vue';
 import DataTableHighlightManager from '../data-table-highlight-manager/index.vue';
@@ -76,13 +76,13 @@ const onUpdateHighlight = () => {
         <dsp-plain-button
           v-for="action in model.rowActions"
           :key="action.label"
-          v-tooltip="action.label"
           :disabled="isActionDisabled(action)"
           @click="triggerAction(action)"
         >
-          <span v-tooltip="action.label">
+          <dsp-flex gap="sm">
             <dsp-icon :icon="action.icon" />
-          </span>
+            <span v-if="device.isDesktop">{{ action.label }}</span>
+          </dsp-flex>
         </dsp-plain-button>
 
         <DataTableFilterDrawer v-if="model.filterableColumns.length > 0" />
@@ -94,9 +94,10 @@ const onUpdateHighlight = () => {
           with-toggle-icon
         >
           <template #toggle>
-            <span v-tooltip="'Colonnes'">
+            <dsp-flex gap="sm">
               <dsp-icon icon="columns" />
-            </span>
+              <span v-if="device.isDesktop">Colonnes</span>
+            </dsp-flex>
           </template>
           <template #menu>
             <dsp-dropdown-item
@@ -118,9 +119,10 @@ const onUpdateHighlight = () => {
           with-toggle-icon
         >
           <template #toggle>
-            <span v-tooltip="'Surlignages'">
+            <dsp-flex gap="sm">
               <dsp-icon icon="highlight" />
-            </span>
+              <span v-if="device.isDesktop">Surlignages</span>
+            </dsp-flex>
           </template>
           <template #menu>
             <dsp-dropdown-item

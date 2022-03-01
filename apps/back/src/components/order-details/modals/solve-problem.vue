@@ -27,15 +27,16 @@ const form = useForm({
 });
 const [, { values: formValues }] = form;
 
-const remainingPrices = computed(() => {
-  const { buyerPrice, buyerFees, buyerDelivery } = formValues.value;
-
-  return {
-    items: (props.order.itemsAmount - buyerPrice).toFixed(2),
-    fees: (props.order.serviceFeeAmount - buyerFees).toFixed(2),
-    delivery: (props.order.deliveryPrice - buyerDelivery).toFixed(2)
-  };
-});
+const getRemaining = (total, spent) => (total - (spent ?? 0)).toFixed(2);
+const remainingItemsAmount = computed(() =>
+  getRemaining(props.order.itemsAmount, formValues.value.buyerPrice)
+);
+const remainingFeesAmount = computed(() =>
+  getRemaining(props.order.serviceFeeAmount, formValues.value.buyerFees)
+);
+const remainingDeliveryAmount = computed(() =>
+  getRemaining(props.order.deliveryPrice, formValues.value.buyerDelivery)
+);
 
 const remunerationOptions = computed(() =>
   remunerations.value?.map?.(rem => ({
@@ -59,7 +60,7 @@ const remunerationOptions = computed(() =>
             <legend>Montants Commande</legend>
             <dsp-form-control
               v-slot="{ on, ...formControlProps }"
-              :model-value="remainingPrices.items"
+              :model-value="remainingItemsAmount"
               label="Montant des articles"
             >
               <dsp-input-text
@@ -72,7 +73,7 @@ const remunerationOptions = computed(() =>
 
             <dsp-form-control
               v-slot="{ on, ...formControlProps }"
-              :model-value="remainingPrices.fees"
+              :model-value="remainingFeesAmount"
               label="Frais de service"
             >
               <dsp-input-text
@@ -85,7 +86,7 @@ const remunerationOptions = computed(() =>
 
             <dsp-form-control
               v-slot="{ on, ...formControlProps }"
-              :model-value="remainingPrices.delivery"
+              :model-value="remainingDeliveryAmount"
               label="Frais de livraison"
             >
               <dsp-input-text

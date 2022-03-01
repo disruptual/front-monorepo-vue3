@@ -70,7 +70,7 @@ watch(focusRef, newVal => {
           @click="$emit('close')"
         />
         <div v-click-outside="onClose" class="content">
-          <dsp-surface ref="contentEl">
+          <dsp-surface v-if="isOpened" ref="contentEl">
             <slot :focus-ref="el => (focusRef = el)" />
           </dsp-surface>
         </div>

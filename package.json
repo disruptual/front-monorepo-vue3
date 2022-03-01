@@ -19,12 +19,15 @@
     "core": "yarn workspace @dsp/core",
     "business": "yarn workspace @dsp/business",
     "devtools": "yarn workspace @dsp/devtools",
-    "build:back": "yarn back build"
+    "build:back": "yarn back build",
+    "gen:resource": "node scripts/addResource.js"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.15.7"
   },
   "dependencies": {
-    "husky": "^7.0.4"
+    "fs-extra": "^10.0.1",
+    "husky": "^7.0.4",
+    "yargs": "^17.3.1"
   }
 }
