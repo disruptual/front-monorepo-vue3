@@ -36,7 +36,7 @@ import { BaseCRUDService } from './BaseCRUD.service';
 export class ${namePascalCased}Service extends BaseCRUDService {
   constructor(...args) {
     super(...args);
-    this.endpoint = '/${nameSnakeCased}';
+    this.endpoint = '/${nameSnakeCased}s';
   }
 }
 `;
@@ -46,7 +46,7 @@ import { ${namePascalCased}, ${namePascalCased}Service } from '@dsp/business';
 import { useCRUDApi } from '../useCRUDApi';
 
 export function use${namePascalCased}Api() {
-  return useCRUDApi({ model: ${nameCamelCased}, service: ${namePascalCased}Service });
+  return useCRUDApi({ model: ${namePascalCased}, service: ${namePascalCased}Service });
 }
 `;
 
@@ -65,15 +65,15 @@ createFile(hookPath, hook);
 
 const modelIndexPath = path.join(
   process.cwd(),
-  'libs/business/src/models/index.s'
+  'libs/business/src/models/index.js'
 );
 const serviceIndexPath = path.join(
   process.cwd(),
-  'libs/business/src/services/index.s'
+  'libs/business/src/services/index.js'
 );
 const hookIndexPath = path.join(
   process.cwd(),
-  'libs/core/src/hooks/api/index.s'
+  'libs/core/src/hooks/api/index.js'
 );
 fs.appendFileSync(
   modelIndexPath,
