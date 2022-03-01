@@ -3,31 +3,64 @@ export default { name: 'RecommendedBrand' };
 </script>
 
 <script setup>
-import { computed } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRecommendationApi } from '@dsp/core';
+import { useRecommendedBrandApi } from '@dsp/core';
 import { Brand } from '@dsp/business';
 
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
+import DataTableCustomAction from '@/components/data-table/data-table-custom-action/index.vue';
+import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
+import RecommendedBrandModal from '@/components/home-blocks/modal/brand/index.vue';
 
 const { t } = useI18n();
+const isRecommendedBrandModalOpened = ref(false);
+const { findAllQuery, deleteMutation } = useRecommendedBrandApi();
+const queryRecommendedBrands = findAllQuery();
+const { mutateAsync: deleteRecommendedBrand } = deleteMutation({
+  onSuccess() {
+    queryRecommendedBrands.refetch.value();
+  }
+});
 
-const query = useRecommendationApi().findAllRecommendedBrands();
-
-const sortData = data => {
-  return data?.slice().sort((a, b) => a.position - b.position);
+const sortData = data => data?.slice().sort((a, b) => a.position - b.position);
+const onDelete = row => {
+  row?.map(({ id }) => deleteRecommendedBrand(id));
 };
 </script>
 
 <template>
   <DataTable
     id="recommended-brand"
-    :query="query"
+    :query="queryRecommendedBrands"
     :min-row-size="40"
-    :has-selector-column="false"
     :sort-data-fn="sortData"
   >
-    <DataTableColumn name="id" :label="t('dataTable.label.id')" />
+    <DataTableColumn name="brand.name" :label="t('dataTable.label.brand')" />
+
+    <DataTableColumn name="brand" :label="t('dataTable.label.numbArticles')">
+      en attente dev back
+    </DataTableColumn>
+
+    <DataTableRowAction
+      name="delete"
+      :label="t('dataTable.label.delete')"
+      icon="trash"
+      @action="onDelete"
+    />
+
+    <DataTableCustomAction
+      label="Ajouter"
+      icon="add"
+      :action="() => (isRecommendedBrandModalOpened = true)"
+    />
   </DataTable>
+
+  <RecommendedBrandModal
+    :is-opened="isRecommendedBrandModalOpened"
+    :recommended-brand="queryRecommendedBrands.data"
+    @close="isRecommendedBrandModalOpened = false"
+    @success="queryRecommendedBrands.refetch.value()"
+  />
 </template>

@@ -3,37 +3,43 @@ export default { name: 'RecommendedUser' };
 </script>
 
 <script setup>
-import { computed } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRecommendationApi } from '@dsp/core';
+import { useRecommendedUserApi } from '@dsp/core';
 import { User } from '@dsp/business';
 
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
+import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
 import DataTableCustomAction from '@/components/data-table/data-table-custom-action/index.vue';
+import RecommendedUserModal from '@/components/home-blocks/modal/user/index.vue';
 
 const { t } = useI18n();
+const isRecommendedUserModalOpened = ref(false);
+const NOTE_DENOMINATOR = 5;
 
-const query = useRecommendationApi().findAllRecommendedUsers();
-const { mutateAsync: updateRecommendedUser } =
-  useRecommendationApi().recommendedUsersMutation();
+const { deleteMutation, findAllQuery } = useRecommendedUserApi();
+const queryRecommendedUsers = findAllQuery();
+const { mutateAsync: deleteRecommendedUser } = deleteMutation({
+  onSuccess() {
+    queryRecommendedUsers.refetch.value();
+  }
+});
 
-const addRecommendedUser = () => {
-  console.log('Add recommended User');
-  // updateRecommendedUser({ id: recommended.id, position: recommended.position, });
-};
-
-const sortData = data => {
-  return data?.slice().sort((a, b) => a.position - b.position);
+const sortData = data => data?.slice().sort((a, b) => a.position - b.position);
+const displayUserNote = note =>
+  note ? `${note}/${NOTE_DENOMINATOR}` : t('dataTable.label.noValue');
+const onAdd = () => (isRecommendedUserModalOpened.value = true);
+const onDelete = row => {
+  row?.map(({ id }) => deleteRecommendedUser(id));
 };
 </script>
 
 <template>
   <DataTable
     id="recommended-user"
-    :query="query"
+    :query="queryRecommendedUsers"
     :min-row-size="40"
-    :has-selector-column="false"
     :sort-data-fn="sortData"
   >
     <DataTableColumn
@@ -45,25 +51,35 @@ const sortData = data => {
         <dsp-avatar :user="new User(row.user)" />
       </dsp-center>
     </DataTableColumn>
-    <DataTableColumn name="id" :label="t('dataTable.label.id')" width="80" />
+    <DataTableColumn name="user.slug" :label="t('dataTable.label.slug')">
+      En cours de dev back
+    </DataTableColumn>
     <DataTableColumn
       name="user.username"
       :label="t('dataTable.label.username')"
-      width="80"
     />
     <DataTableColumn
       v-slot="{ row }"
       name="user.ratingAverage"
       :label="t('dataTable.label.note')"
-      width="80"
     >
-      {{ row.user.ratingAverage + '/5' }}
+      {{ displayUserNote(row.user.ratingAverage) }}
     </DataTableColumn>
 
-    <DataTableCustomAction
-      label="Ajouter"
-      icon="add"
-      :action="addRecommendedUser"
+    <DataTableRowAction
+      name="delete"
+      :label="t('dataTable.label.delete')"
+      icon="trash"
+      @action="onDelete"
     />
+
+    <DataTableCustomAction label="Ajouter" icon="add" :action="onAdd" />
   </DataTable>
+
+  <RecommendedUserModal
+    :is-opened="isRecommendedUserModalOpened"
+    :recommended-user="queryRecommendedUsers.data"
+    @close="isRecommendedUserModalOpened = false"
+    @success="queryRecommendedUsers.refetch.value()"
+  />
 </template>

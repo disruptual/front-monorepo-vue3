@@ -17,4 +17,7 @@ export * from './useMediaApi';
 export * from './useCarouselItemApi';
 export * from './useReviewApi';
 export * from './useCmsPageApi';
-export * from './useRecommendationApi';
+export * from './useBrandApi';
+export * from './useRecommendedUserApi';
+export * from './useRecommendedCategoryApi';
+export * from './useRecommendedBrandApi';

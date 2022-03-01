@@ -17,4 +17,7 @@ export * from './Media.service';
 export * from './CarouselItem.service';
 export * from './Review.service';
 export * from './CmsPage.service';
-export * from './Recommendation.service';
+export * from './Brand.service';
+export * from './RecommendedBrand.service';
+export * from './RecommendedUser.service';
+export * from './RecommendedCategory.service';

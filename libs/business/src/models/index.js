@@ -31,3 +31,6 @@ export { Media } from './Media.model';
 export { CarouselItem } from './CarouselItem.model';
 export { Review } from './Review.model';
 export { CmsPage } from './CmsPage.model';
+export { RecommendedUser } from './RecommendedUser.model';
+export { RecommendedBrand } from './RecommendedBrand.model';
+export { RecommendedCategory } from './RecommendedCategory.model';
