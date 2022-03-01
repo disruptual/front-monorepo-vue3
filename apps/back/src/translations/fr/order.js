@@ -100,7 +100,7 @@ export default {
       [ORDER_STATE_TRANSITIONS.VALIDATION_BY_ORDER_ACCEPTED]: 'Finalisée',
       [ORDER_STATE_TRANSITIONS.VALIDATION_BY_SENT]: 'Finalisée',
       [ORDER_PROBLEM_STATES.PROBLEM]: 'Litige en cours',
-      [ORDER_PROBLEM_STATES.DISPUTED]: 'Litige en cours',
+      [ORDER_PROBLEM_STATES.DISPUTED]: 'Litige en cours (service client)',
       [ORDER_PROBLEM_STATE_TRANSITIONS.INIT_PROBLEM]: 'Litige en cours',
       [ORDER_PROBLEM_STATE_TRANSITIONS.PROBLEM_IS_SOLVED_BY_USERS]:
         'Litige résolu',

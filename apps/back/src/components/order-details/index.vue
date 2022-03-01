@@ -54,7 +54,7 @@ const buyerLabel = computed(() =>
         >
           <div>{{ t(`order.status.${order.status}`) }}</div>
           <dsp-flex
-            v-if="order.hasProblem"
+            v-if="order.isDisputed"
             gap="sm"
             class="problem-buttons"
             align="center"
@@ -217,6 +217,7 @@ const buyerLabel = computed(() =>
     :is-opened="openedModal === MODALS.SOLVE"
     :order="order"
     @close="openedModal = null"
+    @success="emit('update')"
   />
 </template>
 

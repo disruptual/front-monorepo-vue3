@@ -7,7 +7,7 @@ import { useAttrs } from 'vue';
 import { useButton } from './index';
 import schema from '../index.schema';
 import { vReadableColor } from '@dsp/ui/directives';
-import { oneOf } from '@dsp/core';
+import { oneOf, noop } from '@dsp/core';
 
 const props = defineProps({
   isFullWidth: { type: Boolean, default: false },
@@ -16,6 +16,7 @@ const props = defineProps({
   rightIcon: { type: String, default: null },
   size: oneOf(['sm', 'md', 'lg'], 'md'),
   colorScheme: { type: String, default: 'brand' },
+  buttonRef: { type: Function, default: noop },
   ...schema.toVariantProps()
 });
 
@@ -24,7 +25,13 @@ const { is, classes, colors } = useButton(props, attrs);
 </script>
 
 <template>
-  <component :is="is" v-readable-color class="dsp-button" :class="classes">
+  <component
+    :is="is"
+    :ref="props.buttonRef"
+    v-readable-color
+    class="dsp-button"
+    :class="classes"
+  >
     <slot name="left-icon">
       <dsp-icon v-if="props.leftIcon" class="icon-left" :icon="leftIcon" />
     </slot>

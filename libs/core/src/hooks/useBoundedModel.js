@@ -54,11 +54,20 @@ export function useBoundedModel(query, { queryKey, model, relations = [] }) {
 
   const queriesDefinitions = computed(() => {
     return createQueries(instance.value, {
+      queryClient: queryClient,
       fetcher: uri => http.get(uri),
       relations: unref(allRelations),
       onSettled: () => {
         rebindReasons.push(REBIND_REASONS.CHILD_QUERY_HAVE_SETTLED);
         debouncedBindQuery();
+      },
+      onRelationLoaded: (relation, uri) => {
+        if (Array.isArray(instance.value)) {
+          const entity = instance.value.find(entity => entity.uri === uri);
+          entity?.[`_${relation}LazyResolve`]?.();
+        } else {
+          instance.value?.[`_${relation}LazyResolve`]?.();
+        }
       }
     });
   });

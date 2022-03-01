@@ -35,7 +35,7 @@ const { mutate: cancelDispute, isLoading } =
   <dsp-modal :is-opened="isOpened" @close="$emit('close')">
     <h4 class="order-dispute-cancel_title">Annuler le litige</h4>
     <p class="order-dispute-cancel_subtitle">
-      Êtes vous sûrs de vouloir annuler le litige en cours ?
+      Êtes vous sûr de vouloir annuler le litige en cours ?
     </p>
     <dsp-flex justify="flex-end" gap="md">
       <dsp-button is-outlined @click="$emit('close')">

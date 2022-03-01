@@ -53,7 +53,7 @@ useEventListener('keydown', e => {
 
   switch (e.key) {
     case KEYBOARD.ARROW_DOWN:
-      if (model.focusedRowIndex === model.currentRowCount) return;
+      if (model.focusedRowIndex === props.query.data?.length) return;
       e.preventDefault();
       model.focusedRowIndex++;
       break;

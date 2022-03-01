@@ -44,14 +44,11 @@ watch(
     // We need a small timeout because sometimes on the next tick the modal content won't be fully loaded into the DOM
     setTimeout(() => {
       const children = getFocusableChildren(contentEl.value.$el);
-      children[0]?.focus?.();
+      const elementToFocus = focusRef.value ?? children[0];
+      elementToFocus?.focus?.();
     }, 50);
   }
 );
-
-watch(focusRef, newVal => {
-  newVal?.focus?.();
-});
 </script>
 
 <template>

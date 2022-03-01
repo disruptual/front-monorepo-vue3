@@ -6,25 +6,47 @@ export default { name: 'SolveProblemModal' };
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Order } from '@dsp/business';
-import { useRemunerationApi } from '@dsp/core';
-import { useForm, VALIDATION_MODES } from '@dsp/ui';
+import { useRemunerationApi, useOrderProblemApi, formatPrice } from '@dsp/core';
+import { useForm, useToast, VALIDATION_MODES } from '@dsp/ui';
 
 const props = defineProps({
   order: { type: Order, required: true },
   isOpened: { type: Boolean, required: true }
 });
 
-defineEmits(['close']);
+const emit = defineEmits(['close', 'success']);
 
 const { t } = useI18n();
+const { showSuccess, showError } = useToast();
+
 const { data: remunerations } = useRemunerationApi().findAllQuery();
+const { mutateAsync: solveProblem } = useOrderProblemApi().solveMutation({
+  onSuccess() {
+    emit('close');
+    emit('success');
+    showSuccess('Litige résolu');
+  },
+  onError(err) {
+    console.error(err);
+    showError('Erreur lors de la résolution du litige');
+  }
+});
 
 const form = useForm({
   mode: VALIDATION_MODES.ON_INPUT,
-  onSubmit(values) {
-    console.log(values);
+  async onSubmit(values) {
+    const { buyerPrice, buyerFees, buyerDelivery, ...rest } = values;
+
+    return solveProblem({
+      id: (await props.order.orderProblems)[0].id,
+      entity: {
+        ...rest,
+        refundAmount: refundTotalAmount.value
+      }
+    });
   }
 });
+
 const [, { values: formValues }] = form;
 
 const getRemaining = (total, spent) => (total - (spent ?? 0)).toFixed(2);
@@ -38,10 +60,15 @@ const remainingDeliveryAmount = computed(() =>
   getRemaining(props.order.deliveryPrice, formValues.value.buyerDelivery)
 );
 
+const refundTotalAmount = computed(() => {
+  const { value } = formValues;
+  return value.buyerPrice + value.buyerFees + value.buyerDelivery;
+});
+
 const remunerationOptions = computed(() =>
   remunerations.value?.map?.(rem => ({
     label: t(`remuneration.${rem.remunerationName}`),
-    value: rem.id
+    value: rem.remunerationName
   }))
 );
 </script>
@@ -54,7 +81,7 @@ const remunerationOptions = computed(() =>
   >
     <h4>Clôre le litige</h4>
     <dsp-smart-form :form="form">
-      <dsp-grid :columns="2" gap="lg">
+      <dsp-grid columns="repeat(2, 300px)" gap="lg">
         <dsp-grid-item>
           <fieldset>
             <legend>Montants Commande</legend>
@@ -114,7 +141,6 @@ const remunerationOptions = computed(() =>
                 label="Montant des articles"
               >
                 <dsp-input-text
-                  :input-ref="focusRef"
                   v-bind="formControlProps"
                   right-icon="euroSign"
                   type="number"
@@ -168,9 +194,11 @@ const remunerationOptions = computed(() =>
               </dsp-form-control>
             </dsp-smart-form-field>
 
+            <small>Total: {{ formatPrice(refundTotalAmount) }}</small>
+
             <dsp-smart-form-field
               v-slot="slotProps"
-              name="buyerGesture"
+              name="buyerCommercialGestureAmount"
               :initial-value="0"
             >
               <dsp-form-control
@@ -191,12 +219,11 @@ const remunerationOptions = computed(() =>
 
             <dsp-smart-form-field
               v-slot="slotProps"
-              name="buyerRemuneration"
-              :initial-value="remunerations[0].id"
-              :max="order.serviceFeeAmount"
+              name="buyerCommercialGestureRemuneration"
+              :initial-value="remunerations[0].remunerationName"
             >
               <dsp-radio-group
-                v-model.number="slotProps.field.value"
+                v-model="slotProps.field.value"
                 :values="remunerationOptions"
                 row
               />
@@ -208,7 +235,7 @@ const remunerationOptions = computed(() =>
 
             <dsp-smart-form-field
               v-slot="slotProps"
-              name="sellerGesture"
+              name="sellerCommercialGestureAmount"
               :initial-value="0"
             >
               <dsp-form-control
@@ -229,12 +256,11 @@ const remunerationOptions = computed(() =>
 
             <dsp-smart-form-field
               v-slot="slotProps"
-              name="sellerRemuneration"
-              :max="order.serviceFeeAmount"
-              :initial-value="remunerations[0].id"
+              name="sellerCommercialGestureRemuneration"
+              :initial-value="remunerations[0].remunerationName"
             >
               <dsp-radio-group
-                v-model.number="slotProps.field.value"
+                v-model="slotProps.field.value"
                 :values="remunerationOptions"
                 row
               />
@@ -242,8 +268,10 @@ const remunerationOptions = computed(() =>
           </fieldset>
         </dsp-grid-item>
       </dsp-grid>
-      <dsp-flex justify="flex-end" gap="md">
-        <dsp-button type="button" is-outlined>{{ t('cancel') }}</dsp-button>
+      <dsp-flex as="footer" justify="flex-end" gap="md">
+        <dsp-button type="button" :button-ref="focusRef" is-outlined>
+          {{ t('cancel') }}
+        </dsp-button>
         <dsp-smart-form-submit>
           {{ t('validate') }}
         </dsp-smart-form-submit>
@@ -256,8 +284,13 @@ const remunerationOptions = computed(() =>
 fieldset {
   border: 0;
   padding: 0;
-  margin: 0 0 var(--spacing-xl);
   min-width: 0;
+  margin-bottom: var(--spacing-xl);
+}
+
+small {
+  display: block;
+  margin: var(--spacing-md) 0;
 }
 
 legend {

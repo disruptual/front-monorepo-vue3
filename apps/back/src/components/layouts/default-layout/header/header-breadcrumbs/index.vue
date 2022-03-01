@@ -54,6 +54,10 @@ a {
   &:hover {
     background-color: var(--color-brand-600);
   }
+
+  &:focus {
+    background-color: var(--color-brand-700);
+  }
 }
 
 .home-entry {

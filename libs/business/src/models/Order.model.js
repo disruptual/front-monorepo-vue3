@@ -16,6 +16,7 @@ import { Remuneration } from './Remuneration.model';
 import { Store } from './Store.model';
 import { OrderStateHisto } from './OrderStateHisto.model';
 import { DeliveryStateHisto } from './DeliveryStateHisto.model';
+import { OrderProblem } from './OrderProblem.model';
 
 export class Order extends BaseModel {
   static get relations() {
@@ -64,6 +65,11 @@ export class Order extends BaseModel {
         name: 'deliveryStateHistos',
         getUri: entity => entity._deliveryStateHistos,
         model: DeliveryStateHisto
+      },
+      {
+        name: 'orderProblems',
+        getUri: entity => entity._orderProblems,
+        model: OrderProblem
       }
     ];
   }
@@ -126,6 +132,10 @@ export class Order extends BaseModel {
 
   get hasProblem() {
     return this.problemState !== ORDER_PROBLEM_STATES.NONE;
+  }
+
+  get isDisputed() {
+    return this.problemState === ORDER_PROBLEM_STATES.DISPUTED;
   }
 
   get status() {
