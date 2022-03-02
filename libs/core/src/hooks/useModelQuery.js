@@ -15,7 +15,7 @@ export function useModelQuery(key, fetcher, queryOptions) {
     };
   });
 
-  const query = useReactiveQuery(unref(key), fetcher, mergedOptions);
+  const query = useReactiveQuery(key, fetcher, mergedOptions);
 
   return useBoundedModel(query, { queryKey: key, model, relations });
 }

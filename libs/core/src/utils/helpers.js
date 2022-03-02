@@ -1,3 +1,6 @@
+import { unref } from 'vue';
+import { isObject } from './assertions';
+
 import { isUndefinedOrNull } from './assertions';
 import { ENVIRONMENTS, CURRENCIES } from './constants';
 
@@ -78,3 +81,12 @@ export const serializeQueryString = (obj = {}) => {
 };
 
 export const range = n => [...Array(n).keys()];
+
+export const deepUnref = maybeRef => {
+  const result = unref(maybeRef);
+  if (!isObject(result)) return result;
+
+  return Object.fromEntries(
+    Object.entries(result).map(([key, value]) => [key, deepUnref(value)])
+  );
+};

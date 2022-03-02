@@ -141,7 +141,7 @@ export const MENU = [
       USER_ROLES.STORE
     ],
     links: [
-      { target: '/', id: 'storeDeposit' },
+      { target: '/store/commandes', id: 'storeDeposit' },
       { target: '/', id: 'userSearch' },
       { target: '/', id: 'stocks' }
     ]

@@ -13,12 +13,16 @@ const props = defineProps({
 const isLoading = computed(() => {
   return props.query.isLoading.value;
 });
+const isIdle = computed(() => {
+  return props.query.isIdle.value;
+});
 const data = computed(() => props.query.data.value);
 const error = computed(() => props.query.error.value);
 </script>
 
 <template>
-  <slot v-if="isLoading" name="loader">
+  <slot v-if="isIdle" name="idle" />
+  <slot v-else-if="isLoading" name="loader">
     <dsp-flex justify="center" align="center" class="loader">
       <dsp-loader size="xl" />
     </dsp-flex>

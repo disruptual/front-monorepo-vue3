@@ -107,7 +107,7 @@ export function useCRUDApi(
       id,
       { relations = [], requestOptions = {}, ...options } = {}
     ) {
-      const queryKey = computed(() => `${baseQueryKey}/${id}`);
+      const queryKey = computed(() => `${baseQueryKey}/${unref(id)}`);
 
       const queryOptions = computed(() => ({
         model,
@@ -118,7 +118,7 @@ export function useCRUDApi(
 
       return useModelQuery(
         queryKey,
-        () => serviceInstance.findById(id, requestOptions),
+        () => serviceInstance.findById(unref(id), requestOptions),
         queryOptions
       );
     },

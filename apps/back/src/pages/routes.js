@@ -2,6 +2,7 @@ import { USER_ROLES } from '@dsp/business';
 import layouts from '@/layouts';
 import adminRoutes from './admin/routes';
 import settingsRoutes from './settings/routes';
+import storeRoutes from './store/routes';
 
 export const routes = [
   {
@@ -24,6 +25,7 @@ export const routes = [
   },
   ...settingsRoutes,
   ...adminRoutes,
+  ...storeRoutes,
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
