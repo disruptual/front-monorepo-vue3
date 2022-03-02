@@ -80,7 +80,8 @@ export const EVENT_DETAILS_TABS = {
 
 export const HOME_TABS = {
   RELEASE: 'release',
-  DATA_STUDIO: 'data_studio'
+  DATA_STUDIO: 'data_studio',
+  ONBOARDING: 'onboarding'
 };
 
 export const MENU = [

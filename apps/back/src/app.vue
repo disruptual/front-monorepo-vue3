@@ -21,6 +21,7 @@ const isProd = import.meta.env.PROD;
     <template #loading>
       <AppLoading />
     </template>
+
     <component :is="$route?.meta.layout">
       <VueQueryDevTools v-if="!isProd" />
       <dsp-toasts-container />
