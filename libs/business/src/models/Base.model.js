@@ -31,21 +31,9 @@ export class BaseModel {
     return {
       uri,
       ...Object.fromEntries(
-        relationKeys
-          .map(k => {
-            let promiseResolver;
-            const promise = new Promise(resolve => {
-              promiseResolver = () => {
-                setTimeout(() => resolve(this[k]));
-              };
-            });
-            return [
-              [`_${k}Lazy`, promise],
-              [`_${k}LazyResolve`, promiseResolver],
-              [k, null]
-            ];
-          })
-          .flat()
+        relationKeys.map(k => {
+          return [k, null];
+        })
       ),
       ...mapKeys(rest, (value, key) => (ctor.isRelation(key) ? `_${key}` : key))
     };

@@ -29,7 +29,7 @@ const onSidebarResize = entries => {
 
 <template>
   <div class="default-layout">
-    <DefaultLayoutHeader v-on-resize="onHeaderResize" class="layout__header" />
+    <!-- <DefaultLayoutHeader v-on-resize="onHeaderResize" class="layout__header" /> -->
     <DefaultLayoutSidebar
       v-if="!device.isMobile"
       v-on-resize="onSidebarResize"

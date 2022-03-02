@@ -183,31 +183,31 @@ export class Order extends BaseModel {
   }
 
   get isHandDelivery() {
-    return this.delivery.tag === DELIVERY_MODES.HAND;
+    return this.delivery?.tag === DELIVERY_MODES.HAND;
   }
 
   get isLocationDelivery() {
-    return this.delivery.tag === DELIVERY_MODES.LOCATION;
+    return this.delivery?.tag === DELIVERY_MODES.LOCATION;
   }
 
   get isCocolis() {
-    return this.delivery.tag === DELIVERY_MODES.COCOLIS;
+    return this.delivery?.tag === DELIVERY_MODES.COCOLIS;
   }
 
   get isRelaisColis() {
-    return this.delivery.tag === DELIVERY_MODES.RELAIS_COLIS;
+    return this.delivery?.tag === DELIVERY_MODES.RELAIS_COLIS;
   }
 
   get isColissimo() {
-    return this.delivery.tag === DELIVERY_MODES.RELAIS_COLISSIMO;
+    return this.delivery?.tag === DELIVERY_MODES.RELAIS_COLISSIMO;
   }
 
   get isLaposteColissimo() {
-    return this.delivery.tag === DELIVERY_MODES.LAPOSTE_COLISSIMO;
+    return this.delivery?.tag === DELIVERY_MODES.LAPOSTE_COLISSIMO;
   }
 
   get isLaposteLetter() {
-    return this.delivery.tag === DELIVERY_MODES.LAPOSTE_LETTER;
+    return this.delivery?.tag === DELIVERY_MODES.LAPOSTE_LETTER;
   }
 
   get trackingNumber() {

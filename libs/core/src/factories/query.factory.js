@@ -4,16 +4,9 @@ import { createRelationsNormalizer } from './relationsNormalizer.factory';
 import { noop } from '@dsp/core/utils/helpers';
 
 export class QueryBuilder {
-  constructor({
-    fetcher,
-    onSettled,
-    onRelationLoaded = noop,
-    relations,
-    queryClient
-  }) {
+  constructor({ fetcher, onSettled, relations, queryClient }) {
     this.fetcher = fetcher;
     this.onSettled = onSettled;
-    this.onRelationLoaded = onRelationLoaded;
     this.relations = createRelationsNormalizer().normalize(relations);
     this.queryClient = queryClient;
   }
@@ -35,28 +28,10 @@ export class QueryBuilder {
     return queries.flat();
   }
 
-  checkRelationIsLoaded({ uris, name, entity }) {
-    const isRelationLoaded = uris.every(uri => {
-      const query = this.queryClient.getQueryState(uri);
-
-      return query && !query.isFetching;
-    });
-
-    if (isRelationLoaded) {
-      this.onRelationLoaded(name, entity.uri);
-    }
-  }
-
   createBaseQueries(entity, prefix = '') {
     return entity.constructor.relations.map(({ getUri, name }) => {
       let uris = getUri(entity);
-      const doCheck = () => {
-        this.checkRelationIsLoaded({
-          uris,
-          entity,
-          name
-        });
-      };
+
       if (!Array.isArray(uris)) {
         uris = [uris];
       }
@@ -66,15 +41,12 @@ export class QueryBuilder {
           const relation = this.getRelation(`${prefix}${name}`);
           if (!relation) return;
           if (!uri) return;
-          doCheck();
+
           return {
             relation: `${prefix}${name}`,
             queryKey: uri,
             queryFn: () => this.fetcher(uri),
-            onSettled: (...args) => {
-              doCheck();
-              return this.onSettled(...args);
-            },
+            onSettled: this.onSettled,
             ...(relation?.queryOptions || {})
           };
         })
@@ -103,14 +75,13 @@ export class QueryBuilder {
 
 export const createQueries = (
   entityOrCollection,
-  { queryClient, fetcher, onSettled, onRelationLoaded, relations = [] }
+  { queryClient, fetcher, onSettled, relations = [] }
 ) => {
   if (!entityOrCollection) return [];
 
   const queryBuilder = new QueryBuilder({
     fetcher,
     onSettled,
-    onRelationLoaded,
     relations,
     queryClient
   });

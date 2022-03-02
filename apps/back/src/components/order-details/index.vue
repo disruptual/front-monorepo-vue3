@@ -9,8 +9,7 @@ import { Order, USER_GENDERS } from '@dsp/business';
 import { formatPrice } from '@dsp/core';
 import { ORDER_DETAILS_TABS as TABS } from '@/utils/constants';
 
-import CloseProblemModal from './modals/close-problem.vue';
-import SolveProblemModal from './modals/solve-problem.vue';
+import OrderProblem from '../order-problem/index.vue';
 
 const props = defineProps({
   order: { type: Order, required: true }
@@ -53,29 +52,7 @@ const buyerLabel = computed(() =>
           :class="statusClass"
         >
           <div>{{ t(`order.status.${order.status}`) }}</div>
-          <dsp-flex
-            v-if="order.isDisputed"
-            gap="sm"
-            class="problem-buttons"
-            align="center"
-          >
-            <dsp-button
-              size="sm"
-              is-outlined
-              is-rounded
-              @click="openedModal = MODALS.SOLVE"
-            >
-              {{ t('order.details.solveProblemButton') }}
-            </dsp-button>
-            <dsp-button
-              size="sm"
-              is-outlined
-              is-rounded
-              @click="openedModal = MODALS.CLOSE"
-            >
-              {{ t('order.details.closeProblemButton') }}
-            </dsp-button>
-          </dsp-flex>
+          <OrderProblem v-if="order.hasProblem" :order="props.order" />
         </dsp-flex>
 
         <dt>{{ t(`order.details.label.orderDate`) }}</dt>
@@ -94,7 +71,7 @@ const buyerLabel = computed(() =>
         </dd>
 
         <dt>{{ t(`order.details.label.modeDelivery`) }}</dt>
-        <dd>{{ t(`delivery.modes.${order.delivery.tag}`) }}</dd>
+        <dd>{{ t(`delivery.modes.${order.delivery?.tag}`) }}</dd>
 
         <template v-if="order.isCocolis">
           <dt>{{ t(`order.details.label.numExpedition`) }}</dt>
@@ -133,7 +110,7 @@ const buyerLabel = computed(() =>
         <dd>
           {{
             order.remuneration
-              ? t(`remuneration.${order.remuneration.remunerationName}`)
+              ? t(`remuneration.${order.remuneration?.remunerationName}`)
               : t(`remuneration.pending`)
           }}
         </dd>
@@ -207,18 +184,6 @@ const buyerLabel = computed(() =>
       <span v-else>{{ t(`order.details.noResultSeller`) }}</span>
     </dsp-surface>
   </div>
-  <CloseProblemModal
-    :is-opened="openedModal === MODALS.CLOSE"
-    :order="order"
-    @close="openedModal = null"
-    @success="emit('update')"
-  />
-  <SolveProblemModal
-    :is-opened="openedModal === MODALS.SOLVE"
-    :order="order"
-    @close="openedModal = null"
-    @success="emit('update')"
-  />
 </template>
 
 <style lang="scss" scoped>

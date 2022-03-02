@@ -1,7 +1,7 @@
 import { useHttp } from './useHttp';
 import { computed, ref, unref, watch, watchEffect } from 'vue';
 import { useQueries, useQueryClient } from 'vue-query';
-import { debounce } from 'lodash-es';
+import { debounce, get } from 'lodash-es';
 import { createBoundedModel } from '../factories/boundedModel.factory';
 import { createQueries } from '../factories/query.factory';
 
@@ -56,18 +56,10 @@ export function useBoundedModel(query, { queryKey, model, relations = [] }) {
     return createQueries(instance.value, {
       queryClient: queryClient,
       fetcher: uri => http.get(uri),
-      relations: unref(allRelations),
+      relations: [...new Set(unref(allRelations))],
       onSettled: () => {
         rebindReasons.push(REBIND_REASONS.CHILD_QUERY_HAVE_SETTLED);
         debouncedBindQuery();
-      },
-      onRelationLoaded: (relation, uri) => {
-        if (Array.isArray(instance.value)) {
-          const entity = instance.value.find(entity => entity.uri === uri);
-          entity?.[`_${relation}LazyResolve`]?.();
-        } else {
-          instance.value?.[`_${relation}LazyResolve`]?.();
-        }
       }
     });
   });

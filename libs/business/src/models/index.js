@@ -31,4 +31,4 @@ export * from './Media.model';
 export * from './CarouselItem.model';
 export * from './Review.model';
 export * from './CmsPage.model';
-export * from './OrderProblem.model';
+export * from './OrderProblem.model';export * from './ProblemReason.model';

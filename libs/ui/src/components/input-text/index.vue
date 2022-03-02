@@ -15,7 +15,8 @@ const props = defineProps({
   modelValue: { type: [String, Number], default: null },
   leftIcon: { type: String, default: null },
   rightIcon: { type: String, default: null },
-  inputRef: { type: Function, default: noop }
+  inputRef: { type: Function, default: noop },
+  readonly: { type: Boolean, default: false }
 });
 
 const model = computed({
@@ -27,6 +28,9 @@ const model = computed({
   }
 });
 
+const backgroundColor = computed(() =>
+  props.readonly ? 'var(--color-gray-200)' : 'var(--color-surface)'
+);
 const textColor = useReadableColor('--color-surface');
 </script>
 
@@ -37,8 +41,12 @@ const textColor = useReadableColor('--color-surface');
         <dsp-icon :icon="props.leftIcon" />
       </div>
     </slot>
-    <input :ref="inputRef" v-model="model" v-bind="$attrs" />
-
+    <input
+      :ref="inputRef"
+      v-model="model"
+      v-bind="$attrs"
+      :readonly="props.readonly"
+    />
     <slot name="right-icon">
       <div v-if="props.rightIcon" class="icon">
         <dsp-icon :icon="props.rightIcon" />
@@ -51,7 +59,7 @@ const textColor = useReadableColor('--color-surface');
 .dsp-input-text {
   display: flex;
   grid-gap: var(--spacing-xs);
-  background-color: var(--color-surface);
+  background-color: v-bind(backgroundColor);
   border: solid 1px var(--color-separator);
 
   &:focus-within {

@@ -1,7 +1,9 @@
 import { noop } from '@dsp/core/utils/helpers';
+import { nanoid } from 'nanoid';
 
 export class LazyRelationsProxyHandler {
   constructor({ prefix = '', onLazyRelationDetected = noop }) {
+    this.id = nanoid();
     this.prefix = prefix;
     this.onLazyRelationDetected = onLazyRelationDetected;
     this.detectedRelations = [];
@@ -22,7 +24,7 @@ export class LazyRelationsProxyHandler {
       this.detectedRelations.push(prop);
       this.onLazyRelationDetected(`${this.prefix}${prop}`);
 
-      return target[`_${prop}Lazy`];
+      return target[prop];
     }
 
     return target[prop];
