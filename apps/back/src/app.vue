@@ -10,6 +10,7 @@ import ErrorBoundary from './components/error-boundary/index.vue';
 import FeatureControl from './components/feature-control/index.vue';
 import { CONTEXT_KEYS } from './utils/constants';
 import { VueQueryDevTools } from 'vue-query/devtools';
+// import { DisruptualDevtools } from '@dsp/devtools';
 
 const globalState = reactive({});
 provide(CONTEXT_KEYS.GLOBAL_STATE, globalState);
@@ -39,6 +40,7 @@ const isProd = import.meta.env.PROD;
         </FeatureControl>
       </ErrorBoundary>
     </component>
+    <!-- <DisruptualDevtools /> -->
   </AppProvider>
 </template>
 

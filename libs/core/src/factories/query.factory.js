@@ -12,7 +12,7 @@ export class QueryBuilder {
   }
 
   getRelation(relationName) {
-    return this.relations.some(r => r.name === relationName);
+    return this.relations.find(r => r.name === relationName);
   }
 
   isCollection(element) {
@@ -24,8 +24,7 @@ export class QueryBuilder {
       ? entityOrCollection.map(entity => this.createBaseQueries(entity)).flat()
       : this.createBaseQueries(entityOrCollection).flat();
 
-    // return uniqBy(queries.flat(), 'queryKey');
-    return queries.flat();
+    return uniqBy(queries.flat(), 'queryKey');
   }
 
   createBaseQueries(entity, prefix = '') {

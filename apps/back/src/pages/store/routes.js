@@ -11,5 +11,15 @@ export default [
       permissions: [USER_ROLES.STORE, USER_ROLES.PROJECT_MANAGER],
       layout: layouts.default
     }
+  },
+  {
+    path: '/store/commandes/:id',
+    name: 'StoreOrderDetail',
+    props: true,
+    component: () => import('@/pages/store/order/details.vue'),
+    meta: {
+      permissions: [USER_ROLES.STORE, USER_ROLES.PROJECT_MANAGER],
+      layout: layouts.default
+    }
   }
 ];
