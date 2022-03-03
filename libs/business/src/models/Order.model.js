@@ -234,6 +234,27 @@ export class Order extends BaseModel {
     }
   }
 
+  get isRecoverableBySeller() {
+    if (!this.orderItems) return false;
+    if (this.isRecoveryDateExpired) return false;
+
+    return this.orderItems.some(
+      o =>
+        // @TODO: create enums for conformityStates et recoveryStates
+        o.conformityState === 'REFUSED_BY_BUYER' &&
+        o.recoveryState === 'AWAITING_RECOVERY'
+    );
+  }
+
+  get isRecoveryDateExpired() {
+    const now = new Date();
+    const limit = new Date(
+      this.order.dateForTheSellerToCollectTheirItemsInStore
+    );
+
+    return now > limit;
+  }
+
   get history() {
     return [...this.orderStateHistos, ...this.deliveryStateHistos].sort(
       (a, b) =>

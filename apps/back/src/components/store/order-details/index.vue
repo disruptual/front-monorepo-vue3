@@ -6,6 +6,8 @@ export default { name: 'StoreOrderDetails' };
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Order } from '@dsp/business';
+import OrderValidationModal from './modals/order-validation.vue';
+import OrderValidation from './modals/order-validation.vue';
 
 const props = defineProps({
   order: { type: Order, required: true }
@@ -14,6 +16,7 @@ const props = defineProps({
 const { t } = useI18n();
 
 const userType = ref(null);
+const isModalOpened = ref(false);
 const user = computed(() => props.order[userType.value]);
 
 const isCorrectUser = computed(() => {
@@ -26,6 +29,14 @@ const isCorrectUser = computed(() => {
       return false;
   }
 });
+
+const actionLabel = computed(() => {
+  if (props.order.isRecoverable) return 'Restituer au vendeur';
+
+  return userType.value === 'buyer'
+    ? 'Retirer la commade'
+    : 'Déposer la commande';
+});
 </script>
 
 <template>
@@ -36,11 +47,17 @@ const isCorrectUser = computed(() => {
       <dsp-avatar :user="user" size="lg" />
     </dsp-center>
     <dl>
-      <dt>Vendeur :</dt>
-      <dd>{{ order.seller.fullName }}</dd>
+      <dsp-grid :columns="2">
+        <div>
+          <dt>Vendeur :</dt>
+          <dd>{{ order.seller.fullName }}</dd>
+        </div>
 
-      <dt>Acheteur :</dt>
-      <dd>{{ order.buyer.fullName }}</dd>
+        <div>
+          <dt>Acheteur :</dt>
+          <dd>{{ order.buyer.fullName }}</dd>
+        </div>
+      </dsp-grid>
 
       <dt>Status</dt>
       <dd>{{ t(`order.status.${order.status}`) }}</dd>
@@ -48,9 +65,14 @@ const isCorrectUser = computed(() => {
       <dt>Magasin de retrait</dt>
       <dd>{{ order.location.name }}</dd>
 
+      <template v-if="order.tag">
+        <dt>Numero de sac</dt>
+        <dd>Sac N°{{ order.tag }}</dd>
+      </template>
+
       <dt>Articles</dt>
       <dd>
-        <dsp-loader v-if="!order.orderItems" size="lg" />
+        <dsp-loader v-if="!order.orderItems" size="lg" style="height: 6em" />
         <dsp-swiper v-else>
           <dsp-swiper-item
             v-for="orderItem in order.orderItems"
@@ -66,7 +88,9 @@ const isCorrectUser = computed(() => {
       </dd>
     </dl>
 
-    <dsp-button v-if="isCorrectUser">Action</dsp-button>
+    <dsp-button v-if="isCorrectUser" @click="isModalOpened = true">
+      {{ actionLabel }}
+    </dsp-button>
     <dsp-center v-else>
       Aucune action n'est à effectuer pour ce client. Vérifiez l'état de sa
       commande dans son suivi de commande.
@@ -86,6 +110,11 @@ const isCorrectUser = computed(() => {
       </dsp-button>
     </dsp-flex>
   </div>
+  <OrderValidationModal
+    :order="order"
+    :is-opened="isModalOpened"
+    @close="isModalOpened = false"
+  />
 </template>
 
 <style lang="scss" scoped>
