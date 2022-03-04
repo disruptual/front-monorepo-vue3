@@ -4,13 +4,10 @@ export default { name: 'CardBlockEditor' };
 
 <script setup>
 import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useRouter, useRoute } from 'vue-router';
 import {
   HOME_BLOCK_TYPES,
   HOME_BLOCK_QUERIES,
-  HOME_BLOCK_MAPPED_TYPE,
-  HOME_BLOCK_PROPERTY_TYPES
+  HOME_BLOCK_MAPPED_TYPE
 } from '@dsp/business';
 
 import HomeBlocksFields from '@/components/home-blocks/home-blocks-fields/index.vue';
@@ -24,20 +21,12 @@ const emit = defineEmits(['update:modelValue', 'delete']);
 
 const block = computed({
   get() {
-    console.log('props.modelValue ==> ', props.modelValue);
     return props.modelValue;
   },
   set(val) {
     emit('update:modelValue', val);
   }
 });
-
-const getMappedType = (type, key) => {
-  return HOME_BLOCK_MAPPED_TYPE[type]?.[key]?.type;
-};
-const getMappedValues = (type, key) => {
-  return HOME_BLOCK_MAPPED_TYPE[type]?.[key]?.values;
-};
 
 const deleteBlock = block => {
   emit('delete', block);

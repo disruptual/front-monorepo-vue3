@@ -53,7 +53,7 @@ const component = type => {
   <div v-for="(mappedOption, key) in mappedOptions" :key="mappedOption">
     <component
       :is="component(mappedOption.type)"
-      v-if="!hasChildren(mappedOption) && block.options[key]"
+      v-if="!hasChildren(mappedOption)"
       v-model="block.options[key]"
       :label="mappedOption.label"
       :options="mappedOption.values"
@@ -66,7 +66,6 @@ const component = type => {
       >
         <component
           :is="component(subMappedOption.type)"
-          v-if="block.options[key][subKey]"
           v-model="block.options[key][subKey]"
           :label="subMappedOption.label"
           :options="subMappedOption.values"

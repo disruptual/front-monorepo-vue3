@@ -3,7 +3,7 @@ export default { name: 'HomeBlocksEditor' };
 </script>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import downloadFile from 'js-file-download';
 import { nanoid } from 'nanoid';
 import { useFileReader } from '@dsp/core';
@@ -98,6 +98,16 @@ const onDragStart = block => {
 const onDragEnd = () => {
   draggedBlock.value = null;
 };
+
+watch(
+  sortedBlocks,
+  newVal => {
+    if (!newVal) return;
+
+    settings.value = { blocks: [...newVal] };
+  },
+  { deep: true }
+);
 </script>
 
 <template>
