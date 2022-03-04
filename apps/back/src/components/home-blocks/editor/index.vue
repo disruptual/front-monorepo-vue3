@@ -7,8 +7,9 @@ import { ref, computed } from 'vue';
 import downloadFile from 'js-file-download';
 import { nanoid } from 'nanoid';
 import { useFileReader } from '@dsp/core';
-import { HOME_BLOCK_TYPES, HOME_BLOCK_QUERIES } from '@dsp/business';
 import { useI18n } from 'vue-i18n';
+
+import CardBlockEditor from '@/components/home-blocks/card-block/index.vue';
 
 const { t } = useI18n();
 
@@ -41,8 +42,21 @@ const onExport = () => {
 const addBlock = () => {
   settings.value.blocks.push({
     id: nanoid(),
-    name: `Bloc ${settings.value.blocks.length}`,
+    name: 'New Bloc',
     position: settings.value.blocks.length,
+    options: {
+      backgroundColor: '',
+      itemsPerSection: 10,
+      seeMore: {
+        isEnabled: false,
+        upperCase: false
+      },
+      title: {
+        content: '',
+        upperCase: ''
+      },
+      uiType: 'SWIPER'
+    },
     type: null,
     query: null
   });
@@ -52,15 +66,13 @@ const sortedBlocks = computed(() =>
   settings.value.blocks.slice().sort((a, b) => a.position - b.position)
 );
 
-const removeBlock = block => {
+const deleteBlock = block => {
   const index = sortedBlocks.value.indexOf(block);
 
-  sortedBlocks.value.splice(index, 1);
+  settings.value.blocks.splice(index, 1);
   sortedBlocks.value.forEach((block, index) => {
-    block.id = index;
+    block.position = index;
   });
-
-  console.log('sortedBlocks.value ==> ', sortedBlocks.value);
 };
 
 const moveBlock = (block, newIndex) => {
@@ -74,11 +86,18 @@ const moveBlock = (block, newIndex) => {
   });
 };
 
-const cardStyle = computed(() => {
-  return {
-    'background-color': 'red'
-  };
-});
+const draggedBlock = ref(null);
+const onDragEnter = index => {
+  moveBlock(draggedBlock.value, index);
+};
+
+const onDragStart = block => {
+  draggedBlock.value = block;
+};
+
+const onDragEnd = () => {
+  draggedBlock.value = null;
+};
 </script>
 
 <template>
@@ -121,61 +140,34 @@ const cardStyle = computed(() => {
       :label="t('user.details.editModeSwitchLabel')"
     />
   </dsp-flex>
-
-  <ul v-if="isEditing" class="blocks-list">
-    <li v-for="(block, index) in sortedBlocks" :key="block.id">
-      <dsp-icon-button
-        class="remove-block"
-        icon="remove"
-        size="sm"
-        @click="removeBlock(block)"
+  <transition-group class="blocks-list" name="block-list" tag="ul">
+    <li
+      v-for="(block, index) in sortedBlocks"
+      :key="block.id"
+      :draggable="isEditing"
+      @dragstart="onDragStart(block)"
+      @dragend="onDragEnd(block)"
+      @dragenter="onDragEnter(index)"
+    >
+      <CardBlockEditor
+        v-model="sortedBlocks[index]"
+        :is-editing="isEditing"
+        @delete="deleteBlock"
       />
-      <dsp-flex gap="sm" align="center">
-        <dsp-icon-button
-          icon="arrowUp"
-          :disabled="index === 0"
-          @click="moveBlock(block, index - 1)"
-        />
-        <dsp-icon-button
-          icon="arrowDown"
-          :disabled="index === sortedBlocks.length - 1"
-          @click="moveBlock(block, index + 1)"
-        />
-        <dsp-input-text v-model="block.name" spellcheck="false" />
-      </dsp-flex>
-
-      <dsp-flex gap="sm">
-        <select v-model="block.type">
-          <option disabled :value="null">Type</option>
-          <option v-for="type in HOME_BLOCK_TYPES" :key="type">
-            {{ type }}
-          </option>
-        </select>
-        <select v-if="block.type" v-model="block.query">
-          <option disabled :value="null">Requête</option>
-          <option v-for="query in HOME_BLOCK_QUERIES[block.type]" :key="query">
-            {{ query }}
-          </option>
-        </select>
-      </dsp-flex>
     </li>
-  </ul>
-
-  <ul v-else class="blocks-list">
-    <li v-for="block in sortedBlocks" :key="block.id" :class="cardStyle">
-      <dsp-flex gap="sm" align="center">
-        {{ block.name }}
-      </dsp-flex>
-
-      <dsp-flex gap="sm">
-        <span>{{ block.type }}</span>
-        <span>{{ block.query }}</span>
-      </dsp-flex>
-    </li>
-  </ul>
+  </transition-group>
 </template>
 
 <style lang="scss" scoped>
+.icon-draggable {
+  margin-left: auto;
+  align-self: stretch;
+  width: 5px;
+  height: 25px;
+  border-left: solid 2px var(--color-separator);
+  border-right: solid 2px var(--color-separator);
+  cursor: pointer;
+}
 .editing-switch {
   margin-left: auto;
 }
@@ -195,23 +187,8 @@ const cardStyle = computed(() => {
   list-style: none;
 
   li {
-    padding: var(--spacing-sm);
     border: solid 1px var(--color-gray-200);
     position: relative;
-
-    > *:first-child {
-      margin-bottom: var(--spacing-sm);
-    }
-
-    > .remove-block {
-      position: absolute;
-      right: 0;
-      top: 0;
-      padding: 0;
-      margin: var(--spacing-sm);
-      padding: 2px;
-      border-radius: var(--border-radius-circle);
-    }
   }
 }
 </style>

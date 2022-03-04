@@ -21,9 +21,10 @@ export const fakeHomePageConfig = [
         position: 'HEADER'
       },
       title: {
+        content: 'Un titre',
         upperCase: true
       },
-      color: '#f4f5f7'
+      backgroundColor: '#f4f5f7'
     }
   },
   {
@@ -43,7 +44,7 @@ export const fakeHomePageConfig = [
         content: 'Ça devrait vous plaire !',
         upperCase: true
       },
-      color: 'var(--color-background)'
+      backgroundColor: 'var(--color-background)'
     }
   },
   {
@@ -56,10 +57,10 @@ export const fakeHomePageConfig = [
       itemsPerSection: 10,
       uiType: 'SWIPER',
       title: {
-        // content: 'Marques les plus tendances du moment',
+        content: 'Marques les plus tendances du moment',
         upperCase: true
       },
-      color: '#f4f5f7'
+      backgroundColor: '#f4f5f7'
     }
   },
   {
@@ -74,7 +75,8 @@ export const fakeHomePageConfig = [
       title: {
         content: 'Top vendeurs & dressing',
         upperCase: true
-      }
+      },
+      backgroundColor: ''
     }
   },
   {
@@ -90,7 +92,7 @@ export const fakeHomePageConfig = [
         content: 'Catégories les + recherchées',
         upperCase: true
       },
-      color: 'var(--color-accent)'
+      backgroundColor: 'var(--color-accent)'
     }
   },
   {
@@ -110,7 +112,7 @@ export const fakeHomePageConfig = [
         content: 'À la baisse !',
         upperCase: true
       },
-      color: '#f4f5f7'
+      backgroundColor: '#f4f5f7'
     }
   },
   {
@@ -129,7 +131,8 @@ export const fakeHomePageConfig = [
       title: {
         content: 'Dernières publications',
         upperCase: true
-      }
+      },
+      backgroundColor: ''
     }
   }
 ];
