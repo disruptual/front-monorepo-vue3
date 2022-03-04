@@ -21,15 +21,14 @@ const paddingTop = computed(() => `${(1 / props.ratio) * 100}%`);
 .dsp-aspect-ratio {
   position: relative;
   height: 0;
-  /* padding-top: v-bind(paddingTop); */
-  aspect-ratio: v-bind(ratio);
-  /* 
+  padding-top: v-bind(paddingTop);
+
   :slotted(*) {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-  } */
+  }
 }
 </style>

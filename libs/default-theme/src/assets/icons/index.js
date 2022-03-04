@@ -56,6 +56,7 @@ import boxOpen from './boxOpen.svg?component';
 import arrowUp from './arrow-up.svg?component';
 import arrowDown from './arrow-down.svg?component';
 import bell from './bell.svg?component';
+import logout from './logout.svg?component';
 
 export default {
   add,
@@ -99,6 +100,7 @@ export default {
   home,
   info,
   loader,
+  logout,
   minus,
   pin,
   plus,

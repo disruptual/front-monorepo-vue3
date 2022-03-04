@@ -24,7 +24,8 @@ export class DevtoolsService {
         .flat()
         .map(Object.values)
         .flat()
-        .map(module => module.default.toDevtools())
+        .map(module => module.default?.toDevtools?.())
+        .filter(Boolean)
     );
 
     this.disruptualApp.vueApp.component('dsp-devtools', DevtoolsComponent);

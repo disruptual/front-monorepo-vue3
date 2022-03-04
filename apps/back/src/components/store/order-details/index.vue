@@ -42,11 +42,16 @@ const actionLabel = computed(() => {
 <template>
   <dsp-center as="h2">Commande n°{{ props.order.id }}</dsp-center>
 
-  <div v-if="userType">
+  <dsp-flex v-if="userType" gap="sm" direction="column">
     <dsp-center>
       <dsp-avatar :user="user" size="lg" />
     </dsp-center>
-    <dl>
+    <dsp-alert v-if="!isCorrectUser" color-scheme="error" icon="warning">
+      Aucune action n'est à effectuer pour ce client. Vérifiez l'état de sa
+      commande dans son suivi de commande.
+    </dsp-alert>
+
+    <dsp-flex as="dl" gap="xs" direction="column">
       <dsp-grid :columns="2">
         <div>
           <dt>Vendeur :</dt>
@@ -59,43 +64,51 @@ const actionLabel = computed(() => {
         </div>
       </dsp-grid>
 
-      <dt>Status</dt>
-      <dd>{{ t(`order.status.${order.status}`) }}</dd>
+      <div>
+        <dt>Status</dt>
+        <dd>{{ t(`order.status.${order.status}`) }}</dd>
+      </div>
 
-      <dt>Magasin de retrait</dt>
-      <dd>{{ order.location.name }}</dd>
+      <div>
+        <dt>Magasin de retrait</dt>
+        <dd>{{ order.location.name }}</dd>
+      </div>
 
-      <template v-if="order.tag">
+      <div v-if="order.tag">
         <dt>Numero de sac</dt>
         <dd>Sac N°{{ order.tag }}</dd>
-      </template>
+      </div>
 
-      <dt>Articles</dt>
-      <dd>
-        <dsp-loader v-if="!order.orderItems" size="lg" style="height: 6em" />
-        <dsp-swiper v-else>
-          <dsp-swiper-item
-            v-for="orderItem in order.orderItems"
-            :key="orderItem.id"
-          >
-            <dsp-image
-              :src="orderItem.item?.medias[0].thumbnails.itemList"
-              class="store-order-details__image"
-              @dragstart.prevent
-            />
-          </dsp-swiper-item>
-        </dsp-swiper>
-      </dd>
-    </dl>
+      <div>
+        <dt>Articles ({{ order.orderItems?.length }})</dt>
+        <dd>
+          <dsp-loader v-if="!order.orderItems" size="lg" style="height: 6em" />
+          <dsp-swiper v-else class="store-order-details__items-swiper">
+            <dsp-swiper-item
+              v-for="orderItem in order.orderItems"
+              :key="orderItem.id"
+            >
+              <dsp-image
+                :src="orderItem.item?.medias[0].thumbnails.itemList"
+                class="store-order-details__image"
+                @dragstart.prevent
+              />
+            </dsp-swiper-item>
+          </dsp-swiper>
+        </dd>
+      </div>
+    </dsp-flex>
 
-    <dsp-button v-if="isCorrectUser" @click="isModalOpened = true">
+    <dsp-button
+      v-if="isCorrectUser"
+      class="store-order-details__action-button"
+      size="lg"
+      is-rounded
+      @click="isModalOpened = true"
+    >
       {{ actionLabel }}
     </dsp-button>
-    <dsp-center v-else>
-      Aucune action n'est à effectuer pour ce client. Vérifiez l'état de sa
-      commande dans son suivi de commande.
-    </dsp-center>
-  </div>
+  </dsp-flex>
 
   <div v-else>
     <dsp-center style="margin-bottom: var(--spacing-md)">
@@ -122,15 +135,26 @@ h2 {
   margin-top: 0;
 }
 
+dl {
+  margin: 0;
+}
+
 dd {
   padding: 0;
   margin-left: 0;
-  margin-bottom: var(--spacing-md);
   font-weight: var(--font-weight-bold);
 }
 
 .store-order-details__image {
   width: 6em;
   aspect-ratio: 1;
+}
+
+.store-order-details__items-swiper {
+  margin-top: var(--spacing-xs);
+}
+
+.store-order-details__action-button {
+  align-self: center;
 }
 </style>

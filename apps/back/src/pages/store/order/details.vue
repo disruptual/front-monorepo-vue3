@@ -34,6 +34,12 @@ useBreadCrumbs(
   <dsp-center class="order-details-page">
     <dsp-container is-small>
       <dsp-surface>
+        <router-link :to="{ name: 'StoreOrders' }">
+          <dsp-flex gap="xs" align="center">
+            <dsp-icon icon="chevronLeft" />
+            Retour
+          </dsp-flex>
+        </router-link>
         <dsp-query-loader :query="query">
           <template #error="{ error }">
             <div v-if="error.response?.status === 404">
@@ -60,6 +66,10 @@ useBreadCrumbs(
 </template>
 
 <style lang="scss" scoped>
+a {
+  color: inherit;
+}
+
 .order-details-page {
   margin-top: var(--spacing-lg);
 }

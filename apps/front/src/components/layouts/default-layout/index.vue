@@ -47,9 +47,6 @@ const onHeaderResize = entries => {
     display: flex;
     flex-direction: column;
     scroll-behavior: smooth;
-    @include desktop-only {
-      margin: var(--spacing-lg) 0;
-    }
   }
 }
 
