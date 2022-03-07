@@ -44,7 +44,7 @@ const title = computed(() =>
       <dsp-smart-form-field
         v-slot="slotProps"
         name="startAt"
-        :initial-value="announcement?.dateFormatStartAt?.() || null"
+        :initial-value="announcement?.startDate || null"
         required
       >
         <dsp-form-control
@@ -65,7 +65,7 @@ const title = computed(() =>
       <dsp-smart-form-field
         v-slot="slotProps"
         name="endAt"
-        :initial-value="announcement?.dateFormatEndAt?.() || null"
+        :initial-value="announcement?.endDate || null"
         required
       >
         <dsp-form-control

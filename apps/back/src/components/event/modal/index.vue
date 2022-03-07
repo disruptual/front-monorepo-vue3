@@ -83,7 +83,7 @@ const categoriesSelectOptions = computed(() => {
             <dsp-smart-form-field
               v-slot="slotProps"
               name="startAt"
-              :initial-value="event?.dateFormatStartAt || null"
+              :initial-value="props.event?.startDate || null"
               required
             >
               <dsp-form-control
@@ -103,7 +103,7 @@ const categoriesSelectOptions = computed(() => {
             <dsp-smart-form-field
               v-slot="slotProps"
               name="endAt"
-              :initial-value="event?.dateFormatEndAt || null"
+              :initial-value="props.event?.endDate || null"
               required
             >
               <dsp-form-control
@@ -128,7 +128,7 @@ const categoriesSelectOptions = computed(() => {
             <dsp-smart-form-field
               v-slot="slotProps"
               name="digitalSubmissionStartAt"
-              :initial-value="event?.dateFormatDigitalSubmissionStartAt || null"
+              :initial-value="props.event?.digitalSubmissionStartDate || null"
               required
             >
               <dsp-form-control
@@ -148,7 +148,7 @@ const categoriesSelectOptions = computed(() => {
             <dsp-smart-form-field
               v-slot="slotProps"
               name="digitalSubmissionEndAt"
-              :initial-value="event?.dateFormatDigitalSubmissionEndAt || null"
+              :initial-value="props.event?.digitalSubmissionEndDate || null"
               required
             >
               <dsp-form-control
@@ -173,9 +173,7 @@ const categoriesSelectOptions = computed(() => {
             <dsp-smart-form-field
               v-slot="slotProps"
               name="physicalSubmissionStartAt"
-              :initial-value="
-                event?.dateFormatPhysicalSubmissionStartAt || null
-              "
+              :initial-value="props.event?.physicalSubmissionStartDate || null"
               required
             >
               <dsp-form-control
@@ -195,7 +193,7 @@ const categoriesSelectOptions = computed(() => {
             <dsp-smart-form-field
               v-slot="slotProps"
               name="physicalSubmissionEndAt"
-              :initial-value="event?.dateFormatPhysicalSubmissionEndAt || null"
+              :initial-value="props.event?.physicalSubmissionEndDate || null"
               required
             >
               <dsp-form-control
@@ -220,7 +218,7 @@ const categoriesSelectOptions = computed(() => {
             <dsp-smart-form-field
               v-slot="slotProps"
               name="salesStartAt"
-              :initial-value="event?.dateFormatSalesStartAt || null"
+              :initial-value="props.event?.salesStartDate || null"
               required
             >
               <dsp-form-control
@@ -240,7 +238,7 @@ const categoriesSelectOptions = computed(() => {
             <dsp-smart-form-field
               v-slot="slotProps"
               name="salesEndAt"
-              :initial-value="event?.dateFormatSalesEndAt || null"
+              :initial-value="props.event?.salesEndDate || null"
               required
             >
               <dsp-form-control
@@ -281,7 +279,7 @@ const categoriesSelectOptions = computed(() => {
               <dsp-smart-form-field
                 v-slot="slotProps"
                 name="content"
-                :initial-value="event?.content || ''"
+                :initial-value="props.event?.content || ''"
               >
                 <dsp-form-control
                   v-model="slotProps.field.value"
@@ -314,7 +312,7 @@ const categoriesSelectOptions = computed(() => {
                 <dsp-smart-form-field
                   v-slot="slotProps"
                   name="categories"
-                  :initial-value="event?.categories"
+                  :initial-value="props.event?.categories"
                   required
                 >
                   <dsp-form-control
@@ -336,7 +334,7 @@ const categoriesSelectOptions = computed(() => {
               <dsp-smart-form-field
                 v-slot="slotProps"
                 name="address.fullname"
-                :initial-value="event?.address.fullname || ''"
+                :initial-value="props.event?.address.fullname || ''"
               >
                 <dsp-form-control
                   v-model="slotProps.field.value"
@@ -347,7 +345,7 @@ const categoriesSelectOptions = computed(() => {
               <dsp-smart-form-field
                 v-slot="slotProps"
                 name="address.route"
-                :initial-value="event?.address.route || ''"
+                :initial-value="props.event?.address.route || ''"
               >
                 <dsp-form-control
                   v-model="slotProps.field.value"
@@ -358,7 +356,7 @@ const categoriesSelectOptions = computed(() => {
               <dsp-smart-form-field
                 v-slot="slotProps"
                 name="address.postalCode"
-                :initial-value="event?.address.postalCode || ''"
+                :initial-value="props.event?.address.postalCode || ''"
               >
                 <dsp-form-control
                   v-model="slotProps.field.value"
@@ -369,7 +367,7 @@ const categoriesSelectOptions = computed(() => {
               <dsp-smart-form-field
                 v-slot="slotProps"
                 name="address.city"
-                :initial-value="event?.address.city || ''"
+                :initial-value="props.event?.address.city || ''"
               >
                 <dsp-form-control
                   v-model="slotProps.field.value"
@@ -380,7 +378,7 @@ const categoriesSelectOptions = computed(() => {
               <dsp-smart-form-field
                 v-slot="slotProps"
                 name="address.country"
-                :initial-value="event?.address.country || ''"
+                :initial-value="props.event?.address.country || ''"
               >
                 <dsp-form-control
                   v-model="slotProps.field.value"

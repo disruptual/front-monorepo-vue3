@@ -52,31 +52,31 @@ export class Event extends BaseModel {
     return false;
   }
 
-  get dateFormatStartAt() {
+  get startDate() {
     return new Date(this.startAt);
   }
-  get dateFormatEndAt() {
+  get endDate() {
     return new Date(this.endAt);
   }
 
-  get dateFormatPhysicalSubmissionStartAt() {
+  get physicalSubmissionStartDate() {
     return new Date(this.physicalSubmissionStartAt);
   }
-  get dateFormatPhysicalSubmissionEndAt() {
+  get physicalSubmissionEndDate() {
     return new Date(this.physicalSubmissionEndAt);
   }
 
-  get dateFormatDigitalSubmissionStartAt() {
+  get digitalSubmissionStartDate() {
     return new Date(this.digitalSubmissionStartAt);
   }
-  get dateFormatDigitalSubmissionEndAt() {
+  get digitalSubmissionEndDate() {
     return new Date(this.digitalSubmissionEndAt);
   }
 
-  get dateFormatSalesStartAt() {
+  get salesStartDate() {
     return new Date(this.salesStartAt);
   }
-  get dateFormatSalesEndAt() {
+  get salesEndDate() {
     return new Date(this.salesEndAt);
   }
 
