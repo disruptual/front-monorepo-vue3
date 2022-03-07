@@ -6,7 +6,7 @@ export default { name: 'HomeBlocksFieldNumber' };
 import { computed } from 'vue';
 
 const props = defineProps({
-  modelValue: { type: Number || undefined, required: true },
+  modelValue: { type: Number, default: undefined },
   label: { type: String, default: 'Label' }
 });
 const emit = defineEmits(['update:modelValue']);

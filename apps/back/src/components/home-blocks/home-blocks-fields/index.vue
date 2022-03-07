@@ -50,7 +50,7 @@ const component = type => {
 </script>
 
 <template>
-  <div v-for="(mappedOption, key) in mappedOptions" :key="mappedOption">
+  <div v-for="(mappedOption, key) in props.mappedOptions" :key="mappedOption">
     <component
       :is="component(mappedOption.type)"
       v-if="!hasChildren(mappedOption)"

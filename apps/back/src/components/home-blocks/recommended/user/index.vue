@@ -33,6 +33,15 @@ const onAdd = () => (isRecommendedUserModalOpened.value = true);
 const onDelete = row => {
   row?.map(({ id }) => deleteRecommendedUser(id));
 };
+const updatePosition = (row, newIndex) => {
+  const oldIndex = queryRecommendedUsers.data.value.indexOf(row);
+  const clone = [...queryRecommendedUsers.data.value];
+  clone.splice(oldIndex, 1);
+  clone.splice(newIndex, 0, row);
+  clone.forEach((recommendedCategory, index) => {
+    recommendedCategory.position = index;
+  });
+};
 </script>
 
 <template>
@@ -66,6 +75,22 @@ const onDelete = row => {
       {{ displayUserNote(row.user.ratingAverage) }}
     </DataTableColumn>
 
+    <DataTableColumn
+      v-slot="{ row }"
+      name="position"
+      :label="t('dataTable.label.numbArticles')"
+    >
+      <dsp-input-text
+        :model-value="row.position"
+        type="number"
+        class="input-position"
+        min="0"
+        :max="queryRecommendedUsers.data.value?.length - 1"
+        @update:modelValue="updatePosition(row, $event)"
+        @click="$event.target.select()"
+      />
+    </DataTableColumn>
+
     <DataTableRowAction
       name="delete"
       :label="t('dataTable.label.delete')"
@@ -83,3 +108,9 @@ const onDelete = row => {
     @success="queryRecommendedUsers.refetch.value()"
   />
 </template>
+
+<style lang="scss" scoped>
+.dsp-input-text :deep(.input-position) {
+  max-width: var(--spacing-xxl) !important;
+}
+</style>

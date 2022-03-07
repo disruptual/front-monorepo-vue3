@@ -3,7 +3,8 @@ export default { name: 'CardBlockEditor' };
 </script>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import { useDevice } from '@dsp/ui';
 import {
   HOME_BLOCK_TYPES,
   HOME_BLOCK_QUERIES,
@@ -11,13 +12,16 @@ import {
 } from '@dsp/business';
 
 import HomeBlocksFields from '@/components/home-blocks/home-blocks-fields/index.vue';
+const device = useDevice();
 
 const props = defineProps({
   modelValue: { type: Object, required: true },
   isEditing: { type: Boolean, required: true }
 });
 
-const emit = defineEmits(['update:modelValue', 'delete']);
+const emit = defineEmits(['update:modelValue', 'delete', 'draggableStart']);
+
+const isOptionsOpened = ref(false);
 
 const block = computed({
   get() {
@@ -36,12 +40,17 @@ const deleteBlock = block => {
 <template>
   <dsp-grid
     v-if="isEditing"
-    :columns="2"
+    rows="auto auto"
+    columns="8fr 2fr"
     gap="md"
     class="card-block-editor--editable"
   >
-    <dsp-grid-item :column="1">
-      <dsp-flex gap="sm" align="center">
+    <dsp-grid-item>
+      <dsp-flex
+        class="container"
+        justify="flex-start"
+        :gap="device.isTablet || device.isMobile ? 'xs' : 'xl'"
+      >
         <dsp-form-control
           v-slot="{ on, ...formControlProps }"
           v-model="block.name"
@@ -53,9 +62,6 @@ const deleteBlock = block => {
             v-on="on"
           />
         </dsp-form-control>
-      </dsp-flex>
-
-      <dsp-flex gap="sm">
         <dsp-form-control
           v-slot="{ on, ...formControlProps }"
           v-model="block.type"
@@ -64,8 +70,8 @@ const deleteBlock = block => {
         >
           <select v-bind="formControlProps" v-on="on">
             <option disabled :value="null">Type</option>
-            <option v-for="type in HOME_BLOCK_TYPES" :key="type">
-              {{ type }}
+            <option v-for="blockType in HOME_BLOCK_TYPES" :key="blockType">
+              {{ blockType }}
             </option>
           </select>
         </dsp-form-control>
@@ -85,21 +91,38 @@ const deleteBlock = block => {
             </option>
           </select>
         </dsp-form-control>
-
-        <HomeBlocksFields
-          v-model="block"
-          :mapped-options="HOME_BLOCK_MAPPED_TYPE[block.type]"
-        />
       </dsp-flex>
     </dsp-grid-item>
-    <dsp-grid-item :column="2">
+    <dsp-grid-item>
+      <dsp-flex class="card-actions" gap="sm" justify="center" align="center">
+        <dsp-icon-button
+          class="dragable-block"
+          icon="draggable"
+          size="sm"
+          @mousedown="emit('draggableStart')"
+        />
+        <dsp-icon-button
+          class="remove-block"
+          icon="trash"
+          size="sm"
+          @click="deleteBlock(block)"
+        />
+      </dsp-flex>
+
+      <div class="icon-draggable" />
+    </dsp-grid-item>
+    <dsp-grid-item class="option-fields" column="1/-1">
       <dsp-icon-button
         class="remove-block"
-        icon="trash"
+        :icon="isOptionsOpened ? 'chevronDown' : 'chevronUp'"
         size="sm"
-        @click="deleteBlock(block)"
+        @click="isOptionsOpened = !isOptionsOpened"
       />
-      <div class="icon-draggable" />
+      <HomeBlocksFields
+        v-if="isOptionsOpened"
+        v-model="block"
+        :mapped-options="HOME_BLOCK_MAPPED_TYPE[block.type]"
+      />
     </dsp-grid-item>
   </dsp-grid>
 
@@ -126,5 +149,19 @@ const deleteBlock = block => {
 .card-block-editor {
   background-color: v-bind('options?.backgroundColor');
   padding: var(--spacing-sm);
+}
+
+.container {
+  width: 100%;
+}
+
+.option-fields {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+}
+
+.card-actions {
+  height: 100%;
 }
 </style>

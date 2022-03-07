@@ -27,6 +27,15 @@ const sortData = data => data?.slice().sort((a, b) => a.position - b.position);
 const onDelete = row => {
   row?.map(({ id }) => deleteRecommendedCategory(id));
 };
+const updatePosition = (row, newIndex) => {
+  const oldIndex = queryRecommendedCategories.data.value.indexOf(row);
+  const clone = [...queryRecommendedCategories.data.value];
+  clone.splice(oldIndex, 1);
+  clone.splice(newIndex, 0, row);
+  clone.forEach((recommendedCategory, index) => {
+    recommendedCategory.position = index;
+  });
+};
 </script>
 
 <template>
@@ -44,6 +53,22 @@ const onDelete = row => {
 
     <DataTableColumn name="category" :label="t('dataTable.label.numbArticles')">
       en attente dev back
+    </DataTableColumn>
+
+    <DataTableColumn
+      v-slot="{ row }"
+      name="position"
+      :label="t('dataTable.label.numbArticles')"
+    >
+      <dsp-input-text
+        :model-value="row.position"
+        type="number"
+        class="input-position"
+        min="0"
+        :max="queryRecommendedCategories.data.value?.length - 1"
+        @update:modelValue="updatePosition(row, $event)"
+        @click="$event.target.select()"
+      />
     </DataTableColumn>
 
     <DataTableRowAction
@@ -67,3 +92,9 @@ const onDelete = row => {
     @success="queryRecommendedCategories.refetch.value()"
   />
 </template>
+
+<style lang="scss" scoped>
+.dsp-input-text :deep(.input-position) {
+  max-width: var(--spacing-xxl) !important;
+}
+</style>

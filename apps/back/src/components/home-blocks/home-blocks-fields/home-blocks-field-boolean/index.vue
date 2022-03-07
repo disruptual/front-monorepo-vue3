@@ -6,7 +6,7 @@ export default { name: 'HomeBlocksFieldBoolean' };
 import { computed } from 'vue';
 
 const props = defineProps({
-  modelValue: { type: Boolean || undefined, required: true },
+  modelValue: { type: Boolean, default: undefined },
   label: { type: String, default: 'Label' }
 });
 const emit = defineEmits(['update:modelValue']);

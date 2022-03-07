@@ -5,7 +5,7 @@ export default { name: 'HomeBlocksFieldEnum' };
 <script setup>
 import { computed } from 'vue';
 const props = defineProps({
-  modelValue: { type: String || undefined, required: true },
+  modelValue: { type: String, default: undefined },
   options: { type: Array, required: true },
   label: { type: String, default: 'Label' }
 });

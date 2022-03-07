@@ -8,12 +8,11 @@ import downloadFile from 'js-file-download';
 import { nanoid } from 'nanoid';
 import { useFileReader } from '@dsp/core';
 import { useI18n } from 'vue-i18n';
+import { fakeHomePageConfig } from '@dsp/business/utils/constants';
 
 import CardBlockEditor from '@/components/home-blocks/card-block/index.vue';
 
 const { t } = useI18n();
-
-import { fakeHomePageConfig } from '@dsp/business/utils/constants';
 
 console.log('fakeHomePageConfig ==> ', fakeHomePageConfig);
 
@@ -22,6 +21,9 @@ const defaultSettings = {
 };
 const settings = ref(defaultSettings);
 const isEditing = ref(false);
+const isDraggableStart = ref(false);
+// const oldBlockPosition = ref(0);
+// const newBlockPosition = ref(0);
 
 const [, { readAsText }] = useFileReader();
 
@@ -66,6 +68,10 @@ const sortedBlocks = computed(() =>
   settings.value.blocks.slice().sort((a, b) => a.position - b.position)
 );
 
+const isDraggable = computed(() => {
+  return isEditing.value && isDraggableStart.value;
+});
+
 const deleteBlock = block => {
   const index = sortedBlocks.value.indexOf(block);
 
@@ -97,6 +103,10 @@ const onDragStart = block => {
 
 const onDragEnd = () => {
   draggedBlock.value = null;
+  isDraggableStart.value = false;
+};
+const startDraggable = () => {
+  isDraggableStart.value = true;
 };
 
 watch(
@@ -150,11 +160,12 @@ watch(
       :label="t('user.details.editModeSwitchLabel')"
     />
   </dsp-flex>
-  <transition-group class="blocks-list" name="block-list" tag="ul">
+  <transition-group class="blocks-list" name="blocks-list" tag="ul">
     <li
       v-for="(block, index) in sortedBlocks"
       :key="block.id"
-      :draggable="isEditing"
+      class="card-container"
+      :draggable="isDraggable"
       @dragstart="onDragStart(block)"
       @dragend="onDragEnd(block)"
       @dragenter="onDragEnter(index)"
@@ -163,6 +174,7 @@ watch(
         v-model="sortedBlocks[index]"
         :is-editing="isEditing"
         @delete="deleteBlock"
+        @draggable-start="startDraggable"
       />
     </li>
   </transition-group>
@@ -200,5 +212,19 @@ watch(
     border: solid 1px var(--color-gray-200);
     position: relative;
   }
+}
+
+.card-container,
+header {
+  margin-top: var(--spacing-md);
+  box-shadow: var(--box-shadow-sm);
+}
+
+.blocks-list {
+  padding: var(--spacing-md);
+}
+
+.blocks-list-move {
+  transition: transform 0.4s;
 }
 </style>
