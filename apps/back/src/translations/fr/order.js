@@ -1,4 +1,4 @@
-import { ORDER_DETAILS_TABS } from '@/utils/constants';
+import { ORDER_DETAILS_TABS, STORE_OPERATIONS } from '@/utils/constants';
 import {
   ORDER_STATE_TRANSITIONS,
   ORDER_PROBLEM_STATE_TRANSITIONS,
@@ -139,6 +139,11 @@ export default {
           STORE_TO_STORE_LOST_PACKAGE_BEFORE_TRANSIT:
             'Le colis a été perdu pendant le transit vers le magasin de retrait.'
         }
+      },
+      operations: {
+        [STORE_OPERATIONS.SELLER_DEPOSIT]: 'Valider le dépôt',
+        [STORE_OPERATIONS.BUYER_PICKUP]: 'Valider le retrait',
+        [STORE_OPERATIONS.SELLER_PICKUP]: 'Valider la récupération'
       }
     }
   }

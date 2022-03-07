@@ -141,12 +141,13 @@ export function useCRUDApi(
     updateManyMutation({ requestOptions = {}, ...options } = {}) {
       return useMutation(
         `update:${baseQueryKey}`,
-        entities =>
-          Promise.all(
+        entities => {
+          return Promise.all(
             entities.map(({ id, entity }) =>
               serviceInstance.update(id, entity, requestOptions)
             )
-          ),
+          );
+        },
         { ...defaultMutationOptions, ...options }
       );
     },

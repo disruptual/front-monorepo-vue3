@@ -5,9 +5,11 @@ export default { name: 'StoreOrderDetails' };
 <script setup>
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { Order } from '@dsp/business';
+import { Order, ORDER_STATES } from '@dsp/business';
+import { STORE_OPERATIONS } from '@/utils/constants';
+import { useStoreOrder } from '@/hooks/useStoreOrder';
+
 import OrderValidationModal from './modals/order-validation.vue';
-import OrderValidation from './modals/order-validation.vue';
 
 const props = defineProps({
   order: { type: Order, required: true }
@@ -19,6 +21,28 @@ const userType = ref(null);
 const isModalOpened = ref(false);
 const user = computed(() => props.order[userType.value]);
 
+const { depositBySeller, pickupByBuyer } = useStoreOrder(props.order.id);
+const actions = {
+  [STORE_OPERATIONS.SELLER_DEPOSIT]: depositBySeller,
+  [STORE_OPERATIONS.BUYER_PICKUP]: pickupByBuyer
+};
+
+const operation = computed(() => {
+  const { order } = props;
+  if (order.isRecoverable) return STORE_OPERATIONS.BUYER_PICKUP;
+  if (order.orderState === ORDER_STATES.ORDER_ACCEPTED)
+    return STORE_OPERATIONS.SELLER_DEPOSIT;
+  if (order.orderState === ORDER_STATES.DISTRIBUTED)
+    return STORE_OPERATIONS.BUYER_PICKUP;
+
+  return null;
+});
+
+const onSubmit = formValues => {
+  console.log(operation.value);
+  return actions[operation.value](formValues);
+};
+
 const isCorrectUser = computed(() => {
   switch (props.order.orderState) {
     case 'ORDER_ACCEPTED':
@@ -28,14 +52,6 @@ const isCorrectUser = computed(() => {
     default:
       return false;
   }
-});
-
-const actionLabel = computed(() => {
-  if (props.order.isRecoverable) return 'Restituer au vendeur';
-
-  return userType.value === 'buyer'
-    ? 'Retirer la commade'
-    : 'Déposer la commande';
 });
 </script>
 
@@ -104,9 +120,10 @@ const actionLabel = computed(() => {
       class="store-order-details__action-button"
       size="lg"
       is-rounded
+      :disabled="!props.order.orderItems"
       @click="isModalOpened = true"
     >
-      {{ actionLabel }}
+      {{ t(`order.store.operations.${operation}`) }}
     </dsp-button>
   </dsp-flex>
 
@@ -124,9 +141,12 @@ const actionLabel = computed(() => {
     </dsp-flex>
   </div>
   <OrderValidationModal
-    :order="order"
+    v-if="order.orderItems"
+    :order-items="order.orderItems"
+    :operation="operation"
     :is-opened="isModalOpened"
     @close="isModalOpened = false"
+    @submit="onSubmit"
   />
 </template>
 

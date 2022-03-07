@@ -53,6 +53,10 @@ defineEmits(['update:modelValue']);
   justify-content: center;
   align-items: center;
   margin-right: var(--spacing-sm);
+
+  > * {
+    cursor: pointer;
+  }
 }
 
 input {

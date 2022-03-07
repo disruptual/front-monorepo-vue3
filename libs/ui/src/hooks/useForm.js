@@ -61,8 +61,8 @@ export function useForm({
     try {
       isSubmitting.value = true;
       await validate();
-      if (!isValid.value) return;
       isSubmitted.value = true;
+      if (!isValid.value) return;
 
       return await onSubmit(values.value);
     } catch (err) {

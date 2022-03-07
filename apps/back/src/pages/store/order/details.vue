@@ -32,7 +32,7 @@ useBreadCrumbs(
 
 <template>
   <dsp-center class="order-details-page">
-    <dsp-container is-small>
+    <dsp-container :is-small="isOrderValid">
       <dsp-surface>
         <router-link :to="{ name: 'StoreOrders' }">
           <dsp-flex gap="xs" align="center">
@@ -54,10 +54,10 @@ useBreadCrumbs(
           </template>
 
           <template #default="{ entity: order }">
-            <div v-if="!isOrderValid">
+            <dsp-center v-if="!isOrderValid" class="order-details-page__error">
               <dsp-form-error :error="invalidOrderMessage" />
-            </div>
-            <StoreOrderDetails :order="order" />
+            </dsp-center>
+            <StoreOrderDetails v-else :order="order" />
           </template>
         </dsp-query-loader>
       </dsp-surface>
@@ -72,5 +72,10 @@ a {
 
 .order-details-page {
   margin-top: var(--spacing-lg);
+}
+
+.order-details-page__error {
+  margin: var(--spacing-xl) 0;
+  font-size: var(--spacing-lg);
 }
 </style>

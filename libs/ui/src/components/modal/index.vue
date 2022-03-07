@@ -110,7 +110,7 @@ watch(
 }
 
 .content {
-  margin-top: var(--spacing-3xl);
+  margin-top: var(--spacing-xxl);
   animation: modal-content-enter var(--transition-md);
   @include not-mobile {
     max-width: 80vw;

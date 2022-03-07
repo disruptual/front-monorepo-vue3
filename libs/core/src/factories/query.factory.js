@@ -51,24 +51,25 @@ export class QueryBuilder {
         })
         .filter(Boolean);
 
-      const subQueries = this.createSubQueries(entity, name);
+      const subQueries = this.createSubQueries(entity, name, prefix);
 
       return [...ownQueries, ...subQueries].flat();
     });
   }
 
-  createSubQueries(entity, name) {
+  createSubQueries(entity, name, prefix = '') {
     entity.__isLazyDetectionDisabled = true;
     let value = entity[name];
     delete entity.__isLazyDetectionDisabled;
 
     if (!value) return [];
-
     return this.isCollection(value)
       ? value
-          .map(subEntity => this.createBaseQueries(subEntity, `${name}.`))
+          .map(subEntity =>
+            this.createBaseQueries(subEntity, `${prefix}${name}.`)
+          )
           .flat()
-      : this.createBaseQueries(value, `${name}.`).flat();
+      : this.createBaseQueries(value, `${prefix}${name}.`).flat();
   }
 }
 

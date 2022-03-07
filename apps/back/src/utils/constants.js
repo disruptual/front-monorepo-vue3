@@ -84,6 +84,12 @@ export const HOME_TABS = {
   ONBOARDING: 'onboarding'
 };
 
+export const STORE_OPERATIONS = {
+  SELLER_DEPOSIT: 'sellerDeposit',
+  BUYER_PICKUP: 'buyerPickup',
+  SELLER_PICKEUP: 'sellerPickup'
+};
+
 export const MENU = [
   {
     id: 'admin',

@@ -1,21 +1,21 @@
-import { computed, reactive } from 'vue';
+import { computed } from 'vue';
+import { useCRUDApi } from '../useCRUDApi';
 import { OrderItem, OrderItemService } from '@dsp/business';
-import { useHttp } from '@dsp/core/hooks/useHttp';
 import { useCollectionQuery } from '@dsp/core/hooks/useCollectionQuery';
 
 export function useOrderItemApi() {
-  const http = useHttp();
-  const orderItemService = new OrderItemService({ http });
+  return useCRUDApi(
+    { model: OrderItem, service: OrderItemService },
+    orderItemService => ({
+      findAllByOrderIdQuery(orderId, { relations = [] } = {}) {
+        const queryKey = computed(() => `/orders/${orderId}/order_items`);
 
-  return {
-    findAllByOrderIdQuery(orderId, { relations = [] } = {}) {
-      const queryKey = computed(() => `/orders/${orderId}/order_items`);
-
-      return useCollectionQuery(
-        queryKey,
-        () => orderItemService.findAllByOrderId(orderId),
-        { model: OrderItem, relations }
-      );
-    }
-  };
+        return useCollectionQuery(
+          queryKey,
+          () => orderItemService.findAllByOrderId(orderId),
+          { model: OrderItem, relations }
+        );
+      }
+    })
+  );
 }
