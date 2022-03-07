@@ -3,7 +3,7 @@ export default { name: 'CardBlockEditor' };
 </script>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useDevice } from '@dsp/ui';
 import {
   HOME_BLOCK_TYPES,
@@ -12,16 +12,20 @@ import {
 } from '@dsp/business';
 
 import HomeBlocksFields from '@/components/home-blocks/home-blocks-fields/index.vue';
-const device = useDevice();
 
+const device = useDevice();
+const isOptionsOpened = ref(false);
+const refSelectQuery = ref(false);
 const props = defineProps({
   modelValue: { type: Object, required: true },
   isEditing: { type: Boolean, required: true }
 });
-
-const emit = defineEmits(['update:modelValue', 'delete', 'draggableStart']);
-
-const isOptionsOpened = ref(false);
+const emit = defineEmits([
+  'update:modelValue',
+  'delete',
+  'draggableStart',
+  'change:type'
+]);
 
 const block = computed({
   get() {
@@ -35,6 +39,21 @@ const block = computed({
 const deleteBlock = block => {
   emit('delete', block);
 };
+
+const onChangeType = type => {
+  block.value.type = type;
+  block.value = { ...block.value, query: null };
+  if (!refSelectQuery.value) return;
+  refSelectQuery.value.selectedIndex = null;
+};
+
+const onChangeQuery = query => {
+  block.value.query = query;
+};
+
+const getHomeBlocksQueries = computed(
+  () => HOME_BLOCK_QUERIES[block.value.type]
+);
 </script>
 
 <template>
@@ -49,6 +68,7 @@ const deleteBlock = block => {
       <dsp-flex
         class="container"
         justify="flex-start"
+        align="center"
         :gap="device.isTablet || device.isMobile ? 'xs' : 'xl'"
       >
         <dsp-form-control
@@ -66,26 +86,45 @@ const deleteBlock = block => {
           v-slot="{ on, ...formControlProps }"
           v-model="block.type"
           label="Type"
-          required
         >
-          <select v-bind="formControlProps" v-on="on">
+          <select
+            v-bind="formControlProps"
+            v-on="on"
+            @change="onChangeType($event.target.value)"
+          >
             <option disabled :value="null">Type</option>
-            <option v-for="blockType in HOME_BLOCK_TYPES" :key="blockType">
-              {{ blockType }}
+            <option
+              v-for="homeBlockType in HOME_BLOCK_TYPES"
+              :key="homeBlockType"
+              :value="homeBlockType"
+            >
+              {{ homeBlockType }}
             </option>
           </select>
         </dsp-form-control>
         <dsp-form-control
+          v-if="block.type"
           v-slot="{ on, ...formControlProps }"
-          v-model="block.type"
+          v-model="block.query"
           label="Requête"
-          required
         >
-          <select v-if="block.type" v-bind="formControlProps" v-on="on">
-            <option disabled :value="null">Requête</option>
+          <select
+            ref="refSelectQuery"
+            v-bind="formControlProps"
+            v-on="on"
+            @change="onChangeQuery($event.target.value)"
+          >
             <option
-              v-for="query in HOME_BLOCK_QUERIES[block.type]"
+              :selected="block.query ? false : true"
+              disabled
+              :value="null"
+            >
+              Requête
+            </option>
+            <option
+              v-for="query in getHomeBlocksQueries"
               :key="query"
+              :value="query"
             >
               {{ query }}
             </option>
@@ -116,6 +155,7 @@ const deleteBlock = block => {
         class="remove-block"
         :icon="isOptionsOpened ? 'chevronDown' : 'chevronUp'"
         size="sm"
+        :disabled="block.query ? false : true"
         @click="isOptionsOpened = !isOptionsOpened"
       />
       <HomeBlocksFields

@@ -22,8 +22,6 @@ const defaultSettings = {
 const settings = ref(defaultSettings);
 const isEditing = ref(false);
 const isDraggableStart = ref(false);
-// const oldBlockPosition = ref(0);
-// const newBlockPosition = ref(0);
 
 const [, { readAsText }] = useFileReader();
 
@@ -160,7 +158,7 @@ watch(
       :label="t('user.details.editModeSwitchLabel')"
     />
   </dsp-flex>
-  <transition-group class="blocks-list" name="blocks-list" tag="ul">
+  <ul class="blocks-list">
     <li
       v-for="(block, index) in sortedBlocks"
       :key="block.id"
@@ -177,7 +175,7 @@ watch(
         @draggable-start="startDraggable"
       />
     </li>
-  </transition-group>
+  </ul>
 </template>
 
 <style lang="scss" scoped>
@@ -222,9 +220,5 @@ header {
 
 .blocks-list {
   padding: var(--spacing-md);
-}
-
-.blocks-list-move {
-  transition: transform 0.4s;
 }
 </style>

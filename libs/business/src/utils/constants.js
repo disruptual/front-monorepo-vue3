@@ -10,8 +10,8 @@ export const fakeHomePageConfig = [
   {
     id: 1,
     name: 'Bloc 1',
-    type: 'ITEM',
-    query: 'RECOMMENDED_ITEMS',
+    type: null,
+    query: null,
     position: 1,
     options: {
       itemsPerSection: 7,
