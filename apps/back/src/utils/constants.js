@@ -148,8 +148,8 @@ export const MENU = [
     ],
     links: [
       { target: '/store/commandes', id: 'storeDeposit' },
-      { target: '/', id: 'userSearch' },
-      { target: '/', id: 'stocks' }
+      { target: '/', id: 'userSearch', isWIP: true },
+      { target: '/', id: 'stocks', isWIP: true }
     ]
   },
   {
@@ -161,8 +161,8 @@ export const MENU = [
       USER_ROLES.EVENT_MANAGER
     ],
     links: [
-      { target: '/', id: 'eventDeposit' },
-      { target: '/', id: 'eventSales' }
+      { target: '/', id: 'eventDeposit', isWIP: true },
+      { target: '/', id: 'eventSales', isWIP: true }
     ]
   },
   {
@@ -183,7 +183,8 @@ export const MENU = [
       {
         target: { name: 'SettingsHomeBlocks' },
         id: 'blocks',
-        isEnabled: config => config.features.settings.homeBlocks.isEnabled
+        isEnabled: config => config.features.settings.homeBlocks.isEnabled,
+        isWIP: true
       }
     ]
   }

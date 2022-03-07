@@ -74,6 +74,7 @@ const focusedTextColor = useReadableColor('--color-brand-500');
         <ul class="section-list">
           <li v-for="link in displayedLinksForSection(section)" :key="link.id">
             <router-link
+              v-show="!link.isWIP"
               :to="link.target"
               class="menu-item"
               @click="onLinkClick"

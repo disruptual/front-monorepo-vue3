@@ -82,14 +82,16 @@ const onmouseleave = () => {
         </dsp-flex>
         <ul v-if="isSectionOpened(section.id)" class="section-list">
           <li v-for="link in getEnabledLinks(section.links)" :key="link.label">
-            <router-link
+            <component
+              :is="link.isWIP ? 'span' : 'router-link'"
               v-readable-color
               :to="link.target"
               class="menu-item"
               @click="onLinkClick"
             >
               {{ t(`menu.links.${link.id}`) }}
-            </router-link>
+              <span v-if="link.isWIP">Soon !</span>
+            </component>
           </li>
         </ul>
       </dsp-flex>
@@ -111,7 +113,7 @@ aside {
   &:hover,
   &:focus-within {
     transition-delay: 100ms;
-    width: 270px; // @FIXME how to keep transition with auto width ?
+    width: 320px; // @FIXME how to keep transition with auto width ?
   }
 
   &:not(:hover):not(:focus-within) {
@@ -169,8 +171,8 @@ ul {
   padding: 0;
 }
 
-a {
-  display: block;
+.menu-item {
+  display: flex;
   color: inherit;
   text-decoration: none;
   width: max-content;
@@ -183,5 +185,11 @@ a {
     outline: none;
     background-color: var(--color-brand-300);
   }
+}
+
+.menu-item:not(a) span {
+  color: var(--color-brand-200);
+  font-weight: var(--font-weight-bold);
+  margin-left: auto;
 }
 </style>
