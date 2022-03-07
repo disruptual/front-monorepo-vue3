@@ -23,7 +23,7 @@ export default {
       homeBlocks: { isEnabled: true }
     },
     store: {
-      isEnabled: true
+      isEnabled: false
     },
     eventStore: {
       isEnabled: false
