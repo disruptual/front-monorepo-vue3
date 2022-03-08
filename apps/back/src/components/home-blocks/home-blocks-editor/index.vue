@@ -10,11 +10,9 @@ import { useFileReader } from '@dsp/core';
 import { useI18n } from 'vue-i18n';
 import { fakeHomePageConfig } from '@dsp/business/utils/constants';
 
-import CardBlockEditor from '@/components/home-blocks/card-block/index.vue';
+import HomeBlocksCard from '@/components/home-blocks/home-blocks-card/index.vue';
 
 const { t } = useI18n();
-
-console.log('fakeHomePageConfig ==> ', fakeHomePageConfig);
 
 const defaultSettings = {
   blocks: fakeHomePageConfig
@@ -168,7 +166,7 @@ watch(
       @dragend="onDragEnd(block)"
       @dragenter="onDragEnter(index)"
     >
-      <CardBlockEditor
+      <HomeBlocksCard
         v-model="sortedBlocks[index]"
         :is-editing="isEditing"
         @delete="deleteBlock"

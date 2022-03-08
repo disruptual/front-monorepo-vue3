@@ -77,11 +77,13 @@ const getCategoryRecommended = category => {
     <dsp-center>
       <h2>Ajouter une top catégorie</h2>
     </dsp-center>
-    <dsp-input-text
-      v-model="lowCategoryFilter"
-      class="inputsearch"
-      spellcheck="false"
-    />
+    <dsp-form-control v-model="lowCategoryFilter" label="Nom de la catégorie">
+      <dsp-input-text
+        v-model="lowCategoryFilter"
+        class="inputsearch"
+        spellcheck="false"
+      />
+    </dsp-form-control>
     <ul class="results-list">
       <dsp-flex
         v-for="category in categories"

@@ -11,7 +11,7 @@ import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 import DataTableCustomAction from '@/components/data-table/data-table-custom-action/index.vue';
 import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
-import RecommendedCategoryModal from '@/components/home-blocks/modal/category/index.vue';
+import HomeBlocksCategoryModal from '@/components/home-blocks/home-blocks-modal/category/index.vue';
 
 const { t } = useI18n();
 const isRecommendedCategoryModalOpened = ref(false);
@@ -45,7 +45,10 @@ const updatePosition = (row, newIndex) => {
     :min-row-size="40"
     :sort-data-fn="sortData"
   >
-    <DataTableColumn name="category.name" label="Catégorie mère">
+    <DataTableColumn
+      name="category.name"
+      :label="t('dataTable.label.rootCategory')"
+    >
       en attente dev back
     </DataTableColumn>
 
@@ -79,13 +82,13 @@ const updatePosition = (row, newIndex) => {
     />
 
     <DataTableCustomAction
-      label="Ajouter"
+      :label="t('dataTable.label.add')"
       icon="add"
       :action="() => (isRecommendedCategoryModalOpened = true)"
     />
   </DataTable>
 
-  <RecommendedCategoryModal
+  <HomeBlocksCategoryModal
     :is-opened="isRecommendedCategoryModalOpened"
     :recommended-category="queryRecommendedCategories.data"
     @close="isRecommendedCategoryModalOpened = false"

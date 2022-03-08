@@ -12,7 +12,7 @@ import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
 import DataTableCustomAction from '@/components/data-table/data-table-custom-action/index.vue';
-import RecommendedUserModal from '@/components/home-blocks/modal/user/index.vue';
+import HomeBlocksUserModal from '@/components/home-blocks/home-blocks-modal/user/index.vue';
 
 const { t } = useI18n();
 const isRecommendedUserModalOpened = ref(false);
@@ -98,10 +98,14 @@ const updatePosition = (row, newIndex) => {
       @action="onDelete"
     />
 
-    <DataTableCustomAction label="Ajouter" icon="add" :action="onAdd" />
+    <DataTableCustomAction
+      :label="t('dataTable.label.add')"
+      icon="add"
+      :action="onAdd"
+    />
   </DataTable>
 
-  <RecommendedUserModal
+  <HomeBlocksUserModal
     :is-opened="isRecommendedUserModalOpened"
     :recommended-user="queryRecommendedUsers.data"
     @close="isRecommendedUserModalOpened = false"

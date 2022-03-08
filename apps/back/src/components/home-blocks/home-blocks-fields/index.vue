@@ -55,11 +55,11 @@ const component = type => {
       :is="component(mappedOption.type)"
       v-if="!hasChildren(mappedOption)"
       v-model="block.options[key]"
-      :label="mappedOption.label"
-      :options="mappedOption.values"
+      :label="mappedOption?.label"
+      :options="mappedOption?.values"
     />
     <fieldset v-else>
-      <legend>{{ mappedOption.label }}</legend>
+      <legend>{{ mappedOption?.label }}</legend>
       <div
         v-for="(subMappedOption, subKey) in mappedOption"
         :key="subMappedOption"
@@ -67,8 +67,8 @@ const component = type => {
         <component
           :is="component(subMappedOption.type)"
           v-model="block.options[key][subKey]"
-          :label="subMappedOption.label"
-          :options="subMappedOption.values"
+          :label="subMappedOption?.label"
+          :options="subMappedOption?.values"
         />
       </div>
     </fieldset>

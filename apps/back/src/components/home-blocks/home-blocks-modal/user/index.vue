@@ -80,11 +80,13 @@ const getUserRecommended = user => {
     <dsp-center>
       <h2>Ajouter un top vendeur</h2>
     </dsp-center>
-    <dsp-input-text
-      v-model="slugFilter"
-      class="inputsearch"
-      spellcheck="false"
-    />
+    <dsp-form-control v-model="slugFilter" label="Slug de l'utilisateur">
+      <dsp-input-text
+        v-model="slugFilter"
+        class="inputsearch"
+        spellcheck="false"
+      />
+    </dsp-form-control>
     <ul class="results-list">
       <dsp-flex
         v-for="user in users"

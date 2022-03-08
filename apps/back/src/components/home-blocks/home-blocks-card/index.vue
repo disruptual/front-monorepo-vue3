@@ -3,19 +3,18 @@ export default { name: 'CardBlockEditor' };
 </script>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useDevice } from '@dsp/ui';
-import {
-  HOME_BLOCK_TYPES,
-  HOME_BLOCK_QUERIES,
-  HOME_BLOCK_MAPPED_TYPE
-} from '@dsp/business';
+import { HOME_BLOCK_TYPES, HOME_BLOCK_QUERIES } from '@dsp/business';
+import { HOME_BLOCK_MAPPED_TYPE } from '@/utils/constants';
 
 import HomeBlocksFields from '@/components/home-blocks/home-blocks-fields/index.vue';
 
+const { t } = useI18n();
 const device = useDevice();
 const isOptionsOpened = ref(false);
-const refSelectQuery = ref(false);
+const selectQueryRef = ref(false);
 const props = defineProps({
   modelValue: { type: Object, required: true },
   isEditing: { type: Boolean, required: true }
@@ -43,8 +42,8 @@ const deleteBlock = block => {
 const onChangeType = type => {
   block.value.type = type;
   block.value = { ...block.value, query: null };
-  if (!refSelectQuery.value) return;
-  refSelectQuery.value.selectedIndex = null;
+  if (!selectQueryRef.value) return;
+  selectQueryRef.value.selectedIndex = null;
 };
 
 const onChangeQuery = query => {
@@ -74,7 +73,7 @@ const getHomeBlocksQueries = computed(
         <dsp-form-control
           v-slot="{ on, ...formControlProps }"
           v-model="block.name"
-          label="Nom"
+          :label="t('homeBlocks.form.name')"
         >
           <dsp-input-text
             spellcheck="false"
@@ -85,14 +84,16 @@ const getHomeBlocksQueries = computed(
         <dsp-form-control
           v-slot="{ on, ...formControlProps }"
           v-model="block.type"
-          label="Type"
+          :label="t('homeBlocks.form.type')"
         >
           <select
             v-bind="formControlProps"
             v-on="on"
             @change="onChangeType($event.target.value)"
           >
-            <option disabled :value="null">Type</option>
+            <option disabled :value="null">
+              {{ t('homeBlocks.form.type') }}
+            </option>
             <option
               v-for="homeBlockType in HOME_BLOCK_TYPES"
               :key="homeBlockType"
@@ -106,7 +107,7 @@ const getHomeBlocksQueries = computed(
           v-if="block.type"
           v-slot="{ on, ...formControlProps }"
           v-model="block.query"
-          label="Requête"
+          :label="t('homeBlocks.form.request')"
         >
           <select
             ref="refSelectQuery"
@@ -119,7 +120,7 @@ const getHomeBlocksQueries = computed(
               disabled
               :value="null"
             >
-              Requête
+              {{ t('homeBlocks.form.request') }}
             </option>
             <option
               v-for="query in getHomeBlocksQueries"

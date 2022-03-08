@@ -3,26 +3,32 @@ export default { name: 'SettingsHomeBlocks' };
 </script>
 
 <script setup>
-import RecommendedUser from '@/components/home-blocks/recommended/user/index.vue';
-import RecommendedBrand from '@/components/home-blocks/recommended/brand/index.vue';
-import RecommendedCategory from '@/components/home-blocks/recommended/category/index.vue';
-import HomeBlocksEditor from '@/components/home-blocks/editor/index.vue';
+import HomeBlocksRecommendationUser from '@/components/home-blocks/home-blocks-recommendation/user/index.vue';
+import HomeBlocksRecommendationBrand from '@/components/home-blocks/home-blocks-recommendation/brand/index.vue';
+import HomeBlocksRecommendationCategory from '@/components/home-blocks/home-blocks-recommendation/category/index.vue';
+import HomeBlocksEditor from '@/components/home-blocks/home-blocks-editor/index.vue';
 
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { SETTINGS_HOMEPAGE_TABS as TABS } from '@/utils/constants';
+import { useCurrentUser } from '@dsp/core';
+import { USER_ROLES } from '@dsp/business';
 
 const { t } = useI18n();
 const { replace } = useRouter();
 const route = useRoute();
+const { data: currentUser } = useCurrentUser();
 
 useBreadCrumbs('Settings homepage');
 
 const activeTab = computed({
   get() {
-    return route.query.section || TABS.EDITOR;
+    if (currentUser.value.hasRole(USER_ROLES.PROJECT_MANAGER)) {
+      return route.query.section || TABS.EDITOR;
+    }
+    return route.query.section || TABS.USER;
   },
   set(value) {
     replace({ ...route, query: { section: value } });
@@ -41,6 +47,7 @@ const activeTab = computed({
 
       <dsp-tabs v-model="activeTab">
         <dsp-tab
+          v-if="currentUser.hasRole(USER_ROLES.PROJECT_MANAGER)"
           :name="TABS.EDITOR"
           :label="t(`settings.homepage.tabs.${TABS.EDITOR}`)"
         >
@@ -53,7 +60,7 @@ const activeTab = computed({
           :label="t(`settings.homepage.tabs.${TABS.USER}`)"
         >
           <dsp-container>
-            <RecommendedUser />
+            <HomeBlocksRecommendationUser />
           </dsp-container>
         </dsp-tab>
 
@@ -62,7 +69,7 @@ const activeTab = computed({
           :label="t(`settings.homepage.tabs.${TABS.BRAND}`)"
         >
           <dsp-container>
-            <RecommendedBrand />
+            <HomeBlocksRecommendationBrand />
           </dsp-container>
         </dsp-tab>
 
@@ -71,7 +78,7 @@ const activeTab = computed({
           :label="t(`settings.homepage.tabs.${TABS.CATEGORY}`)"
         >
           <dsp-container>
-            <RecommendedCategory />
+            <HomeBlocksRecommendationCategory />
           </dsp-container>
         </dsp-tab>
       </dsp-tabs>

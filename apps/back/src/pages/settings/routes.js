@@ -31,7 +31,7 @@ export default [
     props: true,
     component: () => import('@/pages/settings/home-blocks.vue'),
     meta: {
-      permissions: [USER_ROLES.PROJECT_MANAGER],
+      permissions: [USER_ROLES.ADMIN],
       isEnabled: config => config.features.settings.homeBlocks.isEnabled,
       layout: layouts.default
     }

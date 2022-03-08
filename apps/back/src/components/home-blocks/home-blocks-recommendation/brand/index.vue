@@ -12,7 +12,7 @@ import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 import DataTableCustomAction from '@/components/data-table/data-table-custom-action/index.vue';
 import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
-import RecommendedBrandModal from '@/components/home-blocks/modal/brand/index.vue';
+import HomeBlocksBrandModal from '@/components/home-blocks/home-blocks-modal/brand/index.vue';
 
 const { t } = useI18n();
 const isRecommendedBrandModalOpened = ref(false);
@@ -76,13 +76,13 @@ const updatePosition = (row, newIndex) => {
     </DataTableColumn>
 
     <DataTableCustomAction
-      label="Ajouter"
+      :label="t('dataTable.label.add')"
       icon="add"
       :action="() => (isRecommendedBrandModalOpened = true)"
     />
   </DataTable>
 
-  <RecommendedBrandModal
+  <HomeBlocksBrandModal
     :is-opened="isRecommendedBrandModalOpened"
     :recommended-brand="queryRecommendedBrands.data"
     @close="isRecommendedBrandModalOpened = false"

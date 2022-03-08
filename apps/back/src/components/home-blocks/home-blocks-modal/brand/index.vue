@@ -75,13 +75,16 @@ const getBrandRecommended = brand => {
 <template>
   <dsp-modal :is-opened="isOpened" @close="emit('close')">
     <dsp-center>
-      <h2>Ajouter une top marques</h2>
+      <h2>Ajouter une top marque</h2>
     </dsp-center>
-    <dsp-input-text
-      v-model="brandFilter"
-      class="inputsearch"
-      spellcheck="false"
-    />
+    <dsp-form-control v-model="brandFilter" label="Nom de la Marque">
+      <dsp-input-text
+        v-model="brandFilter"
+        class="inputsearch"
+        name="slug"
+        spellcheck="false"
+      />
+    </dsp-form-control>
     <ul class="results-list">
       <dsp-flex
         v-for="brand in brands"

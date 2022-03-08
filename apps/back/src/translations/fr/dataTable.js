@@ -38,6 +38,7 @@ export default {
       }
     },
     label: {
+      add: 'Ajouter',
       amount: 'Montant',
       anonymize: 'Anonymiser',
       avatar: 'Avatar',
@@ -80,6 +81,7 @@ export default {
       price: 'Prix',
       republish: 'Republier',
       role: 'Rôle',
+      rootCategory: 'Catégory mère',
       seller: 'Vendeur',
       service: 'Service',
       slug: 'Slug',
