@@ -44,6 +44,14 @@ export class ThemeService {
               baseColor: baseValue
             };
       Object.entries(createColorScale(options)).forEach(([i, value]) => {
+        if (['half', 'quarter'].includes(i)) {
+          document.documentElement.style.setProperty(
+            `--color-${camelToKebabCase(name)}-${i}`,
+            value
+          );
+
+          return;
+        }
         document.documentElement.style.setProperty(
           `--color-${camelToKebabCase(name)}-${Number(i) + 1}00`,
           value

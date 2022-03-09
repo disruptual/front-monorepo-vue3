@@ -5,6 +5,8 @@ import { Iban } from './Iban.model';
 import { Item } from './Item.model';
 import { Order } from './Order.model';
 import { Review } from './Review.model';
+import { Address } from './Address.model';
+import { Location } from './Location.model';
 
 export class User extends BaseModel {
   static get relations() {
@@ -43,6 +45,16 @@ export class User extends BaseModel {
         name: 'reviewsGiven',
         getUri: entity => `${entity.uri}/reviews_froms`,
         model: Review
+      },
+      {
+        name: 'mainAddress',
+        getUri: entity => entity._mainAddress,
+        model: Address
+      },
+      {
+        name: 'storeLocation',
+        getUri: entity => entity.responsableLocations?.[0],
+        model: Location
       }
     ];
   }

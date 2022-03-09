@@ -27,7 +27,7 @@ export function useOrderApi() {
 
     forwardMutation(requestOptions) {
       return useMutation(
-        `rollBackOrder`,
+        `forwardBackOrder`,
         ({ id, deliveryTag, transition }) =>
           orderService.forward(id, { deliveryTag, transition }),
         requestOptions

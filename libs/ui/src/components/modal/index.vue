@@ -44,14 +44,11 @@ watch(
     // We need a small timeout because sometimes on the next tick the modal content won't be fully loaded into the DOM
     setTimeout(() => {
       const children = getFocusableChildren(contentEl.value.$el);
-      children[0]?.focus?.();
+      const elementToFocus = focusRef.value ?? children[0];
+      elementToFocus?.focus?.();
     }, 50);
   }
 );
-
-watch(focusRef, newVal => {
-  newVal?.focus?.();
-});
 </script>
 
 <template>
@@ -70,7 +67,7 @@ watch(focusRef, newVal => {
           @click="$emit('close')"
         />
         <div v-click-outside="onClose" class="content">
-          <dsp-surface ref="contentEl">
+          <dsp-surface v-if="isOpened" ref="contentEl">
             <slot :focus-ref="el => (focusRef = el)" />
           </dsp-surface>
         </div>
@@ -113,7 +110,7 @@ watch(focusRef, newVal => {
 }
 
 .content {
-  margin-top: var(--spacing-3xl);
+  margin-top: var(--spacing-xxl);
   animation: modal-content-enter var(--transition-md);
   @include not-mobile {
     max-width: 80vw;

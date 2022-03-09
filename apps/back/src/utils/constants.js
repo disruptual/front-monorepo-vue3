@@ -87,7 +87,14 @@ export const EVENT_DETAILS_TABS = {
 
 export const HOME_TABS = {
   RELEASE: 'release',
-  DATA_STUDIO: 'data_studio'
+  DATA_STUDIO: 'data_studio',
+  ONBOARDING: 'onboarding'
+};
+
+export const STORE_OPERATIONS = {
+  SELLER_DEPOSIT: 'sellerDeposit',
+  BUYER_PICKUP: 'buyerPickup',
+  SELLER_PICKEUP: 'sellerPickup'
 };
 
 export const MENU = [
@@ -147,9 +154,9 @@ export const MENU = [
       USER_ROLES.STORE
     ],
     links: [
-      { target: '/', id: 'storeDeposit' },
-      { target: '/', id: 'userSearch' },
-      { target: '/', id: 'stocks' }
+      { target: '/store/commandes', id: 'storeDeposit' },
+      { target: '/', id: 'userSearch', isWIP: true },
+      { target: '/', id: 'stocks', isWIP: true }
     ]
   },
   {
@@ -161,8 +168,8 @@ export const MENU = [
       USER_ROLES.EVENT_MANAGER
     ],
     links: [
-      { target: '/', id: 'eventDeposit' },
-      { target: '/', id: 'eventSales' }
+      { target: '/', id: 'eventDeposit', isWIP: true },
+      { target: '/', id: 'eventSales', isWIP: true }
     ]
   },
   {
@@ -183,7 +190,8 @@ export const MENU = [
       {
         target: { name: 'SettingsHomeBlocks' },
         id: 'blocks',
-        isEnabled: config => config.features.settings.homeBlocks.isEnabled
+        isEnabled: config => config.features.settings.homeBlocks.isEnabled,
+        isWIP: true
       }
     ]
   }

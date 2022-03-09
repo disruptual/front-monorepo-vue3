@@ -10,7 +10,6 @@ export const createEntityNormalizer = (model, proxyHandler = {}) => {
           const instance = new model(e);
           return new Proxy(instance, proxyHandler);
         });
-
       return new Collection({
         ...data,
         'hydra:member': allEntities,

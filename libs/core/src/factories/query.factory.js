@@ -1,16 +1,18 @@
 import { uniqBy } from 'lodash-es';
 import { Collection } from '@dsp/business';
 import { createRelationsNormalizer } from './relationsNormalizer.factory';
+import { noop } from '@dsp/core/utils/helpers';
 
 export class QueryBuilder {
-  constructor({ fetcher, onSettled, relations }) {
+  constructor({ fetcher, onSettled, relations, queryClient }) {
     this.fetcher = fetcher;
     this.onSettled = onSettled;
     this.relations = createRelationsNormalizer().normalize(relations);
+    this.queryClient = queryClient;
   }
 
   getRelation(relationName) {
-    return this.relations.some(r => r.name === relationName);
+    return this.relations.find(r => r.name === relationName);
   }
 
   isCollection(element) {
@@ -49,34 +51,40 @@ export class QueryBuilder {
         })
         .filter(Boolean);
 
-      const subQueries = this.createSubQueries(entity, name);
+      const subQueries = this.createSubQueries(entity, name, prefix);
 
       return [...ownQueries, ...subQueries].flat();
     });
   }
 
-  createSubQueries(entity, name) {
+  createSubQueries(entity, name, prefix = '') {
     entity.__isLazyDetectionDisabled = true;
     let value = entity[name];
     delete entity.__isLazyDetectionDisabled;
 
     if (!value) return [];
-
     return this.isCollection(value)
       ? value
-          .map(subEntity => this.createBaseQueries(subEntity, `${name}.`))
+          .map(subEntity =>
+            this.createBaseQueries(subEntity, `${prefix}${name}.`)
+          )
           .flat()
-      : this.createBaseQueries(value, `${name}.`).flat();
+      : this.createBaseQueries(value, `${prefix}${name}.`).flat();
   }
 }
 
 export const createQueries = (
   entityOrCollection,
-  { fetcher, onSettled, relations = [] }
+  { queryClient, fetcher, onSettled, relations = [] }
 ) => {
   if (!entityOrCollection) return [];
 
-  const queryBuilder = new QueryBuilder({ fetcher, onSettled, relations });
+  const queryBuilder = new QueryBuilder({
+    fetcher,
+    onSettled,
+    relations,
+    queryClient
+  });
 
   return queryBuilder.build(entityOrCollection);
 };

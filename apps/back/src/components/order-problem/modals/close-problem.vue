@@ -3,12 +3,13 @@ export default { name: 'CloseProblemModal' };
 </script>
 
 <script setup>
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useOrderApi } from '@dsp/core';
 import { useToast } from '@dsp/ui';
 import { Order } from '@dsp/business';
 
-defineProps({
+const props = defineProps({
   order: { type: Order, required: true },
   isOpened: { type: Boolean, required: true }
 });
@@ -33,11 +34,11 @@ const { mutate: cancelDispute, isLoading } =
 
 <template>
   <dsp-modal :is-opened="isOpened" @close="$emit('close')">
-    <h4 class="order-dispute-cancel_title">Annuler le litige</h4>
+    <h4 class="order-dispute-cancel_title">Clore le litige</h4>
     <p class="order-dispute-cancel_subtitle">
-      Êtes vous sûrs de vouloir annuler le litige en cours ?
+      Êtes vous sûr de vouloir clore ce litige ?
     </p>
-    <dsp-flex justify="flex-end" gap="md">
+    <dsp-flex justify="flex-end" gap="md" as="footer">
       <dsp-button is-outlined @click="$emit('close')">
         {{ t('no') }}
       </dsp-button>
@@ -54,5 +55,10 @@ const { mutate: cancelDispute, isLoading } =
 <style lang="scss" scoped>
 h4 {
   font-size: var(--font-size-lg);
+  margin-top: 0;
+}
+
+footer {
+  margin-top: var(--spacing-lg);
 }
 </style>

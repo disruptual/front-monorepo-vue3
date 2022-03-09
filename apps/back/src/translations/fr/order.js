@@ -1,4 +1,4 @@
-import { ORDER_DETAILS_TABS } from '@/utils/constants';
+import { ORDER_DETAILS_TABS, STORE_OPERATIONS } from '@/utils/constants';
 import {
   ORDER_STATE_TRANSITIONS,
   ORDER_PROBLEM_STATE_TRANSITIONS,
@@ -38,10 +38,9 @@ export default {
         serviceFees: 'Frais de service',
         shippingFees: 'Frais de livraison',
         reimbursementAmount: 'Montant remboursé',
-        abundantAmount: 'Montant abondé',
+        abundantAmount: 'Montant abondement',
+        creditedTotal: 'Total crédité au vendeur',
         totalAmount: 'Montant total',
-        totalAmountBeforeNego: 'Montant total (avant négociation)',
-        totalAmountAfterNego: 'Montant total (après négociation)',
         itemsAmount: 'Montant des articles'
       },
       closeProblemButton: 'Clore le litige',
@@ -101,7 +100,7 @@ export default {
       [ORDER_STATE_TRANSITIONS.VALIDATION_BY_ORDER_ACCEPTED]: 'Finalisée',
       [ORDER_STATE_TRANSITIONS.VALIDATION_BY_SENT]: 'Finalisée',
       [ORDER_PROBLEM_STATES.PROBLEM]: 'Litige en cours',
-      [ORDER_PROBLEM_STATES.DISPUTED]: 'Litige en cours',
+      [ORDER_PROBLEM_STATES.DISPUTED]: 'Litige en cours (service client)',
       [ORDER_PROBLEM_STATE_TRANSITIONS.INIT_PROBLEM]: 'Litige en cours',
       [ORDER_PROBLEM_STATE_TRANSITIONS.PROBLEM_IS_SOLVED_BY_USERS]:
         'Litige résolu',
@@ -118,6 +117,34 @@ export default {
         'Colis non déposé par le vendeur',
       [ORDER_DELIVERY_STATE_TRANSITIONS.EXPEDITION_CREATED_BY_SELLER]:
         'Expédition créée par le vendeur'
+    },
+    store: {
+      invalidMessages: {
+        wrongDelivery: "Cette commande n'utilise pas la livraison en magasin",
+        ORDERED: "Cette commande n'a pas été validée par la vendeuse",
+        NOT_DELIVERED:
+          "Retrait impossible. La date de retrait est dépassée et la commande est annulée. L'acheteuse a été remboursée",
+        DELIVERED: 'Cette commande a déjà été récupérée',
+        END: {
+          CANCEL: 'La commande a été annulée par le vendeur',
+          CANCEL_AUTOMATIC:
+            "Dépôt impossible. La date de dépôt est dépassée et la commande est annulée. L'acheteuse a été remboursée",
+          CANCEL_AUTOMATIC_BY_ORDER_ACCEPTED:
+            "Dépôt impossible. La date de dépôt est dépassée et la commande est annulée. L'acheteuse a été remboursée",
+          CANCEL_AUTOMATIC_BY_DISTRIBUTED: 'La date de retrait a été dépassée.',
+          VALIDATION_BY_DELIVERED: 'Cette commande a déjà été traitée',
+          BUYER_IN_STORE_ACCEPT: 'Cette commande a déjà été traitée',
+          STORE_TO_STORE_LOST_PACKAGE_AFTER_TRANSIT:
+            'Le colis a été perdu pendant le transit vers le magasin de retrait.',
+          STORE_TO_STORE_LOST_PACKAGE_BEFORE_TRANSIT:
+            'Le colis a été perdu pendant le transit vers le magasin de retrait.'
+        }
+      },
+      operations: {
+        [STORE_OPERATIONS.SELLER_DEPOSIT]: 'Valider le dépôt',
+        [STORE_OPERATIONS.BUYER_PICKUP]: 'Valider le retrait',
+        [STORE_OPERATIONS.SELLER_PICKUP]: 'Valider la récupération'
+      }
     }
   }
 };

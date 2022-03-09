@@ -4,7 +4,7 @@ export default { name: 'DataTableGrid' };
 
 <script setup>
 import { inject, computed, ref, watch } from 'vue';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { CONTEXT_KEYS } from '@/utils/constants';
 import { vOnIntersect, vTooltip } from '@dsp/ui';
 

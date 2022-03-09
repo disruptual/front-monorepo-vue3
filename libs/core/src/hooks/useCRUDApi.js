@@ -40,6 +40,7 @@ export function useCRUDApi(
           return data;
         };
 
+        if (!oldData) return;
         if (oldData['@id'] === newData['@id']) {
           return { ...oldData, ...newData };
         } else if (oldData.pages) {
@@ -49,6 +50,12 @@ export function useCRUDApi(
         }
       }
     );
+
+    queryClient.invalidateQueries({
+      predicate: ({ queryKey }) => {
+        return queryKey.startsWith(serviceInstance.endpoint + '?');
+      }
+    });
   };
 
   const onCreateSuccess = newData => {
@@ -100,7 +107,7 @@ export function useCRUDApi(
       id,
       { relations = [], requestOptions = {}, ...options } = {}
     ) {
-      const queryKey = computed(() => `${baseQueryKey}/${id}`);
+      const queryKey = computed(() => `${baseQueryKey}/${unref(id)}`);
 
       const queryOptions = computed(() => ({
         model,
@@ -111,7 +118,7 @@ export function useCRUDApi(
 
       return useModelQuery(
         queryKey,
-        () => serviceInstance.findById(id, requestOptions),
+        () => serviceInstance.findById(unref(id), requestOptions),
         queryOptions
       );
     },
@@ -125,7 +132,7 @@ export function useCRUDApi(
           ...options,
           onSuccess(data) {
             onUpdateSuccess(data);
-            return options.onSuccess(data);
+            return options.onSuccess?.(data);
           }
         }
       );
@@ -134,12 +141,13 @@ export function useCRUDApi(
     updateManyMutation({ requestOptions = {}, ...options } = {}) {
       return useMutation(
         `update:${baseQueryKey}`,
-        entities =>
-          Promise.all(
+        entities => {
+          return Promise.all(
             entities.map(({ id, entity }) =>
               serviceInstance.update(id, entity, requestOptions)
             )
-          ),
+          );
+        },
         { ...defaultMutationOptions, ...options }
       );
     },
@@ -153,7 +161,7 @@ export function useCRUDApi(
           ...options,
           onSuccess(data) {
             onCreateSuccess(data);
-            return options.onSuccess(data);
+            return options.onSuccess?.(data);
           }
         }
       );

@@ -9,8 +9,7 @@ import { Order, USER_GENDERS } from '@dsp/business';
 import { formatPrice } from '@dsp/core';
 import { ORDER_DETAILS_TABS as TABS } from '@/utils/constants';
 
-import CloseProblemModal from './modals/close-problem.vue';
-import SolveProblemModal from './modals/solve-problem.vue';
+import OrderProblem from '../order-problem/index.vue';
 
 const props = defineProps({
   order: { type: Order, required: true }
@@ -37,12 +36,6 @@ const buyerLabel = computed(() =>
     ? t(`order.details.title.buyer.female`)
     : t(`order.details.title.buyer.male`)
 );
-
-const totalAmountLabel = computed(() =>
-  props.order.isNegotiated
-    ? t(`order.details.label.totalAmountAfterNego`)
-    : t(`order.details.label.totalAmount`)
-);
 </script>
 
 <template>
@@ -59,29 +52,7 @@ const totalAmountLabel = computed(() =>
           :class="statusClass"
         >
           <div>{{ t(`order.status.${order.status}`) }}</div>
-          <dsp-flex
-            v-if="order.hasProblem"
-            gap="sm"
-            class="problem-buttons"
-            align="center"
-          >
-            <dsp-button
-              size="sm"
-              is-outlined
-              is-rounded
-              @click="openedModal = MODALS.SOLVE"
-            >
-              {{ t('order.details.solveProblemButton') }}
-            </dsp-button>
-            <dsp-button
-              size="sm"
-              is-outlined
-              is-rounded
-              @click="openedModal = MODALS.CLOSE"
-            >
-              {{ t('order.details.closeProblemButton') }}
-            </dsp-button>
-          </dsp-flex>
+          <OrderProblem v-if="order.hasProblem" :order="props.order" />
         </dsp-flex>
 
         <dt>{{ t(`order.details.label.orderDate`) }}</dt>
@@ -100,7 +71,7 @@ const totalAmountLabel = computed(() =>
         </dd>
 
         <dt>{{ t(`order.details.label.modeDelivery`) }}</dt>
-        <dd>{{ t(`delivery.modes.${order.delivery.tag}`) }}</dd>
+        <dd>{{ t(`delivery.modes.${order.delivery?.tag}`) }}</dd>
 
         <template v-if="order.isCocolis">
           <dt>{{ t(`order.details.label.numExpedition`) }}</dt>
@@ -139,37 +110,42 @@ const totalAmountLabel = computed(() =>
         <dd>
           {{
             order.remuneration
-              ? t(`remuneration.${order.remuneration.remunerationName}`)
+              ? t(`remuneration.${order.remuneration?.remunerationName}`)
               : t(`remuneration.pending`)
           }}
         </dd>
 
         <dt>{{ t(`order.details.label.itemsAmount`) }}</dt>
-        <dd>{{ formatPrice(order.itemsAmount || 0) }}</dd>
+        <dd>
+          {{ formatPrice(order.itemsAmount ?? 0) }}
+          <span v-if="order.isNegotiated" class="non-negotiated-price">
+            ({{ formatPrice(order.itemsAmountBeforeNegotiation ?? 0) }})
+          </span>
+        </dd>
 
         <dt>{{ t(`order.details.label.serviceFees`) }}</dt>
-        <dd>{{ formatPrice(order.serviceFeeAmount || 0) }}</dd>
+        <dd>{{ formatPrice(order.serviceFeeAmount ?? 0) }}</dd>
 
         <dt>{{ t(`order.details.label.shippingFees`) }}</dt>
-        <dd>{{ formatPrice(order.deliveryPrice || 0) }}</dd>
+        <dd>{{ formatPrice(order.deliveryPrice ?? 0) }}</dd>
 
-        <template v-if="order.remuneration && !order.remuneration?.isGiftcard">
+        <template v-if="order.hasPoblem">
           <dt>{{ t(`order.details.label.reimbursementAmount`) }}</dt>
-          <dd>{{ formatPrice(order.refundAmount || 0) }}</dd>
+          <dd>{{ formatPrice(order.refundAmount ?? 0) }}</dd>
+        </template>
 
+        <template v-if="order.remuneration && order.remuneration?.isGiftCard">
           <dt>{{ t(`order.details.label.abundantAmount`) }}</dt>
-          <dd>{{ formatPrice(order.abundedPriceSeller || 0) }}</dd>
+          <dd>{{ formatPrice(order.abundedPriceSeller ?? 0) }}</dd>
         </template>
 
-        <template v-if="order.isNegotiated">
-          <dt class="title">
-            {{ t(`order.details.label.totalAmountBeforeNego`) }}
-          </dt>
-          <dd>{{ formatPrice(order.totalAmountBeforeNegotiation) }}</dd>
+        <template v-if="order.isFinished">
+          <dt>{{ t(`order.details.label.creditedTotal`) }}</dt>
+          <dd>{{ formatPrice(order.creditedTotal ?? 0) }}</dd>
         </template>
 
-        <dt>{{ totalAmountLabel }}</dt>
-        <dd>{{ formatPrice(order.totalAmount || order.moneyBox) }}</dd>
+        <dt>{{ t(`order.details.label.totalAmount`) }}</dt>
+        <dd>{{ formatPrice(order.paidTotal ?? 0) }}</dd>
       </dl>
     </dsp-surface>
 
@@ -208,17 +184,6 @@ const totalAmountLabel = computed(() =>
       <span v-else>{{ t(`order.details.noResultSeller`) }}</span>
     </dsp-surface>
   </div>
-  <CloseProblemModal
-    :is-opened="openedModal === MODALS.CLOSE"
-    :order="order"
-    @close="openedModal = null"
-    @success="emit('update')"
-  />
-  <SolveProblemModal
-    :is-opened="openedModal === MODALS.SOLVE"
-    :order="order"
-    @close="openedModal = null"
-  />
 </template>
 
 <style lang="scss" scoped>
@@ -299,5 +264,9 @@ h3 {
 
 .order-status--finished {
   color: var(--color-green-700);
+}
+
+.non-negotiated-price {
+  text-decoration: line-through;
 }
 </style>

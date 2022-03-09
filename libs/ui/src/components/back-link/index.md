@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue';
 import component from './index.vue'
-console.log(component)
 </script>
 
 # BackLink

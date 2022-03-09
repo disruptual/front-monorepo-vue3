@@ -62,8 +62,4 @@ const onHeaderResize = entries => {
   bottom: 0;
   z-index: 10;
 }
-
-main {
-  margin: var(--spacing-lg) 0;
-}
 </style>

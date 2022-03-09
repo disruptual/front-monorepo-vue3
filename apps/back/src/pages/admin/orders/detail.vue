@@ -30,7 +30,10 @@ const query = useOrderApi().findByIdQuery(props.id, {
     'remuneration',
     'location',
     'orderStateHistos',
-    'deliveryStateHistos'
+    'deliveryStateHistos',
+    'orderProblems',
+    'orderProblems.problemReason',
+    'orderProblems.medias'
   ]
 });
 

@@ -7,6 +7,8 @@ export class Breadcrumbs {
 
   goTo(id) {
     const index = this.breadcrumbs.findIndex(b => b.id === id);
+    if (index === this.breadcrumbs.length - 1) return;
+
     this.breadcrumbs = this.breadcrumbs.slice(0, index);
   }
 
@@ -23,11 +25,15 @@ export class Breadcrumbs {
     });
   }
 
-  get lastCrumb() {
+  get currentCrumb() {
     return this.breadcrumbs[this.breadcrumbs.length - 1];
   }
 
+  get lastCrumb() {
+    return this.breadcrumbs[this.breadcrumbs.length - 2];
+  }
+
   setActiveBreadcrumbLabel(label) {
-    this.lastCrumb.label = label;
+    this.currentCrumb.label = label;
   }
 }

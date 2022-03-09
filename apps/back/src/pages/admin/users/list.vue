@@ -21,6 +21,7 @@ const { showSuccess, showError } = useToast();
 const { t } = useI18n();
 
 const filters = ref({});
+const isReady = ref(false);
 const {
   findAllQuery,
   muteMutation,
@@ -29,7 +30,8 @@ const {
   blockedMutation,
   unblockedMutation
 } = useUserApi();
-const query = findAllQuery({ filters });
+const query = findAllQuery({ filters, enabled: isReady });
+
 const { mutateAsync: mute } = muteMutation();
 const { mutateAsync: unmute } = unmuteMutation();
 const { mutateAsync: block } = blockedMutation();
@@ -47,11 +49,14 @@ const { mutate: anonymize, isLoading: isAnonymizing } = anonymizeMutation({
   }
 });
 
-const onFilterChange = ({ transactionWithdraw, ...newFilters }) => {
+const onFilterChange = ({ transactionWithdraw, created, ...newFilters }) => {
   filters.value = {
     ...newFilters,
+    'created[before]': created?.before,
+    'created[after]': created?.after,
     'transactionWithdrawBlockedAt[]': transactionWithdraw
   };
+  isReady.value = true;
 };
 
 const anonymizedUser = ref(null);

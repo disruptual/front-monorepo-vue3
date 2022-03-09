@@ -22,7 +22,14 @@ const move = offset => {
   rootElement.value.scrollLeft = rootElement.value.scrollLeft - offset;
 };
 
-provide(CONTEXT_KEYS.SWIPER, { root: rootElement, register, move });
+const goTo = index => {
+  const { elementRef } = state.slides[index];
+  const { left: rootLeft } = rootElement.value.getBoundingClientRect();
+  const { left: slideLeft } = elementRef.value.getBoundingClientRect();
+  rootElement.value.scrollLeft = slideLeft - rootLeft;
+};
+
+provide(CONTEXT_KEYS.SWIPER, { root: rootElement, register, move, goTo });
 </script>
 
 <template>

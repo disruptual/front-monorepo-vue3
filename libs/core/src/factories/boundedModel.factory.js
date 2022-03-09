@@ -16,10 +16,11 @@ class BoundModelFactory {
   }
 
   getProxyHandler(prefix) {
-    return new LazyRelationsProxyHandler({
+    const handler = new LazyRelationsProxyHandler({
       prefix,
       onLazyRelationDetected: this.onLazyRelationDetected
     });
+    return handler;
   }
 
   buildRelations(resource, prefix = '') {
@@ -43,13 +44,14 @@ class BoundModelFactory {
     if (!isEnabled) return;
 
     const uri = getUri(entity);
+    const handler = this.getProxyHandler(`${prefix}${name}.`);
 
     const options = {
       name,
       uri,
       prefix,
       model,
-      normalizer: createEntityNormalizer(model, this.getProxyHandler(prefix))
+      normalizer: createEntityNormalizer(model, handler)
     };
 
     if (Array.isArray(uri)) {
@@ -119,7 +121,7 @@ export const createBoundedModel = (
         onLazyRelationDetected
       })
     );
-    normalizedEntity = initialValue ?? normalizer(entity);
+    normalizedEntity = normalizer(entity);
   }
 
   const boundModel = Array.isArray(normalizedEntity)

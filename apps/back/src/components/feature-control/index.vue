@@ -24,8 +24,8 @@ watchEffect(() => {
       <dsp-flex direction="column" gap="md" align="center">
         <h2>Cette fonctionalité n'est pas activée sur votre plateforme.</h2>
         <p>
-          Si vous pensez qu'il s'agit d'une erreur, veuillez contacter l'équipe
-          technique Disruptual.
+          Si vous pensez qu'il s'agit d'une erreur, veuillez contacter votre
+          chef de projet.
         </p>
         <router-link to="/">Retour à l'accueil</router-link>
       </dsp-flex>

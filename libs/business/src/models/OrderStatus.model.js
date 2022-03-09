@@ -60,9 +60,7 @@ export class OrderStatus {
 
   getValue() {
     if (!this.order.delivery) {
-      throw new Error(
-        'Cannot get order status if the delivery relation has not been loaded.'
-      );
+      return null;
     }
 
     if (this.shouldUseOrderStateTransition()) {

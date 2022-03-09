@@ -16,6 +16,7 @@ import { Remuneration } from './Remuneration.model';
 import { Store } from './Store.model';
 import { OrderStateHisto } from './OrderStateHisto.model';
 import { DeliveryStateHisto } from './DeliveryStateHisto.model';
+import { OrderProblem } from './OrderProblem.model';
 
 export class Order extends BaseModel {
   static get relations() {
@@ -64,6 +65,11 @@ export class Order extends BaseModel {
         name: 'deliveryStateHistos',
         getUri: entity => entity._deliveryStateHistos,
         model: DeliveryStateHisto
+      },
+      {
+        name: 'orderProblems',
+        getUri: entity => entity._orderProblems,
+        model: OrderProblem
       }
     ];
   }
@@ -128,30 +134,48 @@ export class Order extends BaseModel {
     return this.problemState !== ORDER_PROBLEM_STATES.NONE;
   }
 
+  get isDisputed() {
+    return this.problemState === ORDER_PROBLEM_STATES.DISPUTED;
+  }
+
   get status() {
     return new OrderStatus(this).getValue();
   }
 
   get isNegotiated() {
-    const amount = this.totalAmountBeforeNegotiation;
+    return this.itemsAmountBeforeNegotiation !== this.itemsAmount;
+  }
 
-    return amount > this.totalAmount && amount > this.moneyBox;
+  get itemsAmountBeforeNegotiation() {
+    return this.orderItems?.reduce?.(
+      (total, current) => total + current.price,
+      0
+    );
   }
 
   get totalAmountBeforeNegotiation() {
-    return this.orderItems?.reduce?.(
-      (total, current) => total + current.price,
-      this.serviceFeeAmount + this.deliveryPrice
+    return (
+      this.itemsAmountBeforeNegotiation +
+      this.serviceFeeAmount +
+      this.deliveryPrice
     );
   }
 
   get itemsAmount() {
-    const amount =
-      (this.totalAmount || this.moneyBox) -
-      this.deliveryPrice -
-      this.serviceFeeAmount;
+    return Math.round(this.totalPrice * 100) / 100;
+  }
 
-    return Math.round(amount * 100) / 100;
+  get creditedTotal() {
+    if (!this.remuneration) return null;
+    if (this.remuneration.isGiftCard) {
+      return this.itemsAmount + this.abundedPriceSeller;
+    }
+
+    return this.itemsAmount;
+  }
+
+  get paidTotal() {
+    return this.moneyBox + this.totalAmount;
   }
 
   get isMondialRelay() {
@@ -159,31 +183,31 @@ export class Order extends BaseModel {
   }
 
   get isHandDelivery() {
-    return this.delivery.tag === DELIVERY_MODES.HAND;
+    return this.delivery?.tag === DELIVERY_MODES.HAND;
   }
 
   get isLocationDelivery() {
-    return this.delivery.tag === DELIVERY_MODES.LOCATION;
+    return this.delivery?.tag === DELIVERY_MODES.LOCATION;
   }
 
   get isCocolis() {
-    return this.delivery.tag === DELIVERY_MODES.COCOLIS;
+    return this.delivery?.tag === DELIVERY_MODES.COCOLIS;
   }
 
   get isRelaisColis() {
-    return this.delivery.tag === DELIVERY_MODES.RELAIS_COLIS;
+    return this.delivery?.tag === DELIVERY_MODES.RELAIS_COLIS;
   }
 
   get isColissimo() {
-    return this.delivery.tag === DELIVERY_MODES.RELAIS_COLISSIMO;
+    return this.delivery?.tag === DELIVERY_MODES.RELAIS_COLISSIMO;
   }
 
   get isLaposteColissimo() {
-    return this.delivery.tag === DELIVERY_MODES.LAPOSTE_COLISSIMO;
+    return this.delivery?.tag === DELIVERY_MODES.LAPOSTE_COLISSIMO;
   }
 
   get isLaposteLetter() {
-    return this.delivery.tag === DELIVERY_MODES.LAPOSTE_LETTER;
+    return this.delivery?.tag === DELIVERY_MODES.LAPOSTE_LETTER;
   }
 
   get trackingNumber() {
@@ -208,6 +232,27 @@ export class Order extends BaseModel {
       default:
         return null;
     }
+  }
+
+  get isRecoverableBySeller() {
+    if (!this.orderItems) return false;
+    if (this.isRecoveryDateExpired) return false;
+
+    return this.orderItems.some(
+      o =>
+        // @TODO: create enums for conformityStates et recoveryStates
+        o.conformityState === 'REFUSED_BY_BUYER' &&
+        o.recoveryState === 'AWAITING_RECOVERY'
+    );
+  }
+
+  get isRecoveryDateExpired() {
+    const now = new Date();
+    const limit = new Date(
+      this.order.dateForTheSellerToCollectTheirItemsInStore
+    );
+
+    return now > limit;
   }
 
   get history() {

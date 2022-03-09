@@ -30,7 +30,11 @@ export class BaseModel {
 
     return {
       uri,
-      ...Object.fromEntries(relationKeys.map(k => [k, null])),
+      ...Object.fromEntries(
+        relationKeys.map(k => {
+          return [k, null];
+        })
+      ),
       ...mapKeys(rest, (value, key) => (ctor.isRelation(key) ? `_${key}` : key))
     };
   }

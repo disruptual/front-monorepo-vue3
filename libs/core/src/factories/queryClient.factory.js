@@ -6,7 +6,7 @@ export function createQueryClient() {
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
-        staleTime: 30000,
+        staleTime: 30 * 1000,
         retry: false,
         notifyOnChangeProps: 'tracked',
         onSuccess(data) {

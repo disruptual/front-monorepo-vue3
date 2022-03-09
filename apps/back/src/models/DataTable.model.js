@@ -9,7 +9,6 @@ const ACTIONS_COLUMN_WIDTH = 50;
 export class DataTable {
   constructor({
     id,
-    query,
     minRowSize,
     hasSelectorColumn,
     hasSearchbar,
@@ -22,7 +21,6 @@ export class DataTable {
       throw new Error('DataTable id is required');
     }
     this.id = id;
-    this.query = query;
     this.columns = [];
     this.selectedRowIds = [];
     this.visibleRowIds = [];
@@ -147,10 +145,6 @@ export class DataTable {
       if (!column.headerElement) return total;
       return total + column.headerElement.offsetWidth;
     }, this.selectorColumnWidth + this.actionColumnWidth);
-  }
-
-  get currentRowCount() {
-    return this.query.data?.length;
   }
 
   get hasActionColumn() {

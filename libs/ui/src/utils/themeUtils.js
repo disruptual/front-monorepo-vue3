@@ -25,7 +25,7 @@ export const createColorScale = ({
     .set('hsl.h', `+${hueShift / 2}`)
     .set('hsl.l', minLightness);
 
-  return chroma
+  const palette = chroma
     .scale([lightestColor, middleColor, darkestColor])
     .colors(9)
     .map(hex => {
@@ -34,4 +34,9 @@ export const createColorScale = ({
         .set('hsl.l', `${lightnessAdjust >= 0 ? '+' : ''}${lightnessAdjust}`)
         .hex();
     });
+
+  palette.half = chroma(palette[4]).alpha(0.5).css();
+  palette.quarter = chroma(palette[4]).alpha(0.25).css();
+
+  return palette;
 };

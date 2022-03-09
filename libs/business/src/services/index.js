@@ -21,3 +21,5 @@ export * from './Brand.service';
 export * from './RecommendedBrand.service';
 export * from './RecommendedUser.service';
 export * from './RecommendedCategory.service';
+export * from './OrderProblem.service';
+export * from './ProblemReason.service';

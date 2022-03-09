@@ -99,6 +99,7 @@ const sliderUrls = computed(() =>
               <dt class="info__label">{{ t('itemDetail.infos.content') }}</dt>
               <dd>{{ item.content }}</dd>
             </div>
+
             <dsp-flex
               v-if="item.locations?.length > 0"
               gap="sm"
@@ -113,6 +114,7 @@ const sliderUrls = computed(() =>
                 </li>
               </dd>
             </dsp-flex>
+
             <dsp-flex direction="column">
               <h3>{{ t('itemDetail.seller') }}</h3>
               <router-link
@@ -123,20 +125,14 @@ const sliderUrls = computed(() =>
                   params: { slug: item.user?.slug }
                 }"
               >
-                <dsp-flex
-                  gap="sm"
-                  align="center"
-                  class="seller__container"
-                  justify="space-around"
-                >
-                  <dsp-flex align="center" gap="sm">
-                    <dsp-avatar :user="item.user" />
-                    <span>{{ item.user?.username }}</span>
-                  </dsp-flex>
+                <dsp-flex gap="sm" align="center" class="seller__container">
+                  <dsp-avatar :user="item.user" />
+                  <span>{{ item.user?.username }}</span>
                   <dsp-icon icon="chevronRight" />
                 </dsp-flex>
               </router-link>
             </dsp-flex>
+
             <dsp-flex direction="column" class="statistics">
               <h3>{{ t('itemDetail.statistics.title') }}</h3>
               <dsp-flex direction="column">
@@ -257,18 +253,15 @@ dd {
   }
 }
 .seller {
-  border: 1px solid var(--color-separator);
   @include mobile-only {
     width: 60vw;
   }
   transition: all var(--transition-sm);
   color: var(--color-text);
   text-decoration: none;
-  .seller__container {
-    padding: var(--spacing-sm);
-  }
 }
-.seller:hover {
+.seller:hover,
+.seller:focus {
   transform: translate(5px);
   color: var(--color-primary);
   border-color: var(--color-primary);

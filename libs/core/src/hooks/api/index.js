@@ -21,3 +21,5 @@ export * from './useBrandApi';
 export * from './useRecommendedUserApi';
 export * from './useRecommendedCategoryApi';
 export * from './useRecommendedBrandApi';
+export * from './useOrderProblemApi';
+export * from './useProblemReasonApi';

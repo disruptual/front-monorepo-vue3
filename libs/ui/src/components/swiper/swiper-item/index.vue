@@ -22,11 +22,11 @@ const onSwipeStart = e => {
   position.value = e.clientX;
   const root = swiperContext.root.value;
   root.addEventListener('mousemove', onMouseMove);
-  root.addEventListener('touchmove', onTouchMove);
+  root.addEventListener('touchmove', onTouchMove, { passive: true });
   window.addEventListener('mouseup', onSwipeEnd);
-  window.addEventListener('touchend', onSwipeEnd);
-  window.addEventListener('touchleave', onSwipeEnd);
-  window.addEventListener('touchcancel', onSwipeEnd);
+  window.addEventListener('touchend', onSwipeEnd, { passive: true });
+  window.addEventListener('touchleave', onSwipeEnd, { passive: true });
+  window.addEventListener('touchcancel', onSwipeEnd, { passive: true });
 };
 
 const onSwipeMove = clientX => {
@@ -60,7 +60,7 @@ const onSwipeEnd = () => {
     ref="swiperElement"
     class="dsp-swiper-item"
     @mousedown="onSwipeStart"
-    @touchstart="onSwipeStart"
+    @touchstart.passive="onSwipeStart"
   >
     <slot />
   </component>

@@ -5,7 +5,7 @@ export default { name: 'DataTableFilterDrawer' };
 <script setup>
 import { inject, ref } from 'vue';
 import { CONTEXT_KEYS, DATATABLE_COLUMN_TYPES } from '@/utils/constants';
-import { vTooltip } from '@dsp/ui';
+import { useDevice } from '@dsp/ui';
 import { useI18n } from 'vue-i18n';
 import { noop } from '@dsp/core';
 
@@ -13,6 +13,7 @@ const { model } = inject(CONTEXT_KEYS.DATATABLE);
 
 const isOpened = ref(false);
 const { t } = useI18n();
+const device = useDevice();
 
 const formOptions = {
   onSubmit(values) {
@@ -34,9 +35,10 @@ const getInitialValue = column => {
 
 <template>
   <dsp-plain-button is-outlined left-icon="filter" @click="isOpened = true">
-    <span v-tooltip="'Filtres'">
+    <dsp-flex gap="sm">
       <dsp-icon icon="filter" />
-    </span>
+      <span v-if="device.isDesktop">Filtres</span>
+    </dsp-flex>
   </dsp-plain-button>
   <dsp-drawer :is-opened="isOpened" position="right" @close="isOpened = false">
     <dsp-smart-form
@@ -140,6 +142,6 @@ const getInitialValue = column => {
 
 <style lang="scss" scoped>
 .data-table-filter-drawer {
-  padding: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
 }
 </style>

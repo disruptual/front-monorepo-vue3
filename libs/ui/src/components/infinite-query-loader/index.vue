@@ -20,6 +20,10 @@ const isLoadingSubsequentPage = computed(() => {
   return props.query.isFetching.value;
 });
 
+const isIdle = computed(() => {
+  return props.query.isLoading.value;
+});
+
 const data = computed(() => props.query.data.value);
 const error = computed(() => props.query.error.value);
 
@@ -29,8 +33,10 @@ const onLoadMore = () => {
 </script>
 
 <template>
+  <slot v-if="isIdle" name="idle" />
+
   <dsp-flex
-    v-if="isLoadingFirstPage"
+    v-else-if="isLoadingFirstPage"
     justify="center"
     align="center"
     class="initial-loader"

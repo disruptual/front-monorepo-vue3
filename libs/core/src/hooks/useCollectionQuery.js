@@ -1,6 +1,6 @@
 import { createEntityNormalizer } from '../factories/entityNormalizer.factory';
 import { useBoundedModel } from './useBoundedModel';
-import { computed, unref } from 'vue';
+import { computed, unref, watchEffect } from 'vue';
 import { useReactiveInfiniteQuery } from './useReactiveQuery';
 
 const extractPageFromUri = uri => {
@@ -32,18 +32,14 @@ export function useCollectionQuery(key, fetcher, queryOptions = {}) {
     const {
       model,
       itemsPerPage = 30,
-      getNextPageParams,
+      getNextPageParams = defaultGetNextPageParams,
       ...options
     } = unref(queryOptions);
 
     return {
       ...options,
       getNextPageParam: (lastPage, allPages) => {
-        if (getNextPageParams) {
-          return getNextPageParams(lastPage, allPages, itemsPerPage);
-        }
-
-        return defaultGetNextPageParams(lastPage, itemsPerPage);
+        return getNextPageParams(lastPage, itemsPerPage, allPages);
       },
       select: createEntityNormalizer(model)
     };
@@ -67,6 +63,7 @@ export function useCollectionQuery(key, fetcher, queryOptions = {}) {
 
   return {
     ...boundedQuery,
+    key: computed(() => unref(key)),
     isLoadingFirstPage
   };
 }

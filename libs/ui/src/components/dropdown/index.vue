@@ -128,7 +128,6 @@ const onFocusOutside = e => {
 
 const onToggleMousedown = e => {
   if (toggleButton.value.contains(document.activeElement)) {
-    console.log('mousedown toggle');
     toggle();
   }
 };

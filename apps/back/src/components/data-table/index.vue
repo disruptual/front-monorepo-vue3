@@ -58,7 +58,7 @@ useEventListener('keydown', e => {
 
   switch (e.key) {
     case KEYBOARD.ARROW_DOWN:
-      if (model.focusedRowIndex === model.currentRowCount) return;
+      if (model.focusedRowIndex === props.query.data?.length) return;
       e.preventDefault();
       model.focusedRowIndex++;
       break;
@@ -79,6 +79,10 @@ provide(CONTEXT_KEYS.DATATABLE, {
 </script>
 
 <template>
+  <!-- <pre>
+    <code>{{props.query.key.value}}</code>
+    <code>{{props.query.isStale.value}}</code>
+  </pre> -->
   <div class="data-table">
     <dsp-flex v-if="isLoading" justify="center" class="loader">
       <dsp-loader />

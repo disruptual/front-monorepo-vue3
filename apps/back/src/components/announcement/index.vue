@@ -23,7 +23,6 @@ const onSoftDelete = rows => {
 };
 
 const updateClosable = row => {
-  console.log('update closable');
   row.closable = !row.closable;
   emit('update', row);
 };

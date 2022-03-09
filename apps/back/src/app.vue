@@ -10,9 +10,11 @@ import ErrorBoundary from './components/error-boundary/index.vue';
 import FeatureControl from './components/feature-control/index.vue';
 import { CONTEXT_KEYS } from './utils/constants';
 import { VueQueryDevTools } from 'vue-query/devtools';
+// import { DisruptualDevtools } from '@dsp/devtools';
 
 const globalState = reactive({});
 provide(CONTEXT_KEYS.GLOBAL_STATE, globalState);
+const isProd = import.meta.env.PROD;
 </script>
 
 <template>
@@ -20,8 +22,9 @@ provide(CONTEXT_KEYS.GLOBAL_STATE, globalState);
     <template #loading>
       <AppLoading />
     </template>
+
     <component :is="$route?.meta.layout">
-      <VueQueryDevTools />
+      <VueQueryDevTools v-if="!isProd" />
       <dsp-toasts-container />
       <ErrorBoundary>
         <FeatureControl>
@@ -37,6 +40,7 @@ provide(CONTEXT_KEYS.GLOBAL_STATE, globalState);
         </FeatureControl>
       </ErrorBoundary>
     </component>
+    <!-- <DisruptualDevtools /> -->
   </AppProvider>
 </template>
 
