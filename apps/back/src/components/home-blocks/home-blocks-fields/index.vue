@@ -66,6 +66,7 @@ const component = type => {
       >
         <component
           :is="component(subMappedOption.type)"
+          v-if="subKey !== 'label'"
           v-model="block.options[key][subKey]"
           :label="subMappedOption?.label"
           :options="subMappedOption?.values"

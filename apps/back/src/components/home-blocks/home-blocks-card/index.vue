@@ -3,11 +3,14 @@ export default { name: 'CardBlockEditor' };
 </script>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, watch, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDevice } from '@dsp/ui';
 import { HOME_BLOCK_TYPES, HOME_BLOCK_QUERIES } from '@dsp/business';
-import { HOME_BLOCK_MAPPED_TYPE } from '@/utils/constants';
+import {
+  HOME_BLOCK_MAPPED_TYPE,
+  HOME_BLOCK_OPTIONS_DEFAULTS
+} from '@/utils/homeBlockDefinitions';
 
 import HomeBlocksFields from '@/components/home-blocks/home-blocks-fields/index.vue';
 
@@ -26,22 +29,29 @@ const emit = defineEmits([
   'change:type'
 ]);
 
-const block = computed({
-  get() {
-    return props.modelValue;
+const block = ref({ ...props.modelValue });
+watch(
+  block,
+  newBlock => {
+    emit('update:modelValue', newBlock);
   },
-  set(val) {
-    emit('update:modelValue', val);
-  }
-});
+  { deep: true }
+);
 
 const deleteBlock = block => {
   emit('delete', block);
 };
 
 const onChangeType = type => {
-  block.value.type = type;
-  block.value = { ...block.value, query: null };
+  const { position, name, id } = block.value;
+  block.value = {
+    type,
+    position,
+    name,
+    id,
+    query: null,
+    options: HOME_BLOCK_OPTIONS_DEFAULTS[type]
+  };
   if (!selectQueryRef.value) return;
   selectQueryRef.value.selectedIndex = null;
 };
@@ -91,7 +101,7 @@ const getHomeBlocksQueries = computed(
             v-on="on"
             @change="onChangeType($event.target.value)"
           >
-            <option disabled :value="null">
+            <option disabled :value="null" :selected="!block.type">
               {{ t('homeBlocks.form.type') }}
             </option>
             <option
@@ -115,11 +125,7 @@ const getHomeBlocksQueries = computed(
             v-on="on"
             @change="onChangeQuery($event.target.value)"
           >
-            <option
-              :selected="block.query ? false : true"
-              disabled
-              :value="null"
-            >
+            <option disabled :value="null" :selected="!block.query">
               {{ t('homeBlocks.form.request') }}
             </option>
             <option

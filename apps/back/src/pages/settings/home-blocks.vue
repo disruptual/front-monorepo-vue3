@@ -25,7 +25,7 @@ useBreadCrumbs('Settings homepage');
 
 const activeTab = computed({
   get() {
-    if (currentUser.value.hasRole(USER_ROLES.PROJECT_MANAGER)) {
+    if (currentUser.value.isProjectManager) {
       return route.query.section || TABS.EDITOR;
     }
     return route.query.section || TABS.USER;
@@ -47,7 +47,7 @@ const activeTab = computed({
 
       <dsp-tabs v-model="activeTab">
         <dsp-tab
-          v-if="currentUser.hasRole(USER_ROLES.PROJECT_MANAGER)"
+          v-if="currentUser.isProjectManager"
           :name="TABS.EDITOR"
           :label="t(`settings.homepage.tabs.${TABS.EDITOR}`)"
         >

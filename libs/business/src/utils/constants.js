@@ -13,19 +13,7 @@ export const fakeHomePageConfig = [
     type: null,
     query: null,
     position: 1,
-    options: {
-      itemsPerSection: 7,
-      uiType: 'SWIPER',
-      seeMore: {
-        isEnabled: true,
-        position: 'HEADER'
-      },
-      title: {
-        content: 'Un titre',
-        upperCase: true
-      },
-      backgroundColor: '#f4f5f7'
-    }
+    options: {}
   },
   {
     id: 2,

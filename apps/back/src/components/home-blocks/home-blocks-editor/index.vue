@@ -27,8 +27,13 @@ const onImport = async ([file]) => {
   const textSettings = await readAsText(file);
   const json = JSON.parse(textSettings);
 
-  settings.value = json;
+  settings.value = {
+    blocks: sortByPosition(json.blocks)
+  };
 };
+
+const sortByPosition = blocks =>
+  blocks.slice().sort((a, b) => a.position - b.position);
 
 const onExport = () => {
   downloadFile(
@@ -42,50 +47,35 @@ const addBlock = () => {
     id: nanoid(),
     name: 'New Bloc',
     position: settings.value.blocks.length,
-    options: {
-      backgroundColor: '',
-      itemsPerSection: 10,
-      seeMore: {
-        isEnabled: false,
-        upperCase: false
-      },
-      title: {
-        content: '',
-        upperCase: ''
-      },
-      uiType: 'SWIPER'
-    },
+    options: {},
     type: null,
     query: null
   });
 };
-
-const sortedBlocks = computed(() =>
-  settings.value.blocks.slice().sort((a, b) => a.position - b.position)
-);
-
 const isDraggable = computed(() => {
   return isEditing.value && isDraggableStart.value;
 });
 
 const deleteBlock = block => {
-  const index = sortedBlocks.value.indexOf(block);
+  const index = settings.value.blocks.indexOf(block);
 
   settings.value.blocks.splice(index, 1);
-  sortedBlocks.value.forEach((block, index) => {
+  settings.value.blocks.value.forEach((block, index) => {
     block.position = index;
   });
 };
 
 const moveBlock = (block, newIndex) => {
-  const oldIndex = sortedBlocks.value.indexOf(block);
+  const oldIndex = settings.value.blocks.indexOf(block);
+  if (oldIndex === newIndex) return;
 
-  const newBlocks = [...sortedBlocks.value];
+  const newBlocks = [...settings.value.blocks];
   newBlocks.splice(oldIndex, 1);
   newBlocks.splice(newIndex, 0, block);
   newBlocks.forEach((block, index) => {
     block.position = index;
   });
+  settings.value.blocks = newBlocks;
 };
 
 const draggedBlock = ref(null);
@@ -104,16 +94,6 @@ const onDragEnd = () => {
 const startDraggable = () => {
   isDraggableStart.value = true;
 };
-
-watch(
-  sortedBlocks,
-  newVal => {
-    if (!newVal) return;
-
-    settings.value = { blocks: [...newVal] };
-  },
-  { deep: true }
-);
 </script>
 
 <template>
@@ -158,7 +138,7 @@ watch(
   </dsp-flex>
   <ul class="blocks-list">
     <li
-      v-for="(block, index) in sortedBlocks"
+      v-for="(block, index) in settings.blocks"
       :key="block.id"
       class="card-container"
       :draggable="isDraggable"
@@ -167,7 +147,7 @@ watch(
       @dragenter="onDragEnter(index)"
     >
       <HomeBlocksCard
-        v-model="sortedBlocks[index]"
+        v-model="settings.blocks[index]"
         :is-editing="isEditing"
         @delete="deleteBlock"
         @draggable-start="startDraggable"
