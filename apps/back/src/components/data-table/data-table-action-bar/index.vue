@@ -7,7 +7,7 @@ import { inject, ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { debounce } from 'lodash-es';
 import { CONTEXT_KEYS } from '@/utils/constants';
-import { useDevice } from '@dsp/ui';
+import { useDevice, vTooltip } from '@dsp/ui';
 
 import DataTableFilterDrawer from '../data-table-filter-drawer/index.vue';
 import DataTableHighlightManager from '../data-table-highlight-manager/index.vue';

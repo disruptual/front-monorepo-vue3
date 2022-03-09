@@ -190,8 +190,7 @@ export const MENU = [
       {
         target: { name: 'SettingsHomeBlocks' },
         id: 'blocks',
-        isEnabled: config => config.features.settings.homeBlocks.isEnabled,
-        isWIP: true
+        isEnabled: config => config.features.settings.homeBlocks.isEnabled
       }
     ]
   }
