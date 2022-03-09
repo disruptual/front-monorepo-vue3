@@ -13,6 +13,7 @@ export class DataTable {
     hasSelectorColumn,
     hasSearchbar,
     onGoToDetail,
+    sortDataFn,
     onFilterChange,
     tableElement = null
   }) {
@@ -29,8 +30,10 @@ export class DataTable {
     this.hasSelectorColumn = hasSelectorColumn;
     this.hasSearchbar = hasSearchbar;
     this.onGoToDetail = onGoToDetail;
+    this.sortDataFn = sortDataFn;
     this.onFilterChange = onFilterChange;
     this.customFilters = [];
+    this.customActions = [];
 
     this.tableElement = tableElement;
 
@@ -217,6 +220,10 @@ export class DataTable {
 
   addCustomFilter(filter) {
     this.customFilters.push(filter);
+  }
+
+  addCustomAction(action) {
+    this.customActions.push(action);
   }
 
   moveColumn(column, newIndex) {

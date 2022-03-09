@@ -13,7 +13,8 @@ import { DATATABLE_COLUMN_TYPES } from '@/utils/constants';
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
-import DataTableCustomFilter from '@/components/data-table/data-datble-custom-filter/index.vue';
+import DataTableCustomFilter from '@/components/data-table/data-table-custom-filter/index.vue';
+import DataTableCustomAction from '@/components/data-table/data-table-custom-action/index.vue';
 
 useBreadCrumbs('Utilisateurs');
 const { showSuccess, showError } = useToast();

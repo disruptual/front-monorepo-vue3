@@ -21,7 +21,11 @@ const props = defineProps({
   hasSelectorColumn: { type: Boolean, default: true },
   hasSearchbar: { type: Boolean, default: false },
   rowDetailTarget: { type: Function, default: null },
-  id: { type: String, required: true }
+  id: { type: String, required: true },
+  sortDataFn: {
+    type: Function,
+    default: data => data
+  }
 });
 const emit = defineEmits(['rowDblClick', 'filterChange']);
 
@@ -42,6 +46,7 @@ const model = reactive(
     hasSelectorColumn: props.hasSelectorColumn,
     hasSearchbar: props.hasSearchbar,
     onGoToDetail: props.rowDetailTarget && navigate,
+    sortDataFn: props.sortDataFn,
     onFilterChange(filters) {
       emit('filterChange', filters);
     }
@@ -79,11 +84,7 @@ provide(CONTEXT_KEYS.DATATABLE, {
       <dsp-loader />
     </dsp-flex>
     <template v-else>
-      <DataTableActionBar v-if="props.hasActionBar">
-        <template #custom-actions>
-          <slot name="custom-actions" />
-        </template>
-      </DataTableActionBar>
+      <DataTableActionBar v-if="props.hasActionBar" />
 
       <DataTableGrid>
         <template #no-result><slot name="no-result" /></template>

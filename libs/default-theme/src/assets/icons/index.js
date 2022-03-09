@@ -11,6 +11,7 @@ import circleRegular from './circleRegular.svg?component';
 import circleSolid from './circleSolid.svg?component';
 import clock from './clock.svg?component';
 import columns from './columns.svg?component';
+import draggable from './dragable.svg?component';
 import edit from './edit.svg?component';
 import ellipsisH from './ellipsisH.svg?component';
 import eye from './eye.svg?component';
@@ -83,6 +84,7 @@ export default {
   clock,
   columns,
   download,
+  draggable,
   edit,
   ellipsisH,
   euroSign,

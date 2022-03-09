@@ -3,7 +3,15 @@ export default { name: 'DataTableGrid' };
 </script>
 
 <script setup>
-import { inject, ref, watch, nextTick, onMounted, onBeforeUnmount } from 'vue';
+import {
+  inject,
+  ref,
+  watch,
+  nextTick,
+  computed,
+  onMounted,
+  onBeforeUnmount
+} from 'vue';
 import { debounce } from 'lodash-es';
 import { useEventListener } from '@dsp/ui';
 import { CONTEXT_KEYS } from '@/utils/constants';
@@ -20,6 +28,7 @@ const {
 const tableElement = ref(null);
 
 const totalWidth = ref(null);
+const sortedData = computed(() => model.sortDataFn(data.value));
 const updateTotalWidth = debounce(() => {
   nextTick(() => {
     totalWidth.value = model.totalWidth;
@@ -63,7 +72,7 @@ onBeforeUnmount(() => {
     <dsp-infinite-scroll v-else :root="tableElement" @load-more="fetchNextPage">
       <tbody ref="bodyElement">
         <DataTableGridRow
-          v-for="(row, index) in data"
+          v-for="(row, index) in sortedData"
           :key="row.id"
           :row="row"
           :index="index"

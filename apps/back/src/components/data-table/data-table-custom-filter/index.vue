@@ -1,5 +1,5 @@
 <script>
-export default { name: 'DataTableColumn' };
+export default { name: 'DataTableCustomFilter' };
 </script>
 
 <script setup>

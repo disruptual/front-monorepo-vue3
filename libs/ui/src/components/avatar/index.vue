@@ -14,10 +14,13 @@ const props = defineProps({
   thumbnail: oneOf(['avatar', 'avatarList'], 'avatar')
 });
 
-const initials = computed(
-  () =>
-    `${props.user.firstName.charAt(0)}${props.user.lastName?.charAt?.(0) || ''}`
-);
+const initials = computed(() => {
+  return `${
+    props.user?.firstName?.charAt?.(0) + props.user?.lastName?.charAt?.(0) ||
+    props.user?.username?.charAt?.(0) ||
+    ''
+  }`;
+});
 
 const computedSize = computed(() => `var(--avatar-size-${props.size})`);
 

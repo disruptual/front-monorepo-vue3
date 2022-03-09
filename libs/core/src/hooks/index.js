@@ -8,6 +8,7 @@ export { useAppContext } from './useAppContext';
 export { useReactiveQuery } from './useReactiveQuery';
 export { useCollectionQuery } from './useCollectionQuery';
 export { useCRUDService } from './useCRUDService';
+export { useDebouncedRef } from './useDebouncedRef';
 export { useDateFormat } from './useDateFormat';
 
 export * from './api';

@@ -3,7 +3,37 @@ export default { name: 'SettingsHomeBlocks' };
 </script>
 
 <script setup>
-import HomeBlocksEditor from '@/components/home-blocks-editor/index.vue';
+import HomeBlocksRecommendationUser from '@/components/home-blocks/home-blocks-recommendation/user/index.vue';
+import HomeBlocksRecommendationBrand from '@/components/home-blocks/home-blocks-recommendation/brand/index.vue';
+import HomeBlocksRecommendationCategory from '@/components/home-blocks/home-blocks-recommendation/category/index.vue';
+import HomeBlocksEditor from '@/components/home-blocks/home-blocks-editor/index.vue';
+
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter, useRoute } from 'vue-router';
+import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
+import { SETTINGS_HOMEPAGE_TABS as TABS } from '@/utils/constants';
+import { useCurrentUser } from '@dsp/core';
+import { USER_ROLES } from '@dsp/business';
+
+const { t } = useI18n();
+const { replace } = useRouter();
+const route = useRoute();
+const { data: currentUser } = useCurrentUser();
+
+useBreadCrumbs('Settings homepage');
+
+const activeTab = computed({
+  get() {
+    if (currentUser.value.isProjectManager) {
+      return route.query.section || TABS.EDITOR;
+    }
+    return route.query.section || TABS.USER;
+  },
+  set(value) {
+    replace({ ...route, query: { section: value } });
+  }
+});
 </script>
 
 <template>
@@ -15,7 +45,43 @@ import HomeBlocksEditor from '@/components/home-blocks-editor/index.vue';
         mettant en valeur des annonces, utilisateurs ou marques
       </dsp-alert>
 
-      <HomeBlocksEditor />
+      <dsp-tabs v-model="activeTab">
+        <dsp-tab
+          v-if="currentUser.isProjectManager"
+          :name="TABS.EDITOR"
+          :label="t(`settings.homepage.tabs.${TABS.EDITOR}`)"
+        >
+          <dsp-container>
+            <HomeBlocksEditor />
+          </dsp-container>
+        </dsp-tab>
+        <dsp-tab
+          :name="TABS.USER"
+          :label="t(`settings.homepage.tabs.${TABS.USER}`)"
+        >
+          <dsp-container>
+            <HomeBlocksRecommendationUser />
+          </dsp-container>
+        </dsp-tab>
+
+        <dsp-tab
+          :name="TABS.BRAND"
+          :label="t(`settings.homepage.tabs.${TABS.BRAND}`)"
+        >
+          <dsp-container>
+            <HomeBlocksRecommendationBrand />
+          </dsp-container>
+        </dsp-tab>
+
+        <dsp-tab
+          :name="TABS.CATEGORY"
+          :label="t(`settings.homepage.tabs.${TABS.CATEGORY}`)"
+        >
+          <dsp-container>
+            <HomeBlocksRecommendationCategory />
+          </dsp-container>
+        </dsp-tab>
+      </dsp-tabs>
     </dsp-surface>
   </dsp-container>
 </template>

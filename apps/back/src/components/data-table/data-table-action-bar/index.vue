@@ -7,7 +7,7 @@ import { inject, ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { debounce } from 'lodash-es';
 import { CONTEXT_KEYS } from '@/utils/constants';
-import { useDevice } from '@dsp/ui';
+import { useDevice, vTooltip } from '@dsp/ui';
 
 import DataTableFilterDrawer from '../data-table-filter-drawer/index.vue';
 import DataTableHighlightManager from '../data-table-highlight-manager/index.vue';
@@ -74,6 +74,16 @@ const onUpdateHighlight = () => {
     >
       <dsp-flex gap="xs">
         <dsp-plain-button
+          v-for="action in model.customActions"
+          :key="action.label"
+          @click="action.action"
+        >
+          <span v-tooltip="action.label">
+            <dsp-icon :icon="action.icon" />
+          </span>
+        </dsp-plain-button>
+
+        <dsp-plain-button
           v-for="action in model.rowActions"
           :key="action.label"
           :disabled="isActionDisabled(action)"
@@ -86,8 +96,6 @@ const onUpdateHighlight = () => {
         </dsp-plain-button>
 
         <DataTableFilterDrawer v-if="model.filterableColumns.length > 0" />
-
-        <slot name="custom-actions" />
 
         <dsp-dropdown
           v-model:isOpened="isColumnsDropdownOpened"
