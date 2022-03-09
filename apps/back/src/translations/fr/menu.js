@@ -22,7 +22,7 @@ export default {
       eventSales: 'Vente',
       announcements: "Bandeaux d'information",
       carousel: 'Carrousel',
-      blocks: 'Blocks push'
+      blocks: 'Homepage'
     }
   }
 };
