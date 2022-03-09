@@ -46,22 +46,21 @@ const updatePosition = (row, newIndex) => {
     :sort-data-fn="sortData"
   >
     <DataTableColumn
-      name="category.name"
+      name="category.root.name"
       :label="t('dataTable.label.rootCategory')"
-    >
-      en attente dev back
-    </DataTableColumn>
+    />
 
     <DataTableColumn name="category.name" :label="t('dataTable.label.name')" />
 
-    <DataTableColumn name="category" :label="t('dataTable.label.numbArticles')">
-      en attente dev back
-    </DataTableColumn>
+    <DataTableColumn
+      name="category.totalOfPublishedItems"
+      :label="t('dataTable.label.numbArticlesPublished')"
+    />
 
     <DataTableColumn
       v-slot="{ row }"
       name="position"
-      :label="t('dataTable.label.numbArticles')"
+      :label="t('dataTable.label.position')"
     >
       <dsp-input-text
         :model-value="row.position"

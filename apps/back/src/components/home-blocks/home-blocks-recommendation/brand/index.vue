@@ -48,21 +48,15 @@ const updatePosition = (row, newIndex) => {
   >
     <DataTableColumn name="brand.name" :label="t('dataTable.label.brand')" />
 
-    <DataTableColumn name="brand" :label="t('dataTable.label.numbArticles')">
-      en attente dev back
-    </DataTableColumn>
-
-    <DataTableRowAction
-      name="delete"
-      :label="t('dataTable.label.delete')"
-      icon="trash"
-      @action="onDelete"
+    <DataTableColumn
+      name="brand.totalOfPublishedItems"
+      :label="t('dataTable.label.numbArticlesPublished')"
     />
 
     <DataTableColumn
       v-slot="{ row }"
       name="position"
-      :label="t('dataTable.label.numbArticles')"
+      :label="t('dataTable.label.position')"
     >
       <dsp-input-text
         :model-value="row.position"
@@ -74,6 +68,13 @@ const updatePosition = (row, newIndex) => {
         @click="$event.target.select()"
       />
     </DataTableColumn>
+
+    <DataTableRowAction
+      name="delete"
+      :label="t('dataTable.label.delete')"
+      icon="trash"
+      @action="onDelete"
+    />
 
     <DataTableCustomAction
       :label="t('dataTable.label.add')"

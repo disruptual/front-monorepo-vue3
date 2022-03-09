@@ -60,13 +60,7 @@ const updatePosition = (row, newIndex) => {
         <dsp-avatar :user="new User(row.user)" />
       </dsp-center>
     </DataTableColumn>
-    <DataTableColumn name="user.slug" :label="t('dataTable.label.slug')">
-      En cours de dev back
-    </DataTableColumn>
-    <DataTableColumn
-      name="user.username"
-      :label="t('dataTable.label.username')"
-    />
+    <DataTableColumn name="user.slug" :label="t('dataTable.label.slug')" />
     <DataTableColumn
       v-slot="{ row }"
       name="user.ratingAverage"
@@ -76,9 +70,20 @@ const updatePosition = (row, newIndex) => {
     </DataTableColumn>
 
     <DataTableColumn
+      name="user.totalOfPublishedItems"
+      :label="t('dataTable.label.numbArticlesPublished')"
+    />
+    <DataTableColumn
+      v-slot="{ row }"
+      name="user.reviewsTo"
+      :label="t('dataTable.label.numbReviews')"
+    >
+      {{ row.user.reviewsTo?.length }}
+    </DataTableColumn>
+    <DataTableColumn
       v-slot="{ row }"
       name="position"
-      :label="t('dataTable.label.numbArticles')"
+      :label="t('dataTable.label.position')"
     >
       <dsp-input-text
         :model-value="row.position"
