@@ -15,7 +15,9 @@ const minlengthValidator = (val, length) =>
   isString(val) && val.length >= length;
 const maxlengthValidator = (val, length) =>
   isString(val) && val.length <= length;
-const patternValidator = (val, regexp) => val && regexp.test(val);
+const patternValidator = (val, regexp) => {
+  return !isDefined(val) || regexp.test(val);
+};
 const isInValidator = (val, acceptedValues) => acceptedValues.includes(val);
 const isNotInValidator = (val, unallowedValues) =>
   !unallowedValues.includes(val);

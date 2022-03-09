@@ -68,6 +68,7 @@ export const ORDER_DETAILS_TABS = {
 export const USER_DETAILS_TABS = {
   INFOS: 'infos',
   ORDERS: 'orders',
+  SALES: 'sales',
   ITEMS: 'items',
   REVIEWS: 'reviews'
 };

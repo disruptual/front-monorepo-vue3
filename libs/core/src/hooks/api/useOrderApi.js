@@ -12,7 +12,17 @@ export function useOrderApi() {
       return useCollectionQuery(
         queryKey,
         () => orderService.findAllByUserId(userId),
-        { model: Order, relations }
+        { model: Order, relations, itemsPerPage: Infinity }
+      );
+    },
+
+    findAllSalesByUserIdQuery(userId, { relations = [] } = {}) {
+      const queryKey = computed(() => `/users/${userId}/sales`);
+
+      return useCollectionQuery(
+        queryKey,
+        () => orderService.findAllSalesByUserId(userId),
+        { model: Order, relations, itemsPerPage: Infinity }
       );
     },
 

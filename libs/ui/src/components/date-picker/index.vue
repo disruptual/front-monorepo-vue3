@@ -96,70 +96,72 @@ const updateMinutes = minutes => {
 </script>
 
 <template>
-  <dsp-input-text
-    v-bind="$attrs"
-    :model-value="inputValue"
-    readonly="true"
-    @focus="onFocus"
-  />
-  <dsp-dropdown
-    v-model:is-opened="state.isCalendarOpened"
-    :is-teleport="props.isTeleport"
-    :close-on-focus-outside="false"
-    class="dsp-date-picker"
-  >
-    <template #menu>
-      <div class="dsp-date-picker__menu">
-        <dsp-flex gap="xs" justify="space-around">
-          <dsp-plain-button type="button" @click="previousMonth">
-            <dsp-icon icon="caretLeft" size="sm" />
-          </dsp-plain-button>
-          <span>{{ headerLabel }}</span>
-          <dsp-plain-button type="button" @click="nextMonth">
-            <dsp-icon icon="caretRight" size="sm" />
-          </dsp-plain-button>
-        </dsp-flex>
+  <div class="dsp-datepicker">
+    <dsp-input-text
+      v-bind="$attrs"
+      :model-value="inputValue"
+      readonly
+      @focus="onFocus"
+    />
+    <dsp-dropdown
+      v-model:is-opened="state.isCalendarOpened"
+      :is-teleport="props.isTeleport"
+      :close-on-focus-outside="false"
+      class="dsp-date-picker"
+    >
+      <template #menu>
+        <div class="dsp-date-picker__menu">
+          <dsp-flex gap="xs" justify="space-around">
+            <dsp-plain-button type="button" @click="previousMonth">
+              <dsp-icon icon="caretLeft" size="sm" />
+            </dsp-plain-button>
+            <span>{{ headerLabel }}</span>
+            <dsp-plain-button type="button" @click="nextMonth">
+              <dsp-icon icon="caretRight" size="sm" />
+            </dsp-plain-button>
+          </dsp-flex>
 
-        <div class="dsp-date-picker__calendar">
-          <dsp-plain-button
-            v-for="(day, dayIndex) in calendar"
-            :key="dayIndex"
-            v-readable-color
-            type="button"
-            class="dsp-date-picker__cell"
-            :disabled="isCellDisabled(day)"
-            :class="{ 'dsp-date-picker__cell--active': isActive(day) }"
-            @click="onCellClick(day)"
-          >
-            {{ getCalendarCellLabel(day) }}
-          </dsp-plain-button>
+          <div class="dsp-date-picker__calendar">
+            <dsp-plain-button
+              v-for="(day, dayIndex) in calendar"
+              :key="dayIndex"
+              v-readable-color
+              type="button"
+              class="dsp-date-picker__cell"
+              :disabled="isCellDisabled(day)"
+              :class="{ 'dsp-date-picker__cell--active': isActive(day) }"
+              @click="onCellClick(day)"
+            >
+              {{ getCalendarCellLabel(day) }}
+            </dsp-plain-button>
+          </div>
         </div>
-      </div>
-      <dsp-flex
-        v-if="props.datetime"
-        justify="center"
-        align="center"
-        gap="sm"
-        class="time-picker"
-      >
-        <input
-          type="number"
-          min="0"
-          max="59"
-          :value="modelValue?.getHours?.() || 0"
-          @input="updateHours($event.target.value)"
-        />
-        h
-        <input
-          type="number"
-          min="0"
-          max="59"
-          :value="modelValue?.getMinutes?.() || 0"
-          @input="updateMinutes($event.target.value)"
-        />
-      </dsp-flex>
-    </template>
-  </dsp-dropdown>
+        <dsp-flex
+          v-if="props.datetime"
+          justify="center"
+          align="center"
+          gap="sm"
+          class="time-picker"
+        >
+          <input
+            type="number"
+            min="0"
+            max="59"
+            :value="modelValue?.getHours?.() || 0"
+            @input="updateHours($event.target.value)"
+          />
+          h
+          <input
+            type="number"
+            min="0"
+            max="59"
+            :value="modelValue?.getMinutes?.() || 0"
+            @input="updateMinutes($event.target.value)"
+          />
+        </dsp-flex>
+      </template>
+    </dsp-dropdown>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -200,5 +202,9 @@ const updateMinutes = minutes => {
 .time-picker {
   border-top: solid 1px var(--color-separator);
   padding: var(--spacing-md);
+}
+
+.dsp-datepicker:deep(.dsp-input-text) {
+  background-color: var(---color-surface) !important;
 }
 </style>

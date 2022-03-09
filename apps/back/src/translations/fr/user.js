@@ -17,6 +17,7 @@ export default {
         [USER_DETAILS_TABS.INFOS]: 'Informations',
         [USER_DETAILS_TABS.ITEMS]: 'Articles',
         [USER_DETAILS_TABS.ORDERS]: 'Commandes',
+        [USER_DETAILS_TABS.SALES]: 'Ventes',
         [USER_DETAILS_TABS.REVIEWS]: 'Avis automatiques'
       },
       editModeSwitchLabel: 'Mode édition',
