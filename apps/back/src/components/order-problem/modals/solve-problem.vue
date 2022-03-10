@@ -164,7 +164,7 @@ const remunerationOptions = computed(() =>
             <dsp-smart-form-field
               v-slot="slotProps"
               name="buyerCommercialGestureRemuneration"
-              :initial-value="remunerations[0].remunerationName"
+              :initial-value="remunerations[0].uri"
             >
               <dsp-radio-group
                 v-model="slotProps.field.value"
@@ -201,7 +201,7 @@ const remunerationOptions = computed(() =>
             <dsp-smart-form-field
               v-slot="slotProps"
               name="sellerCommercialGestureRemuneration"
-              :initial-value="remunerations[0].remunerationName"
+              :initial-value="remunerations[0].uri"
             >
               <dsp-radio-group
                 v-model="slotProps.field.value"
