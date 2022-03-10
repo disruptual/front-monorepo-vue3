@@ -75,6 +75,7 @@ export const SETTINGS_HOMEPAGE_TABS = {
 export const USER_DETAILS_TABS = {
   INFOS: 'infos',
   ORDERS: 'orders',
+  SALES: 'sales',
   ITEMS: 'items',
   REVIEWS: 'reviews'
 };

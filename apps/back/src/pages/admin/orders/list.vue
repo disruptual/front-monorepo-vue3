@@ -32,7 +32,7 @@ const onFilterChange = ({ created, ...newFilters }) => {
 
 const query = useOrderApi().findAllQuery({
   filters,
-  relations: ['seller', 'buyer', 'orderItems', 'delivery']
+  relations: ['seller', 'buyer', 'delivery']
 });
 
 const { data: deliveries } = useDeliveryApi().findAllQuery();
@@ -132,11 +132,11 @@ const getStatusClass = order => ({
       :label="t('dataTable.label.numbArticles')"
       width="80"
       :type="DATATABLE_COLUMN_TYPES.NUMBER"
-      :highlight-options="{ predicate: row => row?.orderItems?.length }"
+      :highlight-options="{ predicate: row => row._orderItems.length }"
       is-highlightable
       is-hidden
     >
-      {{ row.orderItems?.length }}
+      {{ row._orderItems.length }}
     </DataTableColumn>
 
     <DataTableColumn

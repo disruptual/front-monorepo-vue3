@@ -4,18 +4,31 @@ export default { name: 'UserOrders' };
 
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { useOrderApi } from '@dsp/core';
+import { useOrderApi, oneOf } from '@dsp/core';
 
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 
 const props = defineProps({
-  userId: { type: String, required: true }
+  userId: { type: String, required: true },
+  queryType: oneOf(['sales', 'purchases'])
 });
+
 const { t } = useI18n();
-const query = useOrderApi().findAllByUserIdQuery(props.userId, {
-  relations: ['buyer', 'seller', 'orderItems']
-});
+
+const queryParameters = [
+  props.userId,
+  {
+    relations: ['buyer', 'seller']
+  }
+];
+const { findAllByUserIdQuery, findAllSalesByUserIdQuery } = useOrderApi();
+const operation =
+  props.queryType === 'purchases'
+    ? findAllByUserIdQuery
+    : findAllSalesByUserIdQuery;
+
+const query = operation(...queryParameters);
 </script>
 
 <template>
@@ -34,14 +47,7 @@ const query = useOrderApi().findAllByUserIdQuery(props.userId, {
     </template>
 
     <DataTableColumn name="id" :label="t('dataTable.label.id')" width="100" />
-    <DataTableColumn
-      v-slot="{ row }"
-      name="role"
-      :label="t('dataTable.label.role')"
-      width="120"
-    >
-      {{ row.seller?.id == userId ? 'Vendeur' : 'Acheteur' }}
-    </DataTableColumn>
+
     <DataTableColumn
       v-slot="{ row }"
       name="created"
@@ -80,7 +86,7 @@ const query = useOrderApi().findAllByUserIdQuery(props.userId, {
       :label="t('dataTable.label.numbArticles')"
       width="80"
     >
-      {{ row.orderItems?.length }}
+      {{ row._orderItems?.length }}
     </DataTableColumn>
   </DataTable>
 </template>

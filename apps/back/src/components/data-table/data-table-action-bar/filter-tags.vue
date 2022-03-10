@@ -56,13 +56,11 @@ const getFilterLabel = filter => {
   );
 
   if (type === DATATABLE_COLUMN_TYPES.DATE) {
-    if (!filter.value.after) {
-      return `${filter.label}: Après le ${formatDateLabel(
-        filter.value.before
-      )}`;
+    if (filter.value.after) {
+      return `${filter.label}: Après le ${formatDateLabel(filter.value.after)}`;
     }
 
-    if (!filter.value.before) {
+    if (filter.value.before) {
       return `${filter.label}: Avant le ${formatDateLabel(
         filter.value.before
       )}`;

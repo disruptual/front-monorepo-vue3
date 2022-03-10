@@ -3,7 +3,7 @@ export default { name: 'OrderDetails' };
 </script>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Order, USER_GENDERS } from '@dsp/business';
 import { formatPrice } from '@dsp/core';
@@ -15,11 +15,7 @@ const props = defineProps({
   order: { type: Order, required: true }
 });
 
-const emit = defineEmits(['update']);
 const { t } = useI18n();
-
-const MODALS = { CLOSE: 'CLOSE', SOLVE: 'SOLVE' };
-const openedModal = ref(null);
 
 const statusClass = computed(() => ({
   'order-status--cancelled': props.order.isCancelled,

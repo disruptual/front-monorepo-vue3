@@ -79,10 +79,6 @@ provide(CONTEXT_KEYS.DATATABLE, {
 </script>
 
 <template>
-  <!-- <pre>
-    <code>{{props.query.key.value}}</code>
-    <code>{{props.query.isStale.value}}</code>
-  </pre> -->
   <div class="data-table">
     <dsp-flex v-if="isLoading" justify="center" class="loader">
       <dsp-loader />

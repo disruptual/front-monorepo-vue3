@@ -39,7 +39,6 @@ export const useStoreOrder = (orderId, { queryOptions = {} } = {}) => {
     if (!order.isLocationDelivery) {
       suffix = 'wrongDelivery';
     } else if (order.isEnded) {
-      console.log(order);
       suffix = `${order.orderState}.${order.orderStateTransition}`;
     } else {
       suffix = `${order.orderState}`;

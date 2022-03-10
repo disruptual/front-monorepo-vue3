@@ -16,11 +16,15 @@ export class Announcement extends BaseModel {
     });
   }
 
-  dateFormatStartAt() {
+  get startDate() {
+    if (!this.startAt) return null;
+
     return new Date(this.startAt);
   }
 
-  dateFormatEndAt() {
+  get endDate() {
+    if (!this.endAt) return null;
+
     return new Date(this.endAt);
   }
 }

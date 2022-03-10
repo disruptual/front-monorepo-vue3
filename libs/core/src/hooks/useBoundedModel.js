@@ -52,15 +52,17 @@ export function useBoundedModel(query, { queryKey, model, relations = [] }) {
     QUERY_BINDING_DEBOUNCE_OPTIONS
   );
 
+  const makeRebindScheduler = reason => () => {
+    rebindReasons.push(reason);
+    debouncedBindQuery();
+  };
+
   const queriesDefinitions = computed(() => {
     return createQueries(instance.value, {
       queryClient: queryClient,
       fetcher: uri => http.get(uri),
       relations: [...new Set(unref(allRelations))],
-      onSettled: () => {
-        rebindReasons.push(REBIND_REASONS.CHILD_QUERY_HAVE_SETTLED);
-        debouncedBindQuery();
-      }
+      onSettled: makeRebindScheduler(REBIND_REASONS.CHILD_QUERY_HAVE_SETTLED)
     });
   });
 
@@ -78,29 +80,17 @@ export function useBoundedModel(query, { queryKey, model, relations = [] }) {
     relationNames.some(relation => isRelationLoading(relation));
 
   const isLoading = computed(() => {
-    return (
-      query.isLoading.value ||
-      relations.some(relation => isRelationLoading(relation))
-    );
+    return query.isLoading.value || unref(relations).some(isRelationLoading);
   });
 
   watch(
     () => unref(queryKey),
-    () => {
-      rebindReasons.push(REBIND_REASONS.KEY_HAS_CHANGED);
-      debouncedBindQuery();
-    }
+    makeRebindScheduler(REBIND_REASONS.KEY_HAS_CHANGED)
   );
-  watch(query.data, data => {
-    rebindReasons.push(REBIND_REASONS.DATA_HAS_CHANGED);
-    debouncedBindQuery();
-  });
+  watch(query.data, makeRebindScheduler(REBIND_REASONS.DATA_HAS_CHANGED));
   watch(
     () => unref(allRelations),
-    () => {
-      rebindReasons.push(REBIND_REASONS.RELATIONS_ARRAY_HAS_CHANGED);
-      debouncedBindQuery();
-    },
+    makeRebindScheduler(REBIND_REASONS.RELATIONS_ARRAY_HAS_CHANGED),
     { deep: true }
   );
 

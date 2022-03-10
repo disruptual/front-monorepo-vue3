@@ -20,6 +20,7 @@ defineProps({
 <style lang="scss" scoped>
 .dsp-form-error {
   display: flex;
+  align-items: center;
   gap: var(--spacing-xs);
   color: var(--color-error-500);
 }

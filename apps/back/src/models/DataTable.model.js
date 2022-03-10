@@ -47,17 +47,26 @@ export class DataTable {
   }
 
   get storageKey() {
-    return `dsp-data-table-${this.id}`;
+    return `dsp-data-table`;
   }
 
   get userPreferences() {
     const raw = localStorage.getItem(this.storageKey);
 
-    return raw ? JSON.parse(raw) : null;
+    return raw ? JSON.parse(raw)[this.id] : null;
   }
 
   set userPreferences(prefs) {
-    localStorage.setItem(this.storageKey, JSON.stringify(prefs));
+    const rawPreferences = localStorage.getItem(this.storageKey);
+    const preferences = rawPreferences ? JSON.parse(rawPreferences) : {};
+
+    localStorage.setItem(
+      this.storageKey,
+      JSON.stringify({
+        ...preferences,
+        [this.id]: prefs
+      })
+    );
   }
 
   get filters() {
@@ -186,7 +195,7 @@ export class DataTable {
   }
 
   resetPreferences() {
-    localStorage.removeItem(this.storageKey);
+    this.userPreferences = {};
     window.location.reload();
   }
 
@@ -214,6 +223,7 @@ export class DataTable {
   }
 
   addCustomAction(action) {
+    console.log(action);
     this.customActions.push(action);
   }
 

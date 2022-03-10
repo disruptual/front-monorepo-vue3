@@ -58,7 +58,7 @@ const remainingDeliveryAmount = computed(() =>
 const remunerationOptions = computed(() =>
   remunerations.value?.map?.(rem => ({
     label: t(`remuneration.${rem.remunerationName}`),
-    value: rem.remunerationName
+    value: rem.uri
   }))
 );
 </script>

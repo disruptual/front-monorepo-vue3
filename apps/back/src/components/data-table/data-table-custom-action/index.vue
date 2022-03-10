@@ -15,7 +15,7 @@ const { model } = inject(CONTEXT_KEYS.DATATABLE);
 
 model.addCustomAction({
   icon: props.icon,
-  name: props.name,
+  label: props.label,
   action: props.action
 });
 </script>

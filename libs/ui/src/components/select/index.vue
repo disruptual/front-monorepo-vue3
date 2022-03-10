@@ -43,4 +43,10 @@ const model = computed({
   </select>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.dsp-select {
+  padding: var(--spacing-xs);
+  border: solid 1px var(--color-separator);
+  background-color: var(--collr-surface);
+}
+</style>

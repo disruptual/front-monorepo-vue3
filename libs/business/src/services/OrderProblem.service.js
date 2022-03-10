@@ -7,6 +7,6 @@ export class OrderProblemService extends BaseCRUDService {
   }
 
   solveById(id, data) {
-    return this._http.post(`${this.endpoint}/${id}/solve`, { data });
+    return this._http.put(`${this.endpoint}/${id}/solve`, { data });
   }
 }
