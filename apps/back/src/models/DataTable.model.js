@@ -223,6 +223,7 @@ export class DataTable {
   }
 
   addCustomAction(action) {
+    console.log(action);
     this.customActions.push(action);
   }
 

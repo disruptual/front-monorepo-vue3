@@ -8,6 +8,7 @@ import { useRouter } from 'vue-router';
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
+import DataTableCustomAction from '@/components/data-table/data-table-custom-action/index.vue';
 
 const { t } = useI18n();
 const { push } = useRouter();
@@ -122,15 +123,7 @@ const onDelete = rows => {
       icon="userDelete"
       @action="onDelete"
     />
-    <dsp-flex justify="flex-start" gap="lg" class="actions">
-      <dsp-button type="button" left-icon="add" @click="onAdd">
-        Ajouter
-      </dsp-button>
-    </dsp-flex>
+
+    <DataTableCustomAction label="Ajouter" icon="add" :action="onAdd" />
   </DataTable>
 </template>
-<style lang="scss" scoped>
-.actions {
-  margin-top: var(--spacing-md);
-}
-</style>

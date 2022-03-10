@@ -11,6 +11,7 @@ export default {
       edit: "Modifier l'événement",
       create: 'Créer un nouvel événement',
       date: 'Date',
+      location: 'Magasin',
       address: 'Adresse',
       schedule: 'Horaire du magasin',
       informations: 'Informations',
@@ -32,7 +33,7 @@ export default {
         country: 'Pays',
         clock: 'Horaire du magasin'
       },
-      location: 'adresse',
+      location: 'Magasin organisateur',
       numArticles: "Nombre d'articles",
       numUserMarked: "Nombre d'utilisateurs marqués",
       startAt: 'du',

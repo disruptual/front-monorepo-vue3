@@ -4,6 +4,10 @@ export const vClickOutside = {
   mounted(el, { value: cb }) {
     const listener = e => {
       const { target } = e;
+
+      const isInDOM = document.body.contains(target);
+      if (!isInDOM) return;
+
       if (target !== el && !el.contains(target)) {
         cb(e);
       }

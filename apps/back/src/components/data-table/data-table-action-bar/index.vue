@@ -78,9 +78,10 @@ const onUpdateHighlight = () => {
           :key="action.label"
           @click="action.action"
         >
-          <span v-tooltip="action.label">
+          <dsp-flex gap="sm">
             <dsp-icon :icon="action.icon" />
-          </span>
+            <span v-if="device.isDesktop">{{ action.label }}</span>
+          </dsp-flex>
         </dsp-plain-button>
 
         <dsp-plain-button
