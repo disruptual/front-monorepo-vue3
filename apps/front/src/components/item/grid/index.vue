@@ -16,15 +16,13 @@ const onIntersect = item => entry => {
 </script>
 
 <template>
-  <div v-if="query.isSuccess.value">
-    <dsp-infinite-query-loader v-slot="{ data }" :query="query" :buffer="800">
-      <ul role="feed" class="item-grid">
-        <li v-for="item in data" :key="item.id" role="article" tabindex="0">
-          <ItemCard :item="item" @intersect="onIntersect(entity)" />
-        </li>
-      </ul>
-    </dsp-infinite-query-loader>
-  </div>
+  <dsp-infinite-query-loader v-slot="{ data }" :query="query" :buffer="800">
+    <ul role="feed" class="item-grid">
+      <li v-for="item in data" :key="item.id" role="article" tabindex="0">
+        <ItemCard :item="item" @intersect="onIntersect(entity)" />
+      </li>
+    </ul>
+  </dsp-infinite-query-loader>
 </template>
 
 <style lang="scss" scoped>

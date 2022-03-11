@@ -7,13 +7,16 @@ import { computed } from 'vue';
 import { User } from '@dsp/business';
 import { oneOf } from '@dsp/core';
 import { useReadableColor } from '@dsp/ui//hooks';
+import schema from './index.schema';
 
 const props = defineProps({
   user: { type: User, required: true },
   size: oneOf(['xs', 'sm', 'md', 'lg', 'xl'], 'sm'),
-  thumbnail: oneOf(['avatar', 'avatarList'], 'avatar')
+  thumbnail: oneOf(['avatar', 'avatarList'], 'avatar'),
+  ...schema.toProps()
 });
 
+const context = schema.toContext(props);
 const initials = computed(() => {
   return `${
     props.user?.firstName?.charAt?.(0) + props.user?.lastName?.charAt?.(0) ||
@@ -61,7 +64,7 @@ const textColor = useReadableColor('--color-brand-500');
 }
 
 .initials {
-  background-color: var(--color-brand-500);
+  background-color: v-bind('context.bgColor');
   color: v-bind(textColor);
   width: 100%;
   height: 100%;
