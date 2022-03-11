@@ -44,7 +44,9 @@ const onLinkClick = () => {
 };
 
 const getEnabledLinks = links =>
-  links.filter(link => !isFunction(link.isEnabled) || link.isEnabled(context));
+  links
+    .filter(link => !isFunction(link.isEnabled) || link.isEnabled(context))
+    .filter(link => currentUser.value.hasRoles(...(link.permissions || [])));
 
 const onmouseleave = () => {
   if (containerEl.value.contains(document.activeElement)) {
