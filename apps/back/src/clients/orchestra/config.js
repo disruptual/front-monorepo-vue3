@@ -3,12 +3,11 @@ import defaultConfig from '../disruptual/config';
 import logo from 'client/assets/logo.svg?url';
 
 export default merge({}, defaultConfig, {
+  logo,
   features: {
-    admin: {
-      events: { isEnabled: false },
-      stores: { isEnabled: false }
-    }
+    admin: {}
   },
   DefaultLayoutHeader: { isLogoDisplayed: true },
-  logo
+  DspMenu: { activeColor: 'accent-500' },
+  DspAvatar: { bgColor: 'accent-500' }
 });
