@@ -46,10 +46,10 @@ export default { name: 'Onboarding' };
 
     <p>
       Pour toute question et complément d'informations, n'hésitez pas à
-      solliciter votre chef de prpjet.
+      solliciter votre chef de projet.
     </p>
 
-    <p>A très vite !</p>
+    <p>À très vite !</p>
   </dsp-surface>
 </template>
 
