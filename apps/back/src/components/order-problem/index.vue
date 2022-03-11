@@ -20,21 +20,19 @@ const { t } = useI18n();
 const MODALS = { CLOSE: 'CLOSE', SOLVE: 'SOLVE' };
 const openedModal = ref(null);
 
-const problemReason = computed(() => {
-  const orderProblem = props.order.orderProblems?.[0];
-  if (!orderProblem) return null;
-  return orderProblem?.problemReason;
-});
+const problem = computed(() => props.order.orderProblems?.[0]);
 </script>
 
 <template>
-  <dsp-flex direction="column" gap="sm" class="order-problem">
-    <div class="order-problem__reason">Cause: {{ problemReason.content }}</div>
+  <div v-if="!problem" class="order-problem">
+    Impossible d'afficher les informations du litige
+  </div>
+  <dsp-flex v-else direction="column" gap="sm" class="order-problem">
+    <div class="order-problem__reason">
+      Cause: {{ problem?.problemReason.content }}
+    </div>
     <dsp-swiper>
-      <dsp-swiper-item
-        v-for="media in props.order.orderProblems?.[0].medias"
-        :key="media.id"
-      >
+      <dsp-swiper-item v-for="media in problem.medias" :key="media.id">
         <dsp-image :src="media.url" class="order-problem__image" />
       </dsp-swiper-item>
     </dsp-swiper>
