@@ -8,20 +8,29 @@ import downloadFile from 'js-file-download';
 import { nanoid } from 'nanoid';
 import { useFileReader } from '@dsp/core';
 import { useI18n } from 'vue-i18n';
-import { fakeHomePageConfig } from '@dsp/business/utils/constants';
+import { useFrontConfigApi } from '@dsp/core';
+import { useForm, VALIDATION_MODES } from '@dsp/ui';
+import { HOME_BLOCK_OPTIONS_DEFAULTS } from '@/utils/homeBlockDefinitions';
 
 import HomeBlocksCard from '@/components/home-blocks/home-blocks-card/index.vue';
 
 const { t } = useI18n();
 
-const defaultSettings = {
-  blocks: fakeHomePageConfig
-};
-const settings = ref(defaultSettings);
+const settings = ref(null);
 const isEditing = ref(false);
 const isDraggableStart = ref(false);
 
 const [, { readAsText }] = useFileReader();
+
+const { updateMutation, findByIdQuery } = useFrontConfigApi();
+const query = findByIdQuery(1);
+const { mutateAsync: updateFrontConfig, isLoading: isLoading } = updateMutation(
+  {
+    onSuccess() {
+      console.log('onSuccess');
+    }
+  }
+);
 
 const onImport = async ([file]) => {
   const textSettings = await readAsText(file);
@@ -94,66 +103,113 @@ const onDragEnd = () => {
 const startDraggable = () => {
   isDraggableStart.value = true;
 };
+
+const form = useForm({
+  onSubmit(values) {
+    console.log('values ==> ', values);
+    return updateFrontConfig({
+      id: 1,
+      entity: {
+        homePageSettings: []
+        // {
+        //   blocks: Object.values(values)
+        // }
+      }
+    });
+  },
+  mode: VALIDATION_MODES.ON_BLUR
+});
+const [, formActions] = form;
+
+const initSettings = data => {
+  if (!data) return;
+
+  if (!data.homePageSettings) {
+    settings.value = { blocks: HOME_BLOCK_OPTIONS_DEFAULTS['ITEM'] };
+    return;
+  }
+
+  settings.value = { blocks: data.homePageSettings };
+};
+
+watch(query.data, initSettings, { immediate: true });
 </script>
 
 <template>
-  <dsp-flex
-    as="header"
-    class="carousel-editor-action-bar"
-    justify="center"
-    align="center"
-    gap="sm"
-  >
-    <dsp-input-file accept="application/JSON" @change="onImport">
-      <template #button="{ onClick }">
+  <dsp-query-loader :query="query">
+    <dsp-smart-form :form="form" class="form">
+      <pre>{{ formActions.values }}</pre>
+      <dsp-flex
+        as="header"
+        class="carousel-editor-action-bar"
+        justify="center"
+        align="center"
+        gap="sm"
+      >
+        <dsp-input-file accept="application/JSON" @change="onImport">
+          <template #button="{ onClick }">
+            <dsp-loading-button
+              is-outlined
+              left-icon="fileUpload"
+              :is-loading="false"
+              type="button"
+              @click="onClick"
+            >
+              Importer
+            </dsp-loading-button>
+          </template>
+        </dsp-input-file>
         <dsp-loading-button
           is-outlined
-          left-icon="fileUpload"
+          left-icon="download"
           :is-loading="false"
-          @click="onClick"
+          type="button"
+          @click="onExport"
         >
-          Importer
+          Exporter
         </dsp-loading-button>
-      </template>
-    </dsp-input-file>
 
-    <dsp-loading-button
-      is-outlined
-      left-icon="download"
-      :is-loading="false"
-      @click="onExport"
-    >
-      Exporter
-    </dsp-loading-button>
+        <dsp-button
+          v-if="isEditing"
+          type="button"
+          left-icon="add"
+          @click="addBlock"
+        >
+          Ajouter un bloc
+        </dsp-button>
 
-    <dsp-button v-if="isEditing" left-icon="add" @click="addBlock">
-      Ajouter un bloc
-    </dsp-button>
+        <dsp-smart-form-submit v-if="isEditing">
+          Sauvegarder
+        </dsp-smart-form-submit>
 
-    <dsp-switch
-      v-model="isEditing"
-      class="editing-switch"
-      :label="t('user.details.editModeSwitchLabel')"
-    />
-  </dsp-flex>
-  <ul class="blocks-list">
-    <li
-      v-for="(block, index) in settings.blocks"
-      :key="block.id"
-      class="card-container"
-      :draggable="isDraggable"
-      @dragstart="onDragStart(block)"
-      @dragend="onDragEnd(block)"
-      @dragenter="onDragEnter(index)"
-    >
-      <HomeBlocksCard
-        v-model="settings.blocks[index]"
-        :is-editing="isEditing"
-        @delete="deleteBlock"
-        @draggable-start="startDraggable"
-      />
-    </li>
-  </ul>
+        <dsp-switch
+          v-model="isEditing"
+          class="editing-switch"
+          :label="t('user.details.editModeSwitchLabel')"
+        />
+      </dsp-flex>
+      <ul class="blocks-list">
+        <li
+          v-for="(block, index) in settings.blocks"
+          :key="block.id"
+          class="card-container"
+          :draggable="isDraggable"
+          @dragstart="onDragStart(block)"
+          @dragend="onDragEnd(block)"
+          @dragenter="onDragEnter(index)"
+        >
+          <HomeBlocksCard
+            v-model="settings.blocks[index]"
+            :is-editing="isEditing"
+            :index="index"
+            @delete="deleteBlock"
+            @draggable-start="startDraggable"
+          />
+        </li>
+      </ul>
+      <dsp-flex direction="row-reverse" justify="space-between"></dsp-flex>
+    </dsp-smart-form>
+  </dsp-query-loader>
 </template>
 
 <style lang="scss" scoped>

@@ -23,3 +23,4 @@ export * from './RecommendedUser.service';
 export * from './RecommendedCategory.service';
 export * from './OrderProblem.service';
 export * from './ProblemReason.service';
+export * from './FrontConfig.service';

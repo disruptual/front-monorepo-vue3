@@ -28,11 +28,7 @@ const formOptions = {
 <template>
   <dsp-smart-form :form-options="formOptions">
     <dsp-smart-form-field v-slot="slotProps" name="username" required email>
-      <dsp-form-control
-        v-model="slotProps.field.value"
-        v-bind="slotProps"
-        label="Email"
-      />
+      <dsp-form-control v-model="slotProps.field.value" v-bind="slotProps" label="Email" />
     </dsp-smart-form-field>
 
     <dsp-smart-form-field v-slot="slotProps" name="password" required>

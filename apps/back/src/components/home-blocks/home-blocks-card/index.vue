@@ -20,7 +20,8 @@ const isOptionsOpened = ref(false);
 const selectQueryRef = ref(false);
 const props = defineProps({
   modelValue: { type: Object, required: true },
-  isEditing: { type: Boolean, required: true }
+  isEditing: { type: Boolean, required: true },
+  index: { type: Number, required: true }
 });
 const emit = defineEmits([
   'update:modelValue',
@@ -42,18 +43,18 @@ const deleteBlock = block => {
   emit('delete', block);
 };
 
-const onChangeType = type => {
-  const { position, name, id } = block.value;
+const onChangeType = typeParam => {
   block.value = {
-    type,
-    position,
-    name,
-    id,
+    ...block.value,
+    type: typeParam,
     query: null,
-    options: HOME_BLOCK_OPTIONS_DEFAULTS[type]
+    options: HOME_BLOCK_OPTIONS_DEFAULTS[typeParam]
   };
+  console.log('block.value ==> ', block.value);
+
   if (!selectQueryRef.value) return;
   selectQueryRef.value.selectedIndex = null;
+  isOptionsOpened.value = false;
 };
 
 const onChangeQuery = query => {
@@ -80,75 +81,91 @@ const getHomeBlocksQueries = computed(
         align="center"
         :gap="device.isTablet || device.isMobile ? 'xs' : 'xl'"
       >
-        <dsp-form-control
-          v-slot="{ on, ...formControlProps }"
-          v-model="block.name"
-          :label="t('homeBlocks.form.name')"
+        <dsp-smart-form-field
+          v-slot="slotProps"
+          :name="`${index}.${HOME_BLOCK_MAPPED_TYPE.name.name}`"
+          :initial-value="block.name"
         >
-          <dsp-input-text
-            spellcheck="false"
-            v-bind="formControlProps"
-            v-on="on"
+          <dsp-form-control
+            v-model.number="slotProps.field.value"
+            v-bind="slotProps"
+            :label="t('homeBlocks.form.name')"
           />
-        </dsp-form-control>
-        <dsp-form-control
-          v-slot="{ on, ...formControlProps }"
-          v-model="block.type"
-          :label="t('homeBlocks.form.type')"
+        </dsp-smart-form-field>
+        <dsp-smart-form-field
+          v-slot="slotProps"
+          :name="`${index}.${HOME_BLOCK_MAPPED_TYPE.type.name}`"
+          :initial-value="block.type"
         >
-          <select
-            v-bind="formControlProps"
-            v-on="on"
-            @change="onChangeType($event.target.value)"
+          <dsp-form-control
+            v-slot="{ on, ...formControlProps }"
+            v-model="slotProps.field.value"
+            v-bind="slotProps"
+            :label="t('homeBlocks.form.type')"
           >
-            <option disabled :value="null" :selected="!block.type">
-              {{ t('homeBlocks.form.type') }}
-            </option>
-            <option
-              v-for="homeBlockType in HOME_BLOCK_TYPES"
-              :key="homeBlockType"
-              :value="homeBlockType"
+            <select
+              v-bind="formControlProps"
+              v-on="on"
+              @change="onChangeType($event.target.value)"
             >
-              {{ homeBlockType }}
-            </option>
-          </select>
-        </dsp-form-control>
-        <dsp-form-control
+              <option disabled :value="null" :selected="!block.type">
+                {{ t('homeBlocks.form.type') }}
+              </option>
+              <option
+                v-for="homeBlockType in HOME_BLOCK_TYPES"
+                :key="homeBlockType"
+                :value="homeBlockType"
+              >
+                {{ homeBlockType }}
+              </option>
+            </select>
+          </dsp-form-control>
+        </dsp-smart-form-field>
+        <dsp-smart-form-field
           v-if="block.type"
-          v-slot="{ on, ...formControlProps }"
-          v-model="block.query"
-          :label="t('homeBlocks.form.request')"
+          v-slot="slotProps"
+          :name="`${index}.${HOME_BLOCK_MAPPED_TYPE.query.name}`"
+          :initial-value="block.query"
         >
-          <select
-            ref="refSelectQuery"
-            v-bind="formControlProps"
-            v-on="on"
-            @change="onChangeQuery($event.target.value)"
+          <dsp-form-control
+            v-slot="{ on, ...formControlProps }"
+            v-model="slotProps.field.value"
+            v-bind="slotProps"
+            :label="t('homeBlocks.form.request')"
           >
-            <option disabled :value="null" :selected="!block.query">
-              {{ t('homeBlocks.form.request') }}
-            </option>
-            <option
-              v-for="query in getHomeBlocksQueries"
-              :key="query"
-              :value="query"
+            <select
+              ref="refSelectQuery"
+              v-bind="formControlProps"
+              v-on="on"
+              @change="onChangeQuery($event.target.value)"
             >
-              {{ query }}
-            </option>
-          </select>
-        </dsp-form-control>
+              <option disabled :value="null" :selected="!block.query">
+                {{ t('homeBlocks.form.request') }}
+              </option>
+              <option
+                v-for="query in getHomeBlocksQueries"
+                :key="query"
+                :value="query"
+              >
+                {{ query }}
+              </option>
+            </select>
+          </dsp-form-control>
+        </dsp-smart-form-field>
       </dsp-flex>
     </dsp-grid-item>
     <dsp-grid-item>
       <dsp-flex class="card-actions" gap="sm" justify="center" align="center">
         <dsp-icon-button
           class="dragable-block"
+          type="button"
           icon="draggable"
           size="sm"
           @mousedown="emit('draggableStart')"
         />
         <dsp-icon-button
           class="remove-block"
+          type="button"
           icon="trash"
           size="sm"
           @click="deleteBlock(block)"
@@ -160,6 +177,7 @@ const getHomeBlocksQueries = computed(
     <dsp-grid-item class="option-fields" column="1/-1">
       <dsp-icon-button
         class="remove-block"
+        type="button"
         :icon="isOptionsOpened ? 'chevronDown' : 'chevronUp'"
         size="sm"
         :disabled="block.query ? false : true"
@@ -169,6 +187,7 @@ const getHomeBlocksQueries = computed(
         v-if="isOptionsOpened"
         v-model="block"
         :mapped-options="HOME_BLOCK_MAPPED_TYPE[block.type]"
+        :index="index"
       />
     </dsp-grid-item>
   </dsp-grid>

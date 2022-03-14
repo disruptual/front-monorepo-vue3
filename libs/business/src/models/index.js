@@ -36,3 +36,4 @@ export * from './ProblemReason.model';
 export * from './RecommendedUser.model';
 export * from './RecommendedBrand.model';
 export * from './RecommendedCategory.model';
+export * from './FrontConfig.model';

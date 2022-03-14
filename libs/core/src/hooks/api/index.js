@@ -23,3 +23,4 @@ export * from './useRecommendedCategoryApi';
 export * from './useRecommendedBrandApi';
 export * from './useOrderProblemApi';
 export * from './useProblemReasonApi';
+export * from './useFrontConfigApi';

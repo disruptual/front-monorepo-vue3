@@ -14,7 +14,8 @@ import HomeBlocksFieldEnum from './home-blocks-field-enum/index.vue';
 
 const props = defineProps({
   modelValue: { type: Object, required: true },
-  mappedOptions: { type: Object, required: true }
+  mappedOptions: { type: Object, required: true },
+  index: { type: Number, required: true }
 });
 const emit = defineEmits(['update:modelValue']);
 
@@ -51,26 +52,52 @@ const component = type => {
 
 <template>
   <div v-for="(mappedOption, key) in props.mappedOptions" :key="mappedOption">
-    <component
-      :is="component(mappedOption.type)"
+    <dsp-smart-form-field
       v-if="!hasChildren(mappedOption)"
-      v-model="block.options[key]"
-      :label="mappedOption?.label"
-      :options="mappedOption?.values"
-    />
+      v-slot="slotProps"
+      :name="`${index}.options.${key}.${mappedOption.name}`"
+      :initial-value="block.options[key]"
+    >
+      <component
+        :is="component(mappedOption.type)"
+        v-model="slotProps.field.value"
+        v-bind="slotProps"
+        :label="mappedOption?.label"
+        :options="mappedOption?.values"
+      />
+      <dsp-form-error
+        v-for="(error, k) in slotProps.field?.errors"
+        :key="k"
+        class="errors"
+        :error="error"
+      />
+    </dsp-smart-form-field>
     <fieldset v-else>
       <legend>{{ mappedOption?.label }}</legend>
       <div
         v-for="(subMappedOption, subKey) in mappedOption"
         :key="subMappedOption"
       >
-        <component
-          :is="component(subMappedOption.type)"
+        <dsp-smart-form-field
           v-if="subKey !== 'label'"
-          v-model="block.options[key][subKey]"
-          :label="subMappedOption?.label"
-          :options="subMappedOption?.values"
-        />
+          v-slot="slotProps"
+          :name="`${index}.options.${key}.${subKey}.${subMappedOption.name}`"
+          :initial-value="block.options[key][subKey]"
+        >
+          <component
+            :is="component(subMappedOption.type)"
+            v-model="slotProps.field.value"
+            v-bind="slotProps"
+            :label="subMappedOption?.label"
+            :options="subMappedOption?.values"
+          />
+          <dsp-form-error
+            v-for="(error, k) in slotProps.field?.errors"
+            :key="k"
+            class="errors"
+            :error="error"
+          />
+        </dsp-smart-form-field>
       </div>
     </fieldset>
   </div>
