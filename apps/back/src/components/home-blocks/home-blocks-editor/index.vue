@@ -119,7 +119,7 @@ const form = useForm({
   },
   mode: VALIDATION_MODES.ON_BLUR
 });
-const [, formActions] = form;
+const [fields, { values: formValues }] = form;
 
 const initSettings = data => {
   if (!data) return;
@@ -133,12 +133,22 @@ const initSettings = data => {
 };
 
 watch(query.data, initSettings, { immediate: true });
+
+const onChangeType = ({ index, event }) => {
+  console.log({ fields, index, value: event.target.value });
+  // block.value = {
+  //   ...block.value,
+  //   type: typeParam,
+  //   query: null,
+  //   options: HOME_BLOCK_OPTIONS_DEFAULTS[typeParam]
+  // };
+};
 </script>
 
 <template>
   <dsp-query-loader :query="query">
     <dsp-smart-form :form="form" class="form">
-      <pre>{{ formActions.values }}</pre>
+      <pre>{{ fields }}</pre>
       <dsp-flex
         as="header"
         class="carousel-editor-action-bar"
@@ -202,8 +212,10 @@ watch(query.data, initSettings, { immediate: true });
             v-model="settings.blocks[index]"
             :is-editing="isEditing"
             :index="index"
+            :block-value="formValues[String(index)]"
             @delete="deleteBlock"
             @draggable-start="startDraggable"
+            @change:type="onChangeType"
           />
         </li>
       </ul>

@@ -35,7 +35,7 @@ export const HOME_BLOCK_MAPPED_TYPE = {
   query: {
     type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
     label: 'Requête',
-    name: 'request'
+    name: 'query'
   },
   [HOME_BLOCK_TYPES.ITEM]: {
     backgroundColor: {

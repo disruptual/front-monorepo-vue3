@@ -7,7 +7,7 @@ import { computed } from 'vue';
 import { makeRandomId } from '@dsp/core';
 
 const props = defineProps({
-  modelValue: { type: [Object, null], required: true },
+  modelValue: { type: null, required: true },
   options: { type: Array, required: true },
   multiple: { type: Boolean, default: false },
   name: {

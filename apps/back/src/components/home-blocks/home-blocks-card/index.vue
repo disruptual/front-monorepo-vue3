@@ -17,11 +17,11 @@ import HomeBlocksFields from '@/components/home-blocks/home-blocks-fields/index.
 const { t } = useI18n();
 const device = useDevice();
 const isOptionsOpened = ref(false);
-const selectQueryRef = ref(false);
 const props = defineProps({
   modelValue: { type: Object, required: true },
   isEditing: { type: Boolean, required: true },
-  index: { type: Number, required: true }
+  index: { type: Number, required: true },
+  blockValue: { type: null, required: true }
 });
 const emit = defineEmits([
   'update:modelValue',
@@ -43,26 +43,23 @@ const deleteBlock = block => {
   emit('delete', block);
 };
 
-const onChangeType = typeParam => {
-  block.value = {
-    ...block.value,
-    type: typeParam,
-    query: null,
-    options: HOME_BLOCK_OPTIONS_DEFAULTS[typeParam]
-  };
-  console.log('block.value ==> ', block.value);
-
-  if (!selectQueryRef.value) return;
-  selectQueryRef.value.selectedIndex = null;
+const onTypeChange = event => {
   isOptionsOpened.value = false;
+  emit('change:type', { index: props.index, event });
+
+  // if (!selectQueryRef.value) return;
+  // selectQueryRef.value.selectedIndex = null;
 };
 
-const onChangeQuery = query => {
-  block.value.query = query;
-};
+const typeOptions = computed(() =>
+  Object.values(HOME_BLOCK_TYPES).map(b => ({ label: b, value: b }))
+);
 
-const getHomeBlocksQueries = computed(
-  () => HOME_BLOCK_QUERIES[block.value.type]
+const homeBlocksQueries = computed(
+  () => HOME_BLOCK_QUERIES[props.blockValue.type]
+);
+const queryOptions = computed(() =>
+  Object.values(homeBlocksQueries.value).map(b => ({ label: b, value: b }))
 );
 </script>
 
@@ -103,26 +100,16 @@ const getHomeBlocksQueries = computed(
             v-bind="slotProps"
             :label="t('homeBlocks.form.type')"
           >
-            <select
+            <dsp-select
               v-bind="formControlProps"
+              :options="typeOptions"
               v-on="on"
-              @change="onChangeType($event.target.value)"
-            >
-              <option disabled :value="null" :selected="!block.type">
-                {{ t('homeBlocks.form.type') }}
-              </option>
-              <option
-                v-for="homeBlockType in HOME_BLOCK_TYPES"
-                :key="homeBlockType"
-                :value="homeBlockType"
-              >
-                {{ homeBlockType }}
-              </option>
-            </select>
+              @change="onTypeChange"
+            />
           </dsp-form-control>
         </dsp-smart-form-field>
         <dsp-smart-form-field
-          v-if="block.type"
+          v-if="blockValue?.type"
           v-slot="slotProps"
           :name="`${index}.${HOME_BLOCK_MAPPED_TYPE.query.name}`"
           :initial-value="block.query"
@@ -133,23 +120,11 @@ const getHomeBlocksQueries = computed(
             v-bind="slotProps"
             :label="t('homeBlocks.form.request')"
           >
-            <select
-              ref="refSelectQuery"
+            <dsp-select
               v-bind="formControlProps"
+              :options="queryOptions"
               v-on="on"
-              @change="onChangeQuery($event.target.value)"
-            >
-              <option disabled :value="null" :selected="!block.query">
-                {{ t('homeBlocks.form.request') }}
-              </option>
-              <option
-                v-for="query in getHomeBlocksQueries"
-                :key="query"
-                :value="query"
-              >
-                {{ query }}
-              </option>
-            </select>
+            />
           </dsp-form-control>
         </dsp-smart-form-field>
       </dsp-flex>
@@ -180,13 +155,13 @@ const getHomeBlocksQueries = computed(
         type="button"
         :icon="isOptionsOpened ? 'chevronDown' : 'chevronUp'"
         size="sm"
-        :disabled="block.query ? false : true"
+        :disabled="!blockValue?.query"
         @click="isOptionsOpened = !isOptionsOpened"
       />
       <HomeBlocksFields
         v-if="isOptionsOpened"
         v-model="block"
-        :mapped-options="HOME_BLOCK_MAPPED_TYPE[block.type]"
+        :mapped-options="HOME_BLOCK_MAPPED_TYPE[blockValue.type]"
         :index="index"
       />
     </dsp-grid-item>

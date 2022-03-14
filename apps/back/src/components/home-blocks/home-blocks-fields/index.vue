@@ -55,7 +55,7 @@ const component = type => {
     <dsp-smart-form-field
       v-if="!hasChildren(mappedOption)"
       v-slot="slotProps"
-      :name="`${index}.options.${key}.${mappedOption.name}`"
+      :name="`${index}.options.${mappedOption.name}`"
       :initial-value="block.options[key]"
     >
       <component
@@ -81,8 +81,8 @@ const component = type => {
         <dsp-smart-form-field
           v-if="subKey !== 'label'"
           v-slot="slotProps"
-          :name="`${index}.options.${key}.${subKey}.${subMappedOption.name}`"
-          :initial-value="block.options[key][subKey]"
+          :name="`${index}.options.${subMappedOption.name}`"
+          :initial-value="block.options?.[key]?.[subKey]"
         >
           <component
             :is="component(subMappedOption.type)"
