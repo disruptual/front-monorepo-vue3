@@ -27,13 +27,23 @@ const problem = computed(() => props.order.orderProblems?.[0]);
   <div v-if="!problem" class="order-problem">
     Impossible d'afficher les informations du litige
   </div>
-  <dsp-flex v-else direction="column" gap="sm" class="order-problem">
+  <dsp-flex
+    v-else
+    direction="column"
+    gap="sm"
+    class="order-problem"
+    v-bind="$attrs"
+  >
     <div class="order-problem__reason">
       Cause: {{ problem?.problemReason.content }}
     </div>
     <dsp-swiper>
       <dsp-swiper-item v-for="media in problem.medias" :key="media.id">
-        <dsp-image :src="media.url" class="order-problem__image" />
+        <dsp-image
+          :src="media.url"
+          class="order-problem__image"
+          draggable="false"
+        />
       </dsp-swiper-item>
     </dsp-swiper>
     <dsp-flex v-if="order.isDisputed" gap="sm" align="center">
@@ -75,6 +85,11 @@ const problem = computed(() => props.order.orderProblems?.[0]);
   background-color: var(--color-background);
   padding: var(--spacing-md);
   border: solid 1px var(--color-gray-300);
+  max-width: 100%;
+
+  > * {
+    max-width: 100%;
+  }
 }
 .order-problem__reason {
   font-weight: var(--font-weight-medium);
@@ -83,5 +98,6 @@ const problem = computed(() => props.order.orderProblems?.[0]);
 .order-problem__image {
   max-width: 80px;
   aspect-ratio: 1;
+  user-select: none;
 }
 </style>
