@@ -62,9 +62,10 @@ export const useStoreOrder = (orderId, { queryOptions = {} } = {}) => {
 
   const isStoreToStoreDeposit = computed(() => {
     if (!currentUser.value.storeLocation) return false;
-    const order = query.data.value;
 
-    return currentUser.value.storeLocation?.id !== order.location?.id;
+    return (
+      currentUser.value.storeLocation?.id !== query.data.value.location?.id
+    );
   });
 
   const transitions = {
@@ -133,7 +134,7 @@ export const useStoreOrder = (orderId, { queryOptions = {} } = {}) => {
     },
 
     async pickupBySeller() {
-      alert('Restitution vendur TODO');
+      alert('Restitution vendeur TODO');
     }
   };
 };
