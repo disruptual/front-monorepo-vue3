@@ -33,7 +33,13 @@ const problem = computed(() => props.order.orderProblems?.[0]);
   <div v-if="!problem" class="order-problem">
     Impossible d'afficher les informations du litige
   </div>
-  <dsp-flex v-else direction="column" gap="sm" class="order-problem">
+  <dsp-flex
+    v-else
+    direction="column"
+    gap="sm"
+    class="order-problem"
+    v-bind="$attrs"
+  >
     <div class="order-problem__reason">
       <dt>Cause:</dt>
       <dd>{{ problem?.problemReason.content }}</dd>
@@ -97,6 +103,11 @@ const problem = computed(() => props.order.orderProblems?.[0]);
   background-color: var(--color-background);
   padding: var(--spacing-md);
   border: solid 1px var(--color-gray-300);
+  max-width: 100%;
+
+  > * {
+    max-width: 100%;
+  }
 }
 .order-problem__reason,
 .order-problem__comment {
@@ -112,5 +123,6 @@ const problem = computed(() => props.order.orderProblems?.[0]);
 .order-problem__container__image {
   // max-width: 80px;
   aspect-ratio: 1;
+  user-select: none;
 }
 </style>

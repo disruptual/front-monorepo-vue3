@@ -7,7 +7,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Order } from '@dsp/business';
 import { useRemunerationApi, useOrderProblemApi, formatPrice } from '@dsp/core';
-import { useForm, useToast, VALIDATION_MODES } from '@dsp/ui';
+import { useDevice, useForm, useToast, VALIDATION_MODES } from '@dsp/ui';
 
 const props = defineProps({
   order: { type: Order, required: true },
@@ -18,17 +18,18 @@ const emit = defineEmits(['close', 'success']);
 
 const { t } = useI18n();
 const { showSuccess, showError } = useToast();
+const device = useDevice();
 
 const { data: remunerations } = useRemunerationApi().findAllQuery();
 const { mutateAsync: solveProblem } = useOrderProblemApi().solveMutation({
   onSuccess() {
     emit('close');
     emit('success');
-    showSuccess('Litige résolu');
+    showSuccess(t('toasts.orderProblem.solveSuccess'));
   },
   onError(err) {
     console.error(err);
-    showError('Erreur lors de la résolution du litige');
+    showError(t('toasts.orderProblem.solveSuccess'));
   }
 });
 
@@ -69,16 +70,16 @@ const remunerationOptions = computed(() =>
     :is-opened="isOpened"
     @close="$emit('close')"
   >
-    <h4>Ré soudre le litige</h4>
+    <h4>{{ t('orderProblem.solveModal.title') }}</h4>
     <dsp-smart-form :form="form">
-      <dsp-grid columns="repeat(2, 300px)" gap="lg">
+      <dsp-grid :columns="device.isDesktop ? 2 : 1" gap="lg">
         <dsp-grid-item>
           <fieldset>
-            <legend>Montants Commande</legend>
+            <legend>{{ t('orderProblem.solveModal.orderAmounts') }}</legend>
             <dsp-form-control
               v-slot="{ on, ...formControlProps }"
               :model-value="remainingItemsAmount"
-              label="Montant des articles"
+              :label="t('orderProblem.solveModal.itemAmount')"
             >
               <dsp-input-text
                 v-bind="formControlProps"
@@ -91,7 +92,7 @@ const remunerationOptions = computed(() =>
             <dsp-form-control
               v-slot="{ on, ...formControlProps }"
               :model-value="remainingFeesAmount"
-              label="Frais de service"
+              :label="t('orderProblem.solveModal.feesAmount')"
             >
               <dsp-input-text
                 v-bind="formControlProps"
@@ -104,7 +105,7 @@ const remunerationOptions = computed(() =>
             <dsp-form-control
               v-slot="{ on, ...formControlProps }"
               :model-value="remainingDeliveryAmount"
-              label="Frais de livraison"
+              :label="t('orderProblem.solveModal.deliveryAmount')"
             >
               <dsp-input-text
                 v-bind="formControlProps"
@@ -117,7 +118,7 @@ const remunerationOptions = computed(() =>
         </dsp-grid-item>
         <dsp-grid-item>
           <fieldset>
-            <legend>Créditer l'acheteur</legend>
+            <legend>{{ t('orderProblem.solveModal.creditBuyer') }}</legend>
             <dsp-smart-form-field
               v-slot="slotProps"
               name="refundAmount"
@@ -128,7 +129,7 @@ const remunerationOptions = computed(() =>
                 v-slot="{ on, ...formControlProps }"
                 v-model.number="slotProps.field.value"
                 v-bind="slotProps"
-                label="Remboursement"
+                :label="t('orderProblem.solveModal.refund')"
               >
                 <dsp-input-text
                   v-bind="formControlProps"
@@ -149,7 +150,7 @@ const remunerationOptions = computed(() =>
                 v-slot="{ on, ...formControlProps }"
                 v-model.number="slotProps.field.value"
                 v-bind="slotProps"
-                label="Geste commercial"
+                :label="t('orderProblem.solveModal.commercialGesture')"
               >
                 <dsp-input-text
                   v-bind="formControlProps"
@@ -175,7 +176,7 @@ const remunerationOptions = computed(() =>
           </fieldset>
 
           <fieldset>
-            <legend>Créditer le vendeur</legend>
+            <legend>{{ t('orderProblem.solveModal.creditSeller') }}</legend>
 
             <dsp-smart-form-field
               v-slot="slotProps"
@@ -186,7 +187,7 @@ const remunerationOptions = computed(() =>
                 v-slot="{ on, ...formControlProps }"
                 v-model.number="slotProps.field.value"
                 v-bind="slotProps"
-                label="Geste commercial"
+                :label="t('orderProblem.solveModal.commercialGesture')"
               >
                 <dsp-input-text
                   v-bind="formControlProps"

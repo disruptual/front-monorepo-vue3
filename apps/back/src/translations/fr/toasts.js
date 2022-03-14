@@ -66,6 +66,11 @@ export default {
       republishInvalid:
         'Certains articles selectionnés ne peuvent pas être republiés.',
       updateError: "L'opération n'a pas pû être effectuée."
+    },
+
+    orderProblem: {
+      solveSuccess: 'Litige résolu',
+      solveError: 'Erreur lors de la résolution du litige'
     }
   }
 };
