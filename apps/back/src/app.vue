@@ -73,7 +73,7 @@ ul {
   > * {
     grid-column: 1;
     grid-row: 1;
-    max-width: 100vw;
+    max-width: 100%;
     @include mobile-only {
       transition: transform var(--transition-sm);
     }

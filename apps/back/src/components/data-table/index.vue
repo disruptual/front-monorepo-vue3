@@ -3,13 +3,13 @@ export default { name: 'DataTable' };
 </script>
 
 <script setup>
-import { computed, provide, reactive } from 'vue';
+import { computed, provide, reactive, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { CONTEXT_KEYS } from '@/utils/constants';
 import { DataTable } from '@/models/DataTable.model';
 import { KEYBOARD, isNumber } from '@dsp/core';
-import { vTooltip, useEventListener } from '@dsp/ui';
+import { vTooltip, useEventListener, useResizeObserver } from '@dsp/ui';
 
 import DataTableGrid from './data-table-grid/index.vue';
 import DataTableActionBar from './data-table-action-bar/index.vue';
@@ -72,6 +72,21 @@ useEventListener('keydown', e => {
   }
 });
 
+const rootElement = ref(null);
+const tableWidth = ref('100%');
+
+const setTableWidth = () => {
+  requestAnimationFrame(() => {
+    const { parentNode } = rootElement.value;
+
+    parentNode.style.overflow = 'hidden';
+    tableWidth.value = `${parentNode.offsetWidth - 2}px`;
+    parentNode.style.removeProperty('overflow');
+  });
+};
+useResizeObserver('main', setTableWidth);
+onMounted(setTableWidth);
+
 provide(CONTEXT_KEYS.DATATABLE, {
   query: props.query,
   model
@@ -79,7 +94,7 @@ provide(CONTEXT_KEYS.DATATABLE, {
 </script>
 
 <template>
-  <div class="data-table">
+  <div ref="rootElement" class="data-table">
     <dsp-flex v-if="isLoading" justify="center" class="loader">
       <dsp-loader />
     </dsp-flex>
@@ -106,10 +121,15 @@ provide(CONTEXT_KEYS.DATATABLE, {
 <style lang="scss" scoped>
 .data-table {
   max-height: calc(100vh - var(--header-height));
-  max-width: 100%;
   overflow: hidden;
-  display: grid;
-  grid-template-rows: auto 1fr;
+  max-width: v-bind(tableWidth);
+  display: flex;
+  flex-direction: column;
+  /* grid-template-rows: auto 1fr; */
+
+  table {
+    max-width: v-bind(tableWidth);
+  }
 
   tbody tr:last-of-type {
     border-bottom: solid 1px var(--color-separator);
