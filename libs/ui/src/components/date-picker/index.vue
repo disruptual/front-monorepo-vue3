@@ -58,7 +58,7 @@ const calendar = computed(() =>
 );
 
 const getCalendarCellLabel = d => getDate(d);
-const isCellDisabled = d => getMonth(d) !== getMonth(state.internalValue);
+const isCellDisabled = d => !d || getMonth(d) !== getMonth(state.internalValue);
 const onCellClick = d => {
   emit('update:modelValue', d);
   if (!props.datetime) {
@@ -73,6 +73,7 @@ const inputValue = computed(() =>
 );
 
 const isActive = d =>
+  d &&
   isEqual(
     new Date(format(props.modelValue || new Date(), 'MM-dd-yyyy')),
     new Date(format(d, 'MM-dd-yyyy'))
@@ -111,7 +112,7 @@ const updateMinutes = minutes => {
     >
       <template #menu>
         <div class="dsp-date-picker__menu">
-          <dsp-flex gap="xs" justify="space-around">
+          <dsp-flex gap="xs" justify="space-around" align="center">
             <dsp-plain-button type="button" @click="previousMonth">
               <dsp-icon icon="caretLeft" size="sm" />
             </dsp-plain-button>
@@ -165,6 +166,10 @@ const updateMinutes = minutes => {
 </template>
 
 <style lang="scss" scoped>
+.dsp-date-picker__menu {
+  padding: var(--spacing-sm) var(--spacing-xs);
+}
+
 .dsp-date-picker__calendar {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -184,6 +189,10 @@ const updateMinutes = minutes => {
 
   .dsp-date-picker__cell {
     padding: var(--spacing-sm);
+
+    &:disabled {
+      opacity: 0;
+    }
 
     &:hover,
     &:focus {
