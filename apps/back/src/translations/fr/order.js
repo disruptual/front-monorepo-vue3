@@ -102,6 +102,8 @@ export default {
       [ORDER_PROBLEM_STATES.PROBLEM]: 'Litige en cours',
       [ORDER_PROBLEM_STATES.DISPUTED]: 'Litige en cours (service client)',
       [ORDER_PROBLEM_STATE_TRANSITIONS.INIT_PROBLEM]: 'Litige en cours',
+      [ORDER_PROBLEM_STATE_TRANSITIONS.REFUND_PROPOSAL]:
+        'Proposition de remboursement',
       [ORDER_PROBLEM_STATE_TRANSITIONS.PROBLEM_IS_SOLVED_BY_USERS]:
         'Litige résolu',
       [ORDER_PROBLEM_STATE_TRANSITIONS.PROBLEM_NEED_CUSTOMER_SERVICE]:
