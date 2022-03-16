@@ -58,8 +58,6 @@ export class OrderService extends BaseCRUDService {
   }
 
   cancelDispute(orderId) {
-    return this._http.post(`/orders/${orderId}/remove-dispute`, {
-      data: null // need to provide data to enable content-type application/json header
-    });
+    return this._http.get(`/orders/${orderId}/remove-dispute`);
   }
 }

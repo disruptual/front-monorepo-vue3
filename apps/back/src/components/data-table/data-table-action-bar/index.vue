@@ -65,7 +65,7 @@ const onUpdateHighlight = () => {
 </script>
 
 <template>
-  <div class="data-table-action-bar">
+  <header class="data-table-action-bar">
     <dsp-flex
       align="center"
       direction="row-reverse"
@@ -177,7 +177,7 @@ const onUpdateHighlight = () => {
       class="search-bar"
       placeholder="Rechercher"
     />
-  </div>
+  </header>
 
   <DataTableFilterTags />
 

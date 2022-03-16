@@ -48,11 +48,15 @@ const buyerLabel = computed(() =>
           :class="statusClass"
         >
           <div>{{ t(`order.status.${order.status}`) }}</div>
-          <OrderProblem v-if="order.hasProblem" :order="props.order" />
+          <OrderProblem
+            v-if="order.hasProblem"
+            :order="props.order"
+            class="order-details__order-problem"
+          />
         </dsp-flex>
 
         <dt>{{ t(`order.details.label.orderDate`) }}</dt>
-        <dd>{{ order.formatCreated("dd-MM-yyyy à hh'h'mm") }}</dd>
+        <dd>{{ order.formatCreated("dd-MM-yyyy à kk'h'mm") }}</dd>
 
         <dt>{{ t(`order.details.label.numberArticles`) }}</dt>
         <dd>
@@ -224,7 +228,7 @@ a {
 dl {
   @include desktop-only {
     display: grid;
-    grid-template-columns: minmax(15em, auto) 1fr;
+    grid-template-columns: minmax(15em, auto) minmax(0, 1fr);
     grid-column-gap: var(--spacing-md);
   }
 }
@@ -234,6 +238,7 @@ dt {
 }
 
 dd {
+  width: 100%;
   margin-left: 0;
   margin-bottom: var(--spacing-sm);
 }

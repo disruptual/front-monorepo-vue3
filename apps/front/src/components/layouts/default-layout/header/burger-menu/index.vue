@@ -30,6 +30,7 @@ const onLogoutClick = () => {
 
 <template>
   <dsp-icon-button icon="bars" size="lg" is-plain @click="isOpened = true" />
+
   <dsp-drawer :is-opened="isOpened" @close="isOpened = false">
     <dsp-flex justify="space-between" as="header">
       <h2>

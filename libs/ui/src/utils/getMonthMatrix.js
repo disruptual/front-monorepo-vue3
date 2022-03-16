@@ -17,10 +17,10 @@ export const getMonthMatrix = (
 
   rows.forEach(() => {
     const week = [];
-    if (currentDate.getMonth() > month) return;
     cols.forEach(() => {
-      week.push(currentDate);
-      currentDate = addDays(currentDate, 1);
+      const day = addDays(currentDate, 1);
+      week.push(day.getMonth() === month ? day : null);
+      currentDate = day;
     });
 
     matrix.push(week);

@@ -73,6 +73,7 @@ const textColor = useReadableColor('--color-surface');
     background: inherit;
     flex-grow: 1;
     color: v-bind(textColor);
+    width: 100%;
 
     &:focus {
       outline: none;

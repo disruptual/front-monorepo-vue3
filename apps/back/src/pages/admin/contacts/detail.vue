@@ -129,7 +129,7 @@ const isDropdownOpened = ref(false);
 
             <h2>{{ contact.firstName }} {{ contact.lastName }}</h2>
             <span class="contact__date">
-              {{ contact.formatCreated("dd/MM/yyyy à hh'h'mm") }}
+              {{ contact.formatCreated("dd/MM/yyyy à kk'h'mm") }}
             </span>
           </dsp-flex>
 

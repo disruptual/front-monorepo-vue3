@@ -16,17 +16,17 @@ import HomeBlocksUserModal from '@/components/home-blocks/home-blocks-modal/user
 
 const { t } = useI18n();
 const isRecommendedUserModalOpened = ref(false);
-const NOTE_DENOMINATOR = 5;
 
 const { deleteMutation, findAllQuery } = useRecommendedUserApi();
-const queryRecommendedUsers = findAllQuery();
+const recommendedUsersQuery = findAllQuery();
 const { mutateAsync: deleteRecommendedUser } = deleteMutation({
   onSuccess() {
-    queryRecommendedUsers.refetch.value();
+    recommendedUsersQuery.refetch.value();
   }
 });
 
 const sortData = data => data?.slice().sort((a, b) => a.position - b.position);
+const NOTE_DENOMINATOR = 5;
 const displayUserNote = note =>
   note ? `${note}/${NOTE_DENOMINATOR}` : t('dataTable.label.noValue');
 const onAdd = () => (isRecommendedUserModalOpened.value = true);
@@ -34,8 +34,8 @@ const onDelete = row => {
   row?.map(({ id }) => deleteRecommendedUser(id));
 };
 const updatePosition = (row, newIndex) => {
-  const oldIndex = queryRecommendedUsers.data.value.indexOf(row);
-  const clone = [...queryRecommendedUsers.data.value];
+  const oldIndex = recommendedUsersQuery.data.value.indexOf(row);
+  const clone = [...recommendedUsersQuery.data.value];
   clone.splice(oldIndex, 1);
   clone.splice(newIndex, 0, row);
   clone.forEach((recommendedCategory, index) => {
@@ -47,7 +47,7 @@ const updatePosition = (row, newIndex) => {
 <template>
   <DataTable
     id="recommended-user"
-    :query="queryRecommendedUsers"
+    :query="recommendedUsersQuery"
     :min-row-size="40"
     :sort-data-fn="sortData"
   >
@@ -57,7 +57,7 @@ const updatePosition = (row, newIndex) => {
       :label="t('dataTable.label.avatar')"
     >
       <dsp-center style="flex: 1">
-        <dsp-avatar :user="new User(row.user)" />
+        <dsp-avatar :user="row.user" />
       </dsp-center>
     </DataTableColumn>
     <DataTableColumn name="user.slug" :label="t('dataTable.label.slug')" />
@@ -90,7 +90,7 @@ const updatePosition = (row, newIndex) => {
         type="number"
         class="input-position"
         min="0"
-        :max="queryRecommendedUsers.data.value?.length - 1"
+        :max="recommendedUsersQuery.data.value?.length - 1"
         @update:modelValue="updatePosition(row, $event)"
         @click="$event.target.select()"
       />
@@ -110,12 +110,12 @@ const updatePosition = (row, newIndex) => {
     />
   </DataTable>
 
-  <HomeBlocksUserModal
+  <!-- <HomeBlocksUserModal
     :is-opened="isRecommendedUserModalOpened"
-    :recommended-user="queryRecommendedUsers.data"
+    :recommended-user="recommendedUsersQuery.data"
     @close="isRecommendedUserModalOpened = false"
-    @success="queryRecommendedUsers.refetch.value()"
-  />
+    @success="recommendedUsersQuery.refetch.value()"
+  /> -->
 </template>
 
 <style lang="scss" scoped>

@@ -186,7 +186,8 @@ export const MENU = [
       {
         target: { name: 'SettingsCarousel' },
         id: 'carousel',
-        isEnabled: config => config.features.settings.carousel.isEnabled
+        isEnabled: config => config.features.settings.carousel.isEnabled,
+        permissions: [USER_ROLES.PROJECT_MANAGER]
       },
       {
         target: { name: 'SettingsHomeBlocks' },

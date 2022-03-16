@@ -10,3 +10,4 @@ export * from './useTheme';
 export * from './useColorScheme';
 export * from './useToast';
 export * from './useThemeService';
+export * from './useResizeObserver';

@@ -4,11 +4,15 @@ export default { name: 'DspMenu' };
 
 <script setup>
 import { vReadableColor } from '@dsp/ui/directives/readableColor';
+import schema from './index.schema';
 
 const emit = defineEmits(['click']);
 const props = defineProps({
-  items: { type: Array, required: true }
+  items: { type: Array, required: true },
+  ...schema.toProps()
 });
+
+const context = schema.toContext(props);
 
 const getItemClasses = item => ({
   'menu-item--is-active': item.isActive
@@ -49,7 +53,7 @@ const getItemClasses = item => ({
     position: relative;
 
     &.menu-item--is-active {
-      border-color: var(--color-brand-500);
+      border-color: v-bind('context.activeColor');
     }
   }
 }

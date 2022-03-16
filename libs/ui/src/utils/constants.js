@@ -31,3 +31,5 @@ export const DAYS = {
   FRIDAY: 5,
   SATURDAY: 6
 };
+
+export const BROWSER_RENDERING_FRAME_DURATION = 16;

@@ -13,31 +13,57 @@ import SolveProblemModal from './modals/solve-problem.vue';
 const props = defineProps({
   order: { type: Order, required: true }
 });
+const isOpened = ref(false);
 
-const emit = defineEmits(['update']);
+const emit = defineEmits(['update', 'close']);
 const { t } = useI18n();
 
 const MODALS = { CLOSE: 'CLOSE', SOLVE: 'SOLVE' };
 const openedModal = ref(null);
 
-const problemReason = computed(() => {
-  const orderProblem = props.order.orderProblems?.[0];
-  if (!orderProblem) return null;
-  return orderProblem?.problemReason;
-});
+const openedMedia = ref([]);
+const isMediaOpened = media => openedMedia.value.includes(media);
+const toggleMedia = media => {
+  openedMedia.value.push(media);
+};
+const problem = computed(() => props.order.orderProblems?.[0]);
 </script>
 
 <template>
-  <dsp-flex direction="column" gap="sm" class="order-problem">
-    <div class="order-problem__reason">Cause: {{ problemReason.content }}</div>
-    <dsp-swiper>
-      <dsp-swiper-item
-        v-for="media in props.order.orderProblems?.[0].medias"
+  <div v-if="!problem" class="order-problem">
+    Impossible d'afficher les informations du litige
+  </div>
+  <dsp-flex
+    v-else
+    direction="column"
+    gap="sm"
+    class="order-problem"
+    v-bind="$attrs"
+  >
+    <div class="order-problem__reason">
+      <dt>Cause:</dt>
+      <dd>{{ problem?.problemReason.content }}</dd>
+    </div>
+    <div class="order-problem__comment">
+      <dt>Commentaire:</dt>
+      <dd>{{ problem?.comment }}</dd>
+    </div>
+    <dsp-grid :columns="2" gap="sm" class="order-problem__container">
+      <dsp-grid-item
+        v-for="media in problem.medias"
         :key="media.id"
+        as="dsp-plain-button"
+        @click="toggleMedia(media.id)"
       >
-        <dsp-image :src="media.url" class="order-problem__image" />
-      </dsp-swiper-item>
-    </dsp-swiper>
+        <dsp-image :src="media.url" class="order-problem__container__image" />
+        <dsp-modal
+          :is-opened="isMediaOpened(media.id)"
+          @close="openedMedia = []"
+        >
+          <dsp-image :src="media.url" class="order-problem__container__image" />
+        </dsp-modal>
+      </dsp-grid-item>
+    </dsp-grid>
     <dsp-flex v-if="order.isDisputed" gap="sm" align="center">
       <dsp-button
         size="sm"
@@ -77,13 +103,26 @@ const problemReason = computed(() => {
   background-color: var(--color-background);
   padding: var(--spacing-md);
   border: solid 1px var(--color-gray-300);
+  max-width: 100%;
+
+  > * {
+    max-width: 100%;
+  }
 }
-.order-problem__reason {
+.order-problem__reason,
+.order-problem__comment {
   font-weight: var(--font-weight-medium);
+  dt {
+    font-weight: var(--font-weight-bold);
+  }
+  dd {
+    margin: 0;
+  }
 }
 
-.order-problem__image {
-  max-width: 80px;
+.order-problem__container__image {
+  // max-width: 80px;
   aspect-ratio: 1;
+  user-select: none;
 }
 </style>
