@@ -129,6 +129,7 @@ const queryOptions = computed(() =>
         </dsp-smart-form-field>
       </dsp-flex>
     </dsp-grid-item>
+
     <dsp-grid-item>
       <dsp-flex class="card-actions" gap="sm" justify="center" align="center">
         <dsp-icon-button
@@ -149,6 +150,7 @@ const queryOptions = computed(() =>
 
       <div class="icon-draggable" />
     </dsp-grid-item>
+
     <dsp-grid-item class="option-fields" column="1/-1">
       <dsp-icon-button
         class="remove-block"

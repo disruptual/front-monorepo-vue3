@@ -119,7 +119,7 @@ const form = useForm({
   },
   mode: VALIDATION_MODES.ON_BLUR
 });
-const [fields, { values: formValues }] = form;
+const [, { values: formValues }] = form;
 
 const initSettings = data => {
   if (!data) return;
@@ -135,20 +135,14 @@ const initSettings = data => {
 watch(query.data, initSettings, { immediate: true });
 
 const onChangeType = ({ index, event }) => {
-  console.log({ fields, index, value: event.target.value });
-  // block.value = {
-  //   ...block.value,
-  //   type: typeParam,
-  //   query: null,
-  //   options: HOME_BLOCK_OPTIONS_DEFAULTS[typeParam]
-  // };
+  console.log({ index, value: event.target.value });
 };
 </script>
 
 <template>
   <dsp-query-loader :query="query">
     <dsp-smart-form :form="form" class="form">
-      <pre>{{ fields }}</pre>
+      <pre>{{ formValues }}</pre>
       <dsp-flex
         as="header"
         class="carousel-editor-action-bar"
