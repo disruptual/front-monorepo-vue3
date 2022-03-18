@@ -38,7 +38,7 @@ const activeTab = computed({
 
 <template>
   <dsp-container>
-    <dsp-surface>
+    <dsp-surface class="home-editor-page">
       <h2>Home Blocks</h2>
       <dsp-alert>
         Personalisez votre page d'accueil en définissant une liste de blocs
@@ -51,37 +51,37 @@ const activeTab = computed({
           :name="TABS.EDITOR"
           :label="t(`settings.homepage.tabs.${TABS.EDITOR}`)"
         >
-          <dsp-container>
-            <HomeBlocksEditor />
-          </dsp-container>
+          <HomeBlocksEditor />
         </dsp-tab>
         <dsp-tab
           :name="TABS.USER"
           :label="t(`settings.homepage.tabs.${TABS.USER}`)"
         >
-          <dsp-container>
-            <HomeBlocksRecommendationUser />
-          </dsp-container>
+          <HomeBlocksRecommendationUser />
         </dsp-tab>
 
         <dsp-tab
           :name="TABS.BRAND"
           :label="t(`settings.homepage.tabs.${TABS.BRAND}`)"
         >
-          <dsp-container>
-            <HomeBlocksRecommendationBrand />
-          </dsp-container>
+          <HomeBlocksRecommendationBrand />
         </dsp-tab>
 
         <dsp-tab
           :name="TABS.CATEGORY"
           :label="t(`settings.homepage.tabs.${TABS.CATEGORY}`)"
         >
-          <dsp-container>
-            <HomeBlocksRecommendationCategory />
-          </dsp-container>
+          <HomeBlocksRecommendationCategory />
         </dsp-tab>
       </dsp-tabs>
     </dsp-surface>
   </dsp-container>
 </template>
+
+<style lang="scss" scoped>
+.home-editor-page {
+  @include mobile-only {
+    padding: var(--spacing-sm) !important;
+  }
+}
+</style>

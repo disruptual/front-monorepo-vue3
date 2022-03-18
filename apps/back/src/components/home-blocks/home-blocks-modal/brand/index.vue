@@ -20,7 +20,7 @@ const emit = defineEmits(['success', 'close']);
 
 const brandFilter = useDebouncedRef('', 500);
 
-const { data: brands } = useBrandApi().findAllQuery(
+const query = useBrandApi().findAllQuery(
   computed(() => ({
     filters: {
       name: brandFilter.value
@@ -28,6 +28,7 @@ const { data: brands } = useBrandApi().findAllQuery(
     enabled: !!brandFilter.value
   }))
 );
+const { data: brands } = query;
 
 const { createMutation, deleteMutation } = useRecommendedBrandApi();
 
@@ -85,40 +86,45 @@ const getBrandRecommended = brand => {
         spellcheck="false"
       />
     </dsp-form-control>
-    <ul class="results-list">
-      <dsp-flex
-        v-for="brand in brands"
-        :key="brand.id"
-        as="li"
-        align="center"
-        gap="sm"
-      >
-        <span class="result-brand">
-          {{ brand.name }}
-        </span>
 
-        <dsp-flex align="center" gap="sm" class="container-action">
-          <dsp-loading-button
-            v-if="!!getBrandRecommended(brand)"
-            class="button-remove"
-            :show-label-while-loading="false"
-            :is-loading="isCreating || isDeleting"
-            @click="removeBrandToRecommended(brand)"
-          >
-            <dsp-icon icon="minus" size="sm" />
-          </dsp-loading-button>
-          <dsp-loading-button
-            v-else
-            class="button-add"
-            :show-label-while-loading="false"
-            :is-loading="isCreating || isDeleting"
-            @click="addBrandToRecommended(brand)"
-          >
-            <dsp-icon icon="add" size="sm" />
-          </dsp-loading-button>
+    <dsp-query-loader :query="query">
+      <dsp-center v-if="!brands.length">Aucun résultat</dsp-center>
+
+      <ul class="results-list">
+        <dsp-flex
+          v-for="brand in brands"
+          :key="brand.id"
+          as="li"
+          align="center"
+          gap="sm"
+        >
+          <span class="result-brand">
+            {{ brand.name }}
+          </span>
+
+          <dsp-flex align="center" gap="sm" class="container-action">
+            <dsp-loading-button
+              v-if="!!getBrandRecommended(brand)"
+              class="button-remove"
+              :show-label-while-loading="false"
+              :is-loading="isCreating || isDeleting"
+              @click="removeBrandToRecommended(brand)"
+            >
+              <dsp-icon icon="minus" size="sm" />
+            </dsp-loading-button>
+            <dsp-loading-button
+              v-else
+              class="button-add"
+              :show-label-while-loading="false"
+              :is-loading="isCreating || isDeleting"
+              @click="addBrandToRecommended(brand)"
+            >
+              <dsp-icon icon="add" size="sm" />
+            </dsp-loading-button>
+          </dsp-flex>
         </dsp-flex>
-      </dsp-flex>
-    </ul>
+      </ul>
+    </dsp-query-loader>
   </dsp-modal>
 </template>
 

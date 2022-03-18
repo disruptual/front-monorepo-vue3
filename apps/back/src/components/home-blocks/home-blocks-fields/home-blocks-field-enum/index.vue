@@ -12,7 +12,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-const value = computed({
+const vModel = computed({
   get() {
     return props.modelValue;
   },
@@ -20,19 +20,23 @@ const value = computed({
     emit('update:modelValue', val);
   }
 });
+
+const selectOptions = computed(() =>
+  props.options.map(o => ({ label: o, value: o }))
+);
 </script>
 
 <template>
   <dsp-form-control
     v-slot="{ on, formControlProps }"
-    v-model="value"
+    v-model="vModel"
     :label="label"
   >
-    <select v-bind="formControlProps" v-on="on">
-      <option disabled :value="null">{{ label }}</option>
-      <option v-for="option in options" :key="option">
-        {{ option }}
-      </option>
-    </select>
+    <dsp-select
+      v-model="vModel"
+      v-bind="formControlProps"
+      :options="selectOptions"
+      v-on="on"
+    />
   </dsp-form-control>
 </template>

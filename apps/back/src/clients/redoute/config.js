@@ -12,5 +12,11 @@ export default merge({}, defaultConfig, {
   },
   DefaultLayoutHeader: { isLogoDisplayed: true },
   DspMenu: { activeColor: 'accent-500' },
-  DspAvatar: { bgColor: 'accent-500' }
+  DspAvatar: { bgColor: 'accent-500' },
+  DspButton: {
+    scheme: {
+      hover: 400,
+      focus: 400
+    }
+  }
 });

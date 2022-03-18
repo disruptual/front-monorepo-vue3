@@ -11,7 +11,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue']);
 
-const value = computed({
+const vModal = computed({
   get() {
     return props.modelValue;
   },
@@ -24,9 +24,9 @@ const value = computed({
 <template>
   <dsp-form-control
     v-slot="{ on, formControlProps }"
-    v-model="value"
+    v-model="vModal"
     :label="label"
   >
-    <dsp-checkbox v-model="value" v-bind="formControlProps" v-on="on" />
+    <dsp-switch v-model="vModal" v-bind="formControlProps" v-on="on" />
   </dsp-form-control>
 </template>

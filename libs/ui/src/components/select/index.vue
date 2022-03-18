@@ -47,6 +47,6 @@ const model = computed({
 .dsp-select {
   padding: var(--spacing-xs);
   border: solid 1px var(--color-separator);
-  background-color: var(--collr-surface);
+  background-color: var(--color-surface);
 }
 </style>

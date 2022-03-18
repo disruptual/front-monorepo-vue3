@@ -4,6 +4,7 @@ export default { name: 'HomeBlocksFields' };
 
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { HOME_BLOCK_PROPERTY_TYPES } from '@dsp/business';
 
 import HomeBlocksFieldBoolean from './home-blocks-field-boolean/index.vue';
@@ -13,21 +14,11 @@ import HomeBlocksFieldColor from './home-blocks-field-color/index.vue';
 import HomeBlocksFieldEnum from './home-blocks-field-enum/index.vue';
 
 const props = defineProps({
-  modelValue: { type: Object, required: true },
   mappedOptions: { type: Object, required: true },
-  index: { type: Number, required: true }
-});
-const emit = defineEmits(['update:modelValue']);
-
-const block = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(val) {
-    emit('update:modelValue', val);
-  }
+  block: { type: Object, required: true }
 });
 
+const { t } = useI18n();
 const hasChildren = option => {
   return option?.type === undefined;
 };
@@ -51,54 +42,65 @@ const component = type => {
 </script>
 
 <template>
-  <div v-for="(mappedOption, key) in props.mappedOptions" :key="mappedOption">
+  <div v-for="(mappedOption, key) in props.mappedOptions" :key="key">
     <dsp-smart-form-field
       v-if="!hasChildren(mappedOption)"
       v-slot="slotProps"
-      :name="`${index}.options.${mappedOption.name}`"
+      :name="`${props.block.id}.options.${key}`"
       :initial-value="block.options[key]"
+      :required="mappedOption.type !== 'BOOLEAN'"
     >
       <component
         :is="component(mappedOption.type)"
         v-model="slotProps.field.value"
         v-bind="slotProps"
-        :label="mappedOption?.label"
+        :label="t(`homeBlocks.fields.${key}`)"
         :options="mappedOption?.values"
       />
-      <dsp-form-error
-        v-for="(error, k) in slotProps.field?.errors"
-        :key="k"
-        class="errors"
-        :error="error"
-      />
     </dsp-smart-form-field>
+
     <fieldset v-else>
-      <legend>{{ mappedOption?.label }}</legend>
-      <div
-        v-for="(subMappedOption, subKey) in mappedOption"
-        :key="subMappedOption"
-      >
-        <dsp-smart-form-field
-          v-if="subKey !== 'label'"
-          v-slot="slotProps"
-          :name="`${index}.options.${subMappedOption.name}`"
-          :initial-value="block.options?.[key]?.[subKey]"
-        >
-          <component
-            :is="component(subMappedOption.type)"
-            v-model="slotProps.field.value"
-            v-bind="slotProps"
-            :label="subMappedOption?.label"
-            :options="subMappedOption?.values"
-          />
-          <dsp-form-error
-            v-for="(error, k) in slotProps.field?.errors"
-            :key="k"
-            class="errors"
-            :error="error"
-          />
-        </dsp-smart-form-field>
-      </div>
+      <legend>{{ t(`homeBlocks.fields.${key}.legend`) }}</legend>
+      <dsp-grid :columns="2" gap="sm">
+        <div v-for="(subMappedOption, subKey) in mappedOption" :key="subKey">
+          <dsp-smart-form-field
+            v-slot="slotProps"
+            :name="`${props.block.id}.options.${key}.${subKey}`"
+            :initial-value="block.options?.[key]?.[subKey]"
+            :required="subMappedOption.type !== 'BOOLEAN'"
+          >
+            <component
+              :is="component(subMappedOption.type)"
+              v-model="slotProps.field.value"
+              v-bind="slotProps"
+              :label="t(`homeBlocks.fields.${key}.${subKey}`)"
+              :options="subMappedOption?.values"
+            />
+          </dsp-smart-form-field>
+        </div>
+      </dsp-grid>
     </fieldset>
   </div>
 </template>
+
+<style lang="scss" scoped>
+fieldset {
+  display: block;
+  border: solid 1px var(--color-separator);
+  /* border: none; */
+  /* padding: 0; */
+  margin-bottom: var(--spacing-sm);
+  background: var(--color-surface);
+}
+
+legend {
+  display: block;
+  font-weight: var(--font-weight-bold);
+}
+
+.sub-field {
+  @include not-mobile {
+    padding-left: var(--spacing-lg);
+  }
+}
+</style>

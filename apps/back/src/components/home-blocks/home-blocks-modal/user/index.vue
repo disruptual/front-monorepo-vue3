@@ -3,8 +3,7 @@ export default { name: 'RecommendedUserModal' };
 </script>
 
 <script setup>
-import { computed, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { computed } from 'vue';
 import { useDebouncedRef } from '@dsp/core';
 import { useRecommendedUserApi, useUserApi } from '@dsp/core';
 import { useToast } from '@dsp/ui';
@@ -21,7 +20,7 @@ const emit = defineEmits(['success', 'close']);
 
 const slugFilter = useDebouncedRef('', 500);
 
-const { data: users } = useUserApi().findAllQuery(
+const query = useUserApi().findAllQuery(
   computed(() => ({
     filters: {
       slug: slugFilter.value
@@ -29,6 +28,7 @@ const { data: users } = useUserApi().findAllQuery(
     enabled: !!slugFilter.value
   }))
 );
+const { data: users } = query;
 
 const { createMutation, deleteMutation } = useRecommendedUserApi();
 
@@ -87,48 +87,52 @@ const getUserRecommended = user => {
         spellcheck="false"
       />
     </dsp-form-control>
-    <ul class="results-list">
-      <dsp-flex
-        v-for="user in users"
-        :key="user.id"
-        as="li"
-        align="center"
-        gap="sm"
-      >
-        <router-link
-          class="result-user"
-          target="_blank"
-          :to="{
-            name: 'AdminUserDetails',
-            params: { slug: user.slug }
-          }"
+
+    <dsp-query-loader :query="query">
+      <dsp-center v-if="!users.length">Aucun résultat</dsp-center>
+      <ul class="results-list">
+        <dsp-flex
+          v-for="user in users"
+          :key="user.id"
+          as="li"
+          align="center"
+          gap="sm"
         >
-          <dsp-avatar :user="user" />
-          <span>{{ user.slug }}</span>
-          <dsp-icon class="chevron" icon="chevronRight" size="sm" />
-        </router-link>
-        <dsp-flex align="center" gap="sm" class="container-action">
-          <dsp-loading-button
-            v-if="!!getUserRecommended(user)"
-            class="button-remove"
-            :show-label-while-loading="false"
-            :is-loading="isCreating || isDeleting"
-            @click="removeUserToRecommended(user)"
+          <router-link
+            class="result-user"
+            target="_blank"
+            :to="{
+              name: 'AdminUserDetails',
+              params: { slug: user.slug }
+            }"
           >
-            <dsp-icon icon="minus" size="sm" />
-          </dsp-loading-button>
-          <dsp-loading-button
-            v-else
-            class="button-add"
-            :show-label-while-loading="false"
-            :is-loading="isCreating || isDeleting"
-            @click="addUserToRecommended(user)"
-          >
-            <dsp-icon icon="add" size="sm" />
-          </dsp-loading-button>
+            <dsp-avatar :user="user" />
+            <span>{{ user.slug }}</span>
+            <dsp-icon class="chevron" icon="chevronRight" size="sm" />
+          </router-link>
+          <dsp-flex align="center" gap="sm" class="container-action">
+            <dsp-loading-button
+              v-if="!!getUserRecommended(user)"
+              class="button-remove"
+              :show-label-while-loading="false"
+              :is-loading="isCreating || isDeleting"
+              @click="removeUserToRecommended(user)"
+            >
+              <dsp-icon icon="minus" size="sm" />
+            </dsp-loading-button>
+            <dsp-loading-button
+              v-else
+              class="button-add"
+              :show-label-while-loading="false"
+              :is-loading="isCreating || isDeleting"
+              @click="addUserToRecommended(user)"
+            >
+              <dsp-icon icon="add" size="sm" />
+            </dsp-loading-button>
+          </dsp-flex>
         </dsp-flex>
-      </dsp-flex>
-    </ul>
+      </ul>
+    </dsp-query-loader>
   </dsp-modal>
 </template>
 

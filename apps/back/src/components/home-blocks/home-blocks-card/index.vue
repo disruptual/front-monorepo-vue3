@@ -7,10 +7,7 @@ import { computed, watch, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDevice } from '@dsp/ui';
 import { HOME_BLOCK_TYPES, HOME_BLOCK_QUERIES } from '@dsp/business';
-import {
-  HOME_BLOCK_MAPPED_TYPE,
-  HOME_BLOCK_OPTIONS_DEFAULTS
-} from '@/utils/homeBlockDefinitions';
+import { HOME_BLOCK_MAPPED_TYPE } from '@/utils/homeBlockDefinitions';
 
 import HomeBlocksFields from '@/components/home-blocks/home-blocks-fields/index.vue';
 
@@ -18,26 +15,11 @@ const { t } = useI18n();
 const device = useDevice();
 const isOptionsOpened = ref(false);
 const props = defineProps({
-  modelValue: { type: Object, required: true },
   isEditing: { type: Boolean, required: true },
-  index: { type: Number, required: true },
-  blockValue: { type: null, required: true }
+  block: { type: null, required: true },
+  fieldValue: { type: Object, default: () => ({}) }
 });
-const emit = defineEmits([
-  'update:modelValue',
-  'delete',
-  'draggableStart',
-  'change:type'
-]);
-
-const block = ref({ ...props.modelValue });
-watch(
-  block,
-  newBlock => {
-    emit('update:modelValue', newBlock);
-  },
-  { deep: true }
-);
+const emit = defineEmits(['delete', 'dragstart', 'dragend', 'change:type']);
 
 const deleteBlock = block => {
   emit('delete', block);
@@ -45,54 +27,58 @@ const deleteBlock = block => {
 
 const onTypeChange = event => {
   isOptionsOpened.value = false;
-  emit('change:type', { index: props.index, event });
-
-  // if (!selectQueryRef.value) return;
-  // selectQueryRef.value.selectedIndex = null;
+  emit('change:type', { blockId: props.block.id, event });
 };
 
 const typeOptions = computed(() =>
-  Object.values(HOME_BLOCK_TYPES).map(b => ({ label: b, value: b }))
+  Object.values(HOME_BLOCK_TYPES).map(b => ({
+    label: t(`homeBlocks.types.${b}`),
+    value: b
+  }))
 );
 
 const homeBlocksQueries = computed(
-  () => HOME_BLOCK_QUERIES[props.blockValue.type]
+  () => HOME_BLOCK_QUERIES[props.fieldValue.type]
 );
 const queryOptions = computed(() =>
-  Object.values(homeBlocksQueries.value).map(b => ({ label: b, value: b }))
+  Object.values(homeBlocksQueries.value).map(q => ({
+    label: t(`homeBlocks.queries.${q}`),
+    value: q
+  }))
+);
+
+const fieldOptions = computed(
+  () => HOME_BLOCK_MAPPED_TYPE[props.fieldValue.type]
 );
 </script>
 
 <template>
-  <dsp-grid
-    v-if="isEditing"
-    rows="auto auto"
-    columns="8fr 2fr"
-    gap="md"
-    class="card-block-editor--editable"
-  >
-    <dsp-grid-item>
+  <dsp-flex>
+    <dsp-icon-button
+      v-if="device.isDesktop"
+      class="dragable-block"
+      type="button"
+      icon="draggable"
+      size="sm"
+      @mousedown="emit('dragstart')"
+    />
+
+    <!-- the use of v-show is important, 
+         we want the component to stay initialized when switching view mode, 
+         otherwise the fields get removed from the form 
+    -->
+    <div v-show="isEditing" class="card-block-editor__main-fields">
       <dsp-flex
         class="container"
         justify="flex-start"
-        align="center"
-        :gap="device.isTablet || device.isMobile ? 'xs' : 'xl'"
+        align="flex-start"
+        :gap="device.isTablet || device.isMobile ? 'xs' : 'lg'"
       >
         <dsp-smart-form-field
           v-slot="slotProps"
-          :name="`${index}.${HOME_BLOCK_MAPPED_TYPE.name.name}`"
-          :initial-value="block.name"
-        >
-          <dsp-form-control
-            v-model.number="slotProps.field.value"
-            v-bind="slotProps"
-            :label="t('homeBlocks.form.name')"
-          />
-        </dsp-smart-form-field>
-        <dsp-smart-form-field
-          v-slot="slotProps"
-          :name="`${index}.${HOME_BLOCK_MAPPED_TYPE.type.name}`"
+          :name="`${props.block.id}.type`"
           :initial-value="block.type"
+          required
         >
           <dsp-form-control
             v-slot="{ on, ...formControlProps }"
@@ -108,11 +94,13 @@ const queryOptions = computed(() =>
             />
           </dsp-form-control>
         </dsp-smart-form-field>
+
         <dsp-smart-form-field
-          v-if="blockValue?.type"
+          v-if="props.fieldValue?.type"
           v-slot="slotProps"
-          :name="`${index}.${HOME_BLOCK_MAPPED_TYPE.query.name}`"
+          :name="`${props.block.id}.query`"
           :initial-value="block.query"
+          required
         >
           <dsp-form-control
             v-slot="{ on, ...formControlProps }"
@@ -128,66 +116,54 @@ const queryOptions = computed(() =>
           </dsp-form-control>
         </dsp-smart-form-field>
       </dsp-flex>
-    </dsp-grid-item>
+    </div>
 
-    <dsp-grid-item>
-      <dsp-flex class="card-actions" gap="sm" justify="center" align="center">
-        <dsp-icon-button
-          class="dragable-block"
-          type="button"
-          icon="draggable"
-          size="sm"
-          @mousedown="emit('draggableStart')"
-        />
-        <dsp-icon-button
-          class="remove-block"
-          type="button"
-          icon="trash"
-          size="sm"
-          @click="deleteBlock(block)"
-        />
+    <dsp-icon-button
+      v-if="isEditing"
+      class="card-block-editor__remove-button"
+      type="button"
+      icon="trash"
+      size="sm"
+      is-outlined
+      @click="deleteBlock(block)"
+    />
+
+    <dsp-flex
+      v-if="!isEditing"
+      class="card-block-editor"
+      direction="column"
+      gap="sm"
+    >
+      <dsp-flex gap="sm" align="center" class="card-block-editor__title">
+        Titre:
+        <span v-if="fieldValue.options?.title?.content">
+          {{ fieldValue.options?.title?.content }}
+        </span>
+        <span v-else class="card-block-editor__missing-field">A définir</span>
       </dsp-flex>
 
-      <div class="icon-draggable" />
-    </dsp-grid-item>
-
-    <dsp-grid-item class="option-fields" column="1/-1">
-      <dsp-icon-button
-        class="remove-block"
-        type="button"
-        :icon="isOptionsOpened ? 'chevronDown' : 'chevronUp'"
-        size="sm"
-        :disabled="!blockValue?.query"
-        @click="isOptionsOpened = !isOptionsOpened"
-      />
-      <HomeBlocksFields
-        v-if="isOptionsOpened"
-        v-model="block"
-        :mapped-options="HOME_BLOCK_MAPPED_TYPE[blockValue.type]"
-        :index="index"
-      />
-    </dsp-grid-item>
-  </dsp-grid>
-
-  <dsp-flex v-else class="card-block-editor" direction="column" gap="sm">
-    <dsp-flex gap="sm" align="center">
-      <span>Nom: {{ block.name }}</span>
-      <span v-if="block.options?.title?.content">
-        Titre: {{ block.options?.title?.content }}
-      </span>
-    </dsp-flex>
-
-    <dsp-flex gap="sm">
-      <span>Type: {{ block.type }}</span>
-      <span>Requête: {{ block.query }}</span>
+      <dsp-flex gap="sm">
+        Type:
+        <span v-if="fieldValue.type">
+          {{ t(`homeBlocks.types.${fieldValue.type}`) }}
+        </span>
+        <span v-else class="card-block-editor__missing-field">A définir</span>
+        Requête:
+        <span v-if="fieldValue.query">
+          {{ t(`homeBlocks.queries.${fieldValue.query}`) }}
+        </span>
+        <span v-else class="card-block-editor__missing-field">A définir</span>
+      </dsp-flex>
     </dsp-flex>
   </dsp-flex>
+  <div v-show="isEditing" v-if="fieldOptions" class="home-block-card__fields">
+    <HomeBlocksFields :mapped-options="fieldOptions" :block="props.block" />
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.card-block-editor--editable {
-  background-color: v-bind('options?.backgroundColor');
-  padding: var(--spacing-sm);
+.card-block-editor__main-fields {
+  padding: 0 var(--spacing-sm);
 }
 .card-block-editor {
   background-color: v-bind('options?.backgroundColor');
@@ -198,13 +174,25 @@ const queryOptions = computed(() =>
   width: 100%;
 }
 
-.option-fields {
-  display: flex;
-  flex-flow: column;
-  justify-content: space-between;
-}
-
 .card-actions {
   height: 100%;
+}
+
+.home-block-card__fields {
+  background: var(--color-gray-200);
+  padding: var(--spacing-sm);
+}
+
+.card-block-editor__remove-button {
+  margin-left: auto;
+  align-self: flex-start;
+}
+
+.card-block-editor__title {
+  font-size: var(--font-size-lg);
+}
+
+.card-block-editor__missing-field {
+  color: var(--color-error-500);
 }
 </style>

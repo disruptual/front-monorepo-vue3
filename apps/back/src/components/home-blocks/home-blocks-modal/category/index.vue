@@ -20,7 +20,7 @@ const emit = defineEmits(['success', 'close']);
 
 const lowCategoryFilter = useDebouncedRef('', 500);
 
-const { data: categories } = useCategoryApi().findAllQuery(
+const query = useCategoryApi().findAllQuery(
   computed(() => ({
     filters: {
       name: lowCategoryFilter.value
@@ -28,6 +28,7 @@ const { data: categories } = useCategoryApi().findAllQuery(
     enabled: !!lowCategoryFilter.value
   }))
 );
+const { data: categories } = query;
 
 const { createMutation, deleteMutation } = useRecommendedCategoryApi();
 
@@ -84,39 +85,43 @@ const getCategoryRecommended = category => {
         spellcheck="false"
       />
     </dsp-form-control>
-    <ul class="results-list">
-      <dsp-flex
-        v-for="category in categories"
-        :key="category.id"
-        as="li"
-        align="center"
-        gap="sm"
-      >
-        <router-link class="result-category" target="_blank" :to="{}">
-          {{ category.name }}
-        </router-link>
-        <dsp-flex align="center" gap="sm" class="container-action">
-          <dsp-loading-button
-            v-if="!!getCategoryRecommended(category)"
-            class="button-remove"
-            :show-label-while-loading="false"
-            :is-loading="isCreating || isDeleting"
-            @click="removeCategoryToRecommended(category)"
-          >
-            <dsp-icon icon="minus" size="sm" />
-          </dsp-loading-button>
-          <dsp-loading-button
-            v-else
-            class="button-add"
-            :show-label-while-loading="false"
-            :is-loading="isCreating || isDeleting"
-            @click="addCategoryToRecommended(category)"
-          >
-            <dsp-icon icon="add" size="sm" />
-          </dsp-loading-button>
+
+    <dsp-query-loader :query="query">
+      <dsp-center v-if="!categories.length">Aucun résultat</dsp-center>
+      <ul class="results-list">
+        <dsp-flex
+          v-for="category in categories"
+          :key="category.id"
+          as="li"
+          align="center"
+          gap="sm"
+        >
+          <router-link class="result-category" target="_blank" :to="{}">
+            {{ category.name }}
+          </router-link>
+          <dsp-flex align="center" gap="sm" class="container-action">
+            <dsp-loading-button
+              v-if="!!getCategoryRecommended(category)"
+              class="button-remove"
+              :show-label-while-loading="false"
+              :is-loading="isCreating || isDeleting"
+              @click="removeCategoryToRecommended(category)"
+            >
+              <dsp-icon icon="minus" size="sm" />
+            </dsp-loading-button>
+            <dsp-loading-button
+              v-else
+              class="button-add"
+              :show-label-while-loading="false"
+              :is-loading="isCreating || isDeleting || query.isFetching"
+              @click="addCategoryToRecommended(category)"
+            >
+              <dsp-icon icon="add" size="sm" />
+            </dsp-loading-button>
+          </dsp-flex>
         </dsp-flex>
-      </dsp-flex>
-    </ul>
+      </ul>
+    </dsp-query-loader>
   </dsp-modal>
 </template>
 

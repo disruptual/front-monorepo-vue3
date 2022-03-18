@@ -19,11 +19,7 @@ const versionClass = index => {
   const [currentMajor, currentMinor] = releaseNotes[index].version.split('.');
   const [previousMajor, previousMinor] =
     releaseNotes[index + 1].version.split('.');
-  console.group(releaseNotes[index].version);
 
-  console.log(currentMajor, currentMinor);
-  console.log(previousMajor, previousMinor);
-  console.groupEnd();
   if (currentMajor > previousMajor) return 'major';
   if (currentMinor > previousMinor) return 'minor';
   return 'patch';
@@ -39,6 +35,7 @@ const versionClass = index => {
     <li v-for="(releaseNote, index) in releaseNotes" :key="index">
       <a :href="`#${releaseNote.version}`" :class="versionClass(index)">
         {{ releaseNote.version }}
+        <span class="major-marker">🚀</span>
       </a>
     </li>
   </ul>
@@ -88,10 +85,17 @@ const versionClass = index => {
     line-height: 1.4;
   }
 
+  .major-marker {
+    display: none;
+  }
   .major {
     font-size: var(--font-size-md);
     color: var(--color-brand-500);
     font-weight: var(--font-weight-bold);
+    .major-marker {
+      display: inline-block;
+      margin-left: var(--spacing-xs);
+    }
   }
 
   .minor {

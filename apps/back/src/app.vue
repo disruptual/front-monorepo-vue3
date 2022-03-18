@@ -76,6 +76,7 @@ ul {
     max-width: 100%;
     @include mobile-only {
       transition: transform var(--transition-sm);
+      max-width: 100vw;
     }
   }
 }

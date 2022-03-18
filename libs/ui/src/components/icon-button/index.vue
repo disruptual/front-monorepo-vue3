@@ -5,6 +5,7 @@ export default { name: 'DspIconButton' };
 import { computed } from 'vue';
 
 const props = defineProps({
+  isRounded: { type: Boolean, default: false },
   isLoading: { type: Boolean, default: false },
   size: { type: String, default: 'md' },
   icon: { type: String, required: true },
@@ -15,7 +16,12 @@ const is = computed(() => (props.isPlain ? 'dsp-plain-button' : 'dsp-button'));
 </script>
 
 <template>
-  <component :is="is" :disabled="isLoading" v-bind="$attrs">
+  <component
+    :is="is"
+    :disabled="isLoading"
+    v-bind="$attrs"
+    :class="isRounded && 'dsp-icon-button--rounded'"
+  >
     <dsp-icon
       :icon="isLoading ? 'spinner' : icon"
       :size="size"
@@ -36,5 +42,9 @@ const is = computed(() => (props.isPlain ? 'dsp-plain-button' : 'dsp-button'));
 
 .dsp-icon-button--loading {
   animation: spin 1s infinite;
+}
+
+.dsp-icon-button--rounded {
+  border-radius: 50%;
 }
 </style>

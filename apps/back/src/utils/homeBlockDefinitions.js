@@ -17,9 +17,7 @@ export const HOME_BLOCK_OPTIONS_DEFAULTS = {
 
 export const HOME_BLOCK_MAPPED_TYPE = {
   name: {
-    type: HOME_BLOCK_PROPERTY_TYPES.STRING,
-    label: 'Nom',
-    name: 'name'
+    type: HOME_BLOCK_PROPERTY_TYPES.STRING
   },
   type: {
     type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
@@ -28,45 +26,29 @@ export const HOME_BLOCK_MAPPED_TYPE = {
       HOME_BLOCK_TYPES.CATEGORY,
       HOME_BLOCK_TYPES.BRAND,
       HOME_BLOCK_TYPES.BRAND
-    ],
-    label: 'Type',
-    name: 'type'
+    ]
   },
   query: {
-    type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
-    label: 'Requête',
-    name: 'query'
+    type: HOME_BLOCK_PROPERTY_TYPES.ENUM
   },
   [HOME_BLOCK_TYPES.ITEM]: {
     backgroundColor: {
-      type: HOME_BLOCK_PROPERTY_TYPES.COLOR,
-      label: 'backgroundColor',
-      name: 'backgroundColor'
+      type: HOME_BLOCK_PROPERTY_TYPES.COLOR
     },
     itemsPerSection: {
-      type: HOME_BLOCK_PROPERTY_TYPES.NUMBER,
-      label: 'itemsPerSection',
-      name: 'itemsPerSection'
+      type: HOME_BLOCK_PROPERTY_TYPES.NUMBER
     },
     title: {
-      label: 'Title',
       content: {
-        type: HOME_BLOCK_PROPERTY_TYPES.STRING,
-        label: 'Contenu',
-        name: 'title.content'
+        type: HOME_BLOCK_PROPERTY_TYPES.STRING
       },
       upperCase: {
-        type: HOME_BLOCK_PROPERTY_TYPES.BOOLEAN,
-        label: 'upperCase',
-        name: 'title.upperCase'
+        type: HOME_BLOCK_PROPERTY_TYPES.BOOLEAN
       }
     },
     seeMore: {
-      label: 'Bouton voir plus',
       enabled: {
-        type: HOME_BLOCK_PROPERTY_TYPES.BOOLEAN,
-        label: 'enabled',
-        name: 'seeMore.enabled'
+        type: HOME_BLOCK_PROPERTY_TYPES.BOOLEAN
       },
       position: {
         type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
@@ -74,109 +56,74 @@ export const HOME_BLOCK_MAPPED_TYPE = {
           HOME_BLOCK_SEE_MORE_POSITION.HEADER,
           HOME_BLOCK_SEE_MORE_POSITION.BOTTOM,
           HOME_BLOCK_SEE_MORE_POSITION.CONTENT
-        ],
-        label: 'position',
-        name: 'seeMore.position'
+        ]
       }
     },
     uiType: {
       type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
-      label: "Type d'affichage",
-      values: [HOME_BLOCK_UI_TYPES.GRID, HOME_BLOCK_UI_TYPES.SWIPER],
-      name: 'uiType'
+      values: [HOME_BLOCK_UI_TYPES.GRID, HOME_BLOCK_UI_TYPES.SWIPER]
     }
   },
   [HOME_BLOCK_TYPES.BRAND]: {
     backgroundColor: {
-      type: HOME_BLOCK_PROPERTY_TYPES.COLOR,
-      label: 'backgroundColor',
-      name: 'backgroundColor'
+      type: HOME_BLOCK_PROPERTY_TYPES.COLOR
     },
     itemsPerSection: {
-      type: HOME_BLOCK_PROPERTY_TYPES.NUMBER,
-      label: 'itemsPerSection',
-      name: 'itemsPerSection'
+      type: HOME_BLOCK_PROPERTY_TYPES.NUMBER
     },
     title: {
-      label: 'Title',
       content: {
         type: HOME_BLOCK_PROPERTY_TYPES.STRING,
-        label: 'Contenu',
         name: 'title.content'
       },
       upperCase: {
-        type: HOME_BLOCK_PROPERTY_TYPES.BOOLEAN,
-        label: 'upperCase',
-        name: 'title.upperCase'
+        type: HOME_BLOCK_PROPERTY_TYPES.BOOLEAN
       }
     },
     uiType: {
       type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
-      label: "Type d'affichage",
-      values: [HOME_BLOCK_UI_TYPES.GRID, HOME_BLOCK_UI_TYPES.SWIPER],
-      name: 'uiType'
+      values: [HOME_BLOCK_UI_TYPES.GRID, HOME_BLOCK_UI_TYPES.SWIPER]
     }
   },
   [HOME_BLOCK_TYPES.USER]: {
     backgroundColor: {
-      type: HOME_BLOCK_PROPERTY_TYPES.COLOR,
-      label: 'backgroundColor',
-      name: 'backgroundColor'
+      type: HOME_BLOCK_PROPERTY_TYPES.COLOR
     },
     itemsPerSection: {
-      type: HOME_BLOCK_PROPERTY_TYPES.NUMBER,
-      label: 'itemsPerSection',
-      name: 'itemsPerSection'
+      type: HOME_BLOCK_PROPERTY_TYPES.NUMBER
     },
     title: {
-      label: 'Title',
       content: {
         type: HOME_BLOCK_PROPERTY_TYPES.STRING,
-        label: 'Contenu',
         name: 'title.content'
       },
       upperCase: {
-        type: HOME_BLOCK_PROPERTY_TYPES.BOOLEAN,
-        label: 'upperCase',
-        name: 'title.upperCase'
+        type: HOME_BLOCK_PROPERTY_TYPES.BOOLEAN
       }
     },
     uiType: {
       type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
-      label: "Type d'affichage",
-      values: [HOME_BLOCK_UI_TYPES.GRID, HOME_BLOCK_UI_TYPES.SWIPER],
-      name: 'uiType'
+      values: [HOME_BLOCK_UI_TYPES.GRID, HOME_BLOCK_UI_TYPES.SWIPER]
     }
   },
   [HOME_BLOCK_TYPES.CATEGORY]: {
     backgroundColor: {
-      type: HOME_BLOCK_PROPERTY_TYPES.COLOR,
-      label: 'backgroundColor',
-      name: 'backgroundColor'
+      type: HOME_BLOCK_PROPERTY_TYPES.COLOR
     },
     itemsPerSection: {
-      type: HOME_BLOCK_PROPERTY_TYPES.NUMBER,
-      label: 'itemsPerSection',
-      name: 'itemsPerSection'
+      type: HOME_BLOCK_PROPERTY_TYPES.NUMBER
     },
     title: {
-      label: 'Title',
       content: {
-        type: HOME_BLOCK_PROPERTY_TYPES.STRING,
-        label: 'Contenu',
-        name: 'title.content'
+        type: HOME_BLOCK_PROPERTY_TYPES.STRING
       },
       upperCase: {
-        type: HOME_BLOCK_PROPERTY_TYPES.BOOLEAN,
-        label: 'upperCase',
-        name: 'title.upperCase'
+        type: HOME_BLOCK_PROPERTY_TYPES.BOOLEAN
       }
     },
     uiType: {
       type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
-      label: "Type d'affichage",
-      values: [HOME_BLOCK_UI_TYPES.GRID, HOME_BLOCK_UI_TYPES.SWIPER],
-      name: 'uiType'
+      values: [HOME_BLOCK_UI_TYPES.GRID, HOME_BLOCK_UI_TYPES.SWIPER]
     }
   }
 };

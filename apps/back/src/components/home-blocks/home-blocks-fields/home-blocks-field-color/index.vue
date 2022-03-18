@@ -11,7 +11,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue']);
 
-const value = computed({
+const vModel = computed({
   get() {
     return props.modelValue;
   },
@@ -22,5 +22,11 @@ const value = computed({
 </script>
 
 <template>
-  <div v-if="false"></div>
+  <dsp-form-control
+    v-slot="{ on, ...formControlProps }"
+    v-model="vModel"
+    :label="label"
+  >
+    <input v-model="vModel" type="color" v-bind="formControlProps" v-on="on" />
+  </dsp-form-control>
 </template>
