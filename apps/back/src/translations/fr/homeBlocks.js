@@ -32,15 +32,15 @@ export default {
     queries: {
       LAST_ITEMS: 'Dernières annonces',
       RECOMMENDED_ITEMS: 'Annonces recommandées',
-      RECOMMENDED_USERS: 'Vendeurs recommandés',
-      RECOMMENDED_POPULAR_USERS: 'Top vendeurs  et recommandés',
-      POPULAR_USERS: 'Top vendeurs',
-      RECOMMENDED_BRANDS: 'Marques recommandées',
-      RECOMMENDED_POPULAR_BRANDS: 'Top marques  et recommandées',
-      POPULAR_BRANDS: 'Top marques',
-      RECOMMENDED_CATEGORIES: 'Catégories recommandées',
-      RECOMMENDED_POPULAR_CATEGORIES: 'Top catégories  et recommandées',
-      POPULAR_CATEGORIES: 'Top catégories'
+      RECOMMENDED_USERS: 'Top vendeurs',
+      RECOMMENDED_POPULAR_USERS: 'Top vendeurs  et populaires',
+      POPULAR_USERS: 'Vendeurs populaires',
+      RECOMMENDED_BRANDS: 'Top marques',
+      RECOMMENDED_POPULAR_BRANDS: 'Top marques  et populaires',
+      POPULAR_BRANDS: 'Marques populaires',
+      RECOMMENDED_CATEGORIES: 'Top catégories',
+      RECOMMENDED_POPULAR_CATEGORIES: 'Top catégories et populaires',
+      POPULAR_CATEGORIES: 'Catégories populaires'
     }
   }
 };

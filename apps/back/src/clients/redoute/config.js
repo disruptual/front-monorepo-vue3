@@ -8,6 +8,9 @@ export default merge({}, defaultConfig, {
     admin: {
       events: { isEnabled: false },
       stores: { isEnabled: false }
+    },
+    settings: {
+      devtools: { isEnabled: true }
     }
   },
   DefaultLayoutHeader: { isLogoDisplayed: true },

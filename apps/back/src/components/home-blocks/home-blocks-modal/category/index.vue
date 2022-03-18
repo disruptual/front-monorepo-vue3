@@ -113,7 +113,7 @@ const getCategoryRecommended = category => {
               v-else
               class="button-add"
               :show-label-while-loading="false"
-              :is-loading="isCreating || isDeleting || query.isFetching"
+              :is-loading="isCreating || isDeleting"
               @click="addCategoryToRecommended(category)"
             >
               <dsp-icon icon="add" size="sm" />

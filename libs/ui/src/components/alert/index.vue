@@ -14,7 +14,8 @@ const props = defineProps({
 const scheme = {
   bg: 200,
   text: 800,
-  iconBg: 600
+  iconBg: 400,
+  icon: 700
 };
 
 const colors = useColorScheme(scheme, props);
@@ -22,7 +23,7 @@ const colors = useColorScheme(scheme, props);
 
 <template>
   <dsp-flex wrap="nowrap" gap="md" class="dsp-alert" align="center">
-    <dsp-center v-readable-color class="dsp-alert__icon">
+    <dsp-center class="dsp-alert__icon">
       <dsp-icon :icon="icon" />
     </dsp-center>
     <span>
@@ -47,5 +48,6 @@ const colors = useColorScheme(scheme, props);
 .dsp-alert__icon {
   align-self: stretch;
   background-color: v-bind('colors.iconBg');
+  color: v-bind('colors.icon');
 }
 </style>

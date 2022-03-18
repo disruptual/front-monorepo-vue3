@@ -35,11 +35,9 @@ const getInitialValue = column => {
 
 <template>
   <dsp-plain-button is-outlined left-icon="filter" @click="isOpened = true">
-    <dsp-flex gap="sm">
-      <dsp-icon icon="filter" />
-      <span v-if="device.isDesktop">Filtres</span>
-    </dsp-flex>
+    <span v-if="device.isDesktop">Filtres</span>
   </dsp-plain-button>
+
   <dsp-drawer :is-opened="isOpened" position="right" @close="isOpened = false">
     <dsp-smart-form
       :form-options="formOptions"
@@ -85,7 +83,7 @@ const getInitialValue = column => {
             </div>
           </div>
 
-          <select
+          <dsp-select
             v-else-if="column.type === DATATABLE_COLUMN_TYPES.ENUM"
             v-model="slotProps.field.value"
             v-bind="formControlProps"
@@ -99,7 +97,7 @@ const getInitialValue = column => {
             >
               {{ option.label }}
             </option>
-          </select>
+          </dsp-select>
 
           <dsp-checkbox
             v-else-if="column.type === DATATABLE_COLUMN_TYPES.BOOLEAN"

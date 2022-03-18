@@ -5,9 +5,7 @@ export default { name: 'CarouselSlide' };
 <script setup>
 const props = defineProps({
   slide: { type: Object, required: true },
-  aspectRatio: { type: String, required: true },
   gridSize: { type: [String, Number], required: true },
-  isVisible: { type: Boolean, required: true },
   hasContent: { type: Boolean, required: true }
 });
 
@@ -23,55 +21,41 @@ const getSlideStyle = slide => {
 </script>
 
 <template>
-  <transition :duration="600" name="carousel-slide">
-    <div
-      v-if="isVisible"
-      class="carousel-slide"
-      :style="{ '--background': `url(${slide.media.url})` }"
+  <div
+    class="carousel-slide"
+    :style="{ '--background': `url(${slide.media.url})` }"
+  >
+    <dsp-flex
+      v-show="hasContent"
+      direction="column"
+      gap="sm"
+      wrap="nowrap"
+      class="slide-content"
+      :style="getSlideStyle(slide)"
     >
-      <dsp-flex
-        v-show="hasContent"
-        direction="column"
-        gap="sm"
-        wrap="nowrap"
-        class="slide-content"
-        :style="getSlideStyle(slide)"
-      >
-        <span class="slide-content__title">{{ slide.title }}</span>
-        <span class="slide-content__content">{{ slide.content }}</span>
-        <a v-if="slide.link" class="slide-content__link" :href="slide.link">
-          {{ slide.btn }}
-        </a>
-      </dsp-flex>
-    </div>
-  </transition>
+      <span class="slide-content__title">{{ slide.title }}</span>
+      <span class="slide-content__content">{{ slide.content }}</span>
+      <a v-if="slide.link" class="slide-content__link" :href="slide.link">
+        {{ slide.btn }}
+      </a>
+    </dsp-flex>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 .carousel-slide {
   --grid-size: v-bind('props.gridSize');
   width: 100%;
-  aspect-ratio: v-bind('props.aspectRatio');
-  /* height: v-bind(carouselHeight); */
+  height: 300px;
   padding: var(--spacing-md);
-  background: var(--background, #444);
+  /* background: var(--background, #444); */
+  background: #444;
   background-size: cover;
   background-position: center;
 
   display: grid;
   grid-template-columns: repeat(var(--grid-size), minmax(0, 1fr));
   grid-template-rows: repeat(var(--grid-size), minmax(0, 1fr));
-  &.carousel-slide-enter-active,
-  &.carousel-slide-leave-active {
-    transition: transform var(--transition-md);
-  }
-
-  &.carousel-slide-enter-from {
-    transform: translateX(100%);
-  }
-  &.carousel-slide-leave-to {
-    transform: translateX(-100%);
-  }
 }
 
 .slide-content {

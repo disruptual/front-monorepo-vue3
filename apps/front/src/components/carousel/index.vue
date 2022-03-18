@@ -16,23 +16,23 @@ const props = defineProps({
 
 const device = useDevice();
 
-const aspectRatio = ref(null);
-const imageReference = computed(() => {
-  const slide = props.carousel.carouselItems.find(item =>
-    device.isMobile ? !item.desktop : item.desktop
-  );
+// const aspectRatio = ref(null);
+// const imageReference = computed(() => {
+//   const slide = props.carousel.carouselItems.find(item =>
+//     device.isMobile ? !item.desktop : item.desktop
+//   );
 
-  return slide.media.url;
-});
-const loadReferenceImage = url => {
-  aspectRatio.value = null;
-  const img = new Image();
-  img.src = url;
-  img.onload = () => {
-    aspectRatio.value = `${img.naturalWidth} / ${img.naturalHeight}`;
-  };
-};
-watch(imageReference, loadReferenceImage, { immediate: true });
+//   return slide.media.url;
+// });
+// const loadReferenceImage = url => {
+//   aspectRatio.value = null;
+//   const img = new Image();
+//   img.src = url;
+//   img.onload = () => {
+//     aspectRatio.value = `${img.naturalWidth} / ${img.naturalHeight}`;
+//   };
+// };
+// watch(imageReference, loadReferenceImage, { immediate: true });
 
 const displayedSlides = computed(() =>
   props.carousel.carouselItems
@@ -41,6 +41,7 @@ const displayedSlides = computed(() =>
 );
 
 const currentIndex = ref(0);
+const oldIndex = ref(0);
 const onSwipe = ({ direction }) => {
   if (direction === 'left') {
     currentIndex.value =
@@ -56,19 +57,30 @@ const onSwipe = ({ direction }) => {
         : currentIndex.value + 1;
   }
 };
+watch(currentIndex, (_, old) => {
+  oldIndex.value = old;
+});
+const transitionDistance = computed(() => {
+  console.log(oldIndex.value, currentIndex.value);
+  return oldIndex.value >= currentIndex.value ? '100%' : '-100%';
+});
 </script>
 
 <template>
-  <div v-if="aspectRatio" v-on-swipe="onSwipe" class="carousel">
-    <CarouselSlide
+  <div v-on-swipe="onSwipe" class="carousel">
+    <transition
       v-for="(slide, index) in displayedSlides"
       :key="slide.id"
-      :slide="slide"
-      :aspect-ratio="aspectRatio"
-      :grid-size="carousel.contentGridSize"
-      :is-visible="currentIndex === index"
-      :has-content="!carousel.imagesAsLink"
-    />
+      :duration="600"
+      name="carousel-slide"
+    >
+      <CarouselSlide
+        v-if="currentIndex === index"
+        :slide="slide"
+        :grid-size="carousel.contentGridSize"
+        :has-content="!carousel.imagesAsLink"
+      />
+    </transition>
 
     <CarouselNavigation
       v-if="displayedSlides.length > 1"
@@ -100,5 +112,18 @@ const onSwipe = ({ direction }) => {
   position: absolute;
   bottom: var(--spacing-sm);
   width: 100%;
+}
+
+.carousel-slide-enter-active,
+.carousel-slide-leave-active {
+  transition: transform var(--transition-md);
+}
+
+.carousel-slide-enter-from {
+  transform: translateX(v-bind(transitionDistance));
+}
+.carousel-slide-leave-to {
+  transform: translateX(calc(-1 * v-bind(transitionDistance)));
+  opacity: 0;
 }
 </style>

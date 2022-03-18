@@ -8,7 +8,7 @@ import { makeRandomId } from '@dsp/core';
 
 const props = defineProps({
   modelValue: { type: null, required: true },
-  options: { type: Array, required: true },
+  options: { type: Array, default: () => [] },
   multiple: { type: Boolean, default: false },
   name: {
     type: String,
@@ -37,9 +37,11 @@ const model = computed({
     v-bind="$attrs"
   >
     <option :value="null">Selectionnez</option>
-    <option v-for="(option, i) in options" :key="i" :value="option.value">
-      {{ option.label }}
-    </option>
+    <slot>
+      <option v-for="(option, i) in options" :key="i" :value="option.value">
+        {{ option.label }}
+      </option>
+    </slot>
   </select>
 </template>
 

@@ -21,7 +21,7 @@ const isLoadingSubsequentPage = computed(() => {
 });
 
 const isIdle = computed(() => {
-  return props.query.isLoading.value;
+  return props.query.isIdle.value;
 });
 
 const data = computed(() => props.query.data.value);

@@ -35,5 +35,16 @@ export default [
       isEnabled: config => config.features.settings.homeBlocks.isEnabled,
       layout: layouts.default
     }
+  },
+  {
+    path: '/parametres/devtools',
+    name: 'SettingsDevtools',
+    props: true,
+    component: () => import('@/pages/settings/devtools.vue'),
+    meta: {
+      permissions: [USER_ROLES.PROJECT_MANAGER],
+      isEnabled: config => config.features.settings.devtools.isEnabled,
+      layout: layouts.default
+    }
   }
 ];

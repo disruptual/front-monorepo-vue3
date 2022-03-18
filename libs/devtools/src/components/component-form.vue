@@ -26,7 +26,7 @@ const update = (path, value) => {
 <template>
   <dsp-flex direction="column" gap="sm">
     <h3>{{ component }}</h3>
-    <dsp-grid :columns="5">
+    <dsp-grid :columns="3">
       <fieldset v-for="(property, propertyKey) in schema" :key="propertyKey">
         <template v-if="property.type === 'object'">
           <legend>{{ propertyKey }}</legend>

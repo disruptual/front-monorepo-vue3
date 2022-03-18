@@ -14,7 +14,6 @@ import HomeBlocksCard from '@/components/home-blocks/home-blocks-card/index.vue'
 
 const { t } = useI18n();
 
-const settings = ref(null);
 const isEditing = ref(false);
 const { showSuccess, showError } = useToast();
 
@@ -24,24 +23,28 @@ const query = findByIdQuery(1, {
     if (!data) return;
 
     if (!data.homePageSettings) {
-      settings.value = { blocks: HOME_BLOCK_OPTIONS_DEFAULTS['ITEM'] };
+      settings.value = { blocks: [] };
       return;
     }
 
     settings.value = { blocks: data.homePageSettings };
   }
 });
-const { mutateAsync: updateFrontConfig, isLoading: isLoading } = updateMutation(
-  {
-    onSuccess() {
-      showSuccess('Blocks homepage mis à jour avec succès');
-    },
-    onError(err) {
-      console.error(err);
-      showError('Erreur lors de la sauvegarde.');
-    }
-  }
+const settings = ref(
+  query.data.value?.homePageSettings
+    ? { blocks: query.data.value.homePageSettings }
+    : null
 );
+
+const { mutateAsync: updateFrontConfig } = updateMutation({
+  onSuccess() {
+    showSuccess('Blocks homepage mis à jour avec succès');
+  },
+  onError(err) {
+    console.error(err);
+    showError('Erreur lors de la sauvegarde.');
+  }
+});
 
 const sortedBlocks = computed(() =>
   settings.value?.blocks.slice().sort((a, b) => a.position - b.position)
@@ -113,7 +116,7 @@ const form = useForm({
   },
   mode: VALIDATION_MODES.ON_BLUR
 });
-const [fields, { values: formValues, errors }] = form;
+const [fields, { values: formValues }] = form;
 
 const onChangeType = ({ blockId }) => {
   const relatedQueryField = fields.value[`${blockId}.query`];

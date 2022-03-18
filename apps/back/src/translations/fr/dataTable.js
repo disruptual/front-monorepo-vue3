@@ -84,7 +84,7 @@ export default {
       price: 'Prix',
       republish: 'Republier',
       role: 'Rôle',
-      rootCategory: 'Catégory mère',
+      rootCategory: 'Catégorie mère',
       seller: 'Vendeur',
       service: 'Service',
       slug: 'Slug',

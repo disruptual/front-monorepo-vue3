@@ -29,8 +29,19 @@ export const createColorScale = ({
     .scale([lightestColor, middleColor, darkestColor])
     .colors(9)
     .map(hex => {
-      return chroma(hex)
-        .set('hsl.s', `${saturationAdjust >= 0 ? '+' : ''}${saturationAdjust}`)
+      const color = chroma(hex);
+
+      const s = Number(color.get('hsl.s'));
+      const normalizedSaturationAdjust =
+        s + Number(saturationAdjust) < 0 ? s * -1 : saturationAdjust;
+
+      return color
+        .set(
+          'hsl.s',
+          `${
+            normalizedSaturationAdjust >= 0 ? '+' : ''
+          }${normalizedSaturationAdjust}`
+        )
         .set('hsl.l', `${lightnessAdjust >= 0 ? '+' : ''}${lightnessAdjust}`)
         .hex();
     });

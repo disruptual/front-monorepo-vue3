@@ -113,17 +113,6 @@ const onSubmit = () => {
       </fieldset>
 
       <fieldset>
-        <label>Variation de teinte</label>
-        <input
-          v-model="baseColor.hueShift"
-          type="range"
-          step="1"
-          min="-360"
-          max="360"
-        />
-      </fieldset>
-
-      <fieldset>
         <label>Luminosité maximale</label>
         <input
           v-model="baseColor.maxLightness"
