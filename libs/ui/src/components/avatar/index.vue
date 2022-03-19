@@ -19,9 +19,8 @@ const props = defineProps({
 const context = schema.toContext(props);
 const initials = computed(() => {
   return `${
-    props.user?.firstName?.charAt?.(0) + props.user?.lastName?.charAt?.(0) ||
-    props.user?.username?.charAt?.(0) ||
-    ''
+    props.user?.firstName?.charAt?.(0) +
+    (props.user?.lastName?.charAt?.(0) ?? '')
   }`;
 });
 

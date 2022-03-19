@@ -20,6 +20,9 @@ const carouselQuery = useCarouselApi().findAllQuery();
       <template #loader>
         <div class="carousel-loader" />
       </template>
+      <template #no-result>
+        <div class="carousel-loader" />
+      </template>
 
       <template #default="{ entity: carousels }">
         <Carousel :carousel="carousels[0]" />
@@ -33,6 +36,9 @@ const carouselQuery = useCarouselApi().findAllQuery();
 </template>
 
 <style lang="scss" scoped>
+.home-page {
+  min-height: 100vh;
+}
 .carousel-loader {
   animation: placeholderShimmer 1s;
   height: 320px;

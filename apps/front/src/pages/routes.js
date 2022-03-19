@@ -59,7 +59,7 @@ export const routes = [
     }
   },
   {
-    path: '/search/:categoryId?',
+    path: '/search/:category?',
     name: 'ItemSearch',
     component: () => import('@/pages/item-search/index.vue'),
     props: true,

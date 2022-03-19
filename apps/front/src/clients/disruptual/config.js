@@ -1,11 +1,8 @@
-import logo from 'client/assets/logo.svg';
+import logo from 'client/assets/logo.svg?url';
 
 export default {
   sso: {
     isEnabled: false
   },
-  logo,
-  DspButton: {
-    isRounded: false
-  }
+  logo
 };

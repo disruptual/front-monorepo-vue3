@@ -2,18 +2,55 @@
 export default { name: 'DefaultLayoutHeader' };
 </script>
 <script setup>
+import { ref } from 'vue';
+import { throttle } from 'lodash-es';
+import { useDevice, vReadableColor, useEventListener } from '@dsp/ui';
 import HeaderMenu from './menu/index.vue';
 import HeaderSearchBar from './search-bar/index.vue';
-import { useDevice, vReadableColor } from '@dsp/ui';
 import BurgerMenu from './burger-menu/index.vue';
 import HeaderAnnouncement from './announcement/index.vue';
+import HeaderCategoriesNav from './categories-nav/index.vue';
 
 const device = useDevice();
+const announcementOffset = ref(0);
+const isAnnouncementClosing = ref(false);
+
+const onAnnouncementClose = element => {
+  isAnnouncementClosing.value = true;
+  const { height } = element.getBoundingClientRect();
+  announcementOffset.value = `${-1 * height}px`;
+};
+const onAnnouncementCloseEnd = () => {
+  isAnnouncementClosing.value = false;
+  announcementOffset.value = 0;
+};
+
+const isCollapsed = ref(false);
+let scrollY = window.scrollY;
+useEventListener(
+  'scroll',
+  throttle(e => {
+    isCollapsed.value = window.scrollY > scrollY;
+    scrollY = window.scrollY;
+  }, 250)
+);
 </script>
 
 <template>
-  <HeaderAnnouncement />
-  <header class="header" justify="space-around" align="center">
+  <dsp-slide-transition
+    direction="vertical"
+    distance="-100%"
+    @leave="onAnnouncementClose"
+    @after-leave="onAnnouncementCloseEnd"
+  >
+    <HeaderAnnouncement />
+  </dsp-slide-transition>
+  <header
+    class="header"
+    :class="isAnnouncementClosing && 'header--is-closing'"
+    justify="space-around"
+    align="center"
+  >
     <HeaderSearchBar v-if="device.isDesktop" class="header-search-bar" />
     <dsp-flex v-else><BurgerMenu /></dsp-flex>
     <router-link :to="{ name: 'Home' }" class="logo">
@@ -22,10 +59,16 @@ const device = useDevice();
     <HeaderMenu class="menu" />
   </header>
   <HeaderSearchBar v-if="!device.isDesktop" />
+  <div v-else class="header__categories-nav-wrapper">
+    <dsp-slide-transition direction="vertical" distance="-100%">
+      <HeaderCategoriesNav v-if="!isCollapsed" />
+    </dsp-slide-transition>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 .header {
+  margin-top: v-bind(announcementOffset);
   background-color: var(--color-surface);
   display: grid;
   align-items: center;
@@ -35,6 +78,10 @@ const device = useDevice();
   @include desktop-only {
     padding: var(--spacing-sm) var(--spacing-xl);
   }
+}
+
+.header--is-closing {
+  transition: margin 600ms;
 }
 
 .menu {
@@ -64,5 +111,9 @@ const device = useDevice();
       font-size: var(--font-size-md);
     }
   }
+}
+
+.header__categories-nav-wrapper {
+  overflow: hidden;
 }
 </style>

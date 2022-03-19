@@ -3,7 +3,7 @@ export default { name: 'Carousel' };
 </script>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { Carousel } from '@dsp/business';
 import { useDevice, vOnSwipe } from '@dsp/ui';
 
@@ -73,11 +73,11 @@ const navigationVModel = computed({
 });
 const onSwipe = ({ direction }) => {
   if (direction === 'left') {
-    prev();
+    next();
   }
 
   if (direction === 'right') {
-    next();
+    prev();
   }
 };
 const transitionDistance = computed(() =>
@@ -88,7 +88,7 @@ const transitionDistance = computed(() =>
 <template>
   <div v-on-swipe="onSwipe" class="carousel">
     <dsp-slide-transition
-      :duration="1000"
+      :duration="600"
       mode="in-out"
       :distance="transitionDistance"
       invert-on-out
@@ -98,6 +98,7 @@ const transitionDistance = computed(() =>
         v-for="(slide, index) in displayedSlides"
         v-show="currentIndex === index"
         :key="index"
+        class="carousel__slide"
         :slide="slide"
         :grid-size="carousel.contentGridSize"
         :has-content="!carousel.imagesAsLink"
@@ -124,9 +125,12 @@ const transitionDistance = computed(() =>
     grid-column: 1;
     grid-row: 1;
   }
+}
 
-  &:deep(.dsp-swiper-item) {
-    width: 100%;
+.carousel__slide {
+  height: v-bind('carousel.carouselHeight + "px"');
+  @include mobile-only {
+    height: v-bind('carousel.carouselMobileHeight + "px"');
   }
 }
 
