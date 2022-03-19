@@ -30,13 +30,14 @@ const overlayStyle = computed(() => {
     @click="context.close"
   >
     <dsp-slide-transition
-      :is-visible="context.isDrawerOpened"
       :distance="distance"
       class="inner"
       v-bind="$attrs"
       @click.stop
     >
-      <slot />
+      <div v-if="context.isDrawerOpened">
+        <slot />
+      </div>
     </dsp-slide-transition>
   </dsp-fade-transition>
 </template>

@@ -2,10 +2,9 @@
 export default { name: 'DspSlideTransition' };
 </script>
 <script setup>
-import { computed } from 'vue';
+import { computed, Transition, TransitionGroup } from 'vue';
 
 const props = defineProps({
-  isVisible: { type: Boolean, required: true },
   direction: {
     type: String,
     default: 'horizontal',
@@ -13,52 +12,55 @@ const props = defineProps({
   },
   duration: { type: Number, default: 300 },
   distance: { type: String, default: '100%' },
-  appear: { type: Boolean, default: false }
+  appear: { type: Boolean, default: false },
+  invertOnOut: { type: Boolean, default: false },
+  isGroup: { type: Boolean, default: false },
+  mode: { type: String, default: 'out-in' }
 });
-defineEmits(['toggle']);
 
 const style = computed(() => ({
   duration: `${props.duration}ms`,
-  distance: `${props.distance}`
+  inDistance: props.distance,
+  outDistance: props.invertOnOut
+    ? `calc(-1 * ${props.distance})`
+    : props.distance
 }));
+
+const transitionName = computed(() => `slide-${props.direction}`);
+const is = computed(() => (props.isGroup ? TransitionGroup : Transition));
 </script>
 
 <template>
-  <transition
-    name="slide"
-    mode="out-in"
+  <component
+    :is="is"
+    :name="transitionName"
     :appear="props.appear"
     :duration="props.duration"
+    :mode="props.mode"
   >
-    <div
-      v-if="props.isVisible"
-      class="slide-transition"
-      :class="`slide-transition--${props.direction}`"
-    >
-      <slot />
-    </div>
-  </transition>
+    <slot />
+  </component>
 </template>
 
-<style lang="scss" scoped>
-.slide-transition {
-  &.slide-enter-active,
-  &.slide-leave-active {
-    transition: transform v-bind('style.duration');
-  }
+<style lang="scss">
+.slide-horizontal-enter-active,
+.slide-vertical-enter-active,
+.slide-horizontal-leave-active,
+.slide-vertical-leave-active {
+  transition: transform v-bind('style.duration');
+}
 
-  &.slide-transition--horizontal {
-    &.slide-enter-from,
-    &.slide-leave-to {
-      transform: translateX(v-bind('style.distance'));
-    }
-  }
+.slide-horizontal-enter-from {
+  transform: translateX(v-bind('style.inDistance'));
+}
+.slide-horizontal-leave-to {
+  transform: translateX(v-bind('style.outDistance'));
+}
 
-  &.slide-transition--vertical {
-    &.slide-enter-from,
-    &.slide-leave-to {
-      transform: translateY(v-bind('style.distance'));
-    }
-  }
+.slide-vertical-enter-from {
+  transform: translateY(v-bind('style.inDistance'));
+}
+.slide-vertical-leave-to {
+  transform: translateY(v-bind('style.outDistance'));
 }
 </style>

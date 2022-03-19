@@ -3,7 +3,7 @@ export default { name: 'Carousel' };
 </script>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { Carousel } from '@dsp/business';
 import { useDevice, vOnSwipe } from '@dsp/ui';
 
@@ -41,50 +41,72 @@ const displayedSlides = computed(() =>
 );
 
 const currentIndex = ref(0);
-const oldIndex = ref(0);
+const direction = ref('forwards');
+const next = () => {
+  direction.value = 'forwards';
+  currentIndex.value =
+    currentIndex.value === displayedSlides.value.length - 1
+      ? 0
+      : currentIndex.value + 1;
+};
+
+const prev = () => {
+  direction.value = 'backwards';
+  currentIndex.value =
+    currentIndex.value === 0
+      ? displayedSlides.value.length - 1
+      : currentIndex.value - 1;
+};
+
+const goTo = index => {
+  direction.value = index >= currentIndex.value ? 'forwards' : 'backwards';
+  currentIndex.value = index;
+};
+
+const navigationVModel = computed({
+  get() {
+    return currentIndex.value;
+  },
+  set(index) {
+    goTo(index);
+  }
+});
 const onSwipe = ({ direction }) => {
   if (direction === 'left') {
-    currentIndex.value =
-      currentIndex.value === 0
-        ? displayedSlides.value.length - 1
-        : currentIndex.value - 1;
+    prev();
   }
 
   if (direction === 'right') {
-    currentIndex.value =
-      currentIndex.value === displayedSlides.value.length - 1
-        ? 0
-        : currentIndex.value + 1;
+    next();
   }
 };
-watch(currentIndex, (_, old) => {
-  oldIndex.value = old;
-});
-const transitionDistance = computed(() => {
-  console.log(oldIndex.value, currentIndex.value);
-  return oldIndex.value >= currentIndex.value ? '100%' : '-100%';
-});
+const transitionDistance = computed(() =>
+  direction.value === 'forwards' ? '100%' : '-100%'
+);
 </script>
 
 <template>
   <div v-on-swipe="onSwipe" class="carousel">
-    <transition
-      v-for="(slide, index) in displayedSlides"
-      :key="slide.id"
-      :duration="600"
-      name="carousel-slide"
+    <dsp-slide-transition
+      :duration="1000"
+      mode="in-out"
+      :distance="transitionDistance"
+      invert-on-out
+      is-group
     >
       <CarouselSlide
-        v-if="currentIndex === index"
+        v-for="(slide, index) in displayedSlides"
+        v-show="currentIndex === index"
+        :key="index"
         :slide="slide"
         :grid-size="carousel.contentGridSize"
         :has-content="!carousel.imagesAsLink"
       />
-    </transition>
+    </dsp-slide-transition>
 
     <CarouselNavigation
       v-if="displayedSlides.length > 1"
-      v-model="currentIndex"
+      v-model="navigationVModel"
       class="navigation"
       :element-count="displayedSlides.length"
     />
@@ -112,18 +134,5 @@ const transitionDistance = computed(() => {
   position: absolute;
   bottom: var(--spacing-sm);
   width: 100%;
-}
-
-.carousel-slide-enter-active,
-.carousel-slide-leave-active {
-  transition: transform var(--transition-md);
-}
-
-.carousel-slide-enter-from {
-  transform: translateX(v-bind(transitionDistance));
-}
-.carousel-slide-leave-to {
-  transform: translateX(calc(-1 * v-bind(transitionDistance)));
-  opacity: 0;
 }
 </style>

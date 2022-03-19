@@ -46,10 +46,9 @@ const getSlideStyle = slide => {
 .carousel-slide {
   --grid-size: v-bind('props.gridSize');
   width: 100%;
-  height: 300px;
+  height: 350px;
   padding: var(--spacing-md);
-  /* background: var(--background, #444); */
-  background: #444;
+  background: var(--background, #444);
   background-size: cover;
   background-position: center;
 
