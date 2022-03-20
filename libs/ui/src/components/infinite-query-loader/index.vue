@@ -6,6 +6,7 @@ export default { name: 'DspInfiniteQueryLoader', inheritAttrs: false };
 import { computed } from 'vue';
 
 const props = defineProps({
+  isEnabled: { type: Boolean, default: true },
   buffer: { type: Number, default: 350 },
   root: { type: null, default: null },
   query: { type: Object, required: true }
@@ -52,8 +53,9 @@ const onLoadMore = () => {
 
   <dsp-infinite-scroll
     v-else
-    :root="root"
-    :buffer="buffer"
+    :root="props.root"
+    :buffer="props.buffer"
+    :is-enabled="props.isEnabled"
     @loadMore="onLoadMore"
   >
     <slot :data="data" />

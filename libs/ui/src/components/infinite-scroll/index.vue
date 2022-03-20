@@ -13,6 +13,7 @@ import {
 } from 'vue';
 
 const props = defineProps({
+  isEnabled: { type: Boolean, default: true },
   buffer: { type: Number, default: 350 },
   root: { type: null, default: null }
 });
@@ -23,7 +24,7 @@ const trigger = ref(null);
 
 const onIntersect = entries => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
+    if (entry.isIntersecting && props.isEnabled) {
       emit('loadMore');
     }
   });

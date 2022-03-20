@@ -6,7 +6,6 @@ export default { name: 'Carousel' };
 import { computed, ref, watch } from 'vue';
 import { Carousel } from '@dsp/business';
 import { useDevice, vOnSwipe } from '@dsp/ui';
-
 import CarouselSlide from './carousel-slide/index.vue';
 import CarouselNavigation from './carousel-navigation/index.vue';
 
@@ -15,24 +14,6 @@ const props = defineProps({
 });
 
 const device = useDevice();
-
-// const aspectRatio = ref(null);
-// const imageReference = computed(() => {
-//   const slide = props.carousel.carouselItems.find(item =>
-//     device.isMobile ? !item.desktop : item.desktop
-//   );
-
-//   return slide.media.url;
-// });
-// const loadReferenceImage = url => {
-//   aspectRatio.value = null;
-//   const img = new Image();
-//   img.src = url;
-//   img.onload = () => {
-//     aspectRatio.value = `${img.naturalWidth} / ${img.naturalHeight}`;
-//   };
-// };
-// watch(imageReference, loadReferenceImage, { immediate: true });
 
 const displayedSlides = computed(() =>
   props.carousel.carouselItems
@@ -49,7 +30,6 @@ const next = () => {
       ? 0
       : currentIndex.value + 1;
 };
-
 const prev = () => {
   direction.value = 'backwards';
   currentIndex.value =
@@ -58,9 +38,17 @@ const prev = () => {
       : currentIndex.value - 1;
 };
 
+let interval = setInterval(() => {
+  next();
+}, 8000);
+
 const goTo = index => {
   direction.value = index >= currentIndex.value ? 'forwards' : 'backwards';
   currentIndex.value = index;
+  clearInterval(interval);
+  interval = setInterval(() => {
+    next();
+  }, 8000);
 };
 
 const navigationVModel = computed({
@@ -71,6 +59,7 @@ const navigationVModel = computed({
     goTo(index);
   }
 });
+
 const onSwipe = ({ direction }) => {
   if (direction === 'left') {
     next();

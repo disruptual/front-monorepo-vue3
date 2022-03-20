@@ -54,9 +54,9 @@ const { imageUrl } = useItemCard(props);
       />
     </dsp-flex>
 
-    <dsp-aspect-ratio class="item-card__image-wrapper">
-      <dsp-image :src="imageUrl" :alt="item.title" />
-    </dsp-aspect-ratio>
+    <div class="item-card__image-wrapper">
+      <dsp-image :src="imageUrl" :alt="item.title" width="100" height="100" />
+    </div>
 
     <div class="item-card__infos">
       <ItemCardInfos :item="props.item" />
@@ -113,6 +113,8 @@ header {
 
   img {
     transition: var(--transition-sm);
+    width: 100%;
+    height: auto;
   }
 }
 

@@ -20,8 +20,9 @@ function _getDefaultValue(schema) {
 
 function _normalizeValue(name, key, schema, value) {
   const transformer = transformers[schema.type];
-  if (isUndefinedOrNull(value))
+  if (isUndefinedOrNull(value)) {
     return transformer(_getDefaultValue(schema), schema);
+  }
 
   const isValid = _validateValue(name, key, schema, value);
 
@@ -56,10 +57,12 @@ function _validateValue(name, key, schema, value) {
 export const toConfig = (name, schema, config, props) => {
   const definition = schema(helpers);
 
-  const entries = Object.entries(definition).map(([key, schema]) => [
-    key,
-    _normalizeValue(name, key, schema, props?.[key] ?? config?.[key])
-  ]);
+  const entries = Object.entries(definition).map(([key, schema]) => {
+    return [
+      key,
+      _normalizeValue(name, key, schema, props?.[key] ?? config?.[key])
+    ];
+  });
 
   return Object.fromEntries(entries);
 };

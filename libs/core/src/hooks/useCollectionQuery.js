@@ -1,6 +1,6 @@
 import { createEntityNormalizer } from '../factories/entityNormalizer.factory';
 import { useBoundedModel } from './useBoundedModel';
-import { computed, unref, watchEffect } from 'vue';
+import { computed, unref } from 'vue';
 import { useReactiveInfiniteQuery } from './useReactiveQuery';
 
 const extractPageFromUri = uri => {
@@ -20,14 +20,6 @@ const defaultGetNextPageParams = (lastPage, itemsPerPage) => {
 };
 
 export function useCollectionQuery(key, fetcher, queryOptions = {}) {
-  const {
-    model,
-    relations,
-    itemsPerPage = 30,
-    getNextPageParams,
-    ...options
-  } = unref(queryOptions);
-
   const mergedOptions = computed(() => {
     const {
       model,
@@ -41,19 +33,20 @@ export function useCollectionQuery(key, fetcher, queryOptions = {}) {
       getNextPageParam: (lastPage, allPages) => {
         return getNextPageParams(lastPage, itemsPerPage, allPages);
       },
-      select: createEntityNormalizer(model)
+      select: createEntityNormalizer(unref(model))
     };
   });
 
   const query = useReactiveInfiniteQuery(key, fetcher, mergedOptions);
 
-  const boundedQuery = useBoundedModel(query, {
-    queryKey: key,
-    model,
-    relations
+  const boundedQueryOptions = computed(() => {
+    const { model, relations } = unref(queryOptions);
+    return { queryKey: key, model, relations };
   });
+  const boundedQuery = useBoundedModel(query, boundedQueryOptions);
 
   const isLoadingFirstPage = computed(() => {
+    const { itemsPerPage = 30 } = unref(queryOptions);
     const { isLoading, data } = boundedQuery;
 
     return (

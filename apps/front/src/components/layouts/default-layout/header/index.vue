@@ -30,9 +30,11 @@ let scrollY = window.scrollY;
 useEventListener(
   'scroll',
   throttle(e => {
-    isCollapsed.value = window.scrollY > scrollY;
+    const diff = window.scrollY - scrollY;
+    if (Math.abs(diff) < 100) return;
+    isCollapsed.value = window.scrollY >= scrollY;
     scrollY = window.scrollY;
-  }, 250)
+  }, 1000)
 );
 </script>
 

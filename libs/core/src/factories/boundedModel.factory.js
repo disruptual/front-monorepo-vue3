@@ -45,7 +45,6 @@ class BoundModelFactory {
 
     const uri = getUri(entity);
     const handler = this.getProxyHandler(`${prefix}${name}.`);
-
     const options = {
       name,
       uri,

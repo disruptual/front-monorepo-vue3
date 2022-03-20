@@ -1,16 +1,8 @@
 <script setup>
-import { useItemApi } from '@dsp/core';
 import { useCarouselApi } from '@dsp/core';
 
-import ItemGrid from '@/components/item/grid/index.vue';
 import Carousel from '@/components/carousel/index.vue';
-
-const query = useItemApi().searchQuery({
-  filters: {
-    'sort[updated]': 'desc'
-  },
-  relations: ['user', 'brand', 'category']
-});
+import HomeBlocks from '@/components/home-blocks/index.vue';
 const carouselQuery = useCarouselApi().findAllQuery();
 </script>
 
@@ -29,9 +21,7 @@ const carouselQuery = useCarouselApi().findAllQuery();
       </template>
     </dsp-query-loader>
 
-    <dsp-container is-large class="content-blocks">
-      <ItemGrid :query="query" />
-    </dsp-container>
+    <HomeBlocks />
   </div>
 </template>
 
@@ -42,9 +32,5 @@ const carouselQuery = useCarouselApi().findAllQuery();
 .carousel-loader {
   animation: placeholderShimmer 1s;
   height: 320px;
-}
-
-.content-blocks {
-  margin-top: var(--spacing-lg);
 }
 </style>

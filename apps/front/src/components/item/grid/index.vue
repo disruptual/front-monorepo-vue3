@@ -3,10 +3,9 @@ export default { name: 'ITemGrid' };
 </script>
 <script setup>
 import ItemCard from '@/components/item/card/index.vue';
-import { vOnIntersect } from '@dsp/ui';
 
 defineProps({
-  query: { type: Object, required: true }
+  items: { type: Array, required: true }
 });
 
 const emit = defineEmits(['item:viewed']);
@@ -16,20 +15,18 @@ const onIntersect = item => entry => {
 </script>
 
 <template>
-  <dsp-infinite-query-loader v-slot="{ data }" :query="query" :buffer="800">
-    <ul role="feed" class="item-grid">
-      <li v-for="item in data" :key="item.id" role="article" tabindex="0">
-        <ItemCard :item="item" @intersect="onIntersect(entity)" />
-      </li>
-    </ul>
-  </dsp-infinite-query-loader>
+  <ul role="feed" class="item-grid">
+    <li v-for="item in items" :key="item.id" role="article" tabindex="0">
+      <ItemCard :item="item" @intersect="onIntersect(entity)" />
+    </li>
+  </ul>
 </template>
 
 <style lang="scss" scoped>
 .item-grid {
   display: grid;
   gap: var(--spacing-lg);
-  grid-template-columns: repeat(auto-fit, minmax(min-content, 200px));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 
   @include not-mobile {
     place-content: center;

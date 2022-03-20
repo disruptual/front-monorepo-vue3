@@ -3,10 +3,10 @@ export default { name: 'CardBlockEditor' };
 </script>
 
 <script setup>
-import { computed, watch, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDevice } from '@dsp/ui';
-import { HOME_BLOCK_TYPES, HOME_BLOCK_QUERIES } from '@dsp/business';
+import { HOME_BLOCK_TYPES, HOME_BLOCK_QUERIES_BY_TYPE } from '@dsp/business';
 import { HOME_BLOCK_MAPPED_TYPE } from '@/utils/homeBlockDefinitions';
 
 import HomeBlocksFields from '@/components/home-blocks/home-blocks-fields/index.vue';
@@ -37,11 +37,8 @@ const typeOptions = computed(() =>
   }))
 );
 
-const homeBlocksQueries = computed(
-  () => HOME_BLOCK_QUERIES[props.fieldValue.type]
-);
 const queryOptions = computed(() =>
-  Object.values(homeBlocksQueries.value).map(q => ({
+  HOME_BLOCK_QUERIES_BY_TYPE[props.fieldValue.type].map(q => ({
     label: t(`homeBlocks.queries.${q}`),
     value: q
   }))

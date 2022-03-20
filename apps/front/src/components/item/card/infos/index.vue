@@ -18,8 +18,6 @@ defineProps({
     {{ item.brand?.name }}
   </div>
 
-  <div>{{ item.title }}</div>
-
   <dsp-truncated-text as="div" class="item-card-infos__category">
     {{ item.category?.name }}
   </dsp-truncated-text>

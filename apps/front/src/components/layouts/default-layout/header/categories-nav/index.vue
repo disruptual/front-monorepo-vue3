@@ -8,7 +8,7 @@ import { useCategoryApi } from '@dsp/core';
 import { vReadableColor } from '@dsp/ui';
 import schema from './index.schema';
 
-const props = schema.toProps(schema.toProps());
+const props = defineProps(schema.toProps());
 const componentContext = schema.toContext(props);
 
 const { data: categories } = useCategoryApi().findAllQuery();
@@ -21,20 +21,21 @@ const rootCategories = computed(() =>
 <template>
   <nav v-readable-color class="categories-nav">
     <dsp-flex as="ul" gap="lg" justify="center" class="categories-nav__list">
-      <dsp-flex
+      <li
         v-for="category in rootCategories"
         :key="category.id"
-        tag="li"
         gap="sm"
-        class="categories-nav__item"
+        align="center"
       >
         <router-link
           :to="{ name: 'ItemSearch', params: { category: category.slug } }"
         >
-          <img v-if="category.picto" :src="category.picto" />
-          {{ category.name }}
+          <dsp-flex gap="sm" align="center">
+            <img v-if="category.picto" :src="category.picto" />
+            {{ category.name }}
+          </dsp-flex>
         </router-link>
-      </dsp-flex>
+      </li>
     </dsp-flex>
   </nav>
 </template>
@@ -45,14 +46,12 @@ const rootCategories = computed(() =>
   background-color: v-bind('componentContext.backgroundColor');
 }
 
-.categories-nav__item {
-  img {
-    width: 1em;
+.categories-nav__list {
+  min-height: 1.25em;
+
+  li img {
+    width: 1.25em;
     aspect-ratio: 1;
   }
-}
-
-.categories-nav__list {
-  min-height: 1em;
 }
 </style>
