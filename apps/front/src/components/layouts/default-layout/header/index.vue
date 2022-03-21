@@ -4,14 +4,20 @@ export default { name: 'DefaultLayoutHeader' };
 <script setup>
 import { ref } from 'vue';
 import { throttle } from 'lodash-es';
+import { useI18n } from 'vue-i18n';
 import { useDevice, vReadableColor, useEventListener } from '@dsp/ui';
 import HeaderMenu from './menu/index.vue';
 import HeaderSearchBar from './search-bar/index.vue';
 import BurgerMenu from './burger-menu/index.vue';
 import HeaderAnnouncement from './announcement/index.vue';
 import HeaderCategoriesNav from './categories-nav/index.vue';
+import schema from './index.schema';
 
+const props = defineProps(schema.toProps());
+const componentContext = schema.toContext(props);
+const { t } = useI18n();
 const device = useDevice();
+
 const announcementOffset = ref(0);
 const isAnnouncementClosing = ref(false);
 
@@ -29,12 +35,18 @@ const isCollapsed = ref(false);
 let scrollY = window.scrollY;
 useEventListener(
   'scroll',
-  throttle(e => {
-    const diff = window.scrollY - scrollY;
-    if (Math.abs(diff) < 100) return;
-    isCollapsed.value = window.scrollY >= scrollY;
-    scrollY = window.scrollY;
-  }, 1000)
+  throttle(
+    e => {
+      if (!componentContext.value.isCollapsable) return;
+
+      const diff = window.scrollY - scrollY;
+      if (Math.abs(diff) < 100) return;
+      isCollapsed.value = window.scrollY >= scrollY;
+      scrollY = window.scrollY;
+    },
+    250,
+    { leading: true }
+  )
 );
 </script>
 
@@ -56,7 +68,7 @@ useEventListener(
     <HeaderSearchBar v-if="device.isDesktop" class="header-search-bar" />
     <dsp-flex v-else><BurgerMenu /></dsp-flex>
     <router-link :to="{ name: 'Home' }" class="logo">
-      <h1 v-readable-color>DISRUPTUAL</h1>
+      <h1 v-readable-color>{{ t('platformName') }}</h1>
     </router-link>
     <HeaderMenu class="menu" />
   </header>

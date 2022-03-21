@@ -1,5 +1,5 @@
 <script>
-export default { name: 'ITemGrid' };
+export default { name: 'ItemGrid' };
 </script>
 <script setup>
 import ItemCard from '@/components/item/card/index.vue';
@@ -26,7 +26,7 @@ const onIntersect = item => entry => {
 .item-grid {
   display: grid;
   gap: var(--spacing-lg);
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(12em, 1fr));
 
   @include not-mobile {
     place-content: center;

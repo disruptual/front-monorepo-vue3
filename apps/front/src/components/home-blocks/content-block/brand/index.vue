@@ -1,11 +1,11 @@
 <script>
-export default { name: 'HomeContentBlockItem' };
+export default { name: 'HomeContentBlockBrand' };
 </script>
 
 <script setup>
 import { computed } from 'vue';
-import ItemGrid from '@/components/item/grid/index.vue';
-import ItemSwiper from '@/components/item/swiper/index.vue';
+import BrandGrid from '@/components/brand/grid/index.vue';
+import BrandSwiper from '@/components/brand/swiper/index.vue';
 
 const props = defineProps({
   data: { type: Array, required: true },
@@ -13,13 +13,13 @@ const props = defineProps({
 });
 
 const uiTypeToComponentMap = {
-  GRID: ItemGrid,
-  SWIPER: ItemSwiper
+  GRID: BrandGrid,
+  SWIPER: BrandSwiper
 };
 
 const is = computed(() => uiTypeToComponentMap[props.block.options.uiType]);
 </script>
 
 <template>
-  <component :is="is" :items="props.data" />
+  <component :is="is" :brands="props.data" />
 </template>

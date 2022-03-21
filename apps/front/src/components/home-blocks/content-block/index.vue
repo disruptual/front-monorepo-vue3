@@ -7,7 +7,7 @@ import { computed } from 'vue';
 import {
   HOME_BLOCK_QUERIES,
   HOME_BLOCK_TYPES,
-  User,
+  RecommendedUser,
   Category,
   Item,
   Brand
@@ -15,6 +15,8 @@ import {
 import { useCurrentUser, useCollectionQuery, useHttp } from '@dsp/core';
 import { vReadableColor, useDevice } from '@dsp/ui';
 import HomeContentBlockItem from './item/index.vue';
+import HomeContentBlockUser from './user/index.vue';
+import HomeContentBlockBrand from './brand/index.vue';
 
 const props = defineProps({
   block: { type: Object, required: true }
@@ -45,7 +47,7 @@ const queryToRequestMap = {
 };
 
 const typeToModelMap = {
-  [HOME_BLOCK_TYPES.USER]: User,
+  [HOME_BLOCK_TYPES.USER]: RecommendedUser,
   [HOME_BLOCK_TYPES.CATEGORY]: Category,
   [HOME_BLOCK_TYPES.ITEM]: Item,
   [HOME_BLOCK_TYPES.BRAND]: Brand
@@ -53,9 +55,9 @@ const typeToModelMap = {
 
 const typeToComponentMap = {
   [HOME_BLOCK_TYPES.ITEM]: HomeContentBlockItem,
-  [HOME_BLOCK_TYPES.USER]: 'div',
+  [HOME_BLOCK_TYPES.USER]: HomeContentBlockUser,
   [HOME_BLOCK_TYPES.CATEGORY]: 'div',
-  [HOME_BLOCK_TYPES.BRAND]: 'div'
+  [HOME_BLOCK_TYPES.BRAND]: HomeContentBlockBrand
 };
 const queryUrl = computed(() => {
   const base = queryToRequestMap[props.block.query];
@@ -78,7 +80,7 @@ const isSeeMoreBottom = computed(() => {
   const { seeMore } = props.block.options;
   if (!seeMore?.enabled) return false;
 
-  return !device.isMobile
+  return device.isMobile
     ? ['HEADER', 'BOTTOM'].includes(seeMore.position)
     : seeMore?.position === 'BOTTOM';
 });
@@ -119,9 +121,15 @@ const isSeeMoreBottom = computed(() => {
   footer {
     margin-top: var(--spacing-md);
   }
+
+  @include mobile-only {
+    header {
+      padding-left: var(--spacing-sm);
+    }
+  }
 }
 
 .see-more-button {
-  width: 12em;
+  width: 15em;
 }
 </style>

@@ -18,12 +18,13 @@ const props = defineProps({
 
 const context = schema.toContext(props);
 const initials = computed(() => {
+  if (props.user?.username) return props.user.username.charAt(0);
+
   return `${
     props.user?.firstName?.charAt?.(0) +
     (props.user?.lastName?.charAt?.(0) ?? '')
   }`;
 });
-
 const computedSize = computed(() => `var(--avatar-size-${props.size})`);
 
 const textColor = useReadableColor('--color-brand-500');
@@ -48,7 +49,7 @@ const textColor = useReadableColor('--color-brand-500');
   --avatar-size-sm: 2rem;
   --avatar-size-md: 3rem;
   --avatar-size-lg: 4.5rem;
-  --avatar-size-xl: 7rem;
+  --avatar-size-xl: 6rem;
   padding: 0;
   border-radius: 50%;
   width: v-bind('computedSize');
@@ -67,5 +68,7 @@ const textColor = useReadableColor('--color-brand-500');
   color: v-bind(textColor);
   width: 100%;
   height: 100%;
+  font-size: calc(0.5 * v-bind(computedSize));
+  text-transform: uppercase;
 }
 </style>

@@ -3,5 +3,6 @@ import defaultConfig from '../disruptual/config';
 import logo from 'client/assets/logo.svg?url';
 
 export default merge({}, defaultConfig, {
-  logo
+  logo,
+  DspButton: { isRounded: false }
 });

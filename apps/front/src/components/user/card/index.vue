@@ -1,0 +1,38 @@
+<script>
+export default { name: 'UserCard' };
+</script>
+<script setup>
+import { User } from '@dsp/business';
+import UserRating from '@/components/user/rating/index.vue';
+
+const props = defineProps({
+  user: { type: User, required: true }
+});
+</script>
+
+<template>
+  <dsp-surface class="user-card">
+    <dsp-center gap="xs">
+      <dsp-avatar :user="props.user" size="lg" />
+      <div class="user-card__name">{{ props.user.username }}</div>
+      <UserRating :user="props.user" size="md" />
+    </dsp-center>
+    <dsp-button class="user-card__link" is-full-width>
+      Voir le dressing
+    </dsp-button>
+  </dsp-surface>
+</template>
+
+<style lang="scss" scoped>
+.user-card {
+  padding: var(--spacing-md);
+}
+
+.user-card__name {
+  font-size: var(--font-size-lg);
+}
+
+.user-card__link {
+  margin-top: var(--spacing-md);
+}
+</style>

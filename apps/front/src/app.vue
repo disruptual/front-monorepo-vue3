@@ -4,12 +4,27 @@ export default { name: 'App' };
 
 <script setup>
 import { ref } from 'vue';
-import { AppProvider } from '@dsp/core';
+import { useQueryClient } from 'vue-query';
+import { AppProvider, useHttp } from '@dsp/core';
 import AppLoading from 'client/components/app-loader.vue';
-// import { VueQueryDevTools } from 'vue-query/devtools';
-import { DisruptualDevtools } from '@dsp/devtools';
+import { VueQueryDevTools } from 'vue-query/devtools';
+
+// import { DisruptualDevtools } from '@dsp/devtools';
 
 const isNavigating = ref(false);
+const isReady = ref(false);
+const http = useHttp();
+const queryClient = useQueryClient();
+
+const queries = [
+  queryClient.prefetchInfiniteQuery('/blocs?', () => http.get('/blocs?')),
+  queryClient.prefetchInfiniteQuery('/categories?', () =>
+    http.get('/categories?')
+  )
+];
+Promise.all(queries).then(() => {
+  isReady.value = true;
+});
 </script>
 
 <template>
@@ -21,7 +36,8 @@ const isNavigating = ref(false);
     <!-- <VueQueryDevTools /> -->
     <dsp-toasts-container />
 
-    <component :is="$route?.meta.layout || 'div'">
+    <AppLoading v-if="!isReady" />
+    <component :is="$route?.meta.layout || 'div'" v-else>
       <router-view v-slot="{ Component, route }">
         <div class="view-container">
           <transition
@@ -37,7 +53,7 @@ const isNavigating = ref(false);
       </router-view>
     </component>
   </AppProvider>
-  <DisruptualDevtools />
+  <!-- <DisruptualDevtools /> -->
 </template>
 
 <style lang="scss">

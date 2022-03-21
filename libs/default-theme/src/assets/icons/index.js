@@ -58,6 +58,8 @@ import arrowUp from './arrow-up.svg?component';
 import arrowDown from './arrow-down.svg?component';
 import bell from './bell.svg?component';
 import logout from './logout.svg?component';
+import starFilled from './starFilled.svg?component';
+import starEmpty from './starEmpty.svg?component';
 
 export default {
   add,
@@ -113,6 +115,8 @@ export default {
   search,
   speechBubble,
   speechBubbleSlash,
+  starEmpty,
+  starFilled,
   store,
   trash,
   unpublish,

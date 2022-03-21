@@ -3,7 +3,7 @@ export default { name: 'DspSwperItem' };
 </script>
 
 <script setup>
-import { inject, ref, onMounted } from 'vue';
+import { inject, ref, onMounted, watch } from 'vue';
 import { CONTEXT_KEYS } from '@dsp/ui/utils/constants';
 
 defineProps({
@@ -30,6 +30,8 @@ const onSwipeStart = e => {
 };
 
 const onSwipeMove = clientX => {
+  swiperContext.onSwipeStart();
+
   const diff = clientX - position.value;
   swiperContext.move(diff);
   position.value = clientX;
@@ -43,7 +45,7 @@ const onMouseMove = e => {
   return onSwipeMove(e.clientX);
 };
 
-const onSwipeEnd = () => {
+const onSwipeEnd = e => {
   const root = swiperContext.root.value;
   root.removeEventListener('mousemove', onMouseMove);
   root.removeEventListener('touchmove', onMouseMove);
@@ -51,7 +53,13 @@ const onSwipeEnd = () => {
   window.removeEventListener('touchend', onSwipeEnd);
   window.removeEventListener('touchleave', onSwipeEnd);
   window.removeEventListener('touchcancel', onSwipeEnd);
+  swiperContext.onSwipeEnd();
 };
+
+watch(swiperContext.isSwiping, isSwiping => {
+  if (isSwiping) swiperElement.value?.setAttribute('inert', true);
+  else swiperElement.value.removeAttribute('inert');
+});
 </script>
 
 <template>

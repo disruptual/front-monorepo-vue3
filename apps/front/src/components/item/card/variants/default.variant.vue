@@ -20,6 +20,7 @@ const { imageUrl } = useItemCard(props);
     <router-link
       :to="{ name: 'ItemDetails', params: { slug: item.slug } }"
       class="item-card__link-overlay"
+      draggable="false"
     >
       {{ item.title }}
     </router-link>
@@ -55,7 +56,13 @@ const { imageUrl } = useItemCard(props);
     </dsp-flex>
 
     <div class="item-card__image-wrapper">
-      <dsp-image :src="imageUrl" :alt="item.title" width="100" height="100" />
+      <dsp-image
+        :src="imageUrl"
+        :alt="item.title"
+        width="100"
+        height="100"
+        draggable="false"
+      />
     </div>
 
     <div class="item-card__infos">

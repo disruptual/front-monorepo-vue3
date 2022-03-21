@@ -30,16 +30,20 @@ onUnmounted(() => {
   if (interval.value) clearInterval(interval.value);
 });
 
-watch(isLoading, isLoading => {
-  if (isLoading) return;
-  if (interval.value) clearInterval(interval.value);
+watch(
+  isLoading,
+  isLoading => {
+    if (isLoading) return;
+    if (interval.value) clearInterval(interval.value);
 
-  interval.value = setInterval(() => {
-    if (currentIndex.value === announcements.value.length - 1)
-      currentIndex.value = 0;
-    else currentIndex.value++;
-  }, 10000);
-});
+    interval.value = setInterval(() => {
+      if (currentIndex.value === announcements.value.length - 1)
+        currentIndex.value = 0;
+      else currentIndex.value++;
+    }, 10000);
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
