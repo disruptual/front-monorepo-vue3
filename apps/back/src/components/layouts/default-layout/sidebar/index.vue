@@ -43,10 +43,14 @@ const onLinkClick = () => {
   });
 };
 
-const getEnabledLinks = links =>
-  links
+const getEnabledLinks = links => {
+  return links
     .filter(link => !isFunction(link.isEnabled) || link.isEnabled(context))
-    .filter(link => currentUser.value.hasRoles(...(link.permissions || [])));
+    .filter(link => {
+      console.log(links.permissions);
+      return currentUser.value.hasRoles(...(link.permissions || []));
+    });
+};
 
 const onmouseleave = () => {
   if (containerEl.value.contains(document.activeElement)) {

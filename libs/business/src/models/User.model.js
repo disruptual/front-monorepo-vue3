@@ -68,6 +68,7 @@ export class User extends BaseModel {
   }
 
   hasRoles(...roles) {
+    if (roles.length === 0) return true;
     return roles.some(role => this.hasRole(role));
   }
 
