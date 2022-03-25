@@ -53,6 +53,13 @@ const typeToModelMap = {
   [HOME_BLOCK_TYPES.BRAND]: Brand
 };
 
+const typeToRelationsMap = {
+  [HOME_BLOCK_TYPES.USER]: [],
+  [HOME_BLOCK_TYPES.CATEGORY]: [],
+  [HOME_BLOCK_TYPES.ITEM]: ['user', 'category', 'brand'],
+  [HOME_BLOCK_TYPES.BRAND]: []
+};
+
 const typeToComponentMap = {
   [HOME_BLOCK_TYPES.ITEM]: HomeContentBlockItem,
   [HOME_BLOCK_TYPES.USER]: HomeContentBlockUser,
@@ -67,8 +74,10 @@ const queryUrl = computed(() => {
 });
 const component = computed(() => typeToComponentMap[props.block.type]);
 const model = computed(() => typeToModelMap[props.block.type]);
+const relations = computed(() => typeToRelationsMap[props.block.type]);
 const query = useCollectionQuery(queryUrl, () => http.get(queryUrl.value), {
-  model
+  model,
+  relations
 });
 
 const isSeeMoreTop = computed(() => {
@@ -84,13 +93,19 @@ const isSeeMoreBottom = computed(() => {
     ? ['HEADER', 'BOTTOM'].includes(seeMore.position)
     : seeMore?.position === 'BOTTOM';
 });
+
+const titleClass = computed(
+  () =>
+    props.block.options.title.upperCase &&
+    'home-content-block__title--uppercase'
+);
 </script>
 
 <template>
   <div v-readable-color class="home-content-block">
     <dsp-container is-large>
       <dsp-flex as="header" justify="space-between" align="center">
-        <h2>{{ block.options.title.content }}</h2>
+        <h2 :class="titleClass">{{ block.options.title.content }}</h2>
         <dsp-button v-if="isSeeMoreTop" class="see-more-button">
           Voir plus
         </dsp-button>
@@ -117,6 +132,7 @@ const isSeeMoreBottom = computed(() => {
 .home-content-block {
   background-color: v-bind('props.block.options.backgroundColor');
   padding: var(--spacing-md) 0;
+  max-width: var(--100-vw);
 
   footer {
     margin-top: var(--spacing-md);
@@ -131,5 +147,9 @@ const isSeeMoreBottom = computed(() => {
 
 .see-more-button {
   width: 15em;
+}
+
+.home-content-block__title--uppercase {
+  text-transform: uppercase;
 }
 </style>

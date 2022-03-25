@@ -1,32 +1,42 @@
 import { computed, unref } from 'vue';
 import { Item, ItemService } from '@dsp/business';
+import { deepUnref } from '@dsp/core/utils/helpers';
 
 import { useCollectionQuery } from '@dsp/core/hooks/useCollectionQuery';
 
-import { SORT_ORDERS } from '@dsp/core/utils/constants';
 import { serializeQueryString } from '@dsp/core/utils/helpers';
 import { useCRUDApi } from '../useCRUDApi';
 
 export function useItemApi() {
   return useCRUDApi({ model: Item, service: ItemService }, itemService => ({
-    searchQuery({ relations = [], itemsPerPage = 30, filters } = {}) {
-      const queryKey = computed(
-        () => `/items/search?${serializeQueryString(unref(filters))}`
-      );
+    searchQuery(options) {
+      const queryKey = computed(() => {
+        const { filters } = deepUnref(options);
 
-      const options = {
-        model: Item,
-        itemsPerPage,
-        relations
-      };
+        return `/items/search?${serializeQueryString(filters)}`;
+      });
 
-      const queryFn = ({ pageParam = { page: 1, itemsPerPage } }) => {
-        return itemService.search({
-          params: { ...pageParam, ...unref(filters) }
-        });
-      };
+      const queryOptions = computed(() => {
+        const { itemsPerPage, relations, ...rest } = deepUnref(options);
 
-      return useCollectionQuery(queryKey, queryFn, options);
+        return {
+          model: Item,
+          itemsPerPage,
+          relations,
+          ...rest
+        };
+      });
+
+      const queryFn = computed(() => {
+        const { itemsPerPage, filters } = deepUnref(options);
+
+        return ({ pageParam = { page: 1, itemsPerPage } }) =>
+          itemService.search({
+            params: { ...pageParam, ...filters }
+          });
+      });
+
+      return useCollectionQuery(queryKey, queryFn, queryOptions);
     },
 
     findAllByUserIdQuery(userId, { relations = [] } = {}) {

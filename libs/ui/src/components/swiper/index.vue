@@ -25,13 +25,14 @@ const register = slide => {
   state.slides.push(slide);
 };
 
-const checkFades = () => {
-  state.fadeLeft = rootElement.value.scrollLeft !== 0;
-  const isFullyScrolled =
-    rootElement.value.scrollLeft + rootElement.value.clientWidth >=
-    rootElement.value.scrollWidth;
+const isFullyScrolled = () =>
+  rootElement.value.scrollLeft + rootElement.value.clientWidth >=
+  rootElement.value.scrollWidth;
+const isNotScrolled = () => rootElement.value.scrollLeft === 0;
 
-  state.fadeRight = !isFullyScrolled;
+const checkFades = () => {
+  state.fadeLeft = !isNotScrolled();
+  state.fadeRight = !isFullyScrolled();
 };
 
 onMounted(checkFades);
@@ -41,10 +42,15 @@ const move = offset => {
   nextTick(checkFades);
 };
 
-const onWheel = throttle(e => {
+const onWheel = e => {
   if (!device.isDesktop) return;
+  const shouldIgnore =
+    (e.deltaY > 0 && isFullyScrolled()) || (e.deltaY < 0 && isNotScrolled());
+  if (shouldIgnore) return;
+
+  e.preventDefault();
   move(e.deltaY * -1);
-}, 16);
+};
 
 const onSwipeStart = () => {
   isSwiping.value = true;
@@ -93,12 +99,7 @@ useCssProperty({
 </script>
 
 <template>
-  <div
-    ref="rootElement"
-    class="dsp-swiper"
-    :class="classes"
-    @wheel.prevent="onWheel"
-  >
+  <div ref="rootElement" class="dsp-swiper" :class="classes" @wheel="onWheel">
     <dsp-flex
       ref="innerElement"
       :as="as"
@@ -114,13 +115,12 @@ useCssProperty({
 
 <style lang="scss" scoped>
 .dsp-swiper {
-  max-width: 100vw;
   overflow-x: hidden;
   @include desktop-only {
     --dsp-swiper-fade-left: rgba(0, 0, 0, 1);
     --dsp-swiper-fade-right: rgba(0, 0, 0, 1);
-    transition: --dsp-swiper-fade-left var(--transition-sm),
-      --dsp-swiper-fade-right var(--transition-sm);
+    transition: --dsp-swiper-fade-left var(--transition-md),
+      --dsp-swiper-fade-right var(--transition-md);
     -webkit-mask-image: linear-gradient(
       to right,
       var(--dsp-swiper-fade-left),
@@ -138,11 +138,11 @@ useCssProperty({
   }
 }
 .dsp-swiper--has-fade-right {
-  --dsp-swiper-fade-right: rgba(0, 0, 0, 0.25);
+  --dsp-swiper-fade-right: rgba(0, 0, 0, 0.2);
 }
 
 .dsp-swiper--has-fade-left {
-  --dsp-swiper-fade-left: rgba(0, 0, 0, 0.25);
+  --dsp-swiper-fade-left: rgba(0, 0, 0, 0.2);
 }
 
 .dsp-swiper__inner {

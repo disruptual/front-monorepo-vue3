@@ -13,7 +13,7 @@ const query = useFrontConfigApi().findByIdQuery(1, {
 
 <template>
   <dsp-query-loader v-slot="{ entity }" :query="query">
-    <dsp-flex direction="column" gap="lg" wrap="nowrap">
+    <dsp-flex direction="column" wrap="nowrap">
       <section v-for="block of entity.homePageSettings" :key="block.id">
         <ContentBlock :block="block" />
       </section>

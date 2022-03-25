@@ -35,10 +35,14 @@ const { is, classes, colors } = useButton(props, attrs);
     <slot name="left-icon">
       <dsp-icon v-if="props.leftIcon" class="icon-left" :icon="leftIcon" />
     </slot>
+
     <slot />
-    <slot name="right-icon">
-      <dsp-icon v-if="props.rightIcon" class="icon-right" :icon="rightIcon" />
-    </slot>
+
+    <div class="RIGHT-ICON">
+      <slot name="right-icon">
+        <dsp-icon v-if="props.rightIcon" class="icon-right" :icon="rightIcon" />
+      </slot>
+    </div>
   </component>
 </template>
 
@@ -73,6 +77,10 @@ const { is, classes, colors } = useButton(props, attrs);
 .dsp-button--sm {
   padding: var(--spacing-xxs) var(--spacing-xs);
   font-size: var(--font-size-sm);
+
+  &.dsp-button--is-rounded {
+    padding: var(--spacing-xxs) var(--spacing-sm);
+  }
 }
 
 .dsp-button--md {

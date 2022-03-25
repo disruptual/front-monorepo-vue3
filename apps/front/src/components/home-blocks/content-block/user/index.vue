@@ -24,5 +24,15 @@ const users = computed(() =>
 </script>
 
 <template>
-  <component :is="is" :users="users" />
+  <div class="home-content-block-user">
+    <component :is="is" :users="users" />
+  </div>
 </template>
+
+<style lang="scss" scoped>
+.home-content-block-user {
+  @include mobile-only {
+    padding: 0 var(--spacing-sm);
+  }
+}
+</style>

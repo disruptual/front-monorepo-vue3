@@ -5,7 +5,8 @@ export default { name: 'DefaultLayoutHeader' };
 import { ref } from 'vue';
 import { throttle } from 'lodash-es';
 import { useI18n } from 'vue-i18n';
-import { useDevice, vReadableColor, useEventListener } from '@dsp/ui';
+import { useDevice, useEventListener } from '@dsp/ui';
+import { useAppContext } from '@dsp/core';
 import HeaderMenu from './menu/index.vue';
 import HeaderSearchBar from './search-bar/index.vue';
 import BurgerMenu from './burger-menu/index.vue';
@@ -15,6 +16,7 @@ import schema from './index.schema';
 
 const props = defineProps(schema.toProps());
 const componentContext = schema.toContext(props);
+const appContext = useAppContext();
 const { t } = useI18n();
 const device = useDevice();
 
@@ -54,6 +56,7 @@ useEventListener(
   <dsp-slide-transition
     direction="vertical"
     distance="-100%"
+    :duration="200"
     @leave="onAnnouncementClose"
     @after-leave="onAnnouncementCloseEnd"
   >
@@ -67,8 +70,17 @@ useEventListener(
   >
     <HeaderSearchBar v-if="device.isDesktop" class="header-search-bar" />
     <dsp-flex v-else><BurgerMenu /></dsp-flex>
-    <router-link :to="{ name: 'Home' }" class="logo">
-      <h1 v-readable-color>{{ t('platformName') }}</h1>
+    <router-link :to="{ name: 'Home' }" class="app-title">
+      <h1>
+        <img
+          v-if="componentContext.isLogoDisplayed"
+          :src="appContext.logo"
+          class="logo"
+        />
+        <span v-else>
+          {{ t('platformName') }}
+        </span>
+      </h1>
     </router-link>
     <HeaderMenu class="menu" />
   </header>
@@ -102,9 +114,16 @@ useEventListener(
   justify-self: end;
 }
 
-.logo {
-  height: 50px;
+.app-title {
   justify-self: center;
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.logo {
+  height: 1em;
 }
 
 .header-search-bar {

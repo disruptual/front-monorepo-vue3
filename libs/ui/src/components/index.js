@@ -5,6 +5,7 @@ export * from './dropdown';
 export * from './tabs';
 export * from './swiper';
 export * from './grid';
+export * from './filter-bar';
 
 export { default as DspBackLink } from './back-link/index.vue';
 export { default as DspInputText } from './input-text/index.vue';

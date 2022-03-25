@@ -11,13 +11,18 @@ const props = defineProps({
 </script>
 
 <template>
-  <div v-readable-color class="brand-card">
+  <router-link
+    v-readable-color
+    :to="{ name: 'ItemSearch', query: { brand: props.brand.id } }"
+    class="brand-card"
+  >
     {{ props.brand.name }} ({{ props.brand.totalOfPublishedItems }})
-  </div>
+  </router-link>
 </template>
 
 <style lang="scss" scoped>
 .brand-card {
+  display: block;
   border: solid 1px currentColor;
   padding: var(--spacing-md);
 }

@@ -50,12 +50,13 @@ const [, formActions] = form;
 const availableRoles = computed(() => {
   return [
     USER_ROLES.ADMIN,
-    currentUser.value.hasRole(USER_ROLES.PROJECT_MANAGER) &&
-      USER_ROLES.PROJECT_MANAGER,
     USER_ROLES.STORE,
     USER_ROLES.EVENT_MANAGER,
-    currentUser.value.hasRole(USER_ROLES.DAF) && USER_ROLES.DAF,
-    USER_ROLES.USER
+    USER_ROLES.USER,
+    currentUser.value.hasRole(USER_ROLES.PROJECT_MANAGER) &&
+      USER_ROLES.PROJECT_MANAGER,
+    currentUser.value.hasRoles(USER_ROLES.PROJECT_MANAGER, USER_ROLES.DAF) &&
+      USER_ROLES.DAF
   ].filter(Boolean);
 });
 

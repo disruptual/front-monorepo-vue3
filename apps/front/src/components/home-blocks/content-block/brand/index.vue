@@ -21,5 +21,15 @@ const is = computed(() => uiTypeToComponentMap[props.block.options.uiType]);
 </script>
 
 <template>
-  <component :is="is" :brands="props.data" />
+  <div class="home-content-block-brand">
+    <component :is="is" :brands="props.data" />
+  </div>
 </template>
+
+<style lang="scss" scoped>
+.home-content-block-brand {
+  @include mobile-only {
+    padding: 0 var(--spacing-sm);
+  }
+}
+</style>

@@ -1,3 +1,6 @@
 export default {
-  platformName: 'La Reboucle'
+  platformName: 'La Reboucle',
+  categoriesNav: {
+    mainsiteLink: 'La Redoute'
+  }
 };

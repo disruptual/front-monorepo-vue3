@@ -20,7 +20,8 @@ const props = defineProps({
   validators: { type: Array, default: () => [] },
   initialValue: { type: null, default: null },
   useInitialValueOnReset: { type: Boolean, default: true },
-  mode: { type: String, default: null }
+  mode: { type: String, default: null },
+  unregisterOnUnmount: { type: Boolean, default: true }
 });
 
 const formContext = inject(CONTEXT_KEYS.FORM);
@@ -48,7 +49,9 @@ const buildField = () => {
 formContext.value.register(props.name, buildField());
 
 onUnmounted(() => {
-  formContext.value.unregister(props.name);
+  if (props.unregisterOnUnmount) {
+    formContext.value.unregister(props.name);
+  }
 });
 
 const field = computed(() => {

@@ -18,6 +18,7 @@ const onChange = () => {
     v-model="search"
     button-position="right"
     aria-label="rechercher"
+    placeholder="Vous cherchez quelque chose ?"
     @change="onChange"
   />
 </template>

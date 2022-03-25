@@ -6,6 +6,7 @@ body {
   background-color: var(--color-background);
   color: var(--dsp-ui-body-text-color);
   font-size: var(--font-size-md);
+  width: var(--100-vw);
 }
 
 * {
@@ -24,6 +25,9 @@ button {
   // These variables are created so that they can be grabbed from javascript to use in matchMedia() calls
   --breakpoint-mobile: #{$breakpoint-mobile};
   --breakpoint-tablet: #{$breakpoint-tablet};
+
+  // scrollbar-width is set via js
+  --100-vw: calc(100vw - var(--scrollbar-width));
 
   --font-family-primary: Helvetica, Arial, sans serif;
   --font-family-secondary: Helvetica, Arial, sans serif;

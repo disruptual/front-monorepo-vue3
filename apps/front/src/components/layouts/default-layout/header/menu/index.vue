@@ -5,7 +5,7 @@ export default { name: 'HeaderMenu' };
 import { ref } from 'vue';
 import { useCurrentUser } from '@dsp/core';
 import { useDevice } from '@dsp/ui';
-import UserMenu from '@/components/user-menu/index.vue';
+import UserMenu from '@/components/user/menu/index.vue';
 
 const device = useDevice();
 

@@ -13,7 +13,8 @@ export const CONTEXT_KEYS = {
   DROPDOWN: 'dropdownContext',
   TABS: 'tabsContext',
   TOAST: 'toastContext',
-  SWIPER: 'swiperContext'
+  SWIPER: 'swiperContext',
+  FILTER_BAR: 'filterBarContext'
 };
 
 export const TELEPORT_HOSTS = {

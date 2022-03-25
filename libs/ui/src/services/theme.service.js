@@ -2,7 +2,7 @@ import { camelToKebabCase } from '@dsp/core';
 import { reactive } from 'vue';
 import { useReadableColor } from '@dsp/ui/hooks/useReadableColor';
 import { createColorScale } from '@dsp/ui/utils/themeUtils';
-
+import { throttle } from 'lodash-es';
 export class ThemeService {
   constructor(theme) {
     this.theme = reactive(theme);
@@ -71,6 +71,27 @@ export class ThemeService {
       '--dsp-ui-body-text-color',
       bodyTextcolor.value
     );
+
+    this.computeViewportWidth();
+    window.addEventListener('resize', throttle(this.computeViewportWidth, 16));
+    new ResizeObserver(throttle(this.computeViewportWidth, 100)).observe(
+      document.documentElement
+    );
+  }
+
+  computeViewportWidth() {
+    let scroller = document.documentElement;
+    if (scroller.offsetHeight > window.innerHeight) {
+      scroller.style.setProperty('overflow', 'scroll');
+    }
+    requestAnimationFrame(() => {
+      scroller.style.setProperty('--vw', scroller.clientWidth / 100 + 'px');
+      scroller.style.setProperty(
+        '--scrollbar-width',
+        window.innerWidth - scroller.clientWidth + 0.1 + 'px'
+      );
+      scroller.style.setProperty('overflow', '');
+    });
   }
 
   async loadFont({ name, url, weight }) {

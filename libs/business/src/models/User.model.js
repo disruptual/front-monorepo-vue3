@@ -68,6 +68,10 @@ export class User extends BaseModel {
   }
 
   hasRoles(...roles) {
+    return roles.some(role => this.hasRole(role));
+  }
+
+  hasAllRoles(...roles) {
     return roles.every(role => this.hasRole(role));
   }
 

@@ -3,7 +3,7 @@ export default { name: 'DspMultiSelect' };
 </script>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, useAttrs, nextTick } from 'vue';
 import { vReadableColor } from '@dsp/ui/directives/readableColor';
 
 import Multiselect from '@vueform/multiselect';
@@ -13,7 +13,7 @@ const props = defineProps({
   options: { type: Array, required: true },
   placeholder: { type: String, default: '' }
 });
-
+const attrs = useAttrs();
 const emit = defineEmits(['update:modelValue']);
 
 const vModel = computed({
@@ -25,6 +25,12 @@ const vModel = computed({
   }
 });
 
+const onChange = () => {
+  nextTick(() => {
+    attrs.onChange?.();
+    attrs.onBlur?.();
+  });
+};
 const defaultClasses = computed(() => {
   return { containerActive: 'dsp-is-active' };
 });
@@ -42,6 +48,7 @@ const defaultClasses = computed(() => {
     :searchable="true"
     :can-clear="false"
     :options="options"
+    @change="onChange"
   >
     <template #tag="{ option, handleTagRemove }">
       <dsp-flex>

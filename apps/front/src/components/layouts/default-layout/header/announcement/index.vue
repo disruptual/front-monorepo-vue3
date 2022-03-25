@@ -78,6 +78,7 @@ watch(
       icon="remove"
       class="header-announcement__close-button"
       aria-label="fermer le message"
+      is-plain
       @click="isDisplayed = false"
     />
   </div>

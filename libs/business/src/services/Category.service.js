@@ -5,4 +5,8 @@ export class CategoryService extends BaseCRUDService {
     super(...args);
     this.endpoint = '/categories';
   }
+
+  findBySlug(slug, options) {
+    return this._http.get(`${this.endpoint}/slug/${slug}`, options);
+  }
 }

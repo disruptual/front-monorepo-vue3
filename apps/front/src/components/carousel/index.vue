@@ -106,7 +106,7 @@ const transitionDistance = computed(() =>
 <style lang="scss" scoped>
 .carousel {
   position: relative;
-  max-width: 100vw;
+  max-width: var(--100-vw);
   display: grid;
   overflow: hidden;
 

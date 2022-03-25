@@ -72,13 +72,14 @@ const currentStep = ref(0);
     </dsp-alert>
 
     <dsp-smart-form :form="form" class="form">
-      <div v-show="currentStep === 0" class="step">
+      <div v-if="currentStep === 0" class="step">
         <h3>{{ t('event.title.informations') }} (1/3)</h3>
         <dsp-grid :columns="2" gap="md">
           <dsp-smart-form-field
             v-slot="slotProps"
             name="title"
             :initial-value="props.event?.title || undefined"
+            :unregister-on-unmount="false"
             required
           >
             <dsp-form-control
@@ -92,6 +93,7 @@ const currentStep = ref(0);
             v-slot="slotProps"
             name="content"
             :initial-value="props.event?.content || ''"
+            :unregister-on-unmount="false"
           >
             <dsp-form-control
               v-model="slotProps.field.value"
@@ -104,6 +106,7 @@ const currentStep = ref(0);
             v-slot="slotProps"
             name="location"
             :initial-value="event?.location"
+            :unregister-on-unmount="false"
             required
           >
             <dsp-form-control
@@ -127,9 +130,11 @@ const currentStep = ref(0);
               v-slot="slotProps"
               name="categories"
               :initial-value="props.event?.categories"
+              :unregister-on-unmount="false"
               required
             >
               <dsp-form-control
+                v-slot="{ on }"
                 v-model="slotProps.field.value"
                 v-bind="slotProps"
                 :label="t('event.label.category')"
@@ -139,6 +144,7 @@ const currentStep = ref(0);
                   :options="categoriesSelectOptions"
                   :placeholder="t('event.label.category')"
                   :close-on-select="false"
+                  v-on="on"
                 />
               </dsp-form-control>
             </dsp-smart-form-field>
@@ -146,7 +152,7 @@ const currentStep = ref(0);
         </dsp-grid>
       </div>
 
-      <div v-show="currentStep === 1" class="step">
+      <div v-if="currentStep === 1" class="step">
         <h3>{{ t('event.title.location') }} (2/3)</h3>
 
         <dsp-grid as="fieldset" :columns="3" gap="md">
@@ -157,6 +163,7 @@ const currentStep = ref(0);
             v-slot="slotProps"
             name="address.fullname"
             :initial-value="props.event?.address.fullname || ''"
+            :unregister-on-unmount="false"
           >
             <dsp-form-control
               v-model="slotProps.field.value"
@@ -168,6 +175,7 @@ const currentStep = ref(0);
             v-slot="slotProps"
             name="address.route"
             :initial-value="props.event?.address.route || ''"
+            :unregister-on-unmount="false"
           >
             <dsp-form-control
               v-model="slotProps.field.value"
@@ -179,6 +187,7 @@ const currentStep = ref(0);
             v-slot="slotProps"
             name="address.postalCode"
             :initial-value="props.event?.address.postalCode || ''"
+            :unregister-on-unmount="false"
           >
             <dsp-form-control
               v-model="slotProps.field.value"
@@ -190,6 +199,7 @@ const currentStep = ref(0);
             v-slot="slotProps"
             name="address.city"
             :initial-value="props.event?.address.city || ''"
+            :unregister-on-unmount="false"
           >
             <dsp-form-control
               v-model="slotProps.field.value"
@@ -201,6 +211,7 @@ const currentStep = ref(0);
             v-slot="slotProps"
             name="address.country"
             :initial-value="props.event?.address.country || ''"
+            :unregister-on-unmount="false"
           >
             <dsp-form-control
               v-model="slotProps.field.value"
@@ -219,6 +230,7 @@ const currentStep = ref(0);
             v-slot="slotProps"
             name="schedule.MONDAY"
             :initial-value="event?.schedule.MONDAY || ''"
+            :unregister-on-unmount="false"
           >
             <dsp-form-control
               v-model="slotProps.field.value"
@@ -230,6 +242,7 @@ const currentStep = ref(0);
             v-slot="slotProps"
             name="schedule.TUESDAY"
             :initial-value="event?.schedule.TUESDAY || ''"
+            :unregister-on-unmount="false"
           >
             <dsp-form-control
               v-model="slotProps.field.value"
@@ -241,6 +254,7 @@ const currentStep = ref(0);
             v-slot="slotProps"
             name="schedule.WEDNESDAY"
             :initial-value="event?.schedule.WEDNESDAY || ''"
+            :unregister-on-unmount="false"
           >
             <dsp-form-control
               v-model="slotProps.field.value"
@@ -252,6 +266,7 @@ const currentStep = ref(0);
             v-slot="slotProps"
             name="schedule.FRIDAY"
             :initial-value="event?.schedule.FRIDAY || ''"
+            :unregister-on-unmount="false"
           >
             <dsp-form-control
               v-model="slotProps.field.value"
@@ -263,6 +278,7 @@ const currentStep = ref(0);
             v-slot="slotProps"
             name="schedule.THURSDAY"
             :initial-value="event?.schedule.THURSDAY || ''"
+            :unregister-on-unmount="false"
           >
             <dsp-form-control
               v-model="slotProps.field.value"
@@ -274,6 +290,7 @@ const currentStep = ref(0);
             v-slot="slotProps"
             name="schedule.SATURDAY"
             :initial-value="event?.schedule.SATURDAY || ''"
+            :unregister-on-unmount="false"
           >
             <dsp-form-control
               v-model="slotProps.field.value"
@@ -285,6 +302,7 @@ const currentStep = ref(0);
             v-slot="slotProps"
             name="schedule.SUNDAY"
             :initial-value="event?.schedule.SUNDAY || ''"
+            :unregister-on-unmount="false"
           >
             <dsp-form-control
               v-model="slotProps.field.value"
@@ -295,7 +313,7 @@ const currentStep = ref(0);
         </dsp-grid>
       </div>
 
-      <div v-show="currentStep === 2" class="step">
+      <div v-if="currentStep === 2" class="step">
         <h3>{{ t('event.title.date') }} (3/3)</h3>
         <dsp-flex as="fieldset" align="center" gap="md">
           <legend>{{ t('event.title.startEndAt') }}</legend>
@@ -304,6 +322,7 @@ const currentStep = ref(0);
             v-slot="slotProps"
             name="startAt"
             :initial-value="props.event?.startDate || null"
+            :unregister-on-unmount="false"
             required
           >
             <dsp-form-control
@@ -325,6 +344,7 @@ const currentStep = ref(0);
             v-slot="slotProps"
             name="endAt"
             :initial-value="props.event?.endDate || null"
+            :unregister-on-unmount="false"
             required
           >
             <dsp-form-control

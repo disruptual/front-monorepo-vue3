@@ -17,6 +17,7 @@ const http = useHttp();
 const queryClient = useQueryClient();
 
 const queries = [
+  queryClient.prefetchInfiniteQuery('/carouels', () => http.get('/carousels')),
   queryClient.prefetchInfiniteQuery('/blocs?', () => http.get('/blocs?')),
   queryClient.prefetchInfiniteQuery('/categories?', () =>
     http.get('/categories?')
@@ -65,7 +66,8 @@ ul {
 
 .view-container {
   display: grid;
-  max-width: 100vw;
+  width: var(--100-vw);
+  max-width: 100%;
   height: 100%;
   overflow-x: v-bind("isNavigating ? 'hidden': 'visible'");
 

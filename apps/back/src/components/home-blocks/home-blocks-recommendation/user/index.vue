@@ -16,13 +16,15 @@ import HomeBlocksUserModal from '@/components/home-blocks/home-blocks-modal/user
 const { t } = useI18n();
 const isModalOpened = ref(false);
 
-const { deleteMutation, findAllQuery } = useRecommendedUserApi();
+const { deleteMutation, findAllQuery, updateManyMutation } =
+  useRecommendedUserApi();
 const query = findAllQuery();
 const { mutateAsync: deleteRecommendedUser } = deleteMutation({
   onSuccess() {
     query.refetch.value();
   }
 });
+const { mutateAsync: updateRecommandedUsers } = updateManyMutation();
 
 const sortData = data => data?.slice().sort((a, b) => a.position - b.position);
 const NOTE_DENOMINATOR = 5;
@@ -42,6 +44,13 @@ const updatePosition = (row, newIndex) => {
   clone.forEach((recommendedCategory, index) => {
     recommendedCategory.position = index;
   });
+
+  // updateRecommandedUsers(
+  //   query.data.value.map(user => ({
+  //     id: user.id,
+  //     entity: { position: user.position }
+  //   }))
+  // );
 };
 </script>
 
