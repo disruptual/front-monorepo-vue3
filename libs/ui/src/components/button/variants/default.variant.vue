@@ -38,11 +38,9 @@ const { is, classes, colors } = useButton(props, attrs);
 
     <slot />
 
-    <div class="RIGHT-ICON">
-      <slot name="right-icon">
-        <dsp-icon v-if="props.rightIcon" class="icon-right" :icon="rightIcon" />
-      </slot>
-    </div>
+    <slot name="right-icon">
+      <dsp-icon v-if="props.rightIcon" class="icon-right" :icon="rightIcon" />
+    </slot>
   </component>
 </template>
 
