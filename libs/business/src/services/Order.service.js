@@ -15,7 +15,6 @@ export class OrderService extends BaseCRUDService {
       case DELIVERY_MODES.LAPOSTE_COLISSIMO:
       case DELIVERY_MODES.LAPOSTE_LETTER_FOLLOW:
       case DELIVERY_MODES.LOCATION:
-        return `${this.endpoint}/${id}/state`;
       case DELIVERY_MODES.COCOLIS:
       case DELIVERY_MODES.RELAIS_COLIS:
         return `${this.endpoint}/${id}/delivery_states`;
@@ -30,7 +29,6 @@ export class OrderService extends BaseCRUDService {
       case DELIVERY_MODES.LAPOSTE_COLISSIMO:
       case DELIVERY_MODES.LAPOSTE_LETTER_FOLLOW:
       case DELIVERY_MODES.LOCATION:
-        return { orderStateTransition: transition };
       case DELIVERY_MODES.COCOLIS:
       case DELIVERY_MODES.RELAIS_COLIS:
         return { deliveryStateTransition: transition };

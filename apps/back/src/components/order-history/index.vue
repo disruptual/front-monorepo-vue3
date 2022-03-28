@@ -112,6 +112,7 @@ const getStepTranslationVariables = step => {
           <span class="button-label">{{ t('orderHistory.next') }}</span>
         </dsp-loading-button>
       </dsp-flex>
+      <!-- <pre>{{ order.history }}</pre> -->
       <div class="step__description">{{ getStepDescription(step) }}</div>
     </li>
   </ul>

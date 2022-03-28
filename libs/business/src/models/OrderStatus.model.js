@@ -19,7 +19,6 @@ export class OrderStatus {
     }
 
     if (
-      this.order.delivery.tag === DELIVERY_MODES.LOCATION &&
       this.order.isEnded &&
       this.orderproblemState === ORDER_PROBLEM_STATES.NONE &&
       this.orderproblemStateTransition === ORDER_PROBLEM_STATE_TRANSITIONS.NONE
@@ -43,17 +42,11 @@ export class OrderStatus {
   }
 
   shouldUseDeliveryState() {
-    return [DELIVERY_MODES.RELAIS_COLIS, DELIVERY_MODES.COCOLIS].includes(
-      this.order.delivery.tag
-    );
+    return this.order.orderState === ORDER_DELIVERY_STATES.DELIVERY_IN_PROGRESS;
   }
 
   shouldUseDeliveryStateTransition() {
-    const transitions = [
-      ORDER_DELIVERY_STATES.TRANSFER_TO_DESTINATION_RELAY_IN_PROGRESS,
-      ORDER_DELIVERY_STATES.DELIVERY_IN_PROGRESS,
-      ORDER_DELIVERY_STATES.END
-    ];
+    const transitions = [ORDER_DELIVERY_STATES.END];
 
     return transitions.includes(this.order.deliveryState);
   }
