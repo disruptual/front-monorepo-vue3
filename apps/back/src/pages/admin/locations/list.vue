@@ -17,13 +17,12 @@ import DataTableRowAction from '@/components/data-table/data-table-row-action/in
 const { t } = useI18n();
 
 useBreadCrumbs('Magasins');
-const { push } = useRouter();
 const filters = ref({});
 const onFilterChange = newFilters => {
   filters.value = { ...newFilters };
 };
 const query = useLocationApi().findAllQuery({
-  relations: [],
+  filters,
   requestOptions: {
     params: { display: 'all' }
   }
@@ -59,7 +58,6 @@ const updateVisiblity = async store => {
       name="storeCode"
       :label="t('dataTable.label.storeCode')"
       width="100"
-      is-filterable
     />
     <DataTableColumn
       name="name"
@@ -73,7 +71,6 @@ const updateVisiblity = async store => {
       name="open"
       :label="t('dataTable.label.state')"
       width="200"
-      is-filterable
     >
       <dsp-center>
         <dsp-button
@@ -89,7 +86,6 @@ const updateVisiblity = async store => {
       name="enabled"
       :label="t('dataTable.label.visibility')"
       width="200"
-      is-filterable
     >
       <dsp-center>
         <dsp-checkbox

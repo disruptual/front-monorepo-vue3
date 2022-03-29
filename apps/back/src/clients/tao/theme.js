@@ -18,7 +18,7 @@ export default merge({}, theme, {
       minLightness: 0.1,
       maxLightness: 0.85,
       saturationAdjust: -0.15,
-      lightnessAdjust: 0.12
+      lightnessAdjust: 0.2
     }
   }
 });
