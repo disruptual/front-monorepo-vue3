@@ -23,6 +23,7 @@ const observer = ref(null);
 const trigger = ref(null);
 
 const onIntersect = entries => {
+  console.log('on intersect');
   entries.forEach(entry => {
     if (entry.isIntersecting && props.isEnabled) {
       emit('loadMore');
@@ -30,7 +31,7 @@ const onIntersect = entries => {
   });
 };
 
-const root = computed(() => props.root || document);
+const root = computed(() => unref(props.root) || document);
 
 const initObserver = () => {
   observer.value = new window.IntersectionObserver(onIntersect, {

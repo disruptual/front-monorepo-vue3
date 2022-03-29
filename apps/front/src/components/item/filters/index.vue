@@ -5,6 +5,8 @@ export default { name: 'ItemFilters' };
 <script setup>
 import { computed } from 'vue';
 import ItemFiltersCategory from './category/index.vue';
+import ItemFiltersBrand from './brand/index.vue';
+import ItemFiltersColor from './color/index.vue';
 
 const props = defineProps({
   modelValue: { type: Object, required: true },
@@ -26,6 +28,8 @@ const vModel = computed({
   <dsp-flex justify="space-between" align="center">
     <dsp-filter-bar v-model="vModel">
       <ItemFiltersCategory />
+      <ItemFiltersBrand />
+      <ItemFiltersColor />
     </dsp-filter-bar>
     <div>{{ count }} résultats</div>
   </dsp-flex>

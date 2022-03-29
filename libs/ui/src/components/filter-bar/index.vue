@@ -12,7 +12,10 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue']);
 
+const infiniteScrollRoot = ref(null);
+
 const context = {
+  infiniteScrollRoot,
   filters: ref({}),
   activeFilters: computed(() =>
     Object.values(context.filters.value).filter(({ value }) => {
@@ -23,7 +26,10 @@ const context = {
     context.filters.value[name] = {
       value: computed({
         get() {
-          return props.modelValue[name];
+          const val = props.modelValue[name];
+          if (multiple && !isDefined(val)) return [];
+
+          return val;
         },
         set(val) {
           emit('update:modelValue', {
@@ -59,6 +65,17 @@ const context = {
 const { filters, activeFilters, openedFilter, isDrawerOpened } = context;
 
 provide(CONTEXT_KEYS.FILTER_BAR, context);
+
+const backLinkLabel = computed(() =>
+  openedFilter.value ? openedFilter.value.label : 'Filtrer'
+);
+const onBackLinkClick = () => {
+  if (openedFilter.value) {
+    openedFilter.value = null;
+  } else {
+    context.closeDrawer();
+  }
+};
 </script>
 
 <template>
@@ -92,33 +109,42 @@ provide(CONTEXT_KEYS.FILTER_BAR, context);
 
   <dsp-drawer :is-opened="isDrawerOpened" @close="context.closeDrawer">
     <div class="filter-bar__drawer">
-      <div v-if="openedFilter">
-        <dsp-back-link
-          :label="openedFilter.label"
-          @click="openedFilter = null"
-        />
-        <dsp-v-node :vnode="openedFilter.template" v-bind="context" />
-      </div>
+      <dsp-flex
+        direction="column"
+        wrap="nowrap"
+        class="filter-bar__opened-filter"
+      >
+        <dsp-back-link :label="backLinkLabel" @click="onBackLinkClick" />
+        <dsp-slide-transition invert-on-out distance="-100%" :duration="200">
+          <div
+            v-if="openedFilter"
+            ref="infiniteScrollRoot"
+            class="filter-bar__filter-content"
+          >
+            <dsp-v-node :vnode="openedFilter.template" v-bind="context" />
+          </div>
 
-      <div v-else>
-        <dsp-back-link label="Filtrer" @click="context.closeDrawer" />
-        <ul class="filter-bar__root-filters">
-          <li v-for="filter in filters" :key="filter.name">
-            <dsp-plain-button
-              right-icon="chevronRight"
-              @click="openedFilter = filter"
-            >
-              {{ filter.label }}
-            </dsp-plain-button>
-          </li>
-        </ul>
-      </div>
+          <div v-else>
+            <ul class="filter-bar__root-filters">
+              <li v-for="filter in filters" :key="filter.name">
+                <dsp-plain-button
+                  right-icon="chevronRight"
+                  @click="openedFilter = filter"
+                >
+                  {{ filter.label }}
+                </dsp-plain-button>
+              </li>
+            </ul>
+          </div>
+        </dsp-slide-transition>
+      </dsp-flex>
     </div>
   </dsp-drawer>
 </template>
 
 <style lang="scss" scoped>
 .filter-bar__drawer {
+  overflow-x: hidden;
   min-width: 18em;
 
   .filter-bar__root-filters {
@@ -131,6 +157,15 @@ provide(CONTEXT_KEYS.FILTER_BAR, context);
         justify-content: space-between;
       }
     }
+  }
+
+  .filter-bar__opened-filter {
+    height: 100vh;
+  }
+
+  .filter-bar__filter-content {
+    flex-grow: 1;
+    overflow-y: auto;
   }
 }
 </style>

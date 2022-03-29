@@ -55,6 +55,7 @@ export default { name: 'AppBar' };
 .app-bar {
   background: var(--color-surface);
   padding: 0;
+  box-shadow: var(--box-shadow-up-sm);
 
   li a {
     display: block;

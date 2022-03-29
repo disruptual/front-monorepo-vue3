@@ -7,6 +7,7 @@ import ItemGrid from '@/components/item/grid/index.vue';
 
 const route = useRoute();
 const { replace } = useRouter();
+
 const { dataById: categoriesById } = useCategoryApi().findAllQuery();
 const { data: category } = useCategoryApi().findBySlugQuery(
   route.params.category,
@@ -16,8 +17,11 @@ const { data: category } = useCategoryApi().findBySlugQuery(
 );
 
 const filters = computed(() => ({
-  itemSimilarWithCategoryId: [category.value?.id].filter(Boolean)
+  itemSimilarWithCategoryId: [category.value?.id].filter(Boolean),
+  'brand.id': route.query.brand,
+  'colors.id': route.query.color
 }));
+
 const filtersVModel = computed({
   get() {
     return filters.value;
@@ -29,6 +33,10 @@ const filtersVModel = computed({
       name: 'ItemSearch',
       params: {
         category: categorySlug
+      },
+      query: {
+        brand: val['brand.id'],
+        color: val['colors.id']
       }
     });
   }

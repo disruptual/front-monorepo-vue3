@@ -24,3 +24,4 @@ export * from './RecommendedCategory.service';
 export * from './OrderProblem.service';
 export * from './ProblemReason.service';
 export * from './FrontConfig.service';
+export * from './Color.service';
