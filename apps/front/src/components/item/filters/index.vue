@@ -3,31 +3,30 @@ export default { name: 'ItemFilters' };
 </script>
 
 <script setup>
-defineProps({
+import { computed } from 'vue';
+import ItemFiltersCategory from './category/index.vue';
+
+const props = defineProps({
   modelValue: { type: Object, required: true },
   count: { type: Number, default: null }
+});
+
+const emit = defineEmits(['update:modelValue']);
+const vModel = computed({
+  get() {
+    return props.modelValue;
+  },
+  set(val) {
+    emit('update:modelValue', val);
+  }
 });
 </script>
 
 <template>
-  <dsp-surface class="item-filters">
-    <dsp-flex justify="space-between">
-      <dsp-filter-bar>
-        <dsp-filter-bar-item
-          label="Catégorie"
-          name="itemSimilarWithCategoryId"
-          :model-value="modelValue.itemSimilarWithCategoryId"
-        >
-          Category fiter
-        </dsp-filter-bar-item>
-      </dsp-filter-bar>
-      <div>{{ count }} résultats</div>
-    </dsp-flex>
-  </dsp-surface>
+  <dsp-flex justify="space-between" align="center">
+    <dsp-filter-bar v-model="vModel">
+      <ItemFiltersCategory />
+    </dsp-filter-bar>
+    <div>{{ count }} résultats</div>
+  </dsp-flex>
 </template>
-
-<style lang="scss" scoped>
-.item-filters {
-  padding: var(--spacing-sm) !important;
-}
-</style>

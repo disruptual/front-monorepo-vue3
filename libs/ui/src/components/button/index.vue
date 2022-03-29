@@ -19,6 +19,8 @@ const { variantComponent, variantProps } = schema.toVariant(props);
 
 <template>
   <component :is="variantComponent" v-bind="variantProps">
-    <slot v-for="(_, name) in $slots" :name="name" />
+    <template v-for="(_, name) in $slots" #[name]="slotData">
+      <slot :name="name" v-bind="slotData" />
+    </template>
   </component>
 </template>

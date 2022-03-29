@@ -102,7 +102,7 @@ useEventListener(
   padding: var(--spacing-xs) 0;
 
   @include desktop-only {
-    padding: var(--spacing-sm) var(--spacing-xl);
+    padding: var(--spacing-sm);
   }
 }
 

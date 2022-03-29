@@ -54,8 +54,25 @@ export function useCollectionQuery(key, fetcher, queryOptions = {}) {
     );
   });
 
+  const dataByUri = computed(() =>
+    boundedQuery.data
+      ? Object.fromEntries(
+          boundedQuery.data.map(entity => [entity.uri, entity])
+        )
+      : null
+  );
+  const dataById = computed(() =>
+    boundedQuery.data.value
+      ? Object.fromEntries(
+          boundedQuery.data.value.map(entity => [entity.id, entity])
+        )
+      : null
+  );
+
   return {
     ...boundedQuery,
+    dataByUri,
+    dataById,
     key: computed(() => unref(key)),
     isLoadingFirstPage
   };

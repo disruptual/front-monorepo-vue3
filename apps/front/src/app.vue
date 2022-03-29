@@ -3,7 +3,8 @@ export default { name: 'App' };
 </script>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { useQueryClient } from 'vue-query';
 import { AppProvider, useHttp } from '@dsp/core';
 import AppLoading from 'client/components/app-loader.vue';
@@ -12,6 +13,12 @@ import { VueQueryDevTools } from 'vue-query/devtools';
 // import { DisruptualDevtools } from '@dsp/devtools';
 
 const isNavigating = ref(false);
+const shouldAnimate = ref(true);
+const { beforeEach } = useRouter();
+beforeEach((from, to) => {
+  shouldAnimate.value = from.name !== to.name;
+});
+
 const isReady = ref(false);
 const http = useHttp();
 const queryClient = useQueryClient();
@@ -43,10 +50,10 @@ Promise.all(queries).then(() => {
         <div class="view-container">
           <transition
             name="router-slide"
-            @before-enter="isNavigating = true"
+            @before-enter="isNavigatig = false"
             @after-leave="isNavigating = false"
           >
-            <div :key="route.path">
+            <div :key="route.path" :class="shouldAnimate && 'route--animated'">
               <component :is="Component" />
             </div>
           </transition>
@@ -77,12 +84,14 @@ ul {
   }
 }
 
-.router-slide-enter-from,
-.router-slide-enter-active,
-.router-slide-leave-active,
-.router-slide-leave-to {
-  @include mobile-only {
-    transition: all var(--transition-sm);
+.route--animated {
+  &.router-slide-enter-from,
+  &.router-slide-enter-active,
+  &.router-slide-leave-active,
+  &.router-slide-leave-to {
+    @include mobile-only {
+      transition: all var(--transition-sm);
+    }
   }
 }
 

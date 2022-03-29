@@ -11,13 +11,18 @@ export function useCategoryApi() {
       defaultQueryOptions: { staleTime: Infinity }
     },
     categoryService => ({
-      findBySlugQuery(slug, { relations = [] } = {}) {
+      findBySlugQuery(slug, options) {
         const queryKey = computed(() => `/categories/slug/${unref(slug)}`);
+        const queryOptions = computed(() => ({
+          ...unref(options),
+          model: Category
+        }));
 
-        return useModelQuery(queryKey, () => categoryService.findBySlug(slug), {
-          model: Category,
-          relations
-        });
+        return useModelQuery(
+          queryKey,
+          () => categoryService.findBySlug(unref(slug)),
+          queryOptions
+        );
       }
     })
   );

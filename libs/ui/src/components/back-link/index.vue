@@ -39,8 +39,9 @@ const context = schema.toContext(props);
   padding: var(--spacing-xs) var(--spacing-sm);
   background-color: v-bind('context.bgColor');
 
-  > button {
-    color: inherit;
+  > button,
+  > button:hover {
+    color: inherit !important;
   }
 
   .label {

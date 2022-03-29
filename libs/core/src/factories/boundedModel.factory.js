@@ -79,7 +79,6 @@ class BoundModelFactory {
       .map(uri => this.queryClient.getQueryData(uri))
       .filter(Boolean)
       .map(normalizer);
-
     entity[name] = children.map((child, i) => {
       entity.__isLazyDetectionDisabled = true;
       const normalizedChild =
