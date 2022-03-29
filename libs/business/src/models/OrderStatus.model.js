@@ -46,9 +46,7 @@ export class OrderStatus {
   }
 
   shouldUseDeliveryStateTransition() {
-    const transitions = [ORDER_DELIVERY_STATES.END];
-
-    return transitions.includes(this.order.deliveryState);
+    return false;
   }
 
   getValue() {

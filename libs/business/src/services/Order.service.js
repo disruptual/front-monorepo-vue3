@@ -43,9 +43,9 @@ export class OrderService extends BaseCRUDService {
     return this._http.get(`users/${userId}/sales`, options);
   }
 
-  rollback(orderId, { orderState, orderStateTransition }) {
+  rollback(orderId, { deliveryState, deliveryStateTransition }) {
     return this._http.post(`/orders/${orderId}/prev_state/`, {
-      data: { orderState, orderStateTransition }
+      data: { deliveryState, deliveryStateTransition }
     });
   }
 

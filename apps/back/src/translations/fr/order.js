@@ -53,7 +53,9 @@ export default {
       [ORDER_STATES.ORDERED]: 'En attente de validation',
       [ORDER_STATES.ORDER_ACCEPTED]: 'Validée par le vendeur',
       [ORDER_DELIVERY_STATES.DELIVERY_IN_PROGRESS]: 'En cours de livraison',
-      [ORDER_DELIVERY_STATES.CARRIER_SEARCH_IN_PROGRESS]: 'A envoyer',
+      [ORDER_DELIVERY_STATE_TRANSITIONS.CARRIER_FOUND]: 'Transporteur trouvé',
+      [ORDER_DELIVERY_STATES.CARRIER_SEARCH_IN_PROGRESS]:
+        'Recherche de transporteur en cours',
       [ORDER_DELIVERY_STATES.SENT]: 'Envoyée',
       [ORDER_DELIVERY_STATES.STORE_TO_STORE_VALIDATED]:
         'Acceptée par le magasin',
@@ -65,11 +67,14 @@ export default {
         "Récupérée en magasin par l'acheteur",
       [ORDER_STATE_TRANSITIONS.BUYER_IN_STORE_REFUSE]:
         "Refusée en magasin par l'acheteur",
-      [ORDER_STATES.TRANSFER_TO_DESTINATION_MAILBOX_IN_PROGRESS]:
+      [ORDER_DELIVERY_STATES.TRANSFER_TO_DESTINATION_MAILBOX_IN_PROGRESS]:
+        'Dépôt en boîte aux lettres en cours',
+      [ORDER_DELIVERY_STATE_TRANSITIONS.PACKAGE_HANDLED_BY_CARRIER]:
+        'Dépôt en boîte aux lettres en cours',
+
+      [ORDER_DELIVERY_STATES.TRANSFER_TO_DESTINATION_RELAY_IN_PROGRESS]:
         'En cours de livraison',
-      [ORDER_STATES.TRANSFER_TO_DESTINATION_RELAY_IN_PROGRESS]:
-        'En cours de livraison',
-      [ORDER_STATES.TRANSFER_TO_POST_OFFICE_IN_PROGRESS]:
+      [ORDER_DELIVERY_STATES.TRANSFER_TO_POST_OFFICE_IN_PROGRESS]:
         'En cours de livraison',
       [ORDER_STATE_TRANSITIONS.CANCEL]: 'Annulée par le vendeur',
       [ORDER_STATE_TRANSITIONS.CANCEL_AUTOMATIC]: 'Annulée automatiquement',
@@ -85,9 +90,14 @@ export default {
       [ORDER_DELIVERY_STATE_TRANSITIONS.DELIVERY_BY_SENT]:
         "Récupérée par l'acheteur",
       [ORDER_DELIVERY_STATES.PACKAGE_VALIDATION_BY_BUYER_IN_PROGRESS]:
-        "Récupérée par l'acheteur",
+        "En attente de validation par l'acheteur",
+      [ORDER_DELIVERY_STATE_TRANSITIONS.DELIVERED_TO_BUYER]:
+        "En attente de validation par l'acheteur",
+
       [ORDER_DELIVERY_STATES.PACKAGE_RECOVER_BY_BUYER_IN_PROGRESS]:
         'A récupérer',
+      [ORDER_DELIVERY_STATE_TRANSITIONS.DELIVERY_TO_BUYER]: 'A récupérer',
+
       [ORDER_STATE_TRANSITIONS.DELIVERY_CANCELLED]: 'Livraison annulée',
       [ORDER_STATE_TRANSITIONS.DELIVERY_COMPLETED]: 'Livraison terminée',
       [ORDER_STATE_TRANSITIONS.DISTRIBUTION_BY_ORDER_ACCEPTED]:
@@ -97,7 +107,8 @@ export default {
       [ORDER_STATE_TRANSITIONS.ORDER_ACCEPTANCE]: 'Validée',
       //[ORDER_STATE_TRANSITIONS.LOST_PACKAGE]: 'Perdue',
       [ORDER_STATE_TRANSITIONS.SELLER_RECOVERY]: 'Récupérée par le vendeur',
-      [ORDER_STATES.RECOVERY_IN_RELAY_BY_BUYER_IN_PROGRESS]: 'A récupérer',
+      [ORDER_DELIVERY_STATES.RECOVERY_IN_RELAY_BY_BUYER_IN_PROGRESS]:
+        'A récupérer',
       [ORDER_DELIVERY_STATE_TRANSITIONS.STORE_ACCEPT]:
         'Acceptée par le magasin',
       [ORDER_DELIVERY_STATE_TRANSITIONS.SEND]: 'Envoyée',
@@ -127,7 +138,7 @@ export default {
       [ORDER_DELIVERY_STATES.DEPOSIT_IN_MAILBOX_BY_SELLER_IN_PROGRESS]:
         'Dépôt en boîte aux lettres en cours',
       [ORDER_DELIVERY_STATES.DEPOSIT_IN_RELAY_BY_SELLER_IN_PROGRESS]:
-        'À envoyer',
+        'Dépôt en relais en cours',
       [ORDER_DELIVERY_STATE_TRANSITIONS.PACKAGE_NOT_DEPOSITED_BY_SELLER]:
         'Colis non déposé par le vendeur',
       [ORDER_DELIVERY_STATE_TRANSITIONS.EXPEDITION_CREATED_BY_SELLER]:
