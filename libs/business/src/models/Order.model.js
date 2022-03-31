@@ -17,6 +17,7 @@ import { Store } from './Store.model';
 import { OrderStateHisto } from './OrderStateHisto.model';
 import { DeliveryStateHisto } from './DeliveryStateHisto.model';
 import { OrderProblem } from './OrderProblem.model';
+import { OrderAddress } from './OrderAddress.model';
 
 export class Order extends BaseModel {
   static get relations() {
@@ -30,6 +31,16 @@ export class Order extends BaseModel {
         name: 'buyer',
         getUri: entity => entity._buyer,
         model: User
+      },
+      {
+        name: 'sellerOrderAddress',
+        getUri: entity => entity._sellerOrderAddress,
+        model: OrderAddress
+      },
+      {
+        name: 'buyerOrderAddress',
+        getUri: entity => entity._buyerOrderAddress,
+        model: OrderAddress
       },
       {
         name: 'orderItems',

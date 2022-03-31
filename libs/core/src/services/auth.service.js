@@ -32,10 +32,13 @@ export class AuthService {
 
     const { permissions } = to.meta;
 
+    // no permissions set - proceed with navigation
     if (!permissions) return next();
+    // unauthenticated only route - redirect if user is logged in
     if (permissions.length === 0) {
       return next(currentUser ? from : null);
     }
+    // route has some permissions - connected user has to fulfull at least one
     const isAllowed = permissions.some(permission =>
       currentUser?.roles.includes(permission)
     );
@@ -82,13 +85,18 @@ export class AuthService {
 
   async init() {
     if (this._isInitialized) return;
-    const queryResults = await this._strategy.handleInit();
+    try {
+      const queryResults = await this._strategy.handleInit();
 
-    Object.entries(queryResults).forEach(([key, data]) => {
-      this._queryClient.setQueryData(key, data);
-    });
+      Object.entries(queryResults).forEach(([key, data]) => {
+        this._queryClient.setQueryData(key, data);
+      });
 
-    this._isInitialized = true;
-    this._emitter.emit(ON_AUTH_READY);
+      this._isInitialized = true;
+    } catch (err) {
+      console.error(err);
+    } finally {
+      this._emitter.emit(ON_AUTH_READY);
+    }
   }
 }

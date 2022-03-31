@@ -7,6 +7,7 @@ import { computed } from 'vue';
 import ItemFiltersCategory from './category/index.vue';
 import ItemFiltersBrand from './brand/index.vue';
 import ItemFiltersColor from './color/index.vue';
+import ItemFiltersSize from './size/index.vue';
 
 const props = defineProps({
   modelValue: { type: Object, required: true },
@@ -30,6 +31,7 @@ const vModel = computed({
       <ItemFiltersCategory />
       <ItemFiltersBrand />
       <ItemFiltersColor />
+      <ItemFiltersSize />
     </dsp-filter-bar>
     <div>{{ count }} résultats</div>
   </dsp-flex>

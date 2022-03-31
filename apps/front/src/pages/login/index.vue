@@ -18,7 +18,7 @@ const onSuccess = () => {
   <dsp-center class="login-page">
     <dsp-container is-small>
       <dsp-surface>
-        <h1>Login page</h1>
+        <h1>Connexion</h1>
         <LoginForm @success="onSuccess" />
       </dsp-surface>
     </dsp-container>

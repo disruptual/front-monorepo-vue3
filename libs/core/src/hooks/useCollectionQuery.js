@@ -55,9 +55,9 @@ export function useCollectionQuery(key, fetcher, queryOptions = {}) {
   });
 
   const dataByUri = computed(() =>
-    boundedQuery.data
+    boundedQuery.data.value
       ? Object.fromEntries(
-          boundedQuery.data.map(entity => [entity.uri, entity])
+          boundedQuery.data.value.map(entity => [entity.uri, entity])
         )
       : null
   );

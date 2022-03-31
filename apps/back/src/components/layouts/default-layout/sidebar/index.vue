@@ -47,7 +47,6 @@ const getEnabledLinks = links => {
   return links
     .filter(link => !isFunction(link.isEnabled) || link.isEnabled(context))
     .filter(link => {
-      console.log(links.permissions);
       return currentUser.value.hasRoles(...(link.permissions || []));
     });
 };

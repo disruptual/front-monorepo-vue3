@@ -17,7 +17,11 @@ const componentContext = schema.toContext(props);
 const context = useAppContext();
 const { logout } = useAuth();
 const { data: currentUser } = useCurrentUser();
-const { data: categories } = useCategoryApi().findAllQuery();
+
+const categoriesQuery = useCategoryApi().findAllQuery({
+  relations: ['parent']
+});
+const { data: categories } = categoriesQuery;
 const rootCategories = computed(() => categories.value?.filter(c => !c.parent));
 
 const isOpened = ref(false);
@@ -52,18 +56,20 @@ const onLogoutClick = () => {
         </dsp-button>
       </dsp-center>
 
-      <ul v-if="rootCategories" class="burger-menu__categories">
-        <dsp-flex
-          v-for="category in rootCategories"
-          :key="category.id"
-          as="li"
-          gap="sm"
-          align="center"
-        >
-          <img v-if="category.picto" :src="category.picto" />
-          <span>{{ category.name }}</span>
-        </dsp-flex>
-      </ul>
+      <dsp-query-loader :query="categoriesQuery">
+        <ul v-if="rootCategories" class="burger-menu__categories">
+          <dsp-flex
+            v-for="category in rootCategories"
+            :key="category.id"
+            as="li"
+            gap="sm"
+            align="center"
+          >
+            <img v-if="category.picto" :src="category.picto" />
+            <span>{{ category.name }}</span>
+          </dsp-flex>
+        </ul>
+      </dsp-query-loader>
 
       <dsp-plain-button
         :to="{ name: 'Home' }"

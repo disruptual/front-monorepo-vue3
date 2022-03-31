@@ -7,7 +7,13 @@ import { ref, unref, computed } from 'vue';
 import { User, USER_ROLES } from '@dsp/business';
 import { useForm, useToast, useDevice } from '@dsp/ui';
 import { useI18n } from 'vue-i18n';
-import { useUserApi, useCurrentUser, useDateFormat } from '@dsp/core';
+import {
+  useUserApi,
+  useCurrentUser,
+  useDateFormat,
+  formatPrice,
+  isDefined
+} from '@dsp/core';
 import { USER_DETAILS_TABS as TABS } from '@/utils/constants';
 
 import UserActionsDropdown from './actions-dropdown/index.vue';
@@ -60,10 +66,34 @@ const availableRoles = computed(() => {
   ].filter(Boolean);
 });
 
+const passwordValidators = [
+  {
+    name: 'containsNumber',
+    message: 'form.errors.containsNumber',
+    handler(value) {
+      return !isDefined(value) || /[0-9]/.test(value);
+    }
+  },
+  {
+    name: 'containsUppercase',
+    message: 'form.errors.containsUppercase',
+    handler(value) {
+      return !isDefined(value) || /[A-Z]/.test(value);
+    }
+  },
+  {
+    name: 'containsLowercase',
+    message: 'form.errors.containsLowercase',
+    handler(value) {
+      return !isDefined(value) || /[a-z]/.test(value);
+    }
+  }
+];
+
 const passwordConfirmValidators = [
   {
     name: 'passwordMatch',
-    message: t('form.errors.passwordMatch'),
+    message: 'form.errors.passwordMatch',
     handler(value, { formContext }) {
       const { values } = unref(formContext);
       if (!values.plainPassword) return true;
@@ -214,7 +244,12 @@ const ordersLink = computed(() => ({
       </dsp-smart-form-field>
 
       <label for="plainPassword">{{ t('user.details.password') }}</label>
-      <dsp-smart-form-field v-slot="slotProps" name="plainPassword">
+      <dsp-smart-form-field
+        v-slot="slotProps"
+        name="plainPassword"
+        :minlength="8"
+        :validators="passwordValidators"
+      >
         <dsp-input-password
           id="plainPassword"
           v-model="slotProps.field.value"
@@ -335,6 +370,21 @@ const ordersLink = computed(() => ({
 
         <dt>{{ t('user.details.roles') }}</dt>
         <dd>{{ formattedRoles }}</dd>
+
+        <dt>{{ t('user.details.moneyPotCash') }}</dt>
+        <dd>{{ formatPrice(user.transactionSum?.CASH) }}</dd>
+
+        <dt>{{ t('user.details.moneyPotGiftcard') }}</dt>
+        <dd>{{ formatPrice(user.transactionSum?.GIFTCARD) }}</dd>
+
+        <dt>{{ t('user.details.address') }}</dt>
+        <dd>
+          <div>{{ user.mainAddress.route }}</div>
+          <div>
+            {{ user.mainAddress.postalCode }} {{ user.mainAddress.city }}
+          </div>
+          <div>{{ user.mainAddress.country }}</div>
+        </dd>
       </dsp-grid>
     </dl>
   </dsp-flex>

@@ -25,3 +25,4 @@ export * from './OrderProblem.service';
 export * from './ProblemReason.service';
 export * from './FrontConfig.service';
 export * from './Color.service';
+export * from './Size.service';export * from './OrderAddress.service';

@@ -6,6 +6,7 @@ export default merge({}, defaultConfig, {
   logo,
   features: {
     admin: {
+      vouchers: { isEnabled: false },
       events: { isEnabled: false },
       stores: { isEnabled: true }
     }

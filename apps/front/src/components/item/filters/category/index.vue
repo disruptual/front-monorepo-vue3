@@ -39,7 +39,7 @@ const subCategoriesWithChildren = computed(() => {
 
 const selectableCategories = computed(() =>
   selectedCategory.value
-    ? selectedCategory.value.children.filter(c => !c.children?.length)
+    ? selectedCategory.value.children?.filter(c => !c.children?.length)
     : []
 );
 
@@ -62,36 +62,42 @@ const vModel = computed({
             {{ selectedCategory.name }}
           </dsp-plain-button>
         </li>
-        <li
-          v-for="category in subCategoriesWithChildren"
-          :key="category.id"
-          class="item-filters-category__list-item"
-        >
-          <dsp-plain-button
-            right-icon="chevronRight"
-            @click="selectCategory(category.id)"
+        <dsp-slide-transition is-group>
+          <li
+            v-for="category in subCategoriesWithChildren"
+            :key="category.id"
+            class="item-filters-category__list-item"
           >
-            {{ category.name }}
-          </dsp-plain-button>
-        </li>
-        <li v-if="selectedCategory" class="item-filters-category__list-item">
-          <dsp-radio
-            v-model="vModel"
-            label="Tout"
-            :value="selectedCategory.id"
-          />
-        </li>
-        <li
-          v-for="category in selectableCategories"
-          :key="category.id"
-          class="item-filters-category__list-item"
-        >
-          <dsp-radio
-            v-model="vModel"
-            :label="category.name"
-            :value="category.id"
-          />
-        </li>
+            <dsp-plain-button
+              right-icon="chevronRight"
+              @click="selectCategory(category.id)"
+            >
+              {{ category.name }}
+            </dsp-plain-button>
+          </li>
+          <li
+            v-if="selectedCategory"
+            :key="selectedCategory.id"
+            class="item-filters-category__list-item"
+          >
+            <dsp-radio
+              v-model="vModel"
+              label="Tout"
+              :value="selectedCategory.id"
+            />
+          </li>
+          <li
+            v-for="category in selectableCategories"
+            :key="category.id"
+            class="item-filters-category__list-item"
+          >
+            <dsp-radio
+              v-model="vModel"
+              :label="category.name"
+              :value="category.id"
+            />
+          </li>
+        </dsp-slide-transition>
       </ul>
     </dsp-query-loader>
   </dsp-filter-bar-item>

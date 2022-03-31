@@ -38,9 +38,11 @@ export function useForm({
     );
   };
 
-  const isValid = computed(() =>
-    Object.values(fields.value).every(field => field.isValid)
-  );
+  const isValid = computed(() => {
+    return Object.values(fields.value).every(field => {
+      return field.isValid;
+    });
+  });
 
   const values = computed(() => {
     const result = {};

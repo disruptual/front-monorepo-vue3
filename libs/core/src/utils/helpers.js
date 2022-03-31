@@ -47,7 +47,7 @@ export const isProd = import.meta.env.VITE_ENV === ENVIRONMENTS.PROD;
 export const noop = () => {};
 
 export const formatPrice = (
-  price,
+  price = 0,
   { digits = 2, currency = CURRENCIES.EURO } = {}
 ) => {
   const number = Number.parseFloat(price);

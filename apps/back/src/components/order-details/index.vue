@@ -162,6 +162,14 @@ const buyerLabel = computed(() =>
         <dsp-avatar :user="order.buyer" size="lg" />
         <span>{{ order.buyer.fullName }}</span>
         <span>{{ order.buyer.email }}</span>
+        <div v-if="order.buyerOrderAddress">
+          <div>{{ order.buyerOrderAddress.route }}</div>
+          <div>
+            {{ order.buyerOrderAddress.postalCode }}
+            {{ order.buyerOrderAddress.city }}
+          </div>
+          <div>{{ order.buyerOrderAddress.country }}</div>
+        </div>
       </router-link>
       <span v-else>{{ t(`order.details.noResultBuyer`) }}</span>
     </dsp-surface>
@@ -179,6 +187,14 @@ const buyerLabel = computed(() =>
         <dsp-avatar :user="order.seller" size="lg" />
         <span>{{ order.seller.fullName }}</span>
         <span>{{ order.seller.email }}</span>
+        <div v-if="order.sellerOrderAddress">
+          <div>{{ order.sellerOrderAddress.route }}</div>
+          <div>
+            {{ order.sellerOrderAddress.postalCode }}
+            {{ order.sellerOrderAddress.city }}
+          </div>
+          <div>{{ order.sellerOrderAddress.country }}</div>
+        </div>
       </router-link>
 
       <span v-else>{{ t(`order.details.noResultSeller`) }}</span>

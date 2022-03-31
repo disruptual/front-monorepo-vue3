@@ -138,7 +138,11 @@ export default [
     props: true,
     component: () => import('@/pages/admin/vouchers/index.vue'),
     meta: {
-      permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      permissions: [
+        USER_ROLES.USER,
+        USER_ROLES.ADMIN,
+        USER_ROLES.PROJECT_MANAGER
+      ],
       isEnabled: config => config.features.admin.vouchers.isEnabled,
       layout: layouts.default
     }

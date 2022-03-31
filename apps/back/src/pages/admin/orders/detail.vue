@@ -31,6 +31,8 @@ const query = useOrderApi().findByIdQuery(props.id, {
     'location',
     'orderStateHistos',
     'deliveryStateHistos',
+    'buyerOrderrAddress',
+    'sellerOrderAddress',
     'orderProblems',
     'orderProblems.problemReason',
     'orderProblems.medias'

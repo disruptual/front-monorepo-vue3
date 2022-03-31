@@ -43,7 +43,7 @@ const formOptions = {
     </dsp-smart-form-field>
 
     <dsp-flex direction="row-reverse" justify="space-between">
-      <dsp-smart-form-submit>Submit</dsp-smart-form-submit>
+      <dsp-smart-form-submit>Se connecter</dsp-smart-form-submit>
       <dsp-plain-button type="button">Je n'ai pas de compte</dsp-plain-button>
     </dsp-flex>
   </dsp-smart-form>

@@ -1,5 +1,6 @@
 import { reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { isUndefinedOrNull } from '@dsp/core';
 import { VALIDATION_MODES } from '@dsp/ui/utils/constants';
 
 export function useFormField(definition) {
@@ -24,9 +25,8 @@ export function useFormField(definition) {
         field.errors[key] = isError
           ? t(message, { value: field.value, ...validatorOptions })
           : null;
-
-        field.isValid = !!validationResult;
       }
+      field.isValid = Object.values(field.errors).every(isUndefinedOrNull);
 
       return field;
     },

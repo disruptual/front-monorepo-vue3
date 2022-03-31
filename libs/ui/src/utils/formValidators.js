@@ -1,4 +1,4 @@
-import { isDefined, isNumber, isString } from '@dsp/core';
+import { isDefined, isUndefinedOrNull, isNumber, isString } from '@dsp/core';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -9,19 +9,23 @@ export const customValidator = (validator, errorMessage, options = {}) => ({
 });
 
 const requiredValidator = val => isDefined(val) && val !== '';
-const minValidator = (val, min) => isNumber(val) && val >= min;
-const maxValidator = (val, max) => isNumber(val) && val <= max;
+const minValidator = (val, min) =>
+  isUndefinedOrNull(val) || (isNumber(val) && val >= min);
+const maxValidator = (val, max) =>
+  isUndefinedOrNull(val) || (isNumber(val) && val <= max);
 const minlengthValidator = (val, length) =>
-  isString(val) && val.length >= length;
+  isUndefinedOrNull(val) || (isString(val) && val.length >= length);
 const maxlengthValidator = (val, length) =>
-  isString(val) && val.length <= length;
+  isUndefinedOrNull(val) || (isString(val) && val.length <= length);
 const patternValidator = (val, regexp) => {
   return !isDefined(val) || regexp.test(val);
 };
-const isInValidator = (val, acceptedValues) => acceptedValues.includes(val);
+const isInValidator = (val, acceptedValues) =>
+  isUndefinedOrNull(val) || acceptedValues.includes(val);
 const isNotInValidator = (val, unallowedValues) =>
-  !unallowedValues.includes(val);
-const emailValidator = val => patternValidator(val, EMAIL_REGEX);
+  isUndefinedOrNull(val) || !unallowedValues.includes(val);
+const emailValidator = val =>
+  isUndefinedOrNull(val) || patternValidator(val, EMAIL_REGEX);
 
 export const required = (errorMessage = 'form.errors.required') =>
   customValidator(requiredValidator, errorMessage);

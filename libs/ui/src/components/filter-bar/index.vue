@@ -145,7 +145,8 @@ const onBackLinkClick = () => {
 <style lang="scss" scoped>
 .filter-bar__drawer {
   overflow-x: hidden;
-  min-width: 18em;
+  min-width: 22em;
+  max-width: 100%;
 
   .filter-bar__root-filters {
     > li {

@@ -34,6 +34,9 @@ export default {
       orderCount: 'Nombre de commandes',
       roles: 'Rôles',
       seeDetails: 'Voir le détail',
+      moneyPotCash: 'Montant en cagnotte Cash',
+      moneyPotGiftcard: 'Montant en cagnotte Carte Cadeau',
+      address: 'Adresse principale',
       transactionWithdrawn: 'Suspecté de fraude depuis le {date}',
       form: {
         cancel: 'Annuler',

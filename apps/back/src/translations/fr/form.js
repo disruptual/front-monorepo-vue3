@@ -10,7 +10,10 @@ export default {
       isIn: 'Ce champ doit inclure les valeurs suivantes : {values}',
       isNotIn: 'Ce champ ne doit pas inclure les valeurs suivantes : {values}',
       email: "Ce champ n'est pas une adresse email valide",
-      passwordMatch: 'Les mots de passe ne correspondent pas.'
+      passwordMatch: 'Les mots de passe ne correspondent pas.',
+      containsUppercase: 'Ce champ doit comporter au moins une majuscule',
+      containsLowercase: 'Ce champ doit comporter au moins une minuscule',
+      containsNumber: 'Ce champ doit comporter au moins un chiffre'
     }
   }
 };

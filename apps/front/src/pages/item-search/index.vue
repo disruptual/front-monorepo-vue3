@@ -19,7 +19,8 @@ const { data: category } = useCategoryApi().findBySlugQuery(
 const filters = computed(() => ({
   itemSimilarWithCategoryId: [category.value?.id].filter(Boolean),
   'brand.id': route.query.brand,
-  'colors.id': route.query.color
+  'colors.id': route.query.color,
+  'size.id': route.query.size
 }));
 
 const filtersVModel = computed({
@@ -36,7 +37,8 @@ const filtersVModel = computed({
       },
       query: {
         brand: val['brand.id'],
-        color: val['colors.id']
+        color: val['colors.id'],
+        size: val['size.id']
       }
     });
   }
