@@ -40,8 +40,7 @@ const blocks = Object.values(projects)
   .flat()
   .join('\n');
 
-const content = `
-#!/usr/bin/env groovy
+const content = `#!/usr/bin/env groovy
 pipeline {
     agent {
         label 'master'
