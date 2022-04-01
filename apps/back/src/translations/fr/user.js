@@ -37,6 +37,7 @@ export default {
       moneyPotCash: 'Montant en cagnotte Cash',
       moneyPotGiftcard: 'Montant en cagnotte Carte Cadeau',
       address: 'Adresse principale',
+      noAddress: "Cet utilisateur n'a pas renseigné d'adresse principale",
       transactionWithdrawn: 'Suspecté de fraude depuis le {date}',
       form: {
         cancel: 'Annuler',

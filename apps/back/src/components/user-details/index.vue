@@ -378,13 +378,14 @@ const ordersLink = computed(() => ({
         <dd>{{ formatPrice(user.transactionSum?.GIFTCARD) }}</dd>
 
         <dt>{{ t('user.details.address') }}</dt>
-        <dd>
+        <dd v-if="user.mainAddress">
           <div>{{ user.mainAddress.route }}</div>
           <div>
             {{ user.mainAddress.postalCode }} {{ user.mainAddress.city }}
           </div>
           <div>{{ user.mainAddress.country }}</div>
         </dd>
+        <dd v-else>{{ t('user.details.noAddress') }}</dd>
       </dsp-grid>
     </dl>
   </dsp-flex>

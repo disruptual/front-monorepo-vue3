@@ -16,7 +16,7 @@ import HomeBlocksUserModal from '@/components/home-blocks/home-blocks-modal/user
 const { t } = useI18n();
 const isModalOpened = ref(false);
 
-const { deleteMutation, findAllQuery, updateManyMutation } =
+const { deleteMutation, findAllQuery, updateMutation } =
   useRecommendedUserApi();
 const query = findAllQuery();
 const { mutateAsync: deleteRecommendedUser } = deleteMutation({
@@ -24,7 +24,7 @@ const { mutateAsync: deleteRecommendedUser } = deleteMutation({
     query.refetch.value();
   }
 });
-const { mutateAsync: updateRecommandedUsers } = updateManyMutation();
+const { mutateAsync: updateRecommandedUser } = updateMutation();
 
 const sortData = data => data?.slice().sort((a, b) => a.position - b.position);
 const NOTE_DENOMINATOR = 5;
@@ -36,21 +36,12 @@ const onAdd = () => {
 const onDelete = row => {
   row?.map(({ id }) => deleteRecommendedUser(id));
 };
-const updatePosition = (row, newIndex) => {
-  const oldIndex = query.data.value.indexOf(row);
-  const clone = [...query.data.value];
-  clone.splice(oldIndex, 1);
-  clone.splice(newIndex, 0, row);
-  clone.forEach((recommendedCategory, index) => {
-    recommendedCategory.position = index;
-  });
 
-  // updateRecommandedUsers(
-  //   query.data.value.map(user => ({
-  //     id: user.id,
-  //     entity: { position: user.position }
-  //   }))
-  // );
+const updatePosition = (row, newPosition) => {
+  updateRecommandedUser({
+    id: row.id,
+    entity: { position: newPosition }
+  });
 };
 </script>
 
