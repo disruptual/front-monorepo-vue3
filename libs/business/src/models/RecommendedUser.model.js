@@ -4,6 +4,8 @@ import { User } from './User.model';
 export class RecommendedUser extends BaseModel {
   constructor(...args) {
     super(...args);
-    this.user = new User(this.user);
+    if (this.user) {
+      this.user = new User(this.user);
+    }
   }
 }

@@ -18,14 +18,11 @@ const uiTypeToComponentMap = {
 };
 
 const is = computed(() => uiTypeToComponentMap[props.block.options.uiType]);
-const users = computed(() =>
-  props.data.map(recommendedUser => recommendedUser.user)
-);
 </script>
 
 <template>
   <div class="home-content-block-user">
-    <component :is="is" :users="users" />
+    <component :is="is" :users="props.data" />
   </div>
 </template>
 

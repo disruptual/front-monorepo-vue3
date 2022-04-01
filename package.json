@@ -20,7 +20,8 @@
     "business": "yarn workspace @dsp/business",
     "devtools": "yarn workspace @dsp/devtools",
     "build:back": "yarn back build",
-    "gen:resource": "node scripts/addResource.js"
+    "gen:resource": "node scripts/addResource.js",
+    "gen:jenkinsfile": "node scripts/generateJenkinsFile.js"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.15.7"

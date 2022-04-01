@@ -2,11 +2,11 @@
 export default { name: 'UserCard' };
 </script>
 <script setup>
-import { User } from '@dsp/business';
+import { User, RecommendedUser } from '@dsp/business';
 import UserRating from '@/components/user/rating/index.vue';
 
 const props = defineProps({
-  user: { type: User, required: true }
+  user: { type: [User, RecommendedUser], required: true }
 });
 </script>
 
