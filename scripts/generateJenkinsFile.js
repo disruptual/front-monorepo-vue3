@@ -34,7 +34,7 @@ const blocks = Object.values(projects)
     Object.entries(project.environments).map(([envName, env]) =>
       generateBlock({ projectName: project.name, envName, ...env })
         .split('\n')
-        .join('\n\t\t\t\t\t\t\t')
+        .join('\n\t\t\t\t\t\t\t\t')
     )
   )
   .flat()

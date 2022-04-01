@@ -5,12 +5,12 @@
       "SANDBOX": {
         "ip": "35.180.235.164",
         "branch": "dev",
-        "sshArguments": ""
+        "sshArguments": " "
       },
       "RECETTE": {
         "ip": "15.236.72.168",
         "branch": "master",
-        "sshArguments": "-o StrictHostKeyChecking=no"
+        "sshArguments": "-o StrictHostKeyChecking=no "
       }
     }
   },
@@ -21,12 +21,12 @@
       "SANDBOX": {
         "ip": "15.188.149.36",
         "branch": "dev",
-        "sshArguments": ""
+        "sshArguments": " "
       },
       "RECETTE": {
         "ip": "15.188.130.49",
         "branch": "master",
-        "sshArguments": "-o StrictHostKeyChecking=no"
+        "sshArguments": "-o StrictHostKeyChecking=no "
       }
     }
   },
@@ -37,12 +37,12 @@
       "SANDBOX": {
         "ip": "15.188.171.229",
         "branch": "dev",
-        "sshArguments": ""
+        "sshArguments": " "
       },
       "RECETTE": {
         "ip": "15.236.61.180",
         "branch": "master",
-        "sshArguments": "-o StrictHostKeyChecking=no"
+        "sshArguments": "-o StrictHostKeyChecking=no "
       }
     }
   },
@@ -53,12 +53,12 @@
       "SANDBOX": {
         "ip": "52.47.178.225",
         "branch": "dev",
-        "sshArguments": ""
+        "sshArguments": " "
       },
       "RECETTE": {
         "ip": "35.180.220.38",
         "branch": "master",
-        "sshArguments": "-o StrictHostKeyChecking=no"
+        "sshArguments": "-o StrictHostKeyChecking=no "
       }
     }
   },
@@ -69,12 +69,12 @@
       "SANDBOX": {
         "ip": "13.36.41.6",
         "branch": "dev",
-        "sshArguments": ""
+        "sshArguments": " "
       },
       "RECETTE": {
         "ip": "35.181.30.106",
         "branch": "master",
-        "sshArguments": "-o StrictHostKeyChecking=no"
+        "sshArguments": "-o StrictHostKeyChecking=no "
       }
     }
   },
@@ -85,12 +85,12 @@
       "SANDBOX": {
         "ip": "15.236.63.184",
         "branch": "dev",
-        "sshArguments": ""
+        "sshArguments": " "
       },
       "RECETTE": {
-        "ip": "15.236.63.184",
+        "ip": "13.36.27.175",
         "branch": "master",
-        "sshArguments": "-o StrictHostKeyChecking=no"
+        "sshArguments": "-o StrictHostKeyChecking=no "
       }
     }
   },
@@ -101,12 +101,12 @@
       "SANDBOX": {
         "ip": "15.236.245.156",
         "branch": "dev",
-        "sshArguments": ""
+        "sshArguments": " "
       },
       "RECETTE": {
         "ip": "15.237.129.85",
         "branch": "master",
-        "sshArguments": "-o StrictHostKeyChecking=no"
+        "sshArguments": "-o StrictHostKeyChecking=no "
       }
     }
   },
@@ -117,12 +117,12 @@
       "SANDBOX": {
         "ip": "13.37.156.203",
         "branch": "dev",
-        "sshArguments": ""
+        "sshArguments": " "
       },
       "RECETTE": {
         "ip": "13.37.189.251",
         "branch": "master",
-        "sshArguments": "-o StrictHostKeyChecking=no"
+        "sshArguments": "-o StrictHostKeyChecking=no "
       }
     }
   },
@@ -133,12 +133,12 @@
       "SANDBOX": {
         "ip": "13.37.72.150",
         "branch": "dev",
-        "sshArguments": ""
+        "sshArguments": " "
       },
       "RECETTE": {
         "ip": "15.236.191.224",
         "branch": "master",
-        "sshArguments": "-o StrictHostKeyChecking=no"
+        "sshArguments": "-o StrictHostKeyChecking=no "
       }
     }
   },
@@ -149,12 +149,12 @@
       "SANDBOX": {
         "ip": "15.236.187.203",
         "branch": "dev",
-        "sshArguments": ""
+        "sshArguments": " "
       },
       "RECETTE": {
         "ip": "35.181.18.85",
         "branch": "master",
-        "sshArguments": "-o StrictHostKeyChecking=no"
+        "sshArguments": "-o StrictHostKeyChecking=no "
       }
     }
   }
