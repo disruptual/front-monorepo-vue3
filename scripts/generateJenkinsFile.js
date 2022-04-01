@@ -31,10 +31,11 @@ stage ('ADMIN ${projectName} Deployment ${envName}') {
 
 const blocks = Object.values(projects)
   .map(project =>
-    Object.entries(project.environments).map(([envName, env]) =>
-      generateBlock({ projectName: project.name, envName, ...env })
-        .split('\n')
-        .join('\n\t\t\t\t\t\t\t\t')
+    Object.entries(project.environments).map(
+      ([envName, env]) =>
+        generateBlock({ projectName: project.name, envName, ...env })
+          .split('\n')
+          .join('\n\t\t\t\t\t\t\t\t') // lol
     )
   )
   .flat()

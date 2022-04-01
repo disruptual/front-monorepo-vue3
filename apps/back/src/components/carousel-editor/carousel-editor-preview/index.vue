@@ -103,7 +103,7 @@ watch(
             wrap="nowrap"
             class="slide-content"
           >
-            <button class="handle top-handle" @mousedown="oneMousedown('Y')" />
+            <button class="handle top-handle" @mousedown="onMousedown('Y')" />
             <button
               class="handle bottom-handle"
               @mousedown="onMousedown('YEnd')"
