@@ -165,7 +165,7 @@ const isDropdownOpened = ref(false);
             <dd>
               <span>{{ contact.email }}</span>
               <router-link
-                v-if="users"
+                v-if="users && users[0]"
                 class="see-more"
                 :to="{
                   name: 'AdminUserDetails',
