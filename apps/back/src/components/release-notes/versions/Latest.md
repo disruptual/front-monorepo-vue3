@@ -7,3 +7,4 @@
 ### Problèmes connus
 
 - Lorsque plusieurs étapes du suivi de commande sont à la même date, leur ordre d'affichage est parfois incorrect.
+- Ajout de l'email de l'utilisateur dans le tableau des bons d'achats

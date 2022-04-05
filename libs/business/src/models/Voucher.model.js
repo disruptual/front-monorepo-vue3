@@ -10,7 +10,7 @@ export class Voucher extends BaseModel {
     return [
       {
         name: 'user',
-        getUri: entity => entity.user,
+        getUri: entity => entity._user,
         model: User
       }
     ];
