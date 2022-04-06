@@ -14,7 +14,9 @@ const props = defineProps({
   <dsp-surface class="user-card">
     <dsp-center gap="xs">
       <dsp-avatar :user="props.user" size="lg" />
-      <div class="user-card__name">{{ props.user.username }}</div>
+      <dsp-truncated-text class="user-card__name">
+        {{ props.user.username }}
+      </dsp-truncated-text>
       <UserRating :user="props.user" size="md" />
     </dsp-center>
     <dsp-button class="user-card__link" is-full-width>

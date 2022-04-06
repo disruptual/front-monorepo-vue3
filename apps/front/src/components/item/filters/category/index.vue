@@ -8,7 +8,13 @@ import { useCategoryApi } from '@dsp/core';
 import { CONTEXT_KEYS } from '@dsp/ui';
 
 const query = useCategoryApi().findAllQuery({
-  relations: ['parent', 'children']
+  relations: [
+    {
+      parent: { queryOptions: { refetchOnMount: false } },
+      children: { queryOptions: { refetchOnMount: false } }
+    }
+  ],
+  refetchOnMount: false
 });
 const { data, dataById: categoriesById } = query;
 const { filters, setFilter } = inject(CONTEXT_KEYS.FILTER_BAR);
@@ -32,14 +38,14 @@ const onBackClick = () => {
 const subCategoriesWithChildren = computed(() => {
   return selectedCategory.value
     ? selectedCategory.value.children?.filter(c => {
-        return c.children?.length;
+        return c._children?.length;
       })
     : rootCategories.value;
 });
 
 const selectableCategories = computed(() =>
   selectedCategory.value
-    ? selectedCategory.value.children?.filter(c => !c.children?.length)
+    ? selectedCategory.value.children?.filter(c => !c._children?.length)
     : []
 );
 
@@ -62,42 +68,40 @@ const vModel = computed({
             {{ selectedCategory.name }}
           </dsp-plain-button>
         </li>
-        <dsp-slide-transition is-group>
-          <li
-            v-for="category in subCategoriesWithChildren"
-            :key="category.id"
-            class="item-filters-category__list-item"
+        <li
+          v-for="category in subCategoriesWithChildren"
+          :key="category.id"
+          class="item-filters-category__list-item"
+        >
+          <dsp-plain-button
+            right-icon="chevronRight"
+            @click="selectCategory(category.id)"
           >
-            <dsp-plain-button
-              right-icon="chevronRight"
-              @click="selectCategory(category.id)"
-            >
-              {{ category.name }}
-            </dsp-plain-button>
-          </li>
-          <li
-            v-if="selectedCategory"
-            :key="selectedCategory.id"
-            class="item-filters-category__list-item"
-          >
-            <dsp-radio
-              v-model="vModel"
-              label="Tout"
-              :value="selectedCategory.id"
-            />
-          </li>
-          <li
-            v-for="category in selectableCategories"
-            :key="category.id"
-            class="item-filters-category__list-item"
-          >
-            <dsp-radio
-              v-model="vModel"
-              :label="category.name"
-              :value="category.id"
-            />
-          </li>
-        </dsp-slide-transition>
+            {{ category.name }}
+          </dsp-plain-button>
+        </li>
+        <li
+          v-if="selectedCategory"
+          :key="selectedCategory.id"
+          class="item-filters-category__list-item"
+        >
+          <dsp-radio
+            v-model="vModel"
+            label="Tout"
+            :value="selectedCategory.id"
+          />
+        </li>
+        <li
+          v-for="category in selectableCategories"
+          :key="category.id"
+          class="item-filters-category__list-item"
+        >
+          <dsp-radio
+            v-model="vModel"
+            :label="category.name"
+            :value="category.id"
+          />
+        </li>
       </ul>
     </dsp-query-loader>
   </dsp-filter-bar-item>

@@ -22,7 +22,7 @@ const vModel = computed({
   }
 });
 const categoryFilter = computed(() => {
-  const id = filters.value.itemSimilarWithCategoryId.value?.[0];
+  const id = filters.value.itemSimilarWithCategoryId?.value?.[0];
 
   return categoriesById.value[id];
 });
