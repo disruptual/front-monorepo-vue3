@@ -59,6 +59,8 @@ export default {
       [ORDER_STATE_TRANSITIONS.ORDER_ACCEPTED_BY_SELLER]: 'A envoyer',
       [ORDER_STATE_TRANSITIONS.BUYER_IN_STORE_ACCEPT]:
         "Récupérée en magasin par l'acheteur",
+      [ORDER_DELIVERY_STATE_TRANSITIONS.RECOVERY_IN_RELAY_BY_BUYER_IN_PROGRESS]:
+        "Récupération en cours par l'acheteur",
       [ORDER_DELIVERY_STATE_TRANSITIONS.RECOVERED_IN_RELAY_BY_BUYER]:
         "Récupérée par l'acheteur",
       [ORDER_STATE_TRANSITIONS.BUYER_IN_STORE_REFUSE]:
@@ -96,6 +98,8 @@ export default {
         'Livraison en boîte aux lettres en cours',
       [ORDER_DELIVERY_STATES.PACKAGE_RECOVER_BY_BUYER_IN_PROGRESS]:
         'Livraison terminée',
+      [ORDER_DELIVERY_STATE_TRANSITIONS.DEPOSIT_IN_RELAY_BY_SELLER_IN_PROGRESS]:
+        'En cours de dépôt par le vendeur',
       [ORDER_DELIVERY_STATE_TRANSITIONS.DEPOSITED_IN_RELAY_BY_SELLER]:
         'Déposée par le vendeur',
       [ORDER_DELIVERY_STATES.TRANSFER_TO_POST_OFFICE_IN_PROGRESS]:
