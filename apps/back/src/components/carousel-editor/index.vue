@@ -70,8 +70,11 @@ const saveCarouselItems = async () => {
 };
 
 const saveCarousel = () => {
-  const { carouselItems, ...carousel } = model.settings;
-  return updateCarousel({ id: carousel.id, entity: carousel });
+  const { carouselItems, carouselSettings, ...carousel } = model.settings;
+  return updateCarousel({
+    id: carousel.id,
+    entity: { ...carousel, carouselSettings: carouselSettings ?? {} }
+  });
 };
 
 provide(CONTEXT_KEYS.CAROUSEL, {
