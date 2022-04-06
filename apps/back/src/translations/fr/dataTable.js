@@ -50,6 +50,7 @@ export default {
       code: 'Code',
       content: 'Contenu',
       created: 'Date de création',
+      updated: 'Date de modification',
       dateEnd: 'date de fin',
       dateFrom: 'De',
       dateStart: 'Date de début',

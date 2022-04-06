@@ -19,7 +19,8 @@ const formOptions = {
   onSubmit(values) {
     model.filters = values;
     isOpened.value = false;
-  }
+  },
+  unWrapValues: false
 };
 
 const getInitialValue = column => {

@@ -181,6 +181,7 @@ const onMute = async users => {
         {{ row.formatCreated('EEEE d MMMM yyyy') }}
       </dsp-truncated-text>
     </DataTableColumn>
+
     <DataTableColumn
       v-slot="{ row }"
       name="silentModeActivatedAt"

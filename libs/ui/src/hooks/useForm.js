@@ -9,7 +9,8 @@ export function useForm({
   onError = noop,
   throwOnError = false,
   mode = VALIDATION_MODES.ON_SUBMIT,
-  initialValues = {}
+  initialValues = {},
+  unWrapValues = true
 } = {}) {
   const fields = ref({});
   const isSubmitted = ref(false);
@@ -47,7 +48,11 @@ export function useForm({
   const values = computed(() => {
     const result = {};
     Object.entries(fields.value).forEach(([key, field]) => {
-      set(result, key, field.value);
+      if (unWrapValues) {
+        set(result, key, field.value);
+      } else {
+        result[key] = field.value;
+      }
     });
 
     return result;

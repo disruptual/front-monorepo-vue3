@@ -22,6 +22,7 @@ const filters = ref({});
 const onFilterChange = ({ created, ...newFilters }) => {
   filters.value = {
     ...newFilters,
+
     problemState: newFilters.problemState
       ? [ORDER_PROBLEM_STATES.DISPUTED, ORDER_PROBLEM_STATES.PROBLEM]
       : undefined,
@@ -90,7 +91,7 @@ const getStatusClass = order => ({
 
     <DataTableColumn
       v-slot="{ row }"
-      name="seller"
+      name="seller.email"
       :label="t('dataTable.label.seller')"
       width="200"
       is-filterable
