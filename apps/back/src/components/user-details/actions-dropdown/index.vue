@@ -40,7 +40,7 @@ const { mutate: mute } = muteMutation({
 
 const { mutate: unmute } = unmuteMutation({
   onSuccess() {
-    showSuccess(t('toasts.user.unmuteSuccess'));
+    showSuccess(t('toasts.user.unMuteSuccess'));
     emit('success');
   },
 

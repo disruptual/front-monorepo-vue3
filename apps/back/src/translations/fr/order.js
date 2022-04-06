@@ -59,6 +59,8 @@ export default {
       [ORDER_STATE_TRANSITIONS.ORDER_ACCEPTED_BY_SELLER]: 'A envoyer',
       [ORDER_STATE_TRANSITIONS.BUYER_IN_STORE_ACCEPT]:
         "Récupérée en magasin par l'acheteur",
+      [ORDER_DELIVERY_STATE_TRANSITIONS.RECOVERED_IN_RELAY_BY_BUYER]:
+        "Récupérée par l'acheteur",
       [ORDER_STATE_TRANSITIONS.BUYER_IN_STORE_REFUSE]:
         "Refusée en magasin par l'acheteur",
       [ORDER_STATE_TRANSITIONS.CANCEL]: 'Annulée par le vendeur',
@@ -84,9 +86,30 @@ export default {
       [ORDER_STATE_TRANSITIONS.SEND]: 'Envoyée',
       [ORDER_STATE_TRANSITIONS.STORE_TO_STORE_ACCEPT]:
         'Acceptée par le magasin',
+      [ORDER_STATE_TRANSITIONS.STORE_TO_STORE_TRANSIT]:
+        'En transit vers le magasin de retrait',
+      [ORDER_STATE_TRANSITIONS.STORE_TO_STORE_DISTRIBUTION]:
+        'Arrivée dans le magasin de retrait',
+      [ORDER_DELIVERY_STATES.DEPOSIT_TO_COLLECTION_POINT_IN_PROGRESS]:
+        'En cours de dépôt',
+      [ORDER_DELIVERY_STATES.TRANSFER_TO_DESTINATION_MAILBOX_IN_PROGRESS]:
+        'Livraison en boîte aux lettres en cours',
+      [ORDER_DELIVERY_STATES.PACKAGE_RECOVER_BY_BUYER_IN_PROGRESS]:
+        'Livraison terminée',
+      [ORDER_DELIVERY_STATE_TRANSITIONS.DEPOSITED_IN_RELAY_BY_SELLER]:
+        'Déposée par le vendeur',
+      [ORDER_DELIVERY_STATES.TRANSFER_TO_POST_OFFICE_IN_PROGRESS]:
+        'Dépôt au bureau de poste en cours',
+      [ORDER_DELIVERY_STATE_TRANSITIONS.CARRIER_FOUND]: 'En cours de livraison',
+      [ORDER_DELIVERY_STATES.CARRIER_SEARCH_IN_PROGRESS]:
+        'Recherche de transporteur en cours',
+      [ORDER_DELIVERY_STATE_TRANSITIONS.CARRIER_AD_PUBLISHED]:
+        'Annonce transporteur publiée',
+      [ORDER_DELIVERY_STATE_TRANSITIONS.RECEIVED_BY_DESTINATION_RELAY]:
+        "En attente de récupération par l'acheteur",
       [ORDER_STATE_TRANSITIONS.STORE_LOSE_PACKAGE]: 'Perdue par le magasin',
       [ORDER_STATE_TRANSITIONS.STORE_TO_STORE_LOST_PACKAGE_BEFORE_TRANSIT]:
-        'En transit vers le magasin de retrait',
+        'Perdue',
       [ORDER_STATE_TRANSITIONS.STORE_REFUSE]: 'Refusée par le magasin',
       [ORDER_STATE_TRANSITIONS.TO_GIVE_TO_AN_ASSOCIATION]:
         'Donnée à une association',
@@ -96,6 +119,13 @@ export default {
         'Finalisée automatiquement',
       [ORDER_STATE_TRANSITIONS.VALIDATION_AUTOMATIC_BY_SENT]:
         'Finalisée automatiquement',
+      [ORDER_DELIVERY_STATE_TRANSITIONS.PACKAGE_AUTOMATICALLY_VALIDATED_BY_BUYER]:
+        'Finalisée automatiquement',
+      [ORDER_DELIVERY_STATE_TRANSITIONS.PACKAGE_VALIDATED_BY_BUYER]:
+        "Validée par l'acheteur",
+      [ORDER_DELIVERY_STATES.PACKAGE_VALIDATION_BY_BUYER_IN_PROGRESS]:
+        "En attente de validation par l'acheteur",
+
       [ORDER_STATE_TRANSITIONS.VALIDATION_BY_DELIVERED]: 'Finalisée',
       [ORDER_STATE_TRANSITIONS.VALIDATION_BY_ORDER_ACCEPTED]: 'Finalisée',
       [ORDER_STATE_TRANSITIONS.VALIDATION_BY_SENT]: 'Finalisée',

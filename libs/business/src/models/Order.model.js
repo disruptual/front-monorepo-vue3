@@ -266,23 +266,37 @@ export class Order extends BaseModel {
     return now > limit;
   }
 
-  get history() {
-    return [...this.orderStateHistos, ...this.deliveryStateHistos].sort(
+  get orderStatehistory() {
+    return [...this.orderStateHistos].sort(
       (a, b) =>
         new Date(b.updated ?? b.updatedAt) - new Date(a.updated ?? a.updatedAt)
     );
   }
 
-  get nextTransition() {
-    if (
-      [DELIVERY_MODES.RELAIS_COLIS, DELIVERY_MODES.COCOLIS].includes(
-        this.delivery.tag
-      )
-    ) {
-      return nextTransitions[this.delivery.tag][this.deliveryState];
-    }
+  get orderDeliveryStateHistory() {
+    return [...this.deliveryStateHistos].sort(
+      (a, b) =>
+        new Date(b.updated ?? b.updatedAt) - new Date(a.updated ?? a.updatedAt)
+    );
+  }
 
-    return nextTransitions[this.delivery.tag][this.orderState];
+  get history() {
+    const index = this.orderStatehistory.findIndex(
+      o => o.orderState === 'DELIVERY_IN_PROGRESS' && o.problemState === 'NONE'
+    );
+
+    const change = this.orderStatehistory.some(
+      o => o.orderState === 'DELIVERY_IN_PROGRESS' && o.problemState === 'NONE'
+    );
+
+    const result = this.orderStatehistory.slice();
+    result.splice(index, 1, ...this.orderDeliveryStateHistory);
+    if (change) return result;
+    else return this.orderStatehistory;
+  }
+
+  get nextTransition() {
+    return nextTransitions[this.delivery.tag][this.deliveryState];
   }
 }
 
