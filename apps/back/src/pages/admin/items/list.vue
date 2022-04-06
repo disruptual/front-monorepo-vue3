@@ -115,6 +115,7 @@ const onRepublish = rows => {
     >
       <dsp-image class="photo" :src="row.mainMedia?.thumbnails?.avatar" />
     </DataTableColumn>
+
     <DataTableColumn
       v-slot="{ row }"
       name="created"
@@ -127,6 +128,7 @@ const onRepublish = rows => {
         {{ row.formatCreated("dd-MM-yy à kk'h'mm") }}
       </dsp-truncated-text>
     </DataTableColumn>
+
     <DataTableColumn
       v-slot="{ row }"
       name="updated"
@@ -139,6 +141,7 @@ const onRepublish = rows => {
         {{ row.formatUpdated("dd-MM-yy à kk'h'mm") }}
       </dsp-truncated-text>
     </DataTableColumn>
+
     <DataTableColumn
       name="title"
       :label="t('dataTable.label.title')"

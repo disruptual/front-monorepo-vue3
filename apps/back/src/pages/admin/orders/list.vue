@@ -86,7 +86,9 @@ const getStatusClass = order => ({
       is-highlightable
       is-filterable
     >
-      {{ row.formatCreated() }}
+      <dsp-truncated-text :has-tooltip="false">
+        {{ row.formatCreated("dd-MM-yy à kk'h'mm") }}
+      </dsp-truncated-text>
     </DataTableColumn>
 
     <DataTableColumn

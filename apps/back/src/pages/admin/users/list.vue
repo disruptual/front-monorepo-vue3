@@ -144,6 +144,7 @@ const onMute = async users => {
     >
       <dsp-center style="flex: 1"><dsp-avatar :user="row" /></dsp-center>
     </DataTableColumn>
+
     <DataTableColumn
       name="slug"
       :label="t('dataTable.label.slug')"
@@ -178,7 +179,21 @@ const onMute = async users => {
       is-filterable
     >
       <dsp-truncated-text :has-tooltip="false">
-        {{ row.formatCreated('EEEE d MMMM yyyy') }}
+        {{ row.formatCreated("dd-MM-yy à kk'h'mm") }}
+      </dsp-truncated-text>
+    </DataTableColumn>
+
+    <DataTableColumn
+      v-slot="{ row }"
+      name="updated"
+      :label="t('dataTable.label.updated')"
+      :tooltip-label="({ row }) => row.formatUpdated()"
+      :type="DATATABLE_COLUMN_TYPES.DATE"
+      is-highlightable
+      is-hidden
+    >
+      <dsp-truncated-text :has-tooltip="false">
+        {{ row.formatUpdated("dd-MM-yy à kk'h'mm") }}
       </dsp-truncated-text>
     </DataTableColumn>
 
@@ -196,6 +211,7 @@ const onMute = async users => {
         {{ row.silentModeActivatedAt ? t('yes') : t('no') }}
       </dsp-truncated-text>
     </DataTableColumn>
+
     <DataTableColumn
       v-slot="{ row }"
       name="AnonymizedModeActivatedAt"
