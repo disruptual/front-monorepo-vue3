@@ -123,9 +123,22 @@ const onRepublish = rows => {
       :type="DATATABLE_COLUMN_TYPES.DATE"
       is-highlightable
     >
-      {{ row.formatCreated() }}
+      <dsp-truncated-text :has-tooltip="false">
+        {{ row.formatCreated("dd-MM-yy à kk'h'mm") }}
+      </dsp-truncated-text>
     </DataTableColumn>
-
+    <DataTableColumn
+      v-slot="{ row }"
+      name="updated"
+      :label="t('dataTable.label.updated')"
+      :tooltip-label="({ row }) => row.formatUpdated()"
+      :type="DATATABLE_COLUMN_TYPES.DATE"
+      is-highlightable
+    >
+      <dsp-truncated-text :has-tooltip="false">
+        {{ row.formatUpdated("dd-MM-yy à kk'h'mm") }}
+      </dsp-truncated-text>
+    </DataTableColumn>
     <DataTableColumn
       name="title"
       :label="t('dataTable.label.title')"
