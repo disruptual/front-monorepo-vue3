@@ -260,10 +260,17 @@ export class Order extends BaseModel {
   }
 
   get orderStatehistory() {
-    return [...this.orderStateHistos].sort(
-      (a, b) =>
-        new Date(b.updated ?? b.updatedAt) - new Date(a.updated ?? a.updatedAt)
-    );
+    return [...this.orderStateHistos].sort((a, b) => {
+      // Order Validation and DELIVERY_IN_PROGRESS have the same timestamp
+      // We want to force the DELIVERY_IN_PROGRESS to come after otherwise the timeline doesn't make sense
+      if (
+        a.orderState === 'DELIVERY_IN_PROGRESS' &&
+        b.orderState === 'ORDER_ACCEPTED'
+      ) {
+        return -1;
+      }
+      new Date(b.updated ?? b.updatedAt) - new Date(a.updated ?? a.updatedAt);
+    });
   }
 
   get orderDeliveryStateHistory() {
