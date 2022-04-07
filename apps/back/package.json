@@ -2,10 +2,8 @@
   "name": "@dsp/back",
   "version": "0.1.6",
   "scripts": {
-    "predev": "node scripts/prebuild.js",
     "dev": "vite",
     "serve": "vite preview",
-    "prebuild": "node scripts/prebuild.js",
     "build": "vite build",
     "docs:dev": "vitepress dev src"
   },

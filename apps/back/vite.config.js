@@ -13,6 +13,7 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 
 export default defineConfig({
   base: process.env.VITE_BASE_PATH || '/',
+  publicDir: `${__dirname}/src/clients/${process.env.VITE_CLIENT}/public`,
   plugins: [
     legacy({
       targets: ['defaults', 'not IE 11']
@@ -26,8 +27,6 @@ export default defineConfig({
     minifyHtml(),
     injectHtml({
       injectData: {
-        favicon16x16: `/src/clients/${process.env.VITE_CLIENT}/assets/favicons/favicon-16x16.png`,
-        favicon32x32: `/src/clients/${process.env.VITE_CLIENT}/assets/favicons/favicon-32x32.png`,
         apiURL: process.env.VITE_API_URL
       }
     })
