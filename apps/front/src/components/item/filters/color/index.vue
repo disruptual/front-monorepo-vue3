@@ -23,13 +23,8 @@ const vModel = computed({
 </script>
 
 <template>
-  <dsp-filter-bar-item
-    v-slot="{ infiniteScrollRoot }"
-    label="Couleur"
-    name="colors.id"
-    multiple
-  >
-    <dsp-query-loader :query="query" :root="infiniteScrollRoot">
+  <dsp-filter-bar-item label="Couleur" name="colors.id" multiple>
+    <dsp-query-loader :query="query">
       <dsp-grid
         as="ul"
         :columns="3"

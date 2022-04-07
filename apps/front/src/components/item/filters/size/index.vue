@@ -49,14 +49,9 @@ const sizesByTag = computed(() => groupBy(relevantSizes.value, 'tag'));
 </script>
 
 <template>
-  <dsp-filter-bar-item
-    v-slot="{ infiniteScrollRoot }"
-    label="Taille"
-    name="size.id"
-    multiple
-  >
+  <dsp-filter-bar-item label="Taille" name="size.id" multiple>
     <div class="item-filters-size">
-      <dsp-query-loader :query="query" :root="infiniteScrollRoot">
+      <dsp-query-loader :query="query">
         <div v-for="(sizeList, tag) in sizesByTag" :key="tag">
           <h3>{{ tag }}</h3>
 

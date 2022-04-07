@@ -8,12 +8,13 @@ import { routes } from '@/pages/routes';
 import { translations } from '@/translations';
 import { CONTEXT_KEYS } from '@/utils/constants';
 import { Breadcrumbs } from '@/models/Breadcrumbs.model';
+import { createHead } from '@vueuse/head';
 
 const app = new DisruptualApp({
   rootComponent: App,
   apiBaseUrl: import.meta.env.VITE_API_URL,
   appContext: config,
-  plugins: [DisruptualUi(theme)],
+  plugins: [DisruptualUi(theme), createHead()],
   routerBase: import.meta.env.VITE_BASE_PATH,
   translations,
   routes

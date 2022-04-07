@@ -1838,6 +1838,11 @@
   resolved "https://registry.yarnpkg.com/@vueform/multiselect/-/multiselect-2.3.2.tgz#dca077e7e6e3231f9a9f0a4f6be43f420e87b490"
   integrity sha512-1M/le6UwTemTHRWF8aqHU3wRVwlyWNLqh8BWDmx80ygbS80P52lhfexGNh80C2P6H8AsrIoCfvdEJtfqQ/UHCg==
 
+"@vueuse/head@^0.7.5":
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/@vueuse/head/-/head-0.7.5.tgz#0284e3dc53ea6709196956bf25115eea863a847a"
+  integrity sha512-L+XQ5Act0nT/ZyO8Qo10J4FyM1qPOyQb6MT4MMn6+AITzrStpmKs/nUDDLJKD/rCcNWl/65XbdQm4T2vKp3VOQ==
+
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.5.tgz#c0b678fb32d60fc1219c784d6a826fe385aeb79a"
@@ -5013,11 +5018,6 @@ stack-utils@^2.0.3:
   integrity sha512-xrQcmYhOsn/1kX+Vraq+7j4oE2j/6BFscZ0etmYg81xuM8Gq0022Pxb8+IqgOFUIaxHs0KaSb7T1+OegiNrNFA==
   dependencies:
     escape-string-regexp "^2.0.0"
-
-stickybits@^3.7.9:
-  version "3.7.9"
-  resolved "https://registry.yarnpkg.com/stickybits/-/stickybits-3.7.9.tgz#0e469ffb960e1e661bd308ba4da370dc439902bf"
-  integrity sha512-wSEH/RO0TPIeI1rYI6p3Hv9FFSKr6+58Ru4xyYbEgd4PfE1r3TGgbYUWvW6SwnfoRY3DMDLxOuvUoW+8LWblQQ==
 
 string-length@^4.0.1:
   version "4.0.2"

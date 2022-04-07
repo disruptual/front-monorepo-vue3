@@ -5,6 +5,8 @@ export default { name: 'App' };
 <script setup>
 import { reactive, provide } from 'vue';
 import { AppProvider } from '@dsp/core';
+import { useHead } from '@vueuse/head';
+import { useI18n } from 'vue-i18n';
 import AppLoading from 'client/components/app-loader.vue';
 import ErrorBoundary from './components/error-boundary/index.vue';
 import FeatureControl from './components/feature-control/index.vue';
@@ -15,6 +17,10 @@ import { VueQueryDevTools } from 'vue-query/devtools';
 const globalState = reactive({});
 provide(CONTEXT_KEYS.GLOBAL_STATE, globalState);
 const isProd = import.meta.env.PROD;
+const { t } = useI18n();
+useHead({
+  title: `${t('platformName')} | Back-Office`
+});
 </script>
 
 <template>

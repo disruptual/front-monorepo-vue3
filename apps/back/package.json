@@ -2,8 +2,10 @@
   "name": "@dsp/back",
   "version": "0.1.6",
   "scripts": {
+    "predev": "node scripts/prebuild.js",
     "dev": "vite",
     "serve": "vite preview",
+    "prebuild": "node scripts/prebuild.js",
     "build": "vite build",
     "docs:dev": "vitepress dev src"
   },
@@ -14,6 +16,7 @@
     "@dsp/devtools": "*",
     "@dsp/ui": "*",
     "@vitejs/plugin-legacy": "^1.6.2",
+    "@vueuse/head": "^0.7.5",
     "axios": "^0.21.4",
     "date-fns": "^2.24.0",
     "html-entities": "^2.3.2",
