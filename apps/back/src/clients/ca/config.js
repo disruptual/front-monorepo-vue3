@@ -9,5 +9,9 @@ export default merge({}, defaultConfig, {
       events: { isEnabled: false }
     }
   },
-  DefaultLayoutHeader: { isLogoDisplayed: true }
+  DefaultLayoutHeader: { isLogoDisplayed: true },
+
+  UserDetails: {
+    isSSOCustomerIdDisplayed: true
+  }
 });

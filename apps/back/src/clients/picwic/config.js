@@ -10,5 +10,8 @@ export default merge({}, defaultConfig, {
       stores: { isEnabled: true }
     }
   },
-  DefaultLayoutHeader: { isLogoDisplayed: true }
+  DefaultLayoutHeader: { isLogoDisplayed: true },
+  UserDetails: {
+    isSSOCustomerIdDisplayed: true
+  }
 });

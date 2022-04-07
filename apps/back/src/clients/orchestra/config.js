@@ -7,5 +7,9 @@ export default merge({}, defaultConfig, {
   features: {
     admin: {}
   },
-  DefaultLayoutHeader: { isLogoDisplayed: true }
+  DefaultLayoutHeader: { isLogoDisplayed: true },
+
+  UserDetails: {
+    isSSOCustomerIdDisplayed: true
+  }
 });

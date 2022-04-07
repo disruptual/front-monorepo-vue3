@@ -15,13 +15,16 @@ import {
   isDefined
 } from '@dsp/core';
 import { USER_DETAILS_TABS as TABS } from '@/utils/constants';
+import schema from './index.schema';
 
 import UserActionsDropdown from './actions-dropdown/index.vue';
 
 const props = defineProps({
-  user: { type: User, required: true }
+  user: { type: User, required: true },
+  ...schema.toProps()
 });
 const emit = defineEmits(['success']);
+const componentContext = schema.toContext(props);
 
 const device = useDevice();
 const { format } = useDateFormat();
@@ -181,6 +184,28 @@ const ordersLink = computed(() => ({
         />
       </dsp-smart-form-field>
 
+      <template v-if="componentContext.isSSOCustomerIdDisplayed">
+        <label for="ssoCustomerId">{{ t('user.details.ssoCustomerId') }}</label>
+        <dsp-smart-form-field
+          v-slot="slotProps"
+          name="ssoCustomerId"
+          :initial-value="user.ssoCustomerId"
+          required
+        >
+          <dsp-input-text
+            id="ssoCustomerId"
+            v-model="slotProps.field.value"
+            v-bind="slotProps"
+          />
+          <dsp-form-error
+            v-for="(error, key) in slotProps.field?.errors"
+            :key="key"
+            class="errors"
+            :error="error"
+          />
+        </dsp-smart-form-field>
+      </template>
+
       <label for="email">{{ t('user.details.email') }}</label>
       <dsp-smart-form-field
         v-slot="slotProps"
@@ -328,6 +353,11 @@ const ordersLink = computed(() => ({
 
         <dt>{{ t('user.details.firstName') }}</dt>
         <dd>{{ user.firstName }}</dd>
+
+        <template v-if="componentContext.isSSOCustomerIdDisplayed">
+          <dt>{{ t('user.details.ssoCustomerId') }}</dt>
+          <dd>{{ user.ssoCustomerId }}</dd>
+        </template>
 
         <dt>{{ t('user.details.email') }}</dt>
         <dd>{{ user.email }}</dd>

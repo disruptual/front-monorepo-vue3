@@ -13,13 +13,21 @@ export default merge({}, defaultConfig, {
       devtools: { isEnabled: true }
     }
   },
+
   DefaultLayoutHeader: { isLogoDisplayed: true },
+
   DspMenu: { activeColor: 'accent-500' },
+
   DspAvatar: { bgColor: 'accent-500' },
+
   DspButton: {
     scheme: {
       hover: 400,
       focus: 400
     }
+  },
+
+  UserDetails: {
+    isSSOCustomerIdDisplayed: true
   }
 });

@@ -39,6 +39,7 @@ export default {
       address: 'Adresse principale',
       noAddress: "Cet utilisateur n'a pas renseigné d'adresse principale",
       transactionWithdrawn: 'Suspecté de fraude depuis le {date}',
+      ssoCustomerId: "N° d'identifiant SSO",
       form: {
         cancel: 'Annuler',
         submit: 'Enregistrer'
