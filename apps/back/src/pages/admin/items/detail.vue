@@ -263,8 +263,8 @@ dd {
 .seller:hover,
 .seller:focus {
   transform: translate(5px);
-  color: var(--color-primary);
-  border-color: var(--color-primary);
+  color: var(--color-brand-500);
+  border-color: var(--color-brand-500);
 }
 .statistics {
   .label {
