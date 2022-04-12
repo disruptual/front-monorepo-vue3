@@ -104,7 +104,7 @@ export default {
           '{buyer} doit valider la conformité de la commande avant le {maxDate}'
       },
       [ORDER_DELIVERY_STATES.DISTRIBUTED]: {
-        description: 'Commande à récupérer'
+        description: 'Commande à récupérer avant le {maxDate}'
       },
       [ORDER_STATES.ORDERED]: {
         description: '{seller} doit valider la vente avant le {maxDate}'

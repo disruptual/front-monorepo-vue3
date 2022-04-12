@@ -52,7 +52,6 @@ const onForward = async () => {
 
 const getStepDescription = step => {
   const translationKey = `orderHistory.${props.order.delivery.tag}.${step.status}.description`;
-
   if (!te(translationKey)) return '';
 
   return t(translationKey, getStepTranslationVariables(step));
