@@ -28,6 +28,11 @@ export const DELIVERY_MODES = {
   COCOLIS: 'cocolis'
 };
 
+export const SENDING_TYPE = {
+  LETTER_BOX: 'letterBox',
+  POST_OFFICE: 'postOffice'
+};
+
 export const REMUNERATION_NAMES = {
   CASH: 'CASH',
   GIFTCARD: 'GIFTCARD'

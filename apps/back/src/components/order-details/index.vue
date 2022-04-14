@@ -5,9 +5,12 @@ export default { name: 'OrderDetails' };
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { Order, USER_GENDERS } from '@dsp/business';
+import { Order, USER_GENDERS, SENDING_TYPE } from '@dsp/business';
 import { formatPrice } from '@dsp/core';
 import { ORDER_DETAILS_TABS as TABS } from '@/utils/constants';
+import { DELIVERY_MODES } from '@dsp/business';
+// import createAsyncReader from '@dsp/core';
+// import { openNewTabPdf } from '@dsp/core';
 
 import OrderProblem from '../order-problem/index.vue';
 
@@ -32,6 +35,54 @@ const buyerLabel = computed(() =>
     ? t(`order.details.title.buyer.female`)
     : t(`order.details.title.buyer.male`)
 );
+
+// const etiquetteActionPayload = computed(() => {
+//   if (props.order.delivery?.tag === DELIVERY_MODES.LAPOSTE_LETTER_FOLLOW)
+//     return {
+//       orderId: props.order.id
+//     };
+
+//   if (sendingType === SENDING_TYPE.POST_OFFICE) {
+//     return {
+//       orderId: props.order.id
+//       addressId: props.order.selectedAddress.id
+//     };
+//   }
+
+//   return {
+//     orderId: props.order.id
+//     addressId: props.order.selectedAddress.id,
+//     eligibility: props.eligibility
+//   };
+// });
+// getEtiquetteDataUrl = async () => {
+//   if (props.deliveryDetail && props.deliveryDetail.base64EncodedTicket) {
+//     return `data:application/pdf;base64,${encodeURI(
+//       props.deliveryDetail.base64EncodedTicket
+//     )}`;
+//   } else {
+//     const response = await this.$store.dispatch(
+//       'generateColissimoTicket',
+//       etiquetteActionPayload
+//     );
+//     if (!response.ok) {
+//       throw response;
+//     }
+//     const reader = createAsyncReader();
+//     const file = await response.blob();
+
+//     return reader.readAsDataURL(file);
+//   }
+// },
+// generateTicketColissimo = async () => {
+//   try {
+//     const pdfUrl = await this.getEtiquetteDataUrl();
+//     openNewTabPdf(props.order.id, pdfUrl);
+//     // $refreshApi('deliveryDetail_');
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
 </script>
 
 <template>
@@ -98,6 +149,20 @@ const buyerLabel = computed(() =>
             >
               {{ order.trackingNumber }}
             </component>
+          </dd>
+        </template>
+        <template v-if="order.Etiquette">
+          <dt>{{ t('order.details.label.downloadEtiquette') }}</dt>
+          <dd
+            v-if="
+              order.delivery?.tag === DELIVERY_MODES.LAPOSTE_COLISSIMO ||
+              order.delivery?.tag === DELIVERY_MODES.LAPOSTE_LETTER
+            "
+          >
+            <button @clic="printEtiquette">Cliquer ici</button>
+          </dd>
+          <dd v-else>
+            <a target="_blank" :href="order.Etiquette">Cliquer ici</a>
           </dd>
         </template>
       </dl>

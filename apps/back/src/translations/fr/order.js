@@ -59,7 +59,7 @@ export default {
       [ORDER_STATE_TRANSITIONS.ORDER_ACCEPTED_BY_SELLER]: 'A envoyer',
       [ORDER_STATE_TRANSITIONS.BUYER_IN_STORE_ACCEPT]:
         "Récupérée en magasin par l'acheteur",
-      [ORDER_DELIVERY_STATE_TRANSITIONS.RECOVERY_IN_RELAY_BY_BUYER_IN_PROGRESS]:
+      [ORDER_DELIVERY_STATES.RECOVERY_IN_RELAY_BY_BUYER_IN_PROGRESS]:
         "Récupération en cours par l'acheteur",
       [ORDER_DELIVERY_STATE_TRANSITIONS.RECOVERED_IN_RELAY_BY_BUYER]:
         "Récupérée par l'acheteur",
