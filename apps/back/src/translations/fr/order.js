@@ -5,7 +5,8 @@ import {
   ORDER_STATES,
   ORDER_PROBLEM_STATES,
   ORDER_DELIVERY_STATES,
-  ORDER_DELIVERY_STATE_TRANSITIONS
+  ORDER_DELIVERY_STATE_TRANSITIONS,
+  DELIVERY_MODES
 } from '@dsp/business';
 
 export default {
@@ -44,7 +45,12 @@ export default {
         itemsAmount: 'Montant des articles'
       },
       closeProblemButton: 'Clore le litige',
-      solveProblemButton: 'Résoudre le litige'
+      solveProblemButton: 'Résoudre le litige',
+      printEtiquette: "Voir l'étiquette",
+      etiquetteTitle: {
+        [DELIVERY_MODES.LAPOSTE_COLISSIMO]: `Commande N°{orderId} - Bordereau de livraison Colissimo`,
+        [DELIVERY_MODES.LAPOSTE_LETTER]: `Commande N°{orderId} - Bordereau de livraison Lettre suivie`
+      }
     },
     status: {
       [ORDER_STATES.DELIVERED]: 'Récupérée',

@@ -241,7 +241,7 @@ export class Order extends BaseModel {
     }
   }
 
-  get Etiquette() {
+  get etiquetteUrl() {
     switch (this.delivery?.tag) {
       case DELIVERY_MODES.MONDIAL_RELAY:
         return this.deliveryData?.MondialRelay?.URL_Etiquette;
@@ -249,7 +249,10 @@ export class Order extends BaseModel {
         return this.deliveryDetail?.buyerDeliveryFormUrl;
       case DELIVERY_MODES.LAPOSTE_COLISSIMO:
       case DELIVERY_MODES.LAPOSTE_LETTER_FOLLOW:
-        return this.deliveryDetail?.base64EncodedTicket;
+        if (!this.deliveryDetail?.base64EncodedTicket) return null;
+        return `data:application/pdf;base64,${encodeURI(
+          this.deliveryDetail.base64EncodedTicket
+        )}`;
       default:
         return null;
     }

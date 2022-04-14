@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "module": "es6",
+    "jsx": "preserve",
     "allowSyntheticDefaultImports": true
   },
   "exclude": ["node_modules", "dist"]
