@@ -68,10 +68,9 @@ export default {
       [ORDER_STATE_TRANSITIONS.BUYER_IN_STORE_REFUSE]:
         "Refusée en magasin par l'acheteur",
       [ORDER_DELIVERY_STATES.TRANSFER_TO_DESTINATION_MAILBOX_IN_PROGRESS]:
-        'Dépôt en boîte aux lettres en cours',
+        "Dépôt dans la boîte aux lettres de l'acheteur en cours",
       [ORDER_DELIVERY_STATE_TRANSITIONS.PACKAGE_HANDLED_BY_CARRIER]:
-        'Dépôt en boîte aux lettres en cours',
-
+        "Dépôt dans la boîte aux lettres de l'acheteur en cours",
       [ORDER_DELIVERY_STATES.TRANSFER_TO_DESTINATION_RELAY_IN_PROGRESS]:
         'En cours de livraison',
       [ORDER_DELIVERY_STATES.TRANSFER_TO_POST_OFFICE_IN_PROGRESS]:
