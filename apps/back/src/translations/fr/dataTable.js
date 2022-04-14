@@ -79,6 +79,7 @@ export default {
       numbReviews: "Nombre d'avis",
       noValue: 'Pas de valeur',
       note: 'Note',
+      openNewTab: 'Ouvrir dans un nouvel onglet',
       order: 'Commande',
       photo: 'Photo',
       position: 'Position',

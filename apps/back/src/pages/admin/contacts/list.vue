@@ -5,6 +5,7 @@ export default { name: 'AdminContactListPage' };
 <script setup>
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import { useContactApi } from '@dsp/core';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { CONTACT_STATUSES } from '@dsp/business';
@@ -15,8 +16,10 @@ import {
 
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
+import DataTableRowAction from '@/components/data-table/data-table-row-action/index.vue';
 
 const { t } = useI18n();
+const { resolve } = useRouter();
 
 useBreadCrumbs('Contacts');
 
@@ -42,6 +45,14 @@ const contactStatuses = Object.values(CONTACT_STATUSES).map(status => ({
   value: status,
   label: t(`contact.status.${status}`)
 }));
+
+const onOpenNewTab = row => {
+  const routeData = resolve({
+    name: 'AdminContactDetails',
+    params: { id: row[0].id }
+  });
+  window.open(routeData.href, '_blank');
+};
 </script>
 
 <template>
@@ -113,6 +124,15 @@ const contactStatuses = Object.values(CONTACT_STATUSES).map(status => ({
       name="content"
       :label="t('dataTable.label.content')"
       width="200"
+    />
+
+    <DataTableRowAction
+      name="onOpenNewTab"
+      :label="t('dataTable.label.openNewTab')"
+      icon="trash"
+      :can-batch="false"
+      :hidden-in-action-bar="true"
+      @action="onOpenNewTab"
     />
   </DataTable>
 </template>

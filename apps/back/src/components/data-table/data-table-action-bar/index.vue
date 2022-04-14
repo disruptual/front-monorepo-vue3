@@ -27,6 +27,8 @@ const selectedCount = computed(() => model.selectedRowIds.length);
 const isActionDisabled = action =>
   selectedCount.value === 0 || (selectedCount.value > 1 && !action.canBatch);
 
+const hiddenInActionBar = action => action.hiddenInActionBar;
+
 const addHighlight = () => {
   selectedHighlight.value = null;
   isHighlightManagerOpened.value = true;
@@ -90,7 +92,7 @@ const onUpdateHighlight = () => {
           :disabled="isActionDisabled(action)"
           @click="triggerAction(action)"
         >
-          <dsp-flex gap="sm">
+          <dsp-flex v-if="!hiddenInActionBar(action)" gap="sm">
             <dsp-icon :icon="action.icon" />
             <span v-if="device.isDesktop">{{ action.label }}</span>
           </dsp-flex>
