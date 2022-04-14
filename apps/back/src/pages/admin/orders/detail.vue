@@ -23,6 +23,7 @@ const route = useRoute();
 
 const query = useOrderApi().findByIdQuery(props.id, {
   relations: [
+    'deliveryDetail',
     'seller',
     'buyer',
     'orderItems',

@@ -5,9 +5,10 @@ export default { name: 'OrderDetails' };
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { Order, USER_GENDERS } from '@dsp/business';
-import { formatPrice } from '@dsp/core';
+import { Order, USER_GENDERS, SENDING_TYPE } from '@dsp/business';
+import { formatPrice, openPdfInNewTab } from '@dsp/core';
 import { ORDER_DETAILS_TABS as TABS } from '@/utils/constants';
+import { DELIVERY_MODES } from '@dsp/business';
 
 import OrderProblem from '../order-problem/index.vue';
 
@@ -32,6 +33,17 @@ const buyerLabel = computed(() =>
     ? t(`order.details.title.buyer.female`)
     : t(`order.details.title.buyer.male`)
 );
+
+const printEtiquette = () => {
+  if (props.order.isLaposteColissimo || props.order.isLaposteLetter) {
+    return openPdfInNewTab({
+      title: t('order.details.etiquetteTitle', { orderId: props.order.id }),
+      url: props.order.etiquetteUrl
+    });
+  }
+
+  window.open(props.order.etiquetteUrl, '_blank');
+};
 </script>
 
 <template>
@@ -90,7 +102,7 @@ const buyerLabel = computed(() =>
 
         <template v-if="order.trackingNumber">
           <dt>{{ t(`order.details.label.trackingNumber`) }}</dt>
-          <dd>
+          <dsp-flex as="dd" gap="sm" align="center">
             <component
               :is="order.trackingUrl ? 'a' : 'span'"
               :href="order.trackingUrl"
@@ -98,7 +110,18 @@ const buyerLabel = computed(() =>
             >
               {{ order.trackingNumber }}
             </component>
-          </dd>
+
+            <dsp-button
+              v-if="order.etiquetteUrl"
+              is-outlined
+              is-rounded
+              color-scheme="brand"
+              size="sm"
+              @click="printEtiquette"
+            >
+              {{ t('order.details.printEtiquette') }}
+            </dsp-button>
+          </dsp-flex>
         </template>
       </dl>
     </dsp-surface>

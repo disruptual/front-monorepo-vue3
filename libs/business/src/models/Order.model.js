@@ -14,6 +14,7 @@ import { OrderStatus } from './OrderStatus.model';
 import { Delivery } from './Delivery.model';
 import { Remuneration } from './Remuneration.model';
 import { Store } from './Store.model';
+import { DeliveryDetail } from './DeliveryDetail.model';
 import { OrderStateHisto } from './OrderStateHisto.model';
 import { DeliveryStateHisto } from './DeliveryStateHisto.model';
 import { OrderProblem } from './OrderProblem.model';
@@ -61,6 +62,11 @@ export class Order extends BaseModel {
         name: 'location',
         getUri: entity => entity._location,
         model: Store
+      },
+      {
+        name: 'deliveryDetail',
+        getUri: entity => entity._deliveryDetail?.['@id'],
+        model: DeliveryDetail
       },
       {
         name: 'warehouseLocation',
@@ -230,6 +236,23 @@ export class Order extends BaseModel {
         return this.deliveryDetail?.expeditionNum;
       case DELIVERY_MODES.LAPOSTE_LETTER_FOLLOW:
         return this.deliveryDetail?.externalTicketId;
+      default:
+        return null;
+    }
+  }
+
+  get etiquetteUrl() {
+    switch (this.delivery?.tag) {
+      case DELIVERY_MODES.MONDIAL_RELAY:
+        return this.deliveryData?.MondialRelay?.URL_Etiquette;
+      case DELIVERY_MODES.RELAIS_COLIS:
+        return this.deliveryDetail?.buyerDeliveryFormUrl;
+      case DELIVERY_MODES.LAPOSTE_COLISSIMO:
+      case DELIVERY_MODES.LAPOSTE_LETTER_FOLLOW:
+        if (!this.deliveryDetail?.base64EncodedTicket) return null;
+        return `data:application/pdf;base64,${encodeURI(
+          this.deliveryDetail.base64EncodedTicket
+        )}`;
       default:
         return null;
     }
