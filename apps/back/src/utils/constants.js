@@ -193,6 +193,12 @@ export const MENU = [
         target: { name: 'SettingsHomeBlocks' },
         id: 'blocks',
         isEnabled: config => config.features.settings.homeBlocks.isEnabled
+      },
+      {
+        target: { name: 'SettingsDevtools' },
+        id: 'devtools',
+        isEnabled: () => import.meta.env.VITE_DEVTOOLS,
+        permissions: [USER_ROLES.PROJECT_MANAGER]
       }
     ]
   }

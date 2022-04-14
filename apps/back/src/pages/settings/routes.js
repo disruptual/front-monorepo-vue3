@@ -43,7 +43,7 @@ export default [
     component: () => import('@/pages/settings/devtools.vue'),
     meta: {
       permissions: [USER_ROLES.PROJECT_MANAGER],
-      isEnabled: config => config.features.settings.devtools.isEnabled,
+      isEnabled: () => import.meta.env.VITE_DEVTOOLS,
       layout: layouts.default
     }
   }

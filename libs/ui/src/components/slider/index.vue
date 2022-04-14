@@ -88,7 +88,7 @@ const currentIndex = ref(0);
   border-radius: var(--border-radius-pill);
   cursor: pointer;
   &.active {
-    background: var(--color-primary);
+    background: var(--color-brand-500);
   }
 }
 </style>

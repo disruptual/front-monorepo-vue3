@@ -7,6 +7,7 @@ export default {
     orderNumber: 'Commande n°{id}',
     announcements: "Messages d'annonce",
     carousel: 'Carrousel',
-    locationDetails: 'Détails magasin'
+    locationDetails: 'Détails magasin',
+    devtools: 'Configuration'
   }
 };

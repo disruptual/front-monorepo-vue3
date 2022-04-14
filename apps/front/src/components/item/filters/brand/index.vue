@@ -22,7 +22,7 @@ const searchVModel = computed({
 const query = useBrandApi().findAllQuery({
   filters: computed(() => ({ name: search.value }))
 });
-const { data: brands, dataById: brandsById } = query;
+const { data: brands } = query;
 const { filters, setFilter } = inject(CONTEXT_KEYS.FILTER_BAR);
 
 const vModel = computed({

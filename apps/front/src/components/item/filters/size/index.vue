@@ -6,11 +6,11 @@ export default { name: 'ItemFiltersSize' };
 import { inject, computed, watch } from 'vue';
 import { groupBy } from 'lodash-es';
 import { useSizeApi, useCategoryApi } from '@dsp/core';
-import { CONTEXT_KEYS, vReadableColor } from '@dsp/ui';
+import { CONTEXT_KEYS } from '@dsp/ui';
 
 const { dataById: categoriesById } = useCategoryApi().findAllQuery();
-const query = useSizeApi().findAllQuery();
-const { data: sizes, dataByUri: sizesByUri, dataById: sizesById } = query;
+const sizeQuery = useSizeApi().findAllQuery();
+const { dataByUri: sizesByUri, dataById: sizesById } = sizeQuery;
 const { filters, setFilter } = inject(CONTEXT_KEYS.FILTER_BAR);
 
 const vModel = computed({
@@ -21,38 +21,36 @@ const vModel = computed({
     setFilter('size.id', val);
   }
 });
+
 const categoryFilter = computed(() => {
   const id = filters.value.itemSimilarWithCategoryId?.value?.[0];
 
   return categoriesById.value[id];
 });
 
-watch(
-  categoryFilter,
-  category => {
-    if (!vModel.value) return;
+const removeIrrelevantSizes = category => {
+  if (!vModel.value) return;
 
-    vModel.value = vModel.value.filter(sizeId =>
-      category.sizes.includes(sizesById.value[sizeId].uri)
-    );
-  },
-  { immediate: true }
-);
+  vModel.value = vModel.value.filter(sizeId =>
+    category.sizes.includes(sizesById.value[sizeId].uri)
+  );
+};
+watch(categoryFilter, removeIrrelevantSizes, { immediate: true });
 
-const relevantSizes = computed(() => {
-  return categoryFilter.value
+const availableSizesByTag = computed(() => {
+  const sizes = categoryFilter.value
     ? categoryFilter.value.sizes.map(uri => sizesByUri.value[uri])
     : sizes.value;
-});
 
-const sizesByTag = computed(() => groupBy(relevantSizes.value, 'tag'));
+  return groupBy(sizes, 'tag');
+});
 </script>
 
 <template>
   <dsp-filter-bar-item label="Taille" name="size.id" multiple>
     <div class="item-filters-size">
-      <dsp-query-loader :query="query">
-        <div v-for="(sizeList, tag) in sizesByTag" :key="tag">
+      <dsp-query-loader :query="sizeQuery">
+        <div v-for="(sizeList, tag) in availableSizesByTag" :key="tag">
           <h3>{{ tag }}</h3>
 
           <dsp-grid

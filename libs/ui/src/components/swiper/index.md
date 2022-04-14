@@ -57,7 +57,7 @@ const items = new Array(10).fill({content});
 
 <style lang="scss" scoped>
     .items-list {
-        border: 1px solid var(--color-primary);
+        border: 1px solid var(--color-brand-500);
         list-style-type: none;
         cursor: pointer;
         user-select: none;

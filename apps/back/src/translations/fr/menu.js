@@ -22,7 +22,8 @@ export default {
       eventSales: 'Vente',
       announcements: "Bandeaux d'information",
       carousel: 'Carrousel',
-      blocks: 'Homepage'
+      blocks: 'Homepage',
+      devtools: 'Configuration back-office'
     }
   }
 };
