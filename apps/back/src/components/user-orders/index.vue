@@ -21,7 +21,7 @@ const { t } = useI18n();
 const queryParameters = [
   props.userId,
   {
-    relations: ['buyer', 'seller']
+    relations: ['buyer', 'seller', 'delivery']
   }
 ];
 const { findAllByUserIdQuery, findAllSalesByUserIdQuery } = useOrderApi();
