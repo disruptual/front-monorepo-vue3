@@ -16,6 +16,7 @@ import edit from './edit.svg?component';
 import ellipsisH from './ellipsisH.svg?component';
 import eye from './eye.svg?component';
 import eyeSlash from './eyeSlash.svg?component';
+import externalLink from './externalLink.svg?component';
 import chevronRight from './chevronRight.svg?component';
 import filter from './filter.svg?component';
 import highlight from './highlight.svg?component';
@@ -91,6 +92,7 @@ export default {
   ellipsisH,
   euroSign,
   expand,
+  externalLink,
   eye,
   eyeSlash,
   fastForward,

@@ -30,13 +30,9 @@ const props = defineProps({
 const emit = defineEmits(['rowDblClick', 'filterChange']);
 
 const isLoading = computed(() => props.query.isLoadingFirstPage.value);
-const { push } = useRouter();
 const { t } = useI18n();
 
-const navigate = row => {
-  const target = props.rowDetailTarget(row);
-  push(target);
-};
+const navigate = row => props.rowDetailTarget(row);
 
 const model = reactive(
   new DataTable({

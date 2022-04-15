@@ -125,15 +125,6 @@ const onOpenNewTab = row => {
       :label="t('dataTable.label.content')"
       width="200"
     />
-
-    <DataTableRowAction
-      name="onOpenNewTab"
-      :label="t('dataTable.label.openNewTab')"
-      icon="trash"
-      :can-batch="false"
-      :hidden-in-action-bar="true"
-      @action="onOpenNewTab"
-    />
   </DataTable>
 </template>
 

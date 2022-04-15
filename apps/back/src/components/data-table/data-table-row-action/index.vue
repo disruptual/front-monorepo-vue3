@@ -10,8 +10,7 @@ const props = defineProps({
   name: { type: String, required: true },
   label: { type: String, required: true },
   icon: { type: String, required: true },
-  canBatch: { type: Boolean, default: true },
-  hiddenInActionBar: { type: Boolean, default: false }
+  canBatch: { type: Boolean, default: true }
 });
 const emit = defineEmits(['action']);
 const { model } = inject(CONTEXT_KEYS.DATATABLE);
@@ -20,7 +19,6 @@ model.addRowAction({
   label: props.label,
   icon: props.icon,
   canBatch: props.canBatch,
-  hiddenInActionBar: props.hiddenInActionBar,
   action: event => {
     emit('action', event);
   }
