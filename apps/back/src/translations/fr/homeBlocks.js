@@ -11,7 +11,8 @@ export default {
       title: {
         legend: 'Titre',
         content: 'Texte',
-        upperCase: 'Majuscule'
+        upperCase: 'Majuscule',
+        size: 'Taille de la police'
       },
       seeMore: {
         legend: 'Bouton voir plus',

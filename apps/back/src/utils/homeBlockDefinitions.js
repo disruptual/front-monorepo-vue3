@@ -2,7 +2,8 @@ import {
   HOME_BLOCK_TYPES,
   HOME_BLOCK_SEE_MORE_POSITION,
   HOME_BLOCK_PROPERTY_TYPES,
-  HOME_BLOCK_UI_TYPES
+  HOME_BLOCK_UI_TYPES,
+  HOME_BLOCK_TITLE_SIZES
 } from '@dsp/business';
 
 export const HOME_BLOCK_OPTIONS_DEFAULTS = {
@@ -44,6 +45,15 @@ export const HOME_BLOCK_MAPPED_TYPE = {
       },
       upperCase: {
         type: HOME_BLOCK_PROPERTY_TYPES.BOOLEAN
+      },
+      size: {
+        type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
+        values: [
+          HOME_BLOCK_TITLE_SIZES.SM,
+          HOME_BLOCK_TITLE_SIZES.MD,
+          HOME_BLOCK_TITLE_SIZES.LG,
+          HOME_BLOCK_TITLE_SIZES.XL
+        ]
       }
     },
     seeMore: {
@@ -78,6 +88,15 @@ export const HOME_BLOCK_MAPPED_TYPE = {
       },
       upperCase: {
         type: HOME_BLOCK_PROPERTY_TYPES.BOOLEAN
+      },
+      size: {
+        type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
+        values: [
+          HOME_BLOCK_TITLE_SIZES.SM,
+          HOME_BLOCK_TITLE_SIZES.MD,
+          HOME_BLOCK_TITLE_SIZES.LG,
+          HOME_BLOCK_TITLE_SIZES.XL
+        ]
       }
     },
     uiType: {
@@ -99,6 +118,15 @@ export const HOME_BLOCK_MAPPED_TYPE = {
       },
       upperCase: {
         type: HOME_BLOCK_PROPERTY_TYPES.BOOLEAN
+      },
+      size: {
+        type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
+        values: [
+          HOME_BLOCK_TITLE_SIZES.SM,
+          HOME_BLOCK_TITLE_SIZES.MD,
+          HOME_BLOCK_TITLE_SIZES.LG,
+          HOME_BLOCK_TITLE_SIZES.XL
+        ]
       }
     },
     uiType: {
@@ -119,6 +147,15 @@ export const HOME_BLOCK_MAPPED_TYPE = {
       },
       upperCase: {
         type: HOME_BLOCK_PROPERTY_TYPES.BOOLEAN
+      },
+      size: {
+        type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
+        values: [
+          HOME_BLOCK_TITLE_SIZES.SM,
+          HOME_BLOCK_TITLE_SIZES.MD,
+          HOME_BLOCK_TITLE_SIZES.LG,
+          HOME_BLOCK_TITLE_SIZES.XL
+        ]
       }
     },
     uiType: {
