@@ -4,14 +4,13 @@ const projects = require('../projects.json');
 
 const jenkinsFilePath = path.join(process.cwd(), 'Jenkinsfile');
 
-const generateBlock = ({ app: project, env, branch, ip, sshArguments }) => `
+const generateBlock = ({ app, project, env, branch, ip, sshArguments }) => `
 stage ('ADMIN ${project} Deployment ${env}') {
     when {
       allOf {
-        branch 'dev'
         branch '${branch}'
           anyOf {
-            tag pattern: "(release|all)", comparator: "REGEXP"
+            tag pattern: "(${app}|all)", comparator: "REGEXP"
           }
         }
     }

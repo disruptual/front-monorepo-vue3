@@ -8,19 +8,24 @@ const cwd = process.cwd();
 const chalk = require('chalk');
 
 const apps = fs.readdirSync(path.join(cwd, 'apps'));
-const branches = {
+const BRANCHES = {
   sandbox: 'dev',
   preprod: 'master'
 };
 
-const showError = message => console.log(chalk.red(message));
+const showError = message => {
+  console.log(chalk.red(message));
+  process.exit;
+};
+const showInfo = message => console.log(chalk.cyan(message));
 
 const { env, app } = argv;
 if (!apps.includes(app)) {
   showError(
-    `argument --app missing or invalid. Possible values are ${apps.join(', ')}`
+    `argument --app missing or invalid. Possible values are ${apps.join(
+      ', '
+    )}. Recieved ${app}`
   );
-  process.exit();
 }
 
 deploy();
@@ -28,5 +33,28 @@ deploy();
 async function deploy() {
   const git = simpleGit({ baseDir: cwd });
 
-  await git.checkout(branches[env]);
+  const { name, version } = fs.readJSONSync(
+    path.join(cwd, 'apps', app, 'package.json')
+  );
+
+  showInfo(`Deploying project ${name} in ${env} at version ${version}`);
+  const tag = `${app}-${version}`;
+  const tags = (await git.tag()).split('\n');
+  if (tags.includes(tag)) {
+    showError(
+      `${name} has already been released with version ${version}. Maybe you forgot to update the app package.json ?`
+    );
+  }
+
+  const { current } = await git.branch();
+  if (current !== BRANCHES[env]) {
+    showError(
+      `You are on the wrong branch to deploy in environment ${env}. Please checkout to branch ${BRANCHES[env]} first.`
+    );
+  }
+  // await git.checkout(BRANCHES[env]);
+  await git.push();
+  await git.addTag(tag);
+  await git.push('origin', tag);
+  showInfo(`${name} has been deployed successfully !`);
 }

@@ -22,8 +22,9 @@
     "build:back": "yarn back build",
     "gen:resource": "node scripts/addResource.js",
     "gen:jenkinsfile": "node scripts/generateJenkinsFile.js",
-    "deploy": "node scripts/deploy.js --env=sandbox",
-    "preprod": "node scripts/deploy.js --env=preprod"
+    "deploy": "node scripts/deploy.js",
+    "sandbox": "yarn deploy --env=sandbox",
+    "preprod": "yarn deploy --env=preprod"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.15.7"
