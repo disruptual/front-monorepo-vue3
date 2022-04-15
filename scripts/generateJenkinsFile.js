@@ -8,7 +8,6 @@ const generateBlock = ({ app, project, env, branch, ip, sshArguments }) => `
 stage ('ADMIN ${project} Deployment ${env}') {
     when {
       allOf {
-        buildingTag()
         tag "${app}-${env}-*"
       }
     }
