@@ -9,7 +9,13 @@ pipeline {
             parallel {                                        
 								stage ('ADMIN TAO Deployment SANDBOX') {
 								    when {
-								        branch 'dev'
+												allOf {
+								        	branch 'dev'
+													anyOf {
+														tag "back-*"
+														tag "alll-*"
+													}
+												}
 								    }
 								    steps{
 								        sshagent(credentials : ['TAO_SANDBOX']) {

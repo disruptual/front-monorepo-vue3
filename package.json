@@ -21,14 +21,18 @@
     "devtools": "yarn workspace @dsp/devtools",
     "build:back": "yarn back build",
     "gen:resource": "node scripts/addResource.js",
-    "gen:jenkinsfile": "node scripts/generateJenkinsFile.js"
+    "gen:jenkinsfile": "node scripts/generateJenkinsFile.js",
+    "deploy": "node scripts/deploy.js --env=sandbox",
+    "preprod": "node scripts/deploy.js --env=preprod"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.15.7"
   },
   "dependencies": {
+    "chalk": "^4.0.0",
     "fs-extra": "^10.0.1",
     "husky": "^7.0.4",
+    "simple-git": "^3.6.0",
     "yargs": "^17.3.1"
   }
 }
