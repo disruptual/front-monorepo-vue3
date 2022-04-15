@@ -7,6 +7,7 @@ import { ref, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { CONTEXT_KEYS } from '@/utils/constants';
+import { vTooltip } from '@dsp/ui/directives/tooltip';
 
 const props = defineProps({
   row: { type: Object, required: true }
@@ -36,6 +37,7 @@ const triggerAction = action => {
           {{ t('dataTable.actions.goToDetail') }}
         </dsp-dropdown-item>
         <router-link
+          v-tooltip="t('dataTable.label.openNewTab')"
           class="go-to-blank"
           :to="model.onGoToDetail(props.row)"
           target="_blank"
