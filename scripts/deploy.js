@@ -15,7 +15,7 @@ const BRANCHES = {
 
 const showError = message => {
   console.log(chalk.red(message));
-  process.exit;
+  process.exit();
 };
 const showInfo = message => console.log(chalk.cyan(message));
 
