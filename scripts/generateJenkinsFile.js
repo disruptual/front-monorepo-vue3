@@ -4,13 +4,13 @@ const projects = require('../projects.json');
 
 const jenkinsFilePath = path.join(process.cwd(), 'Jenkinsfile');
 
-const generateBlock = ({ projectName, envName, branch, ip, sshArguments }) => `
-stage ('ADMIN ${projectName} Deployment ${envName}') {
+const generateBlock = ({ app, project, env, branch, ip, sshArguments }) => `
+stage ('ADMIN ${project} Deployment ${env}') {
     when {
-        branch '${branch}'
+      tag "${app}-${env}-*"
     }
     steps{
-        sshagent(credentials : ['${projectName}_${envName}']) {
+        sshagent(credentials : ['${project}_${env}']) {
             sh """ssh -v ${sshArguments} ubuntu@${ip} << EOF
             cd /home/ubuntu/api/app/back/files &&
             git reset HEAD --hard &&
@@ -22,8 +22,8 @@ stage ('ADMIN ${projectName} Deployment ${envName}') {
             EOF
             """
         }
-        sshagent(credentials : ['${projectName}_${envName}']) {
-            sh """curl -s -d 'payload={"channel": "#notifications", "text": "Publication ADMIN - ${projectName} ${envName}"}' 'https://hooks.slack.com/services/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'"""
+        sshagent(credentials : ['${project}_${env}']) {
+            sh """curl -s -d 'payload={"channel": "#notifications", "text": "Publication ADMIN - ${project} ${env}"}' 'https://hooks.slack.com/services/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'"""
         }
     }
 }
@@ -32,8 +32,8 @@ stage ('ADMIN ${projectName} Deployment ${envName}') {
 const blocks = Object.values(projects)
   .map(project =>
     Object.entries(project.environments).map(
-      ([envName, env]) =>
-        generateBlock({ projectName: project.name, envName, ...env })
+      ([env, envConfig]) =>
+        generateBlock({ app: 'back', project: project.name, env, ...envConfig })
           .split('\n')
           .join('\n\t\t\t\t\t\t\t\t') // lol
     )
