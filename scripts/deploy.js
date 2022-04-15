@@ -6,6 +6,7 @@ const argv = yargs(hideBin(process.argv)).argv;
 const simpleGit = require('simple-git');
 const cwd = process.cwd();
 const chalk = require('chalk');
+const projects = require('../projects.json');
 
 const apps = fs.readdirSync(path.join(cwd, 'apps'));
 const BRANCHES = {
@@ -38,8 +39,9 @@ async function deploy() {
   );
 
   showInfo(`Deploying project ${name} in ${env} at version ${version}`);
-  const tag = `${app}-${version}`;
+  const tag = `${app}-${env.toUpperCase()}-${version}`;
   const tags = (await git.tag()).split('\n');
+
   if (tags.includes(tag)) {
     showError(
       `${name} has already been released with version ${version}. Maybe you forgot to update the app package.json ?`
@@ -53,6 +55,7 @@ async function deploy() {
     );
   }
   // await git.checkout(BRANCHES[env]);
+  showInfo('Deploying, this can take a while...');
   await git.push();
   await git.addTag(tag);
   await git.push('origin', tag);

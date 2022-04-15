@@ -7,8 +7,7 @@ const jenkinsFilePath = path.join(process.cwd(), 'Jenkinsfile');
 const generateBlock = ({ app, project, env, branch, ip, sshArguments }) => `
 stage ('ADMIN ${project} Deployment ${env}') {
     when {
-      branch '${branch}'
-      tag "${app}-*"
+      tag "${app}-${env}-*"
     }
     steps{
         sshagent(credentials : ['${project}_${env}']) {
