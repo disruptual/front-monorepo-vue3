@@ -26,10 +26,14 @@ const { mutateAsync: deleteRecommendedUser } = deleteMutation({
 });
 const { mutateAsync: updateRecommandedUser } = updateMutation();
 
-const sortData = data => data?.slice().sort((a, b) => a.position - b.position);
-const NOTE_DENOMINATOR = 5;
-const displayUserNote = note =>
-  note ? `${note}/${NOTE_DENOMINATOR}` : t('dataTable.label.noValue');
+const sortFunction = data =>
+  data?.slice().sort((a, b) => a.position - b.position);
+
+const getRatingLabel = note => {
+  const NOTE_DENOMINATOR = 5;
+  return note ? `${note}/${NOTE_DENOMINATOR}` : t('dataTable.label.noValue');
+};
+
 const onAdd = () => {
   isModalOpened.value = true;
 };
@@ -50,7 +54,7 @@ const updatePosition = (row, newPosition) => {
     id="recommended-user"
     :query="query"
     :min-row-size="40"
-    :sort-data-fn="sortData"
+    :sort-data-fn="sortFunction"
   >
     <DataTableColumn
       v-slot="{ row }"
@@ -67,7 +71,7 @@ const updatePosition = (row, newPosition) => {
       name="user.ratingAverage"
       :label="t('dataTable.label.note')"
     >
-      {{ displayUserNote(row.user.ratingAverage) }}
+      {{ getRatingLabel(row.user.ratingAverage) }}
     </DataTableColumn>
 
     <DataTableColumn

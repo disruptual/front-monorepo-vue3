@@ -6,7 +6,7 @@ export default { name: 'HeaderCategoriesNav' };
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useCategoryApi } from '@dsp/core';
-import { vReadableColor } from '@dsp/ui';
+import { vReadableColor, vClickOutside } from '@dsp/ui';
 import schema from './index.schema';
 import CategoriesNavDropdown from './dropdown/index.vue';
 
@@ -31,6 +31,7 @@ const rootCategories = computed(() =>
 const selectedCategory = ref(null);
 const isDropdownOpened = computed({
   get() {
+    console.log(!!selectedCategory.value);
     return !!selectedCategory.value;
   },
   value(val) {}
@@ -45,14 +46,18 @@ const alignment = computed(() => {
 
   return map[componentContext.value.align];
 });
+
+const onClickOutside = () => {
+  selectedCategory.value = null;
+};
 </script>
 
 <template>
   <nav
     ref="dropdownToggleElement"
+    v-click-outside="onClickOutside"
     v-readable-color
     class="categories-nav"
-    @mouseleave="selectedCategory = null"
   >
     <dsp-flex
       as="ul"

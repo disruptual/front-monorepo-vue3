@@ -38,6 +38,7 @@ const selectedChild = ref(null);
         </li>
       </ul>
       <ul v-if="selectedChild">
+        <pre>{{ selectedChild?.children }}</pre>
         <li
           v-for="category in selectedChild.children"
           :key="category.id"
