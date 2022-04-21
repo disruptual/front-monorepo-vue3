@@ -1,4 +1,4 @@
-## Disruptual Admin Version X.Y.Z
+## Disruptual Admin Version x.y.z
 
 ### Features
 

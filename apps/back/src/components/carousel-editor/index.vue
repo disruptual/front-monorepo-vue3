@@ -127,9 +127,15 @@ const intersectOptions = {
 
     <dsp-grid-item>
       <h3>Slides Desktop</h3>
-      <CarouselEditorSlidesManager :slides="model.desktopSlides" />
+      <CarouselEditorSlidesManager
+        :slides="model.desktopSlides"
+        :is-desktop="true"
+      />
       <h3>Slides Mobile</h3>
-      <CarouselEditorSlidesManager :slides="model.mobileSlides" />
+      <CarouselEditorSlidesManager
+        :slides="model.mobileSlides"
+        :is-desktop="false"
+      />
     </dsp-grid-item>
 
     <dsp-grid-item>

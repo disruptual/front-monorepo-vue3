@@ -6,8 +6,9 @@ export default { name: 'CarouselEditorSlidesManager' };
 import { inject, ref } from 'vue';
 import { CONTEXT_KEYS } from '@/utils/constants';
 
-defineProps({
-  slides: { type: Array, required: true }
+const props = defineProps({
+  slides: { type: Array, required: true },
+  isDesktop: { type: Boolean, required: true }
 });
 
 defineEmits(['add']);
@@ -27,6 +28,10 @@ const onDragEnter = newIndex => {
   if (!draggedSlide.value) return;
 
   model.moveSlide(draggedSlide.value, newIndex);
+};
+
+const onAdd = () => {
+  model.addSlide({ isDesktop: props.isDesktop });
 };
 </script>
 
@@ -56,7 +61,7 @@ const onDragEnter = newIndex => {
         @click="model.deleteSlide(slide.id)"
       />
     </div>
-    <dsp-button class="add-button" @click="model.addSlide">
+    <dsp-button class="add-button" @click="onAdd">
       <dsp-icon icon="add" />
     </dsp-button>
   </dsp-flex>
