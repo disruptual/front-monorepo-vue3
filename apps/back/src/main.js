@@ -22,8 +22,11 @@ const app = new DisruptualApp({
 
 async function setupDevtools() {
   if (!import.meta.env.VITE_DEVTOOLS) return;
-  const schemas = await import('./register-devtools');
-  const devtools = await import('@dsp/devtools');
+
+  const [schemas, devtools] = await Promise.all([
+    import('./register-devtools'),
+    import('@dsp/devtools')
+  ]);
 
   return devtools.createDevtools(app, schemas);
 }
@@ -38,9 +41,9 @@ function setupBreadcrumbs() {
     const [fromDomain] = getDomain(from);
 
     breadcrumbsManager.breadcrumbs.forEach((breadcrumb, index) => {
-      if (breadcrumb.path === to.path) {
-        if (breadcrumbsManager.breadcrumbs[index + 1]?.path === from.path)
-          breadcrumbsManager.goTo(breadcrumbsManager.breadcrumbs[index]?.id);
+      if (breadcrumb.path !== to.path) return;
+      if (breadcrumbsManager.breadcrumbs[index + 1]?.path === from.path) {
+        breadcrumbsManager.goTo(breadcrumbsManager.breadcrumbs[index]?.id);
       }
     });
 
