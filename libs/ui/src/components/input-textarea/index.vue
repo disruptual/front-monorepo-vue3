@@ -42,7 +42,12 @@ watch(model, () => {
 
 <template>
   <div>
-    <textarea v-model="model" v-bind="$attrs" class="textarea" />
+    <textarea
+      v-model="model"
+      v-bind="$attrs"
+      class="textarea"
+      @input="resize"
+    />
     <textarea ref="shadow" v-model="model" class="shadow" tabindex="0" />
   </div>
 </template>
