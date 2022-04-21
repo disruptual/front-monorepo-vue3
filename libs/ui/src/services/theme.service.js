@@ -72,8 +72,11 @@ export class ThemeService {
       bodyTextcolor.value
     );
 
+    if (import.meta.env.NODE_ENV === 'test') return;
+
     this.computeViewportWidth();
     window.addEventListener('resize', throttle(this.computeViewportWidth, 16));
+
     new ResizeObserver(throttle(this.computeViewportWidth, 100)).observe(
       document.documentElement
     );
