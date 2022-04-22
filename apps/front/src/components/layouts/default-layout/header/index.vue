@@ -2,7 +2,8 @@
 export default { name: 'DefaultLayoutHeader' };
 </script>
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { throttle } from 'lodash-es';
 import { useI18n } from 'vue-i18n';
 import { useDevice, useEventListener } from '@dsp/ui';
@@ -19,6 +20,8 @@ const componentContext = schema.toContext(props);
 const appContext = useAppContext();
 const { t } = useI18n();
 const device = useDevice();
+const route = useRoute();
+const { go } = useRouter();
 
 const announcementOffset = ref(0);
 const isAnnouncementClosing = ref(false);
@@ -49,6 +52,11 @@ useEventListener(
     250,
     { leading: true }
   )
+);
+
+const backlinkLabel = ref('Retour');
+const isBacklinkDisplayed = computed(
+  () => device.isMobile && route.name !== 'Home'
 );
 </script>
 
@@ -84,10 +92,18 @@ useEventListener(
     </router-link>
     <HeaderMenu class="menu" />
   </header>
-  <HeaderSearchBar v-if="!device.isDesktop" />
-  <div v-else class="header__categories-nav-wrapper">
+
+  <div class="header__categories-nav-wrapper">
     <dsp-slide-transition direction="vertical" distance="-100%">
-      <HeaderCategoriesNav v-if="!isCollapsed" />
+      <div v-if="!isCollapsed">
+        <dsp-back-link
+          v-if="isBacklinkDisplayed"
+          :label="backlinkLabel"
+          @click="go(-1)"
+        />
+        <HeaderSearchBar v-if="!device.isDesktop" />
+        <HeaderCategoriesNav v-if="device.isDesktop" />
+      </div>
     </dsp-slide-transition>
   </div>
 </template>

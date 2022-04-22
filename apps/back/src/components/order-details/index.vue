@@ -5,10 +5,9 @@ export default { name: 'OrderDetails' };
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { Order, USER_GENDERS, SENDING_TYPE } from '@dsp/business';
+import { Order, USER_GENDERS } from '@dsp/business';
 import { formatPrice, openPdfInNewTab } from '@dsp/core';
 import { ORDER_DETAILS_TABS as TABS } from '@/utils/constants';
-import { DELIVERY_MODES } from '@dsp/business';
 
 import OrderProblem from '../order-problem/index.vue';
 

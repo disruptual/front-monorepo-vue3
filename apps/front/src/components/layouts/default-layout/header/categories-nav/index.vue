@@ -3,21 +3,39 @@ export default { name: 'HeaderCategoriesNav' };
 </script>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useCategoryApi } from '@dsp/core';
-import { vReadableColor } from '@dsp/ui';
+import { vReadableColor, vClickOutside } from '@dsp/ui';
 import schema from './index.schema';
+import CategoriesNavDropdown from './dropdown/index.vue';
 
 const props = defineProps(schema.toProps());
 const componentContext = schema.toContext(props);
 const { t } = useI18n();
 
-const { data: categories } = useCategoryApi().findAllQuery();
+const { data: categories } = useCategoryApi().findAllQuery({
+  children: {
+    queryOptions: { refetchOnMount: false },
+    children: {
+      queryOptions: { refetchOnMount: false }
+    }
+  }
+});
+const dropdownToggleElement = ref(null);
 
 const rootCategories = computed(() =>
   categories.value?.filter(c => !c._parent)
 );
+
+const selectedCategory = ref(null);
+const isDropdownOpened = computed({
+  get() {
+    console.log(!!selectedCategory.value);
+    return !!selectedCategory.value;
+  },
+  value(val) {}
+});
 
 const alignment = computed(() => {
   const map = {
@@ -28,10 +46,19 @@ const alignment = computed(() => {
 
   return map[componentContext.value.align];
 });
+
+const onClickOutside = () => {
+  selectedCategory.value = null;
+};
 </script>
 
 <template>
-  <nav v-readable-color class="categories-nav">
+  <nav
+    ref="dropdownToggleElement"
+    v-click-outside="onClickOutside"
+    v-readable-color
+    class="categories-nav"
+  >
     <dsp-flex
       as="ul"
       gap="lg"
@@ -41,8 +68,7 @@ const alignment = computed(() => {
       <li
         v-for="category in rootCategories"
         :key="category.id"
-        gap="sm"
-        align="center"
+        @mouseenter="selectedCategory = category"
       >
         <router-link
           :to="{ name: 'ItemSearch', params: { category: category.slug } }"
@@ -63,6 +89,18 @@ const alignment = computed(() => {
         </a>
       </li>
     </dsp-flex>
+    <dsp-dropdown
+      v-model:is-opened="isDropdownOpened"
+      :toggle-ref="dropdownToggleElement"
+      class="categories-nav__dropdown"
+    >
+      <template #menu>
+        <CategoriesNavDropdown
+          v-if="selectedCategory"
+          :selected-category="selectedCategory"
+        />
+      </template>
+    </dsp-dropdown>
   </nav>
 </template>
 
@@ -91,5 +129,9 @@ const alignment = computed(() => {
   a {
     text-decoration: underline;
   }
+}
+
+.categories-nav__dropdown {
+  position: absolute;
 }
 </style>

@@ -2,12 +2,11 @@
 export default { name: 'DefaultLayout' };
 </script>
 <script setup>
+import { ref } from 'vue';
+import { vOnResize, useCssVar, useDevice } from '@dsp/ui';
 import DefaultLayoutHeader from './header/index.vue';
 import DefaultLayoutFooter from './footer/index.vue';
 import DefaultLayoutAppBar from './app-bar/index.vue';
-
-import { ref } from 'vue';
-import { vOnResize, useCssVar, useDevice } from '@dsp/ui';
 
 const device = useDevice();
 const headerHeight = ref(null);

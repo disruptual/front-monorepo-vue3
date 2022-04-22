@@ -152,7 +152,6 @@ provide(CONTEXT_KEYS.DROPDOWN, { toggle, close });
         <dsp-icon v-if="withToggleIcon" icon="caretDown" as="span" is-inline />
       </dsp-plain-button>
     </div>
-
     <teleport v-if="isTeleport" :to="`#${hostID}`">
       <component
         :is="as"

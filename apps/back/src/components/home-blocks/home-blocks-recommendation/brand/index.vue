@@ -16,25 +16,24 @@ import HomeBlocksBrandModal from '@/components/home-blocks/home-blocks-modal/bra
 
 const { t } = useI18n();
 const isRecommendedBrandModalOpened = ref(false);
-const { findAllQuery, deleteMutation } = useRecommendedBrandApi();
+const { findAllQuery, deleteMutation, updateMutation } =
+  useRecommendedBrandApi();
 const queryRecommendedBrands = findAllQuery();
 const { mutateAsync: deleteRecommendedBrand } = deleteMutation({
   onSuccess() {
     queryRecommendedBrands.refetch.value();
   }
 });
+const { mutateAsync: updateRecommandedBrand } = updateMutation();
 
 const sortData = data => data?.slice().sort((a, b) => a.position - b.position);
 const onDelete = row => {
   row?.map(({ id }) => deleteRecommendedBrand(id));
 };
-const updatePosition = (row, newIndex) => {
-  const oldIndex = queryRecommendedBrands.data.value.indexOf(row);
-  const clone = [...queryRecommendedBrands.data.value];
-  clone.splice(oldIndex, 1);
-  clone.splice(newIndex, 0, row);
-  clone.forEach((recommendedCategory, index) => {
-    recommendedCategory.position = index;
+const updatePosition = (row, newPosition) => {
+  updateRecommandedBrand({
+    id: row.id,
+    entity: { position: newPosition }
   });
 };
 </script>
