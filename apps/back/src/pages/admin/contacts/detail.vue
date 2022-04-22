@@ -184,7 +184,7 @@ const isDropdownOpened = ref(false);
               <div
                 v-for="response in sortedReplies"
                 :key="response.id"
-                class="resppnse"
+                class="response"
               >
                 <div class="response__timestamp">
                   {{ getTimeAgo(response) }}
@@ -263,12 +263,12 @@ dt {
 .form {
   margin: var(--spacing-md) 0;
   position: sticky;
-  bottom: 0;
+  top: 0;
   background: var(--color-surface);
   border-top: solid 1px var(--color-gray-300);
 }
 
-.resppnse {
+.response {
   border-bottom: solid 1px var(--color-gray-300);
   padding-bottom: var(--spacing-sm);
   margin-bottom: var(--spacing-sm);
