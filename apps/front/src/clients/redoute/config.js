@@ -10,6 +10,7 @@ export default merge({}, defaultConfig, {
   },
   HeaderCategoriesNav: {
     hasMainsiteLink: true,
-    mainsitUrl: 'https://laredoute.fr'
+    mainsiteUrl: 'https://laredoute.fr',
+    activeColor: 'accent-500'
   }
 });

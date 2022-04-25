@@ -23,7 +23,8 @@ export default merge({}, theme, {
       baseColor: '#4CC2B4',
       minLightness: 0.02,
       maxLightness: 0.75,
-      lightnessAdjust: 0.2
+      lightnessAdjust: 0.2,
+      saturationAdjust: 0.05
     }
   }
 });

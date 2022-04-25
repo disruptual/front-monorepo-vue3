@@ -15,12 +15,7 @@ const componentContext = schema.toContext(props);
 const { t } = useI18n();
 
 const { data: categories } = useCategoryApi().findAllQuery({
-  children: {
-    queryOptions: { refetchOnMount: false },
-    children: {
-      queryOptions: { refetchOnMount: false }
-    }
-  }
+  relations: ['children', 'children.children']
 });
 const dropdownToggleElement = ref(null);
 
@@ -31,10 +26,15 @@ const rootCategories = computed(() =>
 const selectedCategory = ref(null);
 const isDropdownOpened = computed({
   get() {
-    console.log(!!selectedCategory.value);
     return !!selectedCategory.value;
   },
-  value(val) {}
+  set(val) {
+    if (!val) selectedCategory.value = null;
+    console.log(selectedCategory.value);
+    setTimeout(() => {
+      console.log(selectedCategory.value);
+    }, 1000);
+  }
 });
 
 const alignment = computed(() => {
@@ -47,17 +47,38 @@ const alignment = computed(() => {
   return map[componentContext.value.align];
 });
 
+const selectCategory = (e, category) => {
+  dropdownToggleElement.value = e.target;
+  selectedCategory.value = category;
+};
 const onClickOutside = () => {
   selectedCategory.value = null;
+};
+
+let closeTimeout = null;
+const onMouseleave = () => {
+  closeTimeout = setTimeout(() => {
+    selectedCategory.value = null;
+  }, 50);
+};
+const onMouseenter = () => {
+  if (closeTimeout) {
+    clearTimeout(closeTimeout);
+    closeTimeout = null;
+  }
+};
+const menuToggleEvents = {
+  onMouseenter,
+  onMouseleave
 };
 </script>
 
 <template>
   <nav
-    ref="dropdownToggleElement"
     v-click-outside="onClickOutside"
     v-readable-color
     class="categories-nav"
+    v-bind="menuToggleEvents"
   >
     <dsp-flex
       as="ul"
@@ -68,10 +89,12 @@ const onClickOutside = () => {
       <li
         v-for="category in rootCategories"
         :key="category.id"
-        @mouseenter="selectedCategory = category"
+        @mouseenter="selectCategory($event, category)"
       >
         <router-link
           :to="{ name: 'ItemSearch', params: { category: category.slug } }"
+          :class="selectedCategory === category && 'active'"
+          @focus="selectCategory($event, category)"
         >
           <dsp-flex gap="sm" align="center">
             <img v-if="category.picto" :src="category.picto" />
@@ -92,12 +115,15 @@ const onClickOutside = () => {
     <dsp-dropdown
       v-model:is-opened="isDropdownOpened"
       :toggle-ref="dropdownToggleElement"
+      return-focus-on-close
+      close-on-focus-outside
       class="categories-nav__dropdown"
     >
       <template #menu>
         <CategoriesNavDropdown
           v-if="selectedCategory"
           :selected-category="selectedCategory"
+          v-bind="menuToggleEvents"
         />
       </template>
     </dsp-dropdown>
@@ -108,16 +134,23 @@ const onClickOutside = () => {
 .categories-nav {
   position: relative;
   padding: var(--spacing-xs) var(--spacing-sm);
-  background-color: v-bind('componentContext.backgroundColor');
-  /* font-size: var(--font-size-lg); */
+  background: v-bind('componentContext.backgroundColor');
 }
 
 .categories-nav__list {
   min-height: 1.25em;
 
-  li img {
-    width: 1.25em;
-    aspect-ratio: 1;
+  li {
+    a {
+      &.active {
+        color: v-bind('componentContext.activeColor');
+      }
+    }
+
+    img {
+      width: 1.25em;
+      aspect-ratio: 1;
+    }
   }
 }
 

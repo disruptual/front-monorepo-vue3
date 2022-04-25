@@ -40,7 +40,7 @@ export class QueryBuilder {
           const relation = this.getRelation(`${prefix}${name}`);
           if (!relation) return;
           if (!uri) return;
-
+          // console.log(relation.name, uri, this.queryClient.getQueryData(uri));
           return {
             relation: `${prefix}${name}`,
             queryKey: uri,

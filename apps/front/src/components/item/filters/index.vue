@@ -17,6 +17,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 const vModel = computed({
   get() {
+    console.log(props.modelValue);
     return props.modelValue;
   },
   set(val) {

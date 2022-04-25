@@ -10,7 +10,7 @@ import { AppProvider, useHttp } from '@dsp/core';
 import AppLoading from 'client/components/app-loader.vue';
 import { VueQueryDevTools } from 'vue-query/devtools';
 
-// import { DisruptualDevtools } from '@dsp/devtools';
+import { DisruptualDevtools } from '@dsp/devtools';
 
 const isNavigating = ref(false);
 const shouldAnimate = ref(true);
@@ -25,10 +25,7 @@ const queryClient = useQueryClient();
 
 const queries = [
   queryClient.prefetchInfiniteQuery('/carouels', () => http.get('/carousels')),
-  queryClient.prefetchInfiniteQuery('/blocs?', () => http.get('/blocs?')),
-  queryClient.prefetchInfiniteQuery('/categories?', () =>
-    http.get('/categories?')
-  )
+  queryClient.prefetchInfiniteQuery('/blocs?', () => http.get('/blocs?'))
 ];
 Promise.all(queries).then(() => {
   isReady.value = true;
@@ -61,7 +58,7 @@ Promise.all(queries).then(() => {
       </router-view>
     </component>
   </AppProvider>
-  <!-- <DisruptualDevtools /> -->
+  <DisruptualDevtools />
 </template>
 
 <style lang="scss">

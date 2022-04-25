@@ -23,7 +23,6 @@ const observer = ref(null);
 const trigger = ref(null);
 
 const onIntersect = entries => {
-  console.log('on intersect');
   entries.forEach(entry => {
     if (entry.isIntersecting && props.isEnabled) {
       emit('loadMore');

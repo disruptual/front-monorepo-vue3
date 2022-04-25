@@ -5,6 +5,7 @@ import { debounce } from 'lodash-es';
 import { createBoundedModel } from '../factories/boundedModel.factory';
 import { createQueries } from '../factories/query.factory';
 import { deepUnref } from '../utils/helpers';
+import { createRelationsNormalizer } from '../factories/relationsNormalizer.factory.js';
 
 const QUERY_BINDING_DEBOUNCE_TIMEOUT = 50;
 const QUERY_BINDING_DEBOUNCE_OPTIONS = { leading: true, trailing: true };
@@ -17,6 +18,7 @@ const REBIND_REASONS = {
 
 export function useBoundedModel(query, options) {
   const queryClient = useQueryClient();
+  const relationNormalizer = createRelationsNormalizer();
   const http = useHttp();
   const instance = ref(null);
   let rebindReasons = [];
@@ -25,7 +27,10 @@ export function useBoundedModel(query, options) {
   const allRelations = computed(() => {
     const relations = deepUnref(options).relations ?? [];
 
-    return [...relations, ...unref(lazyRelations)];
+    return [
+      ...relationNormalizer.normalize(relations),
+      ...unref(lazyRelations)
+    ];
   });
 
   const bindQuery = () => {

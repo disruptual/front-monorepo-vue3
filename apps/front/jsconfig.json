@@ -3,6 +3,7 @@
     "module": "es6",
     "allowSyntheticDefaultImports": true,
     "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "baseUrl": "./",
     "jsx": "preserve",
     "paths": {

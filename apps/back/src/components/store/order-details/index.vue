@@ -39,7 +39,6 @@ const operation = computed(() => {
 });
 
 const onSubmit = formValues => {
-  console.log(operation.value);
   return actions[operation.value](formValues);
 };
 

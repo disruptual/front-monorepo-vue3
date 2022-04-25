@@ -73,10 +73,9 @@ const currentPanel = computed(
   />
   <dsp-slide-transition
     direction="vertical"
-    class="console"
     :class="devtoolsContext.options.isDetached && 'console--is-detached'"
   >
-    <dsp-surface v-if="isConsoleDisplayed">
+    <dsp-surface v-if="isConsoleDisplayed" class="console">
       <dsp-flex as="header" justify="space-between" align="center">
         <h2>Devtools</h2>
         <dsp-menu :items="tabs" @click="onMenuClick" />
@@ -108,10 +107,11 @@ const currentPanel = computed(
 }
 
 .console {
+  padding-top: 0;
   > * {
-    padding: 0 var(--spacing-md) var(--spacing-md) !important;
+    /* padding: 0 var(--spacing-md) var(--spacing-md) !important;
     height: 100%;
-    overflow-y: auto;
+    overflow-y: auto; */
   }
   &:not(.console--is-detached) {
     position: sticky;

@@ -17,6 +17,7 @@ const props = defineProps({
   isTeleport: { type: Boolean, default: true },
   closeOnFocusOutside: { type: Boolean, default: true },
   closeOnClickOutside: { type: Boolean, default: true },
+  returnFocusOnClose: { type: Boolean, default: false },
   as: { type: String, default: 'ul' },
   withToggleIcon: { type: Boolean, default: false },
   toggleRef: { type: null, default: false }
@@ -37,10 +38,28 @@ const toggle = () => {
   emit('update:isOpened', !props.isOpened);
 };
 
+const maybeReturnFocus = () => {
+  if (!props.returnFocusOnClose) return;
+  console.log('should return focus');
+  const children = getFocusableChildren(toggleButton.value);
+  if (children.length) {
+    console.log('will focus', children[0]);
+    children[0].focus();
+  } else {
+    console.log('will focus', toggleButton.value);
+    toggleButton.value?.focus?.();
+  }
+
+  setTimeout(() => {
+    console.log(document.activeElement);
+  }, 1000);
+};
+
 const close = () => {
   if (!props.isOpened) return;
   nextTick(() => {
     emit('update:isOpened', false);
+    maybeReturnFocus();
   });
 };
 
@@ -53,6 +72,10 @@ const focusCurrentItem = () => {
 };
 
 const toggleMenu = isOpened => {
+  if (popperInstance.value) {
+    popperInstance.value.destroy?.();
+  }
+
   if (isOpened) {
     nextTick(async () => {
       const { createPopper } = await import('@popperjs/core');
@@ -64,8 +87,6 @@ const toggleMenu = isOpened => {
 
       focusFirstElement();
     });
-  } else {
-    popperInstance.value?.destroy?.();
   }
 };
 
@@ -120,10 +141,7 @@ const onFocusOutside = e => {
   if (toggleButton.value.contains(e.target)) return;
   if (props.closeOnFocusOutside) close();
 
-  // FIXME auto focusing toggle on close causes problem with custom content in toggle slot
-  // see dsp-datepicker
-  // const children = getFocusableChildren(toggleButton.value);
-  // children[0]?.focus?.();
+  maybeReturnFocus();
 };
 
 const onToggleMousedown = e => {
@@ -133,6 +151,7 @@ const onToggleMousedown = e => {
 };
 
 watch(() => unref(props.isOpened), toggleMenu);
+watch(toggleButton, toggleMenu);
 watch(focusedMenuElementIndex, focusCurrentItem);
 
 provide(CONTEXT_KEYS.DROPDOWN, { toggle, close });
@@ -164,6 +183,7 @@ provide(CONTEXT_KEYS.DROPDOWN, { toggle, close });
       >
         <slot name="menu" />
       </component>
+      <div v-if="props.returnFocusOnClose" tabindex="0" />
     </teleport>
 
     <template v-else>
@@ -178,6 +198,7 @@ provide(CONTEXT_KEYS.DROPDOWN, { toggle, close });
       >
         <slot name="menu" />
       </component>
+      <div v-if="props.returnFocusOnClose" tabindex="0" />
     </template>
   </div>
 </template>

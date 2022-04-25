@@ -26,6 +26,8 @@ const selectCategory = id => {
 watch(
   () => filters.value?.itemSimilarWithCategoryId?.value,
   ([id]) => {
+    if (!categoriesById.value) return;
+
     selectedCategory.value = categoriesById.value[id];
   }
 );

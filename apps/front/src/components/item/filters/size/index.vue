@@ -6,7 +6,7 @@ export default { name: 'ItemFiltersSize' };
 import { inject, computed, watch } from 'vue';
 import { groupBy } from 'lodash-es';
 import { useSizeApi, useCategoryApi } from '@dsp/core';
-import { CONTEXT_KEYS } from '@dsp/ui';
+import { CONTEXT_KEYS, vReadableColor } from '@dsp/ui';
 
 const { dataById: categoriesById } = useCategoryApi().findAllQuery();
 const sizeQuery = useSizeApi().findAllQuery();
@@ -25,7 +25,7 @@ const vModel = computed({
 const categoryFilter = computed(() => {
   const id = filters.value.itemSimilarWithCategoryId?.value?.[0];
 
-  return categoriesById.value[id];
+  return categoriesById.value?.[id];
 });
 
 const removeIrrelevantSizes = category => {

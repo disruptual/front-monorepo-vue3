@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useItemApi, useCategoryApi } from '@dsp/core';
+import { useItemApi, useCategoryApi, isArray, isDefined } from '@dsp/core';
 import ItemFilters from '@/components/item/filters/index.vue';
 import ItemGrid from '@/components/item/grid/index.vue';
 
@@ -16,11 +16,17 @@ const { data: category } = useCategoryApi().findBySlugQuery(
   }))
 );
 
+const toArray = val => {
+  if (!isDefined(val)) return null;
+
+  return isArray(val) ? val : [val];
+};
+
 const filters = computed(() => ({
   itemSimilarWithCategoryId: [category.value?.id].filter(Boolean),
-  'brand.id': route.query.brand,
-  'colors.id': route.query.color,
-  'size.id': route.query.size
+  'brand.id': toArray(route.query.brand),
+  'colors.id': toArray(route.query.color),
+  'size.id': toArray(route.query.size)
 }));
 
 const filtersVModel = computed({
@@ -30,6 +36,7 @@ const filtersVModel = computed({
   set(val) {
     const categorySlug =
       categoriesById.value[val.itemSimilarWithCategoryId?.[0]]?.slug;
+
     replace({
       name: 'ItemSearch',
       params: {
