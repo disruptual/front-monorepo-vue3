@@ -4,11 +4,19 @@ const projects = require('../projects.json');
 
 const jenkinsFilePath = path.join(process.cwd(), 'Jenkinsfile');
 
-const generateBlock = ({ app, project, env, branch, ip, sshArguments }) => `
+const generateBlock = ({
+  app,
+  project,
+  env,
+  branch,
+  ip,
+  sshArguments,
+  deployTag
+}) => `
 stage ('ADMIN ${project} Deployment ${env}') {
     when {
       allOf {
-        tag "${app}-${env}-*"
+        tag "${app}-${deployTag}-*"
       }
     }
     steps{

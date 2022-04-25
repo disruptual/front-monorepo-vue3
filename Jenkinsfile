@@ -10,7 +10,9 @@ pipeline {
               
 								stage ('ADMIN TAO Deployment SANDBOX') {
 								    when {
-								      tag "back-SANDBOX-*"
+								      allOf {
+								        tag "back-SANDBOX-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['TAO_SANDBOX']) {
@@ -34,7 +36,9 @@ pipeline {
 
 								stage ('ADMIN TAO Deployment RECETTE') {
 								    when {
-								      tag "back-RECETTE-*"
+								      allOf {
+								        tag "back-PREPROD-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['TAO_RECETTE']) {
@@ -58,7 +62,9 @@ pipeline {
 
 								stage ('ADMIN KAPORAL Deployment SANDBOX') {
 								    when {
-								      tag "back-SANDBOX-*"
+								      allOf {
+								        tag "back-SANDBOX-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['KAPORAL_SANDBOX']) {
@@ -82,7 +88,9 @@ pipeline {
 
 								stage ('ADMIN KAPORAL Deployment RECETTE') {
 								    when {
-								      tag "back-RECETTE-*"
+								      allOf {
+								        tag "back-PREPROD-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['KAPORAL_RECETTE']) {
@@ -106,7 +114,9 @@ pipeline {
 
 								stage ('ADMIN GHANTY Deployment SANDBOX') {
 								    when {
-								      tag "back-SANDBOX-*"
+								      allOf {
+								        tag "back-SANDBOX-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['GHANTY_SANDBOX']) {
@@ -130,7 +140,9 @@ pipeline {
 
 								stage ('ADMIN GHANTY Deployment RECETTE') {
 								    when {
-								      tag "back-RECETTE-*"
+								      allOf {
+								        tag "back-PREPROD-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['GHANTY_RECETTE']) {
@@ -154,7 +166,9 @@ pipeline {
 
 								stage ('ADMIN LAREDOUTE Deployment SANDBOX') {
 								    when {
-								      tag "back-SANDBOX-*"
+								      allOf {
+								        tag "back-SANDBOX-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['LAREDOUTE_SANDBOX']) {
@@ -178,7 +192,9 @@ pipeline {
 
 								stage ('ADMIN LAREDOUTE Deployment RECETTE') {
 								    when {
-								      tag "back-RECETTE-*"
+								      allOf {
+								        tag "back-PREPROD-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['LAREDOUTE_RECETTE']) {
@@ -202,7 +218,9 @@ pipeline {
 
 								stage ('ADMIN CA Deployment SANDBOX') {
 								    when {
-								      tag "back-SANDBOX-*"
+								      allOf {
+								        tag "back-SANDBOX-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['CA_SANDBOX']) {
@@ -226,7 +244,9 @@ pipeline {
 
 								stage ('ADMIN CA Deployment RECETTE') {
 								    when {
-								      tag "back-RECETTE-*"
+								      allOf {
+								        tag "back-PREPROD-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['CA_RECETTE']) {
@@ -250,7 +270,9 @@ pipeline {
 
 								stage ('ADMIN ORCHESTRA Deployment SANDBOX') {
 								    when {
-								      tag "back-SANDBOX-*"
+								      allOf {
+								        tag "back-SANDBOX-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['ORCHESTRA_SANDBOX']) {
@@ -274,7 +296,9 @@ pipeline {
 
 								stage ('ADMIN ORCHESTRA Deployment RECETTE') {
 								    when {
-								      tag "back-RECETTE-*"
+								      allOf {
+								        tag "back-PREPROD-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['ORCHESTRA_RECETTE']) {
@@ -298,7 +322,9 @@ pipeline {
 
 								stage ('ADMIN CYRILLUS Deployment SANDBOX') {
 								    when {
-								      tag "back-SANDBOX-*"
+								      allOf {
+								        tag "back-SANDBOX-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['CYRILLUS_SANDBOX']) {
@@ -322,7 +348,9 @@ pipeline {
 
 								stage ('ADMIN CYRILLUS Deployment RECETTE') {
 								    when {
-								      tag "back-RECETTE-*"
+								      allOf {
+								        tag "back-PREPROD-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['CYRILLUS_RECETTE']) {
@@ -346,7 +374,9 @@ pipeline {
 
 								stage ('ADMIN THEBRADERY Deployment SANDBOX') {
 								    when {
-								      tag "back-SANDBOX-*"
+								      allOf {
+								        tag "back-SANDBOX-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['THEBRADERY_SANDBOX']) {
@@ -370,7 +400,9 @@ pipeline {
 
 								stage ('ADMIN THEBRADERY Deployment RECETTE') {
 								    when {
-								      tag "back-RECETTE-*"
+								      allOf {
+								        tag "back-PREPROD-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['THEBRADERY_RECETTE']) {
@@ -394,7 +426,9 @@ pipeline {
 
 								stage ('ADMIN CULTURA Deployment SANDBOX') {
 								    when {
-								      tag "back-SANDBOX-*"
+								      allOf {
+								        tag "back-SANDBOX-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['CULTURA_SANDBOX']) {
@@ -418,7 +452,9 @@ pipeline {
 
 								stage ('ADMIN CULTURA Deployment RECETTE') {
 								    when {
-								      tag "back-RECETTE-*"
+								      allOf {
+								        tag "back-PREPROD-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['CULTURA_RECETTE']) {
@@ -442,7 +478,9 @@ pipeline {
 
 								stage ('ADMIN PICWIC Deployment SANDBOX') {
 								    when {
-								      tag "back-SANDBOX-*"
+								      allOf {
+								        tag "back-SANDBOX-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['PICWIC_SANDBOX']) {
@@ -466,7 +504,9 @@ pipeline {
 
 								stage ('ADMIN PICWIC Deployment RECETTE') {
 								    when {
-								      tag "back-RECETTE-*"
+								      allOf {
+								        tag "back-PREPROD-*"
+								      }
 								    }
 								    steps{
 								        sshagent(credentials : ['PICWIC_RECETTE']) {
