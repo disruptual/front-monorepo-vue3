@@ -319,7 +319,15 @@ export class Order extends BaseModel {
   }
 
   get nextTransition() {
-    return nextTransitions[this.delivery.tag][this.deliveryState];
+    if (
+      [DELIVERY_MODES.RELAIS_COLIS, DELIVERY_MODES.COCOLIS].includes(
+        this.delivery.tag
+      )
+    ) {
+      return nextTransitions[this.delivery.tag][this.deliveryState];
+    }
+
+    return nextTransitions[this.delivery.tag][this.orderState];
   }
 }
 
