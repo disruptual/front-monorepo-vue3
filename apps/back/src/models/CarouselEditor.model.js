@@ -79,7 +79,7 @@ export class CarouselEditor {
     });
   }
 
-  addSlide() {
+  addSlide({ isDesktop }) {
     const id = nanoid();
     const newSlide = {
       id,
@@ -94,7 +94,7 @@ export class CarouselEditor {
       textPositionYEnd: 3,
       textHasAnOverlay: true,
       position: this.currentSlides.length,
-      desktop: this.viewMode === CAROUSEL_VIEW_MODES.DESKTOP,
+      desktop: isDesktop,
       carousel: this.settings.uri,
       targetBlank: false
     };

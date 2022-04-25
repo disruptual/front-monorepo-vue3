@@ -90,7 +90,6 @@ const getInitialValue = column => {
             v-bind="formControlProps"
             v-on="on"
           >
-            <option disabled :value="null">Valeur</option>
             <option
               v-for="(option, index) in column.enumValues"
               :key="index"

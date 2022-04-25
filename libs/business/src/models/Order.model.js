@@ -234,7 +234,7 @@ export class Order extends BaseModel {
       case DELIVERY_MODES.RELAIS_COLIS:
       case DELIVERY_MODES.LAPOSTE_COLISSIMO:
         return this.deliveryDetail?.expeditionNum;
-      case DELIVERY_MODES.LAPOSTE_LETTER_FOLLOW:
+      case DELIVERY_MODES.LAPOSTE_LETTER:
         return this.deliveryDetail?.externalTicketId;
       default:
         return null;
@@ -248,7 +248,7 @@ export class Order extends BaseModel {
       case DELIVERY_MODES.RELAIS_COLIS:
         return this.deliveryDetail?.buyerDeliveryFormUrl;
       case DELIVERY_MODES.LAPOSTE_COLISSIMO:
-      case DELIVERY_MODES.LAPOSTE_LETTER_FOLLOW:
+      case DELIVERY_MODES.LAPOSTE_LETTER:
         if (!this.deliveryDetail?.base64EncodedTicket) return null;
         return `data:application/pdf;base64,${encodeURI(
           this.deliveryDetail.base64EncodedTicket

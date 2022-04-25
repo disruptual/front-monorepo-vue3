@@ -15,25 +15,24 @@ import HomeBlocksCategoryModal from '@/components/home-blocks/home-blocks-modal/
 
 const { t } = useI18n();
 const isRecommendedCategoryModalOpened = ref(false);
-const { findAllQuery, deleteMutation } = useRecommendedCategoryApi();
+const { findAllQuery, deleteMutation, updateMutation } =
+  useRecommendedCategoryApi();
 const queryRecommendedCategories = findAllQuery();
 const { mutateAsync: deleteRecommendedCategory } = deleteMutation({
   onSuccess() {
     queryRecommendedCategories.refetch.value();
   }
 });
+const { mutateAsync: updateRecommandedCategory } = updateMutation();
 
 const sortData = data => data?.slice().sort((a, b) => a.position - b.position);
 const onDelete = row => {
   row?.map(({ id }) => deleteRecommendedCategory(id));
 };
-const updatePosition = (row, newIndex) => {
-  const oldIndex = queryRecommendedCategories.data.value.indexOf(row);
-  const clone = [...queryRecommendedCategories.data.value];
-  clone.splice(oldIndex, 1);
-  clone.splice(newIndex, 0, row);
-  clone.forEach((recommendedCategory, index) => {
-    recommendedCategory.position = index;
+const updatePosition = (row, newPosition) => {
+  updateRecommandedCategory({
+    id: row.id,
+    entity: { position: newPosition }
   });
 };
 </script>
@@ -45,12 +44,12 @@ const updatePosition = (row, newIndex) => {
     :min-row-size="40"
     :sort-data-fn="sortData"
   >
+    <DataTableColumn name="category.name" :label="t('dataTable.label.name')" />
+
     <DataTableColumn
       name="category.root.name"
       :label="t('dataTable.label.rootCategory')"
     />
-
-    <DataTableColumn name="category.name" :label="t('dataTable.label.name')" />
 
     <DataTableColumn
       name="category.totalOfPublishedItems"

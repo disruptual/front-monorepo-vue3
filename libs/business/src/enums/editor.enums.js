@@ -24,6 +24,13 @@ export const HOME_BLOCK_UI_TYPES = {
   GRID: 'GRID'
 };
 
+export const HOME_BLOCK_TITLE_SIZES = {
+  SM: 'SM',
+  MD: 'MD',
+  LG: 'LG',
+  XL: 'XL'
+};
+
 export const HOME_BLOCK_QUERIES = {
   RECOMMENDED_ITEMS: 'RECOMMENDED_ITEMS',
   RECOMMENDED_USERS: 'RECOMMENDED_USERS',

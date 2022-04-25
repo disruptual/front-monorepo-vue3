@@ -4,6 +4,7 @@ export default { name: 'DataTableGrid' };
 
 <script setup>
 import { inject, computed, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { get } from 'lodash-es';
 import { CONTEXT_KEYS } from '@/utils/constants';
 import { vOnIntersect, vTooltip } from '@dsp/ui';
@@ -16,6 +17,7 @@ const props = defineProps({
 });
 
 const { model } = inject(CONTEXT_KEYS.DATATABLE);
+const { push } = useRouter();
 const isVisible = ref(false);
 const rowElement = ref(null);
 
@@ -58,9 +60,9 @@ watch(
       isHighlighted && 'data-table-grid-row--highlighted'
     ]"
     tabIndex="0"
-    @dblclick="model.onGoToDetail?.(row)"
+    @dblclick="push(model.onGoToDetail?.(row))"
     @focus="model.focusedRowIndex = index"
-    @keyup.enter="model.onGoToDetail?.(row)"
+    @keyup.enter="push(model.onGoToDetail?.(row))"
   >
     <template v-if="isVisible">
       <td

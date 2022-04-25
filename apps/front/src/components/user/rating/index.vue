@@ -3,11 +3,10 @@ export default { name: 'UserRating' };
 </script>
 
 <script setup>
-import { computed } from 'vue';
-import { User } from '@dsp/business';
+import { User, RecommendedUser } from '@dsp/business';
 
 const props = defineProps({
-  user: { type: User, required: true },
+  user: { type: [User, RecommendedUser], required: true },
   size: { type: String, default: 'md' }
 });
 </script>

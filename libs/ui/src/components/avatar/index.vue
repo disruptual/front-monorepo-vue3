@@ -4,13 +4,13 @@ export default { name: 'DspAvatar' };
 
 <script setup>
 import { computed } from 'vue';
-import { User } from '@dsp/business';
+import { User, RecommendedUser } from '@dsp/business';
 import { oneOf } from '@dsp/core';
 import { useReadableColor } from '@dsp/ui//hooks';
 import schema from './index.schema';
 
 const props = defineProps({
-  user: { type: User, required: true },
+  user: { type: [User, RecommendedUser], required: true },
   size: oneOf(['xs', 'sm', 'md', 'lg', 'xl'], 'sm'),
   thumbnail: oneOf(['avatar', 'avatarList'], 'avatar'),
   ...schema.toProps()

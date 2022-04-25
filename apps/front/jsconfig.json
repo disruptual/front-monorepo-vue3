@@ -2,7 +2,9 @@
   "compilerOptions": {
     "module": "es6",
     "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": false,
     "baseUrl": "./",
+    "jsx": "preserve",
     "paths": {
       "@/*": ["./src/*"],
       "@dsp/core/*": ["../../libs/core/src/*"],

@@ -6,14 +6,15 @@ pipeline {
 
     stages {
         stage('build parallel') {
-            parallel {                                        
+            parallel {                                
+              
 								stage ('ADMIN TAO Deployment SANDBOX') {
 								    when {
-								        branch 'dev'
+								      tag "back-SANDBOX-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['TAO_SANDBOX']) {
-								            sh """ssh -v ubuntu@35.180.235.164 << EOF
+								            sh """ssh -v   ubuntu@35.180.235.164 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout dev &&
@@ -33,11 +34,11 @@ pipeline {
 
 								stage ('ADMIN TAO Deployment RECETTE') {
 								    when {
-								        branch 'master'
+								      tag "back-RECETTE-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['TAO_RECETTE']) {
-								            sh """ssh -v -o StrictHostKeyChecking=no ubuntu@15.236.72.168 << EOF
+								            sh """ssh -v -o StrictHostKeyChecking=no  ubuntu@15.236.72.168 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout master &&
@@ -57,11 +58,11 @@ pipeline {
 
 								stage ('ADMIN KAPORAL Deployment SANDBOX') {
 								    when {
-								        branch 'dev'
+								      tag "back-SANDBOX-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['KAPORAL_SANDBOX']) {
-								            sh """ssh -v  ubuntu@15.188.149.36 << EOF
+								            sh """ssh -v   ubuntu@15.188.149.36 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout dev &&
@@ -81,11 +82,11 @@ pipeline {
 
 								stage ('ADMIN KAPORAL Deployment RECETTE') {
 								    when {
-								        branch 'master'
+								      tag "back-RECETTE-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['KAPORAL_RECETTE']) {
-								            sh """ssh -v -o StrictHostKeyChecking=no ubuntu@15.188.130.49 << EOF
+								            sh """ssh -v -o StrictHostKeyChecking=no  ubuntu@15.188.130.49 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout master &&
@@ -105,11 +106,11 @@ pipeline {
 
 								stage ('ADMIN GHANTY Deployment SANDBOX') {
 								    when {
-								        branch 'dev'
+								      tag "back-SANDBOX-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['GHANTY_SANDBOX']) {
-								            sh """ssh -v  ubuntu@15.188.171.229 << EOF
+								            sh """ssh -v   ubuntu@15.188.171.229 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout dev &&
@@ -129,11 +130,11 @@ pipeline {
 
 								stage ('ADMIN GHANTY Deployment RECETTE') {
 								    when {
-								        branch 'master'
+								      tag "back-RECETTE-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['GHANTY_RECETTE']) {
-								            sh """ssh -v -o StrictHostKeyChecking=no ubuntu@15.236.61.180 << EOF
+								            sh """ssh -v -o StrictHostKeyChecking=no  ubuntu@15.236.61.180 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout master &&
@@ -153,11 +154,11 @@ pipeline {
 
 								stage ('ADMIN LAREDOUTE Deployment SANDBOX') {
 								    when {
-								        branch 'dev'
+								      tag "back-SANDBOX-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['LAREDOUTE_SANDBOX']) {
-								            sh """ssh -v  ubuntu@52.47.178.225 << EOF
+								            sh """ssh -v   ubuntu@52.47.178.225 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout dev &&
@@ -177,11 +178,11 @@ pipeline {
 
 								stage ('ADMIN LAREDOUTE Deployment RECETTE') {
 								    when {
-								        branch 'master'
+								      tag "back-RECETTE-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['LAREDOUTE_RECETTE']) {
-								            sh """ssh -v -o StrictHostKeyChecking=no ubuntu@35.180.220.38 << EOF
+								            sh """ssh -v -o StrictHostKeyChecking=no  ubuntu@35.180.220.38 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout master &&
@@ -201,11 +202,11 @@ pipeline {
 
 								stage ('ADMIN CA Deployment SANDBOX') {
 								    when {
-								        branch 'dev'
+								      tag "back-SANDBOX-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['CA_SANDBOX']) {
-								            sh """ssh -v  ubuntu@13.36.41.6 << EOF
+								            sh """ssh -v   ubuntu@13.36.41.6 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout dev &&
@@ -225,11 +226,11 @@ pipeline {
 
 								stage ('ADMIN CA Deployment RECETTE') {
 								    when {
-								        branch 'master'
+								      tag "back-RECETTE-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['CA_RECETTE']) {
-								            sh """ssh -v -o StrictHostKeyChecking=no ubuntu@35.181.30.106 << EOF
+								            sh """ssh -v -o StrictHostKeyChecking=no  ubuntu@35.181.30.106 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout master &&
@@ -249,11 +250,11 @@ pipeline {
 
 								stage ('ADMIN ORCHESTRA Deployment SANDBOX') {
 								    when {
-								        branch 'dev'
+								      tag "back-SANDBOX-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['ORCHESTRA_SANDBOX']) {
-								            sh """ssh -v  ubuntu@15.236.63.184 << EOF
+								            sh """ssh -v   ubuntu@15.236.63.184 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout dev &&
@@ -273,11 +274,11 @@ pipeline {
 
 								stage ('ADMIN ORCHESTRA Deployment RECETTE') {
 								    when {
-								        branch 'master'
+								      tag "back-RECETTE-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['ORCHESTRA_RECETTE']) {
-								            sh """ssh -v -o StrictHostKeyChecking=no ubuntu@15.236.63.184 << EOF
+								            sh """ssh -v -o StrictHostKeyChecking=no  ubuntu@13.36.27.175 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout master &&
@@ -297,11 +298,11 @@ pipeline {
 
 								stage ('ADMIN CYRILLUS Deployment SANDBOX') {
 								    when {
-								        branch 'dev'
+								      tag "back-SANDBOX-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['CYRILLUS_SANDBOX']) {
-								            sh """ssh -v  ubuntu@15.236.245.156 << EOF
+								            sh """ssh -v   ubuntu@15.236.245.156 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout dev &&
@@ -321,11 +322,11 @@ pipeline {
 
 								stage ('ADMIN CYRILLUS Deployment RECETTE') {
 								    when {
-								        branch 'master'
+								      tag "back-RECETTE-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['CYRILLUS_RECETTE']) {
-								            sh """ssh -v -o StrictHostKeyChecking=no ubuntu@15.237.129.85 << EOF
+								            sh """ssh -v -o StrictHostKeyChecking=no  ubuntu@15.237.129.85 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout master &&
@@ -345,11 +346,11 @@ pipeline {
 
 								stage ('ADMIN THEBRADERY Deployment SANDBOX') {
 								    when {
-								        branch 'dev'
+								      tag "back-SANDBOX-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['THEBRADERY_SANDBOX']) {
-								            sh """ssh -v  ubuntu@13.37.156.203 << EOF
+								            sh """ssh -v   ubuntu@13.37.156.203 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout dev &&
@@ -369,11 +370,11 @@ pipeline {
 
 								stage ('ADMIN THEBRADERY Deployment RECETTE') {
 								    when {
-								        branch 'master'
+								      tag "back-RECETTE-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['THEBRADERY_RECETTE']) {
-								            sh """ssh -v -o StrictHostKeyChecking=no ubuntu@13.37.189.251 << EOF
+								            sh """ssh -v -o StrictHostKeyChecking=no  ubuntu@13.37.189.251 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout master &&
@@ -393,11 +394,11 @@ pipeline {
 
 								stage ('ADMIN CULTURA Deployment SANDBOX') {
 								    when {
-								        branch 'dev'
+								      tag "back-SANDBOX-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['CULTURA_SANDBOX']) {
-								            sh """ssh -v  ubuntu@13.37.72.150 << EOF
+								            sh """ssh -v   ubuntu@13.37.72.150 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout dev &&
@@ -417,11 +418,11 @@ pipeline {
 
 								stage ('ADMIN CULTURA Deployment RECETTE') {
 								    when {
-								        branch 'master'
+								      tag "back-RECETTE-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['CULTURA_RECETTE']) {
-								            sh """ssh -v -o StrictHostKeyChecking=no ubuntu@15.236.191.224 << EOF
+								            sh """ssh -v -o StrictHostKeyChecking=no  ubuntu@15.236.191.224 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout master &&
@@ -441,11 +442,11 @@ pipeline {
 
 								stage ('ADMIN PICWIC Deployment SANDBOX') {
 								    when {
-								        branch 'dev'
+								      tag "back-SANDBOX-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['PICWIC_SANDBOX']) {
-								            sh """ssh -v  ubuntu@15.236.187.203 << EOF
+								            sh """ssh -v   ubuntu@15.236.187.203 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout dev &&
@@ -465,11 +466,11 @@ pipeline {
 
 								stage ('ADMIN PICWIC Deployment RECETTE') {
 								    when {
-								        branch 'master'
+								      tag "back-RECETTE-*"
 								    }
 								    steps{
 								        sshagent(credentials : ['PICWIC_RECETTE']) {
-								            sh """ssh -v -o StrictHostKeyChecking=no ubuntu@35.181.18.85 << EOF
+								            sh """ssh -v -o StrictHostKeyChecking=no  ubuntu@35.181.18.85 << EOF
 								            cd /home/ubuntu/api/app/back/files &&
 								            git reset HEAD --hard &&
 								            git checkout master &&

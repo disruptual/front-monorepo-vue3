@@ -154,7 +154,7 @@ export default {
         'Litige résolu',
       [ORDER_DELIVERY_STATES.START]: 'À envoyer',
       [ORDER_DELIVERY_STATES.DEPOSIT_IN_MAILBOX_BY_SELLER_IN_PROGRESS]:
-        'Dépôt en boîte aux lettres en cours',
+        'En attente d’envoi courrier',
       [ORDER_DELIVERY_STATE_TRANSITIONS.PACKAGE_NOT_DEPOSITED_BY_SELLER]:
         'Colis non déposé par le vendeur',
       [ORDER_DELIVERY_STATE_TRANSITIONS.EXPEDITION_CREATED_BY_SELLER]:

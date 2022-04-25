@@ -1,4 +1,4 @@
-## Disruptual Admin Version 1.0.2
+## Disruptual Admin Version x.y.z
 
 ### Features
 
