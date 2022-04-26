@@ -3,7 +3,6 @@ export default { name: 'ItemCard' };
 </script>
 <script setup>
 import schema from './index.schema';
-
 const props = defineProps(schema.toProps());
 
 const { variantComponent, variantProps } = schema.toVariant(props);

@@ -6,7 +6,7 @@ import {
 import { types } from '@dsp/core/types/helpers';
 import { useAppContext } from '@dsp/core/hooks';
 
-export const createComponentSchema = (name, schema) => {
+export const createComponentSchema = (name, schema, options = {}) => {
   function toContext(props) {
     const appContext = useAppContext();
     const componentContext = computed(() => appContext[name]);
@@ -29,7 +29,7 @@ export const createComponentSchema = (name, schema) => {
   function toVariant(props) {
     const attrs = useAttrs();
     const config = toContext(props);
-    const variantComponent = shallowRef(null);
+    const variantComponent = shallowRef(options.variantLoaderComponent);
     const variantProps = computed(() => {
       const { variant, ...otherProps } = {
         ...attrs,

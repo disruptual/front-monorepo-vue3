@@ -2,6 +2,8 @@ import { DATATABLE_HIGHLIGHT_OPERATORS } from '@/utils/constants';
 
 export default {
   dataTable: {
+    loadingError:
+      'Impossible de charger les données de la liste. Veuillez rafraichir la page.',
     actionBar: {
       selectedCount:
         'Aucun élément selectionné | 1 élément sélectionné | {count} éléments sélectionnés'

@@ -10,11 +10,9 @@ defineProps({
 </script>
 
 <template>
-  <dsp-swiper gap="md" class="brand-swiper" has-fade>
+  <dsp-swiper gap="md" class="brand-swiper" has-controls>
     <dsp-swiper-item v-for="brand in brands" :key="brand.id">
-      <BrandCard :brand="brand" class="brand-swiper__card" />
+      <BrandCard :brand="brand" />
     </dsp-swiper-item>
   </dsp-swiper>
 </template>
-
-<style lang="scss" scoped></style>

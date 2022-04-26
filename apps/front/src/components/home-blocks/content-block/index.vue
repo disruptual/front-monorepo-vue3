@@ -66,12 +66,14 @@ const typeToComponentMap = {
   [HOME_BLOCK_TYPES.CATEGORY]: 'div',
   [HOME_BLOCK_TYPES.BRAND]: HomeContentBlockBrand
 };
+
 const queryUrl = computed(() => {
   const base = queryToRequestMap[props.block.query];
   // const connected = currentUser.value ? '&connected' : '';
 
   return `${base}&itemsPerPage=${props.block.options.itemsPerSection}`;
 });
+
 const component = computed(() => typeToComponentMap[props.block.type]);
 const model = computed(() => typeToModelMap[props.block.type]);
 const relations = computed(() => typeToRelationsMap[props.block.type]);
@@ -91,7 +93,7 @@ const isSeeMoreBottom = computed(() => {
 
   return device.isMobile
     ? ['HEADER', 'BOTTOM'].includes(seeMore.position)
-    : seeMore?.position === 'BOTTOM';
+    : seeMore.position === 'BOTTOM';
 });
 
 const titleClass = computed(

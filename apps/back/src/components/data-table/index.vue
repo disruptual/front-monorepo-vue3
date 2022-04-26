@@ -94,6 +94,15 @@ provide(CONTEXT_KEYS.DATATABLE, {
     <dsp-flex v-if="isLoading" justify="center" class="loader">
       <dsp-loader />
     </dsp-flex>
+    <slot
+      v-else-if="props.query.isError.value"
+      :error="props.query.error"
+      name="error"
+    >
+      <dsp-center>
+        {{ t('dataTable.loadingError') }}
+      </dsp-center>
+    </slot>
     <template v-else>
       <DataTableActionBar v-if="props.hasActionBar" />
 

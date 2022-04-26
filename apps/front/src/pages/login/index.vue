@@ -1,6 +1,6 @@
 <script setup>
 import { useRouter, useRoute } from 'vue-router';
-import LoginForm from '@/components/login-form/index.vue';
+import LoginForm from '@/components/user/login-form/index.vue';
 
 const { push } = useRouter();
 const route = useRoute();

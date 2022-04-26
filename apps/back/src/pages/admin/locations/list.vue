@@ -5,6 +5,7 @@ export default { name: 'AdminLocation' };
 <script setup>
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { debounce } from 'lodash-es';
 
 import { useI18n } from 'vue-i18n';
 import { useLocationApi } from '@dsp/core';
@@ -30,11 +31,21 @@ const query = useLocationApi().findAllQuery({
 
 const setDatePicker = () => {};
 
-const { mutateAsync: updateStore } = useLocationApi().updateMutation();
+const { mutateAsync: updateLocation, isLoading: isUpdating } =
+  useLocationApi().updateMutation({
+    onSuccess() {
+      query.refetch.value({ cancelRefetch: true });
+    }
+  });
 
-const updateVisiblity = async store => {
-  await updateStore({ id: store.id, dto: { enabled: !store.enabled } });
-  query.refetch.value();
+const updatedRowId = ref(null);
+const updateVisiblity = location => {
+  updatedRowId.value = location.id;
+
+  return updateLocation({
+    id: location.id,
+    entity: { enabled: !location.enabled }
+  });
 };
 </script>
 
@@ -74,7 +85,7 @@ const updateVisiblity = async store => {
     >
       <dsp-center>
         <dsp-button
-          :class="[row.open ? 'store-open' : 'store-closed']"
+          :color-scheme="row.open ? 'success' : 'error'"
           @click="setDatePicker"
         >
           {{ row.open ? 'Ouvert' : 'Fermé' }}
@@ -85,31 +96,25 @@ const updateVisiblity = async store => {
       v-slot="{ row }"
       name="enabled"
       :label="t('dataTable.label.visibility')"
-      width="200"
+      :tooltip-label="
+        ({ row }) =>
+          row.enabled ? t('location.enabled') : t('location.disabled')
+      "
+      width="150"
     >
-      <dsp-center>
-        <dsp-checkbox
-          label="visibilité"
+      <dsp-center class="visibility-wrapper">
+        <dsp-switch
           :model-value="row.enabled"
-          @change="updateVisiblity(row)"
+          :disabled="isUpdating && updatedRowId === row.id"
+          @update:modelValue="updateVisiblity(row)"
         />
       </dsp-center>
     </DataTableColumn>
   </DataTable>
 </template>
 
-<style lang="scss">
-.dsp-button.store-open {
-  background-color: var(--color-success-400);
-  &:hover {
-    background-color: var(--color-success-600);
-  }
-}
-
-.dsp-button.store-closed {
-  background-color: var(--color-error-500);
-  &:hover {
-    background-color: var(--color-error-600);
-  }
+<style scoped>
+.visibility-wrapper {
+  flex: 1;
 }
 </style>

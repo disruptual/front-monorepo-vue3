@@ -1,6 +1,6 @@
 {
   "name": "@dsp/back",
-  "version": "1.0.4d",
+  "version": "1.0.5",
   "scripts": {
     "dev": "vite",
     "serve": "vite preview",

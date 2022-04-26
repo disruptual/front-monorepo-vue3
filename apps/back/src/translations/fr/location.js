@@ -1,5 +1,7 @@
 export default {
   location: {
+    enabled: 'Ce magasin est actif',
+    disabled: 'Ce magasin est inactif',
     details: {
       form: {
         editModeSwitchLabel: 'Mode éditable',

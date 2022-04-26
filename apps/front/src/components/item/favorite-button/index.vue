@@ -48,25 +48,11 @@ const canFavorite = computed(
   () => !!currentUser.value && props.item._user !== currentUser.value.uri
 );
 
-const addToFavorites = () => {
-  updateUser({
-    id: currentUser.value.id,
-    entity: {
-      favoritesItems: [...currentUser.value.favoritesItems, props.item.uri]
-    }
-  });
-};
-
-const removeFromFavorites = () => {
-  updateUser({
-    id: currentUser.value.id,
-    entity: {
-      favoritesItems: currentUser.value.favoritesItems.filter(
-        uri => props.item.uri !== uri
-      )
-    }
-  });
-};
+const newFavorites = computed(() =>
+  isFavorited.value
+    ? currentUser.value.favoritesItems.filter(uri => props.item.uri !== uri)
+    : [...currentUser.value.favoritesItems, props.item.uri]
+);
 
 const toggleFavorite = () => {
   if (!canFavorite.value) {
@@ -74,24 +60,21 @@ const toggleFavorite = () => {
     return;
   }
 
-  return isFavorited.value ? removeFromFavorites() : addToFavorites();
+  return updateUser({
+    id: currentUser.value.id,
+    entity: {
+      favoritesItems: newFavorites.value
+    }
+  });
 };
-
-const favoriteButtonIcon = computed(() =>
-  isFavorited.value ? 'heartFilled' : 'heartEmpty'
-);
-
-const favoriteButtonTitle = computed(() =>
-  isFavorited.value
-    ? t('itemCard.removeFromFavorites')
-    : t('itemCard.addToFavorites')
-);
 </script>
 
 <template>
   <dsp-icon-button
-    :icon="favoriteButtonIcon"
-    :title="favoriteButtonTitle"
+    :icon="isFavorited ? 'heartFilled' : 'heartEmpty'"
+    :title="
+      t(`itemCard.${isFavorited ? 'removeFromFavorites' : 'addToFavorites'}`)
+    "
     is-plain
     @click="toggleFavorite"
   />

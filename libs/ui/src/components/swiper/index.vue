@@ -6,17 +6,22 @@ export default { name: 'DspSwiper' };
 import { reactive, ref, provide, nextTick, computed, onMounted } from 'vue';
 import { useDevice } from '@dsp/ui/hooks/useDevice';
 import { useCssProperty } from '@dsp/ui/hooks/useCssProperty';
-import { throttle } from 'lodash-es';
+import { throttle, debounce } from 'lodash-es';
 import { CONTEXT_KEYS } from '@dsp/ui/utils/constants';
 
 const props = defineProps({
   as: { type: String, default: 'div' },
   gap: { type: String, default: 'xs' },
-  hasFade: { type: Boolean, default: false }
+  hasControls: { type: Boolean, default: false }
 });
 
 const device = useDevice();
-const state = reactive({ slides: [], fadeLeft: false, fadeRight: false });
+const state = reactive({
+  slides: [],
+  isScrolled: false,
+  isFullyScrolled: false,
+  currentIndex: 0
+});
 const rootElement = ref(null);
 const innerElement = ref(null);
 const isSwiping = ref(false);
@@ -25,27 +30,41 @@ const register = slide => {
   state.slides.push(slide);
 };
 
-const isFullyScrolled = () =>
-  rootElement.value.scrollLeft + rootElement.value.clientWidth >=
-  rootElement.value.scrollWidth;
-const isNotScrolled = () => rootElement.value.scrollLeft === 0;
-
-const checkFades = () => {
-  state.fadeLeft = !isNotScrolled();
-  state.fadeRight = !isFullyScrolled();
+const checkScroll = () => {
+  state.isScrolled = rootElement.value.scrollLeft !== 0;
+  state.isFullyScrolled =
+    Math.round(rootElement.value.scrollLeft + rootElement.value.clientWidth) >=
+    rootElement.value.scrollWidth;
 };
-
-onMounted(checkFades);
+const setCurrentIndex = throttle(() => {
+  state.currentIndex = state.slides.findIndex(
+    ({ elementRef, ...slide }, index) => {
+      const { left } = elementRef.getBoundingClientRect();
+      return left >= 0;
+    }
+  );
+}, 50);
+onMounted(() => {
+  nextTick(checkScroll);
+});
 
 const move = offset => {
-  rootElement.value.scrollLeft = rootElement.value.scrollLeft - offset;
-  nextTick(checkFades);
+  const newScrollLeft = rootElement.value.scrollLeft - offset;
+  rootElement.value.scrollLeft = newScrollLeft;
 };
+
+const onScroll = debounce(() => {
+  nextTick(() => {
+    checkScroll();
+    setCurrentIndex();
+  });
+}, 50);
 
 const onWheel = e => {
   if (!device.isDesktop) return;
   const shouldIgnore =
-    (e.deltaY > 0 && isFullyScrolled()) || (e.deltaY < 0 && isNotScrolled());
+    (e.deltaY > 0 && state.isFullyScrolled) ||
+    (e.deltaY < 0 && !state.isScrolled);
   if (shouldIgnore) return;
 
   e.preventDefault();
@@ -55,7 +74,6 @@ const onWheel = e => {
 const onSwipeStart = () => {
   isSwiping.value = true;
 };
-
 const onSwipeEnd = () => {
   nextTick(() => {
     isSwiping.value = false;
@@ -65,8 +83,12 @@ const onSwipeEnd = () => {
 const goTo = index => {
   const { elementRef } = state.slides[index];
   const { left: rootLeft } = rootElement.value.getBoundingClientRect();
-  const { left: slideLeft } = elementRef.value.getBoundingClientRect();
-  rootElement.value.scrollLeft = slideLeft - rootLeft;
+  const { left: slideLeft } = elementRef.getBoundingClientRect();
+  rootElement.value.style.scrollBehavior = 'smooth';
+  move(-1 * (slideLeft - rootLeft));
+  nextTick(() => {
+    rootElement.value.style.scrollBehavior = 'auto';
+  });
 };
 
 provide(CONTEXT_KEYS.SWIPER, {
@@ -78,76 +100,90 @@ provide(CONTEXT_KEYS.SWIPER, {
   onSwipeStart,
   onSwipeEnd
 });
-
-const classes = computed(() => [
-  props.hasFade && state.fadeLeft && 'dsp-swiper--has-fade-left',
-  props.hasFade && state.fadeRight && 'dsp-swiper--has-fade-right'
-]);
-
-useCssProperty({
-  name: '--dsp-swiper-fade-left',
-  syntax: '<color>',
-  inherits: false,
-  initialValue: 'black'
-});
-useCssProperty({
-  name: '--dsp-swiper-fade-right',
-  syntax: '<color>',
-  inherits: false,
-  initialValue: 'black'
-});
 </script>
 
 <template>
-  <div ref="rootElement" class="dsp-swiper" :class="classes" @wheel="onWheel">
-    <dsp-flex
-      ref="innerElement"
-      :as="as"
-      class="dsp-swiper__inner"
-      :gap="props.gap"
-      wrap="nowrap"
-      v-bind="$attrs"
+  <div class="dsp-swiper">
+    <dsp-fade-transition
+      :is-visible="state.currentIndex > 0 && props.hasControls"
+      class="dsp-swiper__prev-control"
+      appear
     >
-      <slot />
-    </dsp-flex>
+      <dsp-icon-button
+        icon="chevronLeft"
+        @click="goTo(state.currentIndex - 1)"
+      />
+    </dsp-fade-transition>
+
+    <div
+      ref="rootElement"
+      class="dsp-swiper__wrapper"
+      @wheel="onWheel"
+      @scroll="onScroll"
+    >
+      <dsp-flex
+        ref="innerElement"
+        :as="as"
+        class="dsp-swiper__inner"
+        :gap="props.gap"
+        wrap="nowrap"
+        v-bind="$attrs"
+      >
+        <slot />
+      </dsp-flex>
+    </div>
+
+    <dsp-fade-transition
+      :is-visible="
+        state.currentIndex < state.slides.length &&
+        !state.isFullyScrolled &&
+        props.hasControls
+      "
+      class="dsp-swiper__next-control"
+      appear
+    >
+      <dsp-icon-button
+        icon="chevronRight"
+        @click="goTo(state.currentIndex + 1)"
+      />
+    </dsp-fade-transition>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .dsp-swiper {
-  overflow-x: hidden;
-  @include desktop-only {
-    --dsp-swiper-fade-left: rgba(0, 0, 0, 1);
-    --dsp-swiper-fade-right: rgba(0, 0, 0, 1);
-    transition: --dsp-swiper-fade-left var(--transition-md),
-      --dsp-swiper-fade-right var(--transition-md);
-    -webkit-mask-image: linear-gradient(
-      to right,
-      var(--dsp-swiper-fade-left),
-      black 8%,
-      black 92%,
-      var(--dsp-swiper-fade-right)
-    );
-    mask-image: linear-gradient(
-      to right,
-      var(--dsp-swiper-fade-left),
-      black 8%,
-      black 92%,
-      var(--dsp-swiper-fade-right)
-    );
-  }
-}
-.dsp-swiper--has-fade-right {
-  --dsp-swiper-fade-right: rgba(0, 0, 0, 0.2);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
 }
 
-.dsp-swiper--has-fade-left {
-  --dsp-swiper-fade-left: rgba(0, 0, 0, 0.2);
+.dsp-swiper__wrapper {
+  overflow-x: hidden;
+  grid-column: 1 / -1;
+  grid-row: 1;
 }
 
 .dsp-swiper__inner {
   /* transform: translateX(var(--dsp-swiper-offset)); */
   padding: 0;
   margin: 0;
+}
+
+.dsp-swiper__prev-control {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.dsp-swiper__next-control {
+  position: sticky;
+  // position sticky and right: 0 seems not to be working
+  left: 100%;
+  /* transform: translateX(-100%); */
+  z-index: 1;
+  grid-row: 1;
+  grid-column: 3;
 }
 </style>

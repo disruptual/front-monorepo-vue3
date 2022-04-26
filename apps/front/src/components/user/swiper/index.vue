@@ -10,7 +10,7 @@ defineProps({
 </script>
 
 <template>
-  <dsp-swiper gap="md" class="user-swiper" has-fade>
+  <dsp-swiper gap="md" class="user-swiper" has-controls>
     <dsp-swiper-item v-for="user in users" :key="user.id">
       <UserCard :user="user" class="user-swiper__card" />
     </dsp-swiper-item>

@@ -15,7 +15,7 @@ const onIntersect = item => entry => {
 </script>
 
 <template>
-  <dsp-swiper gap="md" class="item-swiper" has-fade>
+  <dsp-swiper gap="md" class="item-swiper" has-controls>
     <dsp-swiper-item v-for="item in items" :key="item.id">
       <ItemCard
         :item="item"

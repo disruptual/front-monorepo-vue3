@@ -82,7 +82,7 @@ const model = computed({
 }
 
 .input:checked + label .dsp-switch {
-  background: var(--color-brand-300);
+  background: var(--color-brand-500);
   --dsp-switch-slider-left: calc(3rem - 9px - 1rem);
 }
 
