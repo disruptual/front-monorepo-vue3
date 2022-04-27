@@ -17,6 +17,7 @@ import { vReadableColor, useDevice } from '@dsp/ui';
 import HomeContentBlockItem from './item/index.vue';
 import HomeContentBlockUser from './user/index.vue';
 import HomeContentBlockBrand from './brand/index.vue';
+import HomeContentBlockCategory from './category/index.vue';
 
 const props = defineProps({
   block: { type: Object, required: true }
@@ -63,7 +64,7 @@ const typeToRelationsMap = {
 const typeToComponentMap = {
   [HOME_BLOCK_TYPES.ITEM]: HomeContentBlockItem,
   [HOME_BLOCK_TYPES.USER]: HomeContentBlockUser,
-  [HOME_BLOCK_TYPES.CATEGORY]: 'div',
+  [HOME_BLOCK_TYPES.CATEGORY]: HomeContentBlockCategory,
   [HOME_BLOCK_TYPES.BRAND]: HomeContentBlockBrand
 };
 
@@ -137,7 +138,7 @@ const titleClass = computed(
 <style lang="scss" scoped>
 .home-content-block {
   background-color: v-bind('props.block.options.backgroundColor');
-  padding: var(--spacing-md) 0;
+  padding: var(--spacing-lg) 0;
   max-width: var(--100-vw);
 
   h2 {
