@@ -14,7 +14,8 @@ export const CONTEXT_KEYS = {
   TABS: 'tabsContext',
   TOAST: 'toastContext',
   SWIPER: 'swiperContext',
-  FILTER_BAR: 'filterBarContext'
+  FILTER_BAR: 'filterBarContext',
+  SECTION: 'sectionContext'
 };
 
 export const TELEPORT_HOSTS = {

@@ -8,6 +8,8 @@ import ItemFiltersCategory from './category/index.vue';
 import ItemFiltersBrand from './brand/index.vue';
 import ItemFiltersColor from './color/index.vue';
 import ItemFiltersSize from './size/index.vue';
+import ItemFiltersCondition from './condition/index.vue';
+import ItemFiltersPrice from './price/index.vue';
 
 const props = defineProps({
   modelValue: { type: Object, required: true },
@@ -17,7 +19,6 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 const vModel = computed({
   get() {
-    console.log(props.modelValue);
     return props.modelValue;
   },
   set(val) {
@@ -33,6 +34,8 @@ const vModel = computed({
       <ItemFiltersBrand />
       <ItemFiltersColor />
       <ItemFiltersSize />
+      <ItemFiltersCondition />
+      <ItemFiltersPrice />
     </dsp-filter-bar>
     <div>{{ count }} résultats</div>
   </dsp-flex>

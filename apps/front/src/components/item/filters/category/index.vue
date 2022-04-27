@@ -10,8 +10,8 @@ import { CONTEXT_KEYS } from '@dsp/ui';
 const query = useCategoryApi().findAllQuery({
   relations: [
     {
-      parent: { queryOptions: { refetchOnMount: false } },
-      children: { queryOptions: { refetchOnMount: false } }
+      parent: { queryOptions: { refetchOnMount: false, staleTime: Infinity } },
+      children: { queryOptions: { refetchOnMount: false, staleTime: Infinity } }
     }
   ],
   refetchOnMount: false

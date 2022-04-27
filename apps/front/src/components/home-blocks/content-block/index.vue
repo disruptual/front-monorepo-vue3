@@ -104,30 +104,34 @@ const titleClass = computed(
 </script>
 
 <template>
-  <div v-readable-color class="home-content-block">
-    <dsp-container is-large>
-      <dsp-flex as="header" justify="space-between" align="center">
-        <h2 :class="titleClass">{{ block.options.title.content }}</h2>
-        <dsp-button v-if="isSeeMoreTop" class="see-more-button">
-          Voir plus
-        </dsp-button>
-      </dsp-flex>
+  <dsp-section>
+    <div v-readable-color class="home-content-block">
+      <dsp-container is-large>
+        <dsp-flex as="header" justify="space-between" align="center">
+          <dsp-section-heading :class="titleClass">
+            {{ block.options.title.content }}
+          </dsp-section-heading>
+          <dsp-button v-if="isSeeMoreTop" class="see-more-button">
+            Voir plus
+          </dsp-button>
+        </dsp-flex>
 
-      <dsp-query-loader :query="query">
-        <template #error="{ error }">
-          <pre>{{ error }}</pre>
-        </template>
+        <dsp-query-loader :query="query">
+          <template #error="{ error }">
+            <pre>{{ error }}</pre>
+          </template>
 
-        <template #default="{ entity }">
-          <component :is="component" :data="entity" :block="block" />
-        </template>
-      </dsp-query-loader>
+          <template #default="{ entity }">
+            <component :is="component" :data="entity" :block="block" />
+          </template>
+        </dsp-query-loader>
 
-      <dsp-center v-if="isSeeMoreBottom" as="footer">
-        <dsp-button class="see-more-button">Voir plus</dsp-button>
-      </dsp-center>
-    </dsp-container>
-  </div>
+        <dsp-center v-if="isSeeMoreBottom" as="footer">
+          <dsp-button class="see-more-button">Voir plus</dsp-button>
+        </dsp-center>
+      </dsp-container>
+    </div>
+  </dsp-section>
 </template>
 
 <style lang="scss" scoped>
@@ -136,6 +140,13 @@ const titleClass = computed(
   padding: var(--spacing-md) 0;
   max-width: var(--100-vw);
 
+  h2 {
+    margin: 0;
+  }
+
+  header {
+    margin-bottom: var(--spacing-md);
+  }
   footer {
     margin-top: var(--spacing-md);
   }

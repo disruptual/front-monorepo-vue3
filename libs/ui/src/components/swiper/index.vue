@@ -36,6 +36,7 @@ const checkScroll = () => {
     Math.round(rootElement.value.scrollLeft + rootElement.value.clientWidth) >=
     rootElement.value.scrollWidth;
 };
+
 const setCurrentIndex = throttle(() => {
   state.currentIndex = state.slides.findIndex(
     ({ elementRef, ...slide }, index) => {
@@ -44,6 +45,7 @@ const setCurrentIndex = throttle(() => {
     }
   );
 }, 50);
+
 onMounted(() => {
   nextTick(checkScroll);
 });
@@ -61,14 +63,13 @@ const onScroll = debounce(() => {
 }, 50);
 
 const onWheel = e => {
-  if (!device.isDesktop) return;
-  const shouldIgnore =
-    (e.deltaY > 0 && state.isFullyScrolled) ||
-    (e.deltaY < 0 && !state.isScrolled);
-  if (shouldIgnore) return;
-
-  e.preventDefault();
-  move(e.deltaY * -1);
+  // if (!device.isDesktop) return;
+  // const shouldIgnore =
+  //   (e.deltaY > 0 && state.isFullyScrolled) ||
+  //   (e.deltaY < 0 && !state.isScrolled);
+  // if (shouldIgnore) return;
+  // e.preventDefault();
+  // move(e.deltaY * -1);
 };
 
 const onSwipeStart = () => {

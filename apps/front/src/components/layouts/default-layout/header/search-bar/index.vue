@@ -3,9 +3,10 @@ export default { name: 'HeaderSearchBar' };
 </script>
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
-const search = ref(null);
+const route = useRoute();
+const search = ref(route.query.search);
 const { push } = useRouter();
 
 const onChange = () => {

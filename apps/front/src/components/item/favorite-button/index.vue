@@ -75,9 +75,15 @@ const toggleFavorite = () => {
     :title="
       t(`itemCard.${isFavorited ? 'removeFromFavorites' : 'addToFavorites'}`)
     "
+    class="item-favorite-button"
     is-plain
     @click="toggleFavorite"
   />
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.item-favorite-button {
+  border-radius: 50%;
+  background-color: white;
+}
+</style>

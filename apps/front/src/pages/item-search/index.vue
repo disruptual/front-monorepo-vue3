@@ -26,7 +26,9 @@ const filters = computed(() => ({
   itemSimilarWithCategoryId: [category.value?.id].filter(Boolean),
   'brand.id': toArray(route.query.brand),
   'colors.id': toArray(route.query.color),
-  'size.id': toArray(route.query.size)
+  'size.id': toArray(route.query.size),
+  'condition.id': toArray(route.query.condition),
+  query: route.query.search
 }));
 
 const filtersVModel = computed({
@@ -45,7 +47,8 @@ const filtersVModel = computed({
       query: {
         brand: val['brand.id'],
         color: val['colors.id'],
-        size: val['size.id']
+        size: val['size.id'],
+        condition: val['condition.id']
       }
     });
   }

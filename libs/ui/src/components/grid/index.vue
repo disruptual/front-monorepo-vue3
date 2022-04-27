@@ -20,7 +20,7 @@ const props = defineProps({
       'space-between',
       'space-evenly'
     ],
-    'flex-start'
+    null
   ),
   align: oneOf(['flex-start', 'flex-end', 'center', 'stretch'], 'stretch')
 });
@@ -48,7 +48,7 @@ const gridTemplate = computed(() => ({
   grid-template-columns: v-bind('gridTemplate.column');
   grid-template-rows: v-bind('gridTemplate.row');
   grid-gap: v-bind('gridTemplate.gap');
-  justify-content: v-bind(justify);
+  justify-items: v-bind(justify);
   align-items: v-bind(align);
 }
 </style>

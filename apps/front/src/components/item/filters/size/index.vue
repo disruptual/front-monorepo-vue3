@@ -10,7 +10,7 @@ import { CONTEXT_KEYS, vReadableColor } from '@dsp/ui';
 
 const { dataById: categoriesById } = useCategoryApi().findAllQuery();
 const sizeQuery = useSizeApi().findAllQuery();
-const { dataByUri: sizesByUri, dataById: sizesById } = sizeQuery;
+const { dataByUri: sizesByUri, dataById: sizesById, data: sizes } = sizeQuery;
 const { filters, setFilter } = inject(CONTEXT_KEYS.FILTER_BAR);
 
 const vModel = computed({
@@ -38,11 +38,11 @@ const removeIrrelevantSizes = category => {
 watch(categoryFilter, removeIrrelevantSizes, { immediate: true });
 
 const availableSizesByTag = computed(() => {
-  const sizes = categoryFilter.value
+  const availableSizes = categoryFilter.value
     ? categoryFilter.value.sizes.map(uri => sizesByUri.value[uri])
     : sizes.value;
 
-  return groupBy(sizes, 'tag');
+  return groupBy(availableSizes, 'tag');
 });
 </script>
 
@@ -57,7 +57,6 @@ const availableSizesByTag = computed(() => {
             as="ul"
             :columns="4"
             gap="md"
-            justify="center"
             class="item-filters-size__grid"
           >
             <li v-for="size in sizeList" :key="size.id">

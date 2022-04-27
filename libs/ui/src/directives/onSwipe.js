@@ -54,19 +54,28 @@ class Swiper {
 
   handleGesture() {
     if (this.touchEndX + this.options.threshold <= this.touchStartX) {
-      this.onSwipe({ direction: 'left' });
+      this.onSwipe({
+        direction: 'left',
+        offset: this.touchEndX - this.touchStartX
+      });
     }
     if (this.touchEndX - this.options.threshold >= this.touchStartX) {
-      this.onSwipeRightAgent && this.onSwipeRightAgent();
-      this.onSwipe({ direction: 'right' });
+      this.onSwipe({
+        direction: 'right',
+        offset: this.touchEndX - this.touchStartX
+      });
     }
     if (this.touchEndY + this.options.threshold <= this.touchStartY) {
-      this.onSwipeUpAgent && this.onSwipeUpAgent();
-      this.onSwipe({ direction: 'up' });
+      this.onSwipe({
+        direction: 'up',
+        offset: this.touchEndY - this.touchStartY
+      });
     }
     if (this.touchEndY - this.options.threshold >= this.touchStartY) {
-      this.onSwipeDownAgent && this.onSwipeDownAgent();
-      this.onSwipe({ direction: 'down ' });
+      this.onSwipe({
+        direction: 'down',
+        offset: this.touchEndY - this.touchStartY
+      });
     }
   }
 }
