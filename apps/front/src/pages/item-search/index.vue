@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { omitBy, isNil } from 'lodash-es';
 import { useItemApi, useCategoryApi, isArray, isDefined } from '@dsp/core';
 import ItemFilters from '@/components/item/filters/index.vue';
 import ItemGrid from '@/components/item/grid/index.vue';
@@ -28,28 +29,40 @@ const filters = computed(() => ({
   'colors.id': toArray(route.query.color),
   'size.id': toArray(route.query.size),
   'condition.id': toArray(route.query.condition),
+  'price[min]': route.query.minPrice,
+  'price[max]': route.query.maxPrice,
   query: route.query.search
 }));
 
 const filtersVModel = computed({
   get() {
-    return filters.value;
+    const { 'price[min]': min, 'price[max]': max, ...rest } = filters.value;
+
+    return {
+      ...rest,
+      price: min || max ? { min, max } : null
+    };
   },
   set(val) {
     const categorySlug =
       categoriesById.value[val.itemSimilarWithCategoryId?.[0]]?.slug;
-
+    console.log(val);
     replace({
       name: 'ItemSearch',
       params: {
         category: categorySlug
       },
-      query: {
-        brand: val['brand.id'],
-        color: val['colors.id'],
-        size: val['size.id'],
-        condition: val['condition.id']
-      }
+      query: omitBy(
+        {
+          brand: val['brand.id'],
+          color: val['colors.id'],
+          size: val['size.id'],
+          condition: val['condition.id'],
+          minPrice: val.price?.min,
+          maxPrice: val.price?.max
+        },
+        isNil
+      )
     });
   }
 });

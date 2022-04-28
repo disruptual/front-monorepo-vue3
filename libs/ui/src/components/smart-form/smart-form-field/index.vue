@@ -23,7 +23,7 @@ const props = defineProps({
   mode: { type: String, default: null },
   unregisterOnUnmount: { type: Boolean, default: true }
 });
-
+console.log(props.initialValue);
 const formContext = inject(CONTEXT_KEYS.FORM);
 
 const buildField = () => {

@@ -4,9 +4,10 @@ export default { name: 'DspSwiper' };
 
 <script setup>
 import { reactive, ref, provide, nextTick, computed, onMounted } from 'vue';
+import { throttle, debounce } from 'lodash-es';
+import Hammer from 'hammerjs';
 import { useDevice } from '@dsp/ui/hooks/useDevice';
 import { useCssProperty } from '@dsp/ui/hooks/useCssProperty';
-import { throttle, debounce } from 'lodash-es';
 import { CONTEXT_KEYS } from '@dsp/ui/utils/constants';
 
 const props = defineProps({
@@ -48,6 +49,20 @@ const setCurrentIndex = throttle(() => {
 
 onMounted(() => {
   nextTick(checkScroll);
+});
+
+const hammer = ref(null);
+onMounted(() => {
+  hammer.value = new Hammer(rootElement.value, {});
+  hammer.value.get('pan').set({ direction: Hammer.DIRECTION_HORIZONTAL });
+
+  let prevDelta = 0;
+  hammer.value.on('pan', e => {
+    const delta = e.deltaX - prevDelta;
+    prevDelta = e.isFinal ? 0 : e.deltaX;
+
+    move(delta);
+  });
 });
 
 const move = offset => {

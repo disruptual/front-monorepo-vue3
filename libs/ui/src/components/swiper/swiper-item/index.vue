@@ -33,7 +33,7 @@ const onSwipeMove = clientX => {
   swiperContext.onSwipeStart();
 
   const diff = clientX - position.value;
-  swiperContext.move(diff);
+  // swiperContext.move(diff);
   position.value = clientX;
 };
 

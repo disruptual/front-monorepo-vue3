@@ -36,6 +36,7 @@ const props = defineProps({
   background: var(--color-gray-100);
   margin-top: var(--spacing-xs);
   margin-left: var(--spacing-xs);
+  padding: var(--spacing-xxs);
   padding-right: var(--spacing-sm);
   border-radius: var(--border-radius-pill);
   max-width: 8em;

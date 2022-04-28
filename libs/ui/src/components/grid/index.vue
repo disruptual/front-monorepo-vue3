@@ -11,17 +11,7 @@ const props = defineProps({
   columns: { type: [Number, String], required: true },
   rows: { type: [Number, String], default: null },
   gap: { type: [Number, String], default: 0 },
-  justify: oneOf(
-    [
-      'flex-start',
-      'flex-end',
-      'center',
-      'space-around',
-      'space-between',
-      'space-evenly'
-    ],
-    null
-  ),
+  justify: { type: String, default: null },
   align: oneOf(['flex-start', 'flex-end', 'center', 'stretch'], 'stretch')
 });
 

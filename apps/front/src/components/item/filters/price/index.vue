@@ -7,7 +7,7 @@ import { inject, computed, ref, watch } from 'vue';
 import { CONTEXT_KEYS, useForm } from '@dsp/ui';
 import { useItemApi } from '@dsp/core';
 
-const { isLoading, data: mostExpensiveItems } = useItemApi().findAllQuery({
+const { data: mostExpensiveItems } = useItemApi().findAllQuery({
   itemsPerPage: 1,
   filters: {
     'sort[price]': 'desc'
@@ -15,21 +15,10 @@ const { isLoading, data: mostExpensiveItems } = useItemApi().findAllQuery({
 });
 const maxPrice = computed(() => mostExpensiveItems.value?.[0]?.price);
 const { filters, setFilter } = inject(CONTEXT_KEYS.FILTER_BAR);
-const min = ref(null);
-const max = ref(null);
-
-const vModel = computed({
-  get() {
-    return filters.value?.price;
-  },
-  set(val) {
-    setFilter('price', [val]);
-  }
-});
 
 const form = useForm({
   onSubmit(values) {
-    console.log(values);
+    setFilter('price', values);
   }
 });
 </script>
@@ -37,7 +26,11 @@ const form = useForm({
 <template>
   <dsp-filter-bar-item label="Prix" name="price">
     <dsp-smart-form v-if="maxPrice" :form="form" class="item-filter-price">
-      <dsp-smart-form-field v-slot="slotProps" name="min">
+      <dsp-smart-form-field
+        v-slot="slotProps"
+        name="min"
+        :initial-value="filters.price.value?.min"
+      >
         <dsp-form-control
           v-slot="{ on, ...formControlProps }"
           v-model="slotProps.field.value"
@@ -53,7 +46,11 @@ const form = useForm({
         </dsp-form-control>
       </dsp-smart-form-field>
 
-      <dsp-smart-form-field v-slot="slotProps" name="max">
+      <dsp-smart-form-field
+        v-slot="slotProps"
+        name="max"
+        :initial-value="filters.price.value?.max"
+      >
         <dsp-form-control
           v-slot="{ on, ...formControlProps }"
           v-model="slotProps.field.value"
