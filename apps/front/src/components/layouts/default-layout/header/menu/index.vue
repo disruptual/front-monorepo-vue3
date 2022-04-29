@@ -23,6 +23,24 @@ const toggleUserMenu = () => {
       <li v-if="!device.isMobile">
         <dsp-button :to="{ name: 'ItemCreation' }">Vendre</dsp-button>
       </li>
+      <li v-if="device.isDesktop && currentUser">
+        <dsp-icon-button
+          :to="{ name: 'Notifications' }"
+          icon="bell"
+          is-plain
+          size="lg"
+          aria-label="notifications"
+        />
+      </li>
+      <li v-if="device.isDesktop && currentUser">
+        <dsp-icon-button
+          :to="{ name: 'Cart' }"
+          icon="cart"
+          is-plain
+          size="lg"
+          aria-label="panier"
+        />
+      </li>
       <li v-if="currentUser">
         <UserMenu v-model="isUserMenuOpened">
           <dsp-avatar :user="currentUser" />
@@ -37,45 +55,20 @@ const toggleUserMenu = () => {
           aria-label="login"
         />
       </li>
-      <li v-if="device.isDesktop && currentUser">
-        <dsp-icon-button
-          :to="{ name: 'Notifications' }"
-          icon="bell"
-          is-plain
-          size="lg"
-          aria-label="notifications"
-        />
-      </li>
-      <li v-if="device.isDesktop && currentUser">
-        <dsp-icon-button
-          :to="{ name: 'Inbox' }"
-          icon="speechBubble"
-          is-plain
-          size="lg"
-          aria-label="messagerie"
-        />
-      </li>
-      <li v-if="device.isDesktop && currentUser">
-        <dsp-icon-button
-          :to="{ name: 'Cart' }"
-          icon="cart"
-          is-plain
-          size="lg"
-          aria-label="panier"
-        />
-      </li>
     </dsp-flex>
   </nav>
 </template>
 
 <style lang="scss" scoped>
 .header-menu {
+  width: 100%;
   .dsp-icon-button {
     padding: 0;
   }
 }
 
 ul {
+  width: 100%;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -83,6 +76,10 @@ ul {
   li {
     display: flex;
     align-items: center;
+
+    &:first-child {
+      margin: 0 auto;
+    }
   }
 }
 </style>

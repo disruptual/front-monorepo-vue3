@@ -95,7 +95,7 @@ const { data: items } = query;
 
 <style lang="scss" scoped>
 .item-search-page {
-  margin-top: var(--spacing-md);
+  margin: var(--spacing-md) 0;
 }
 
 .item-search-page__filters {
