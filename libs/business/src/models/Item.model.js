@@ -1,4 +1,4 @@
-import { formatPrice } from '@dsp/core';
+import { formatPrice, isDefined } from '@dsp/core';
 import { BaseModel } from './Base.model';
 import { Category } from './Category.model';
 import { Color } from './Color.model';
@@ -112,18 +112,16 @@ export class Item extends BaseModel {
     return this.publicationState === ITEM_PUBLICATION_STATES.UNPUBLISHED;
   }
 
+  get seller() {
+    return this.user;
+  }
+
   getDeliveries({ deliveries, deliveryPrices }) {
-    console.log('this.user ==> ', this.user);
-
     try {
-      const seller = this.user;
-      if (!seller || !deliveries) return [];
-
-      console.log('deliveries ==> ', deliveries);
+      if (!this.seller || !deliveries) return [];
 
       const itemDeliveries = deliveries.filter(
-        delivery =>
-          seller._deliveries.includes(delivery.uri) && delivery.enabled
+        delivery => this.seller.hasDelivery(delivery) && delivery.enabled
       );
 
       return this.getAllowedDeliveries({
@@ -141,19 +139,18 @@ export class Item extends BaseModel {
       if ([DELIVERY_MODES.HAND, DELIVERY_MODES.LOCATION].includes(delivery.tag))
         return true;
 
-      console.log('deliveryPrices ==> ', deliveryPrices);
       const deliveryPrice = deliveryPrices.find(
         deliveryPrice =>
-          deliveryPrice.delivery == delivery['@id'] &&
-          deliveryPrice.packageDelivery === this.packageDelivery
+          deliveryPrice.delivery == delivery.uri &&
+          deliveryPrice.packageDelivery === this._packageDelivery
       );
 
       if (!deliveryPrice) return false;
 
       return (
-        deliveryPrice.price !== null ||
-        deliveryPrice.maxPrice !== null ||
-        deliveryPrice.minPrice !== null
+        isDefined(deliveryPrice.price) ||
+        isDefined(deliveryPrice.maxPrice) ||
+        isDefined(deliveryPrice.minPrice)
       );
     });
   }

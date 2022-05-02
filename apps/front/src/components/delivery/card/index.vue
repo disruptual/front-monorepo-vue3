@@ -11,16 +11,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <dsp-flex
-    v-if="delivery"
-    class="delivery-card"
-    direction="column"
-    justify="center"
-    gap="md"
-  >
-    <dsp-icon :icon="delivery.iconName" class="delivery-icon" />
-    <dsp-flex class="delivery-infos">
-      <span>{{ delivery.tag }}</span>
-    </dsp-flex>
+  <dsp-flex v-if="delivery" justify="center" gap="md">
+    <dsp-icon :icon="delivery.tag" size="lg" />
   </dsp-flex>
 </template>

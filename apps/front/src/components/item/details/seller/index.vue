@@ -3,12 +3,12 @@ export default { name: 'ItemDetailsSeller' };
 </script>
 
 <script setup>
-import { User } from '@dsp/business';
+import { computed } from 'vue';
 import Rating from '@/components/user/rating/index.vue';
+import { useItemDetails } from '../use-item-details';
 
-const props = defineProps({
-  seller: { type: User, required: true }
-});
+const { item } = useItemDetails();
+const seller = computed(() => item.value?.user);
 </script>
 
 <template>

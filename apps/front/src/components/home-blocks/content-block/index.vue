@@ -80,7 +80,14 @@ const model = computed(() => typeToModelMap[props.block.type]);
 const relations = computed(() => typeToRelationsMap[props.block.type]);
 const query = useCollectionQuery(queryUrl, () => http.get(queryUrl.value), {
   model,
-  relations
+  relations,
+  onSuccess() {
+    // recommended blocks contain incomplete data from the API
+    // for examples, recommended users are missing a lot of fields
+    // We want to avoid populating the query cache with those entities as it can cause issues when other pages request data with same url
+    // since some fields will be missing
+    // The easiest way is to override the onSuccess callback and just do nothing
+  }
 });
 
 const isSeeMoreTop = computed(() => {

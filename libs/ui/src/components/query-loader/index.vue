@@ -5,8 +5,6 @@ export default { name: 'DspQueryLoader', inheritAttrs: false };
 <script setup>
 import { computed } from 'vue';
 const props = defineProps({
-  buffer: { type: Number, default: 350 },
-  root: { type: null, default: null },
   query: { type: Object, required: true }
 });
 

@@ -3,20 +3,12 @@ export default { name: 'ItemDetailsMedia' };
 </script>
 
 <script setup>
-import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useRouter, useRoute } from 'vue-router';
-import { Item } from '@dsp/business';
-const props = defineProps({
-  item: { type: Item, required: true }
-});
+import { useItemDetails } from '../use-item-details';
 
-const { t } = useI18n();
-const { replace } = useRouter();
-const route = useRoute();
+const { item } = useItemDetails();
 
 const imageUrl = () => {
-  const media = props.item.medias.find(m => m['@id'] === props.item._mainMedia);
+  const media = item.value.medias.find(m => m['@id'] === item.value._mainMedia);
 
   return media?.thumbnails?.item;
 };

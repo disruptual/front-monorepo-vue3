@@ -62,6 +62,14 @@ import bell from './bell.svg?component';
 import logout from './logout.svg?component';
 import starFilled from './starFilled.svg?component';
 import starEmpty from './starEmpty.svg?component';
+import colissimo from './colissimo.svg?component';
+import cocolis from './cocolis.svg?component';
+import mondialrelay from './mondialrelay.svg?component';
+import relaiscolis from './relaiscolis.svg?component';
+import handdelivery from './handdelivery.svg?component';
+import locationdelivery from './locationdelivery.svg?component';
+import lapostecolissimo from './lapostecolissimo.svg?component';
+import lapostecourriersuivi from './lapostecourriersuivi.svg?component';
 
 export default {
   add,
@@ -86,6 +94,8 @@ export default {
   circleRegular,
   circleSolid,
   clock,
+  cocolis,
+  colissimo,
   columns,
   download,
   draggable,
@@ -101,17 +111,23 @@ export default {
   fileImport,
   filter,
   handshake,
+  handdelivery,
   heartEmpty,
   heartFilled,
   highlight,
   home,
   info,
+  lapostecolissimo,
+  lapostecourriersuivi,
   loader,
+  locationdelivery,
   logout,
   mapDot,
   minus,
+  mondialrelay,
   pin,
   plus,
+  relaiscolis,
   remove,
   reset,
   save,

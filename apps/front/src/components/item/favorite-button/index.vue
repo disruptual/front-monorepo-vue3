@@ -4,6 +4,7 @@ export default { name: 'ItemFavoriteButton' };
 
 <script setup>
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useUserApi, useCurrentUser } from '@dsp/core';
 import { Item } from '@dsp/business';
 import { useToast } from '@dsp/ui';
@@ -16,6 +17,7 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
+const { push, currentRoute } = useRouter();
 const queryClient = useQueryClient();
 const { showError } = useToast();
 
@@ -56,6 +58,13 @@ const newFavorites = computed(() =>
 );
 
 const toggleFavorite = () => {
+  if (!currentUser.value) {
+    return push({
+      name: 'Login',
+      query: { from: currentRoute.value.fullPath }
+    });
+  }
+
   if (!canFavorite.value) {
     showError('Vous ne pouvez pas ajouter vos propres articles à vos favoris');
     return;

@@ -38,7 +38,7 @@ Promise.all(queries).then(() => {
       <AppLoading />
     </template>
 
-    <!-- <VueQueryDevTools /> -->
+    <VueQueryDevTools />
     <dsp-toasts-container />
 
     <AppLoading v-if="!isReady" />

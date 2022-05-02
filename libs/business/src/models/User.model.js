@@ -103,4 +103,8 @@ export class User extends BaseModel {
   get isMuted() {
     return !!this.silentModeActivatedAt;
   }
+
+  hasDelivery(delivery) {
+    return this._deliveries.includes(delivery.uri);
+  }
 }
