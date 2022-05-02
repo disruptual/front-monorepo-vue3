@@ -23,6 +23,7 @@ import highlight from './highlight.svg?component';
 import handshake from './handshake.svg?component';
 import home from './home.svg?component';
 import loader from './loader.svg?component';
+import mapDot from './map-dot.svg?component';
 import minus from './minus.svg?component';
 import pin from './pin.svg?component';
 import plus from './plus.svg?component';
@@ -107,6 +108,7 @@ export default {
   info,
   loader,
   logout,
+  mapDot,
   minus,
   pin,
   plus,

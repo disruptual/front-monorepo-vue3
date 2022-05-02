@@ -1,5 +1,5 @@
 <script>
-export default { name: 'ItemCard' };
+export default { name: 'ItemCardInfos' };
 </script>
 
 <script setup>

@@ -11,7 +11,8 @@ import { useI18n } from 'vue-i18n';
 import { useQueryClient } from 'vue-query';
 
 const props = defineProps({
-  item: { type: Item, required: true }
+  item: { type: Item, required: true },
+  size: { type: String, default: 'md' }
 });
 
 const { t } = useI18n();
@@ -77,6 +78,7 @@ const toggleFavorite = () => {
     "
     class="item-favorite-button"
     is-plain
+    :size="size"
     @click="toggleFavorite"
   />
 </template>

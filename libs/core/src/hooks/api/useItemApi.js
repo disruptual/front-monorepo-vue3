@@ -6,6 +6,7 @@ import { useCollectionQuery } from '@dsp/core/hooks/useCollectionQuery';
 
 import { serializeQueryString } from '@dsp/core/utils/helpers';
 import { useCRUDApi } from '../useCRUDApi';
+import { useModelQuery } from '../useModelQuery';
 
 export function useItemApi() {
   return useCRUDApi({ model: Item, service: ItemService }, itemService => ({
@@ -37,6 +38,15 @@ export function useItemApi() {
       });
 
       return useCollectionQuery(queryKey, queryFn, queryOptions);
+    },
+
+    findBySlugQuery(slug, { relations = [] } = {}) {
+      const queryKey = computed(() => `/items/slug/${slug}`);
+
+      return useModelQuery(queryKey, () => itemService.findBySlugQuery(slug), {
+        model: Item,
+        relations
+      });
     },
 
     findAllByUserIdQuery(userId, { relations = [] } = {}) {
