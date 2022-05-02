@@ -13,6 +13,7 @@ import {
   ITEM_PUBLICATION_STATES,
   ITEM_PUBLICATION_STATE_TRANSITIONS
 } from '../enums/item.enums';
+import { DELIVERY_MODES } from '../enums/index';
 
 export class Item extends BaseModel {
   static get relations() {
@@ -109,5 +110,51 @@ export class Item extends BaseModel {
 
   get canRepublish() {
     return this.publicationState === ITEM_PUBLICATION_STATES.UNPUBLISHED;
+  }
+
+  getDeliveries({ deliveries, deliveryPrices }) {
+    console.log('this.user ==> ', this.user);
+
+    try {
+      const seller = this.user;
+      if (!seller || !deliveries) return [];
+
+      console.log('deliveries ==> ', deliveries);
+
+      const itemDeliveries = deliveries.filter(
+        delivery =>
+          seller._deliveries.includes(delivery.uri) && delivery.enabled
+      );
+
+      return this.getAllowedDeliveries({
+        deliveries: itemDeliveries,
+        deliveryPrices
+      });
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  }
+
+  getAllowedDeliveries({ deliveries, deliveryPrices = [] }) {
+    return deliveries.filter(delivery => {
+      if ([DELIVERY_MODES.HAND, DELIVERY_MODES.LOCATION].includes(delivery.tag))
+        return true;
+
+      console.log('deliveryPrices ==> ', deliveryPrices);
+      const deliveryPrice = deliveryPrices.find(
+        deliveryPrice =>
+          deliveryPrice.delivery == delivery['@id'] &&
+          deliveryPrice.packageDelivery === this.packageDelivery
+      );
+
+      if (!deliveryPrice) return false;
+
+      return (
+        deliveryPrice.price !== null ||
+        deliveryPrice.maxPrice !== null ||
+        deliveryPrice.minPrice !== null
+      );
+    });
   }
 }

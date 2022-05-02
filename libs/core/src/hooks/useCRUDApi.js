@@ -92,6 +92,7 @@ export function useCRUDApi(
             ...defaultQueryOptions,
             ...requestOptions,
             params: {
+              ...(defaultQueryOptions.requestOptions?.params || {}),
               ...(requestOptions?.params || {}),
               ...pageParam,
               ...unref(filters)
