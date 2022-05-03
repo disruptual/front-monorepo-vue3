@@ -29,8 +29,8 @@ export function useOrderApi() {
     rollbackMutation(requestOptions) {
       return useMutation(
         `rollBackOrder`,
-        ({ id, orderState, orderStateTransition }) =>
-          orderService.rollback(id, { orderState, orderStateTransition }),
+        ({ id, deliveryState, deliveryStateTransition }) =>
+          orderService.rollback(id, { deliveryState, deliveryStateTransition }),
         requestOptions
       );
     },

@@ -168,6 +168,7 @@ const getStatusClass = order => ({
       v-slot="{ row }"
       name="orderState"
       :label="t('dataTable.label.status')"
+      :tooltip-label="({ row }) => row.status"
       width="250"
       :type="DATATABLE_COLUMN_TYPES.ENUM"
       :enum-values="statuses"

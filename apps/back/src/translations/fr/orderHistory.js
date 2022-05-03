@@ -2,6 +2,8 @@ import {
   DELIVERY_MODES,
   ORDER_STATES,
   ORDER_STATE_TRANSITIONS,
+  ORDER_DELIVERY_STATES,
+  ORDER_DELIVERY_STATE_TRANSITIONS,
   ORDER_PROBLEM_STATE_TRANSITIONS
 } from '@dsp/business';
 
@@ -12,7 +14,7 @@ export default {
     next: "Avancer l'état",
     previous: "Revenir à l'état",
     [DELIVERY_MODES.COLISSIMO]: {
-      [ORDER_STATES.DELIVERED]: {
+      [ORDER_DELIVERY_STATES.DELIVERED]: {
         description:
           '{buyer} doit valider la conformité de la commande avant le {maxDate}'
       },
@@ -24,144 +26,117 @@ export default {
           '{seller} a validé la vente et doit envoyer son colis avant {maxDate}'
       },
       [ORDER_STATE_TRANSITIONS.CANCEL_AUTOMATIC_BY_ORDER_ACCEPTED]: {
-        label: 'Commande annulée',
         description:
           "{seller} n'a pas déposé la commande. {buyer} a été recrédité dans sa cagnotte cash."
       }
     },
     [DELIVERY_MODES.LAPOSTE_COLISSIMO]: {
-      [ORDER_STATES.DELIVERED]: {
-        label: 'Commande récupérée',
+      [ORDER_DELIVERY_STATES.PACKAGE_VALIDATION_BY_BUYER_IN_PROGRESS]: {
         description:
           '{buyer} doit valider la conformité de la commande avant le {maxDate}'
       },
       [ORDER_STATES.ORDERED]: {
-        label: 'Commande à valider',
         description: '{seller} doit valider la vente avant le {maxDate}'
       },
       [ORDER_STATES.ORDER_ACCEPTED]: {
-        label: 'Validé en attente d’envoi',
         description:
           '{seller}  a validé la vente et doit envoyer son colis avant {maxDate}'
       },
       [ORDER_STATE_TRANSITIONS.CANCEL_AUTOMATIC_BY_ORDER_ACCEPTED]: {
-        label: 'Commande annulée',
         description:
           "{seller} n'a pas déposé la commande. {buyer} a été recrédité dans sa cagnotte cash."
       }
     },
     [DELIVERY_MODES.LAPOSTE_LETTER_FOLLOW]: {
-      [ORDER_STATES.DELIVERED]: {
-        label: 'Commande récupérée',
+      [ORDER_DELIVERY_STATES.PACKAGE_VALIDATION_BY_BUYER_IN_PROGRESS]: {
         description:
           '{buyer} doit valider la conformité de la commande avant le {maxDate}'
       },
       [ORDER_STATES.ORDERED]: {
-        label: 'Commande à valider',
         description: '{seller} doit valider la vente avant le {maxDate}'
       },
       [ORDER_STATES.ORDER_ACCEPTED]: {
-        label: 'Validé en attente d’envoi',
         description:
           '{seller}  a validé la vente et doit envoyer son colis avant {maxDate}'
       },
       [ORDER_STATE_TRANSITIONS.CANCEL_AUTOMATIC_BY_ORDER_ACCEPTED]: {
-        label: 'Commande annulée',
         description:
           "{seller} n'a pas déposé la commande. {buyer} a été recrédité dans sa cagnotte cash."
       },
-      [ORDER_STATES.DELIVERY_IN_PROGRESS]: {
-        label: 'Validé en attente d’envoi',
+      [ORDER_DELIVERY_STATES.DEPOSIT_IN_MAILBOX_BY_SELLER_IN_PROGRESS]: {
         description:
           '{seller} a validé la vente et doit envoyer son colis avant {maxDate}'
       }
     },
     [DELIVERY_MODES.HAND]: {
-      [ORDER_STATES.DELIVERED]: {
-        label: 'Commande récupérée',
+      [ORDER_DELIVERY_STATES.DELIVERED]: {
         description:
-          '{buyer} devez valider la conformité de la commande avant le {maxDate}'
+          '{buyer} doit valider la conformité de la commande avant le {maxDate}'
       },
       [ORDER_STATES.ORDERED]: {
-        label: 'Commande  à valider',
         description: '{seller} doit valider la vente avant le {maxDate}'
       },
       [ORDER_STATES.ORDER_ACCEPTED]: {
-        label: 'Validé en attente d’envoi',
         description:
           '{seller} a validé la vente, et doit remettre la commande avant le {maxDate}'
       }
     },
     [DELIVERY_MODES.LOCATION]: {
-      [ORDER_STATES.DELIVERED]: {
-        label: 'Commande recupérée',
+      [ORDER_DELIVERY_STATES.DELIVERED]: {
         description:
-          '{buyer} devez valider la conformité de la commande avant le {maxDate}  '
+          '{buyer} doit valider la conformité de la commande avant le {maxDate}  '
       },
       [ORDER_STATES.ORDERED]: {
-        label: 'Commande à valider',
         description: '{seller} doit valider la vente avant le {maxDate}'
       },
       [ORDER_STATES.ORDER_ACCEPTED]: {
-        label: 'Validé en attente d’envoi',
         description:
           '{seller} a validé la vente et doit déposer son colis avant le {maxDate}'
       },
       [ORDER_STATE_TRANSITIONS.CANCEL_AUTOMATIC_BY_ORDER_ACCEPTED]: {
-        label: 'Commande annulée',
         description:
           "{seller} n'a pas déposé la commande. {buyer} a été recrédité dans sa cagnotte cash."
       }
     },
     [DELIVERY_MODES.MONDIAL_RELAY]: {
-      [ORDER_STATES.DELIVERED]: {
-        label: 'Commande recupérée',
+      [ORDER_DELIVERY_STATES.DELIVERED]: {
         description:
           '{buyer} doit valider la conformité de la commande avant le {maxDate}'
       },
-      [ORDER_STATES.DISTRIBUTED]: {
-        label: 'Commande à récupérer',
-        description: 'Commande à récupérer'
+      [ORDER_DELIVERY_STATES.DISTRIBUTED]: {
+        description: 'Commande à récupérer avant le {maxDate}'
       },
       [ORDER_STATES.ORDERED]: {
-        label: 'Commande à valider',
         description: '{seller} doit valider la vente avant le {maxDate}'
       },
       [ORDER_STATES.ORDER_ACCEPTED]: {
-        label: 'Validé en attente d’envoi',
         description:
           '{seller}  a validé la vente et doit envoyer son colis avant {maxDate}'
       },
       [ORDER_STATE_TRANSITIONS.CANCEL_AUTOMATIC_BY_ORDER_ACCEPTED]: {
-        label: 'Commande annulée',
         description:
           "{seller} n'a pas déposé la commande. {buyer} a été recrédité dans sa cagnotte cash."
       }
     },
     [DELIVERY_MODES.RELAIS_COLIS]: {
       [ORDER_STATES.ORDERED]: {
-        label: 'Commande  à valider',
         description: '{seller} doit valider la commande avant le {maxDate}'
       },
       [ORDER_STATES.ORDER_ACCEPTED]: {
-        label: 'Validé en attente d’envoi',
         description:
           '{seller} a validé la vente et doit envoyer son colis avant le {maxDate}'
       },
-      [ORDER_STATES.TRANSFER_TO_DESTINATION_RELAY_IN_PROGRESS]: {
-        label: 'Commande envoyée',
+      [ORDER_DELIVERY_STATES.TRANSFER_TO_DESTINATION_RELAY_IN_PROGRESS]: {
         description:
           'Le colis est en cours de réception au relai de {destinationRelay}'
       },
-      [ORDER_STATES.RECOVERY_IN_RELAY_BY_BUYER_IN_PROGRESS]: {
-        label: 'Commande à récupérer',
+      [ORDER_DELIVERY_STATES.RECOVERY_IN_RELAY_BY_BUYER_IN_PROGRESS]: {
         description:
-          '{buyer} pouvez aller récuperer la commande au relai de {destinationRelay}'
+          '{buyer} doit récuperer la commande au relai de {destinationRelay}'
       }
     },
     [DELIVERY_MODES.COCOLIS]: {
       [ORDER_STATES.ORDERED]: {
-        label: 'Commande  à valider',
         description: '{seller} doit valider la commande avant le {maxDate}'
       }
     }

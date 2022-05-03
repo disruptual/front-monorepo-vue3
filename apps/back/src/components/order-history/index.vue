@@ -26,8 +26,8 @@ const onRollback = async step => {
   try {
     await rollback({
       id: props.order.id,
-      orderState: step.state,
-      orderStateTransition: step.transition
+      deliveryState: step.state,
+      deliveryStateTransition: step.transition
     });
     emit('rollback');
   } catch (err) {
@@ -52,7 +52,6 @@ const onForward = async () => {
 
 const getStepDescription = step => {
   const translationKey = `orderHistory.${props.order.delivery.tag}.${step.status}.description`;
-
   if (!te(translationKey)) return '';
 
   return t(translationKey, getStepTranslationVariables(step));
@@ -101,7 +100,6 @@ const getStepTranslationVariables = step => {
         >
           <span class="button-label">{{ t('orderHistory.previous') }}</span>
         </dsp-loading-button>
-
         <dsp-loading-button
           v-else-if="currentUser.isProjectManager"
           :disabled="!order.nextTransition"
