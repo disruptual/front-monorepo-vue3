@@ -49,22 +49,26 @@ export function useItemApi() {
       });
     },
 
-    findAllByUserIdQuery(userId, findAllByUserIdOptions = {}) {
+    findAllByUserIdQuery(userId, options = {}) {
       const queryKey = computed(() => `/users/${unref(userId)}/items`);
 
       const queryOptions = computed(() => {
-        const { relations = [], ...options } = unref(findAllByUserIdOptions);
+        const { relations = [], ...rest } = unref(options);
 
         return {
           model: Item,
           relations,
-          ...options
+          ...rest
         };
       });
 
       return useCollectionQuery(
         queryKey,
-        () => itemService.findAllByUserId(unref(userId)),
+        () =>
+          itemService.findAllByUserId(
+            unref(userId),
+            unref(options)?.requestOptions
+          ),
         queryOptions
       );
     },

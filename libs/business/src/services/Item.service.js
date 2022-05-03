@@ -6,11 +6,11 @@ export class ItemService extends BaseCRUDService {
     this.endpoint = '/items';
   }
 
-  async findAllByUserId(userId, options) {
+  findAllByUserId(userId, options) {
     return this._http.get(`users/${userId}/items`, options);
   }
 
-  async findBySlugQuery(slug, options) {
+  findBySlugQuery(slug, options) {
     return this._http.get(`items/slug/${slug}`, options);
   }
 

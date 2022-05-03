@@ -1,4 +1,5 @@
 import { computed, unref } from 'vue';
+import { deepUnref } from '../utils';
 import { useMutation, useQueryClient } from 'vue-query';
 import { useHttp } from '@dsp/core/hooks/useHttp';
 import { useModelQuery } from '@dsp/core/hooks/useModelQuery';
@@ -65,9 +66,9 @@ export function useCRUDApi(
   return {
     findAllQuery(findAllOptions = {}) {
       const queryKey = computed(() => {
-        const { filters } = unref(findAllOptions);
+        const { filters } = deepUnref(findAllOptions);
 
-        return `${baseQueryKey}?${serializeQueryString(unref(filters))}`;
+        return `${baseQueryKey}?${serializeQueryString(filters)}`;
       });
 
       const queryOptions = computed(() => {
