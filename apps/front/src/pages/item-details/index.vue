@@ -10,6 +10,7 @@ import ItemDetailsAction from '@/components/item/details/action/index.vue';
 import ItemDetailsMedia from '@/components/item/details/media/index.vue';
 import ItemDetailsSeller from '@/components/item/details/seller/index.vue';
 import ItemDetailsProvider from '@/components/item/details/item-details-provider.vue';
+import ItemDetailsDressing from '@/components/item/details/dressing/index.vue';
 
 const route = useRoute();
 </script>
@@ -25,8 +26,7 @@ const route = useRoute();
           <ItemDetailsInfos />
         </dsp-grid-item>
         <dsp-grid-item>
-          <!-- <ItemDetailsDressing :item="item" /> -->
-          sa boutique
+          <ItemDetailsDressing />
         </dsp-grid-item>
         <dsp-grid-item>
           <ItemDetailsSeller />
