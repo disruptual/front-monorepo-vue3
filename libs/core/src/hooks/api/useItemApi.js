@@ -50,7 +50,7 @@ export function useItemApi() {
     },
 
     findAllByUserIdQuery(userId, findAllByUserIdOptions = {}) {
-      const queryKey = computed(() => `/users/${userId}/items`);
+      const queryKey = computed(() => `/users/${unref(userId)}/items`);
 
       const queryOptions = computed(() => {
         const { relations = [], ...options } = unref(findAllByUserIdOptions);
@@ -62,11 +62,9 @@ export function useItemApi() {
         };
       });
 
-      console.log('queryOptions.value ==> ', queryOptions.value);
-
       return useCollectionQuery(
         queryKey,
-        () => itemService.findAllByUserId(userId),
+        () => itemService.findAllByUserId(unref(userId)),
         queryOptions
       );
     },

@@ -18,12 +18,8 @@ const deliveriesQuery = useDeliveryApi().findAllQuery();
 
 const deliveryPricesQuery = useDeliveryPriceApi().findAllQuery();
 
-console.log(itemQuery.data.value?.user?.id);
-
 const sellerItemsQuery = useItemApi().findAllByUserIdQuery(
-  computed(() => ({
-    userId: itemQuery.data.value?.user?.id
-  })),
+  computed(() => itemQuery.data.value?.user?.id),
   computed(() => ({
     enabled: !!itemQuery.data.value?.user?.id
   }))
