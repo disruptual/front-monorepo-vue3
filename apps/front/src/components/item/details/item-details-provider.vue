@@ -31,6 +31,6 @@ provide(ITEM_DETAILS_CONTEXT_KEY, context);
 
 <template>
   <dsp-queries-loader :queries="queries">
-    <slot />
+    <slot v-bind="slotProps" />
   </dsp-queries-loader>
 </template>

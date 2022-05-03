@@ -4,6 +4,7 @@ export default { name: 'DeliveryCard' };
 
 <script setup>
 import { Delivery } from '@dsp/business';
+import { vTooltip } from '@dsp/ui';
 
 const props = defineProps({
   delivery: { type: Delivery, required: true }
@@ -11,7 +12,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <dsp-flex v-if="delivery" justify="center" gap="md">
+  <dsp-flex v-if="delivery" v-tooltip="delivery.name" justify="center" gap="md">
     <dsp-icon :icon="delivery.tag" size="lg" />
   </dsp-flex>
 </template>

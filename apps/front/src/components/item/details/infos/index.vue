@@ -31,37 +31,46 @@ const allowedDeliveries = computed(() => {
         <ItemFavoriteButton :item="item" size="lg" />
       </dsp-flex>
       <dl>
-        <dt>Description</dt>
-        <dd>
+        <p class="description">
           {{ item.content }}
-        </dd>
+        </p>
 
-        <dt>Prix</dt>
-        <dd>
+        <div class="price">
           {{ item.formatedPrice }}
           <div v-if="item.originalPrice" class="original-price">
             {{ item.formatedOriginalPrice }}
           </div>
-        </dd>
+        </div>
 
-        <dt>Marque</dt>
-        <dd>{{ item.brand?.name }}</dd>
+        <dsp-flex gap="sm" class="field">
+          <dt>Marque</dt>
+          <dd>{{ item.brand?.name }}</dd>
+        </dsp-flex>
 
-        <dt>Taille</dt>
-        <dd>{{ item.size?.name }}</dd>
+        <dsp-flex gap="sm" class="field">
+          <dt>Taille</dt>
+          <dd>{{ item.size?.name }}</dd>
+        </dsp-flex>
 
-        <dt>Etat</dt>
-        <dd>{{ item.condition?.stateName }}</dd>
+        <dsp-flex gap="sm" class="field">
+          <dt>Etat</dt>
+          <dd>{{ item.condition?.stateName }}</dd>
+        </dsp-flex>
 
-        <div>Mise à jour le: {{ item.updated }}</div>
+        <dsp-flex gap="sm" class="field">
+          <dt>Mise à jour le</dt>
+          <dd>{{ item.updated }}</dd>
+        </dsp-flex>
 
-        <dt>Modes de livraison :</dt>
-        <dsp-flex as="dd" gap="lg">
-          <DeliveryCard
-            v-for="delivery in allowedDeliveries"
-            :key="delivery.id"
-            :delivery="delivery"
-          />
+        <dsp-flex gap="sm" class="field" align="center">
+          <dt>Livraison :</dt>
+          <dsp-flex as="dd" gap="lg">
+            <DeliveryCard
+              v-for="delivery in allowedDeliveries"
+              :key="delivery.id"
+              :delivery="delivery"
+            />
+          </dsp-flex>
         </dsp-flex>
       </dl>
     </dsp-flex>
@@ -69,7 +78,28 @@ const allowedDeliveries = computed(() => {
 </template>
 
 <style lang="scss" scoped>
+dl,
+dt,
 dd {
   margin: 0;
+}
+
+.description {
+  margin: 0;
+}
+
+.price {
+  font-size: var(--font-size-xl);
+  margin: var(--spacing-sm) 0;
+}
+
+.original-price {
+  font-size: var(--font-size-lg);
+  text-decoration: line-through;
+}
+
+.field {
+  padding: var(--spacing-sm) 0;
+  border-bottom: solid 1px var(--color-separator);
 }
 </style>
