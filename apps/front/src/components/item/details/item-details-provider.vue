@@ -2,9 +2,8 @@
 export default { name: 'ItemDetailsProvider' };
 </script>
 <script setup>
-import { provide, computed } from 'vue';
-import { useItemApi } from '@dsp/core';
-import { useDeliveryApi, useDeliveryPriceApi } from '@dsp/core';
+import { provide, computed, ref } from 'vue';
+import { useDeliveryApi, useDeliveryPriceApi, useItemApi } from '@dsp/core';
 import { ITEM_DETAILS_CONTEXT_KEY } from './item-details-constants';
 
 const props = defineProps({
@@ -19,18 +18,35 @@ const deliveriesQuery = useDeliveryApi().findAllQuery();
 
 const deliveryPricesQuery = useDeliveryPriceApi().findAllQuery();
 
-const queries = [itemQuery, deliveriesQuery, deliveryPricesQuery];
+console.log(itemQuery.data.value?.user?.id);
+
+const sellerItemsQuery = useItemApi().findAllByUserIdQuery(
+  computed(() => ({
+    userId: itemQuery.data.value?.user?.id
+  })),
+  computed(() => ({
+    enabled: !!itemQuery.data.value?.user?.id
+  }))
+);
+
+const queries = [
+  itemQuery,
+  deliveriesQuery,
+  deliveryPricesQuery,
+  sellerItemsQuery
+];
 
 const context = {
   item: computed(() => itemQuery.data.value),
   deliveries: computed(() => deliveriesQuery.data.value),
-  deliveryPrices: computed(() => deliveryPricesQuery.data.value)
+  deliveryPrices: computed(() => deliveryPricesQuery.data.value),
+  sellerItemsQuery: computed(() => sellerItemsQuery.data.value)
 };
 provide(ITEM_DETAILS_CONTEXT_KEY, context);
 </script>
 
 <template>
   <dsp-queries-loader :queries="queries">
-    <slot v-bind="slotProps" />
+    <slot />
   </dsp-queries-loader>
 </template>

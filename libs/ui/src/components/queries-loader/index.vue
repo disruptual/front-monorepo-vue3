@@ -29,6 +29,7 @@ const isReady = computed(() => props.queries.every(q => q.data.value));
 
 <style lang="scss" scoped>
 .loader {
+  height: 100%;
   padding: var(--spacing-xl);
   font-size: var(--font-size-xxl);
 }

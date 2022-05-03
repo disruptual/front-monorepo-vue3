@@ -27,7 +27,12 @@ const seller = computed(() => item.value?.user);
           <dsp-avatar class="avatar" :user="seller" size="lg" />
         </dsp-plain-button>
         <Rating :user="seller" size="md" />
-        <dsp-plain-button>voir les avis</dsp-plain-button>
+        <dsp-plain-button
+          class="see-reviews"
+          :to="{ name: 'Profile', params: { slug: seller.slug } }"
+        >
+          voir les avis
+        </dsp-plain-button>
       </dsp-flex>
 
       <dsp-flex class="infos" justify="flex-start" direction="column" gap="xs">
@@ -61,6 +66,9 @@ const seller = computed(() => item.value?.user);
 </template>
 
 <style lang="scss" scoped>
+.see-reviews {
+  padding: 0;
+}
 .actions {
   .dsp-button {
     width: 100%;
