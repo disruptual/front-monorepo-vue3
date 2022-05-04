@@ -8,6 +8,8 @@ import {
   HOME_BLOCK_QUERIES,
   HOME_BLOCK_TYPES,
   RecommendedUser,
+  RecommendedBrand,
+  RecommendedCategory,
   Category,
   Item,
   Brand
@@ -49,9 +51,9 @@ const queryToRequestMap = {
 
 const typeToModelMap = {
   [HOME_BLOCK_TYPES.USER]: RecommendedUser,
-  [HOME_BLOCK_TYPES.CATEGORY]: Category,
+  [HOME_BLOCK_TYPES.CATEGORY]: RecommendedCategory,
   [HOME_BLOCK_TYPES.ITEM]: Item,
-  [HOME_BLOCK_TYPES.BRAND]: Brand
+  [HOME_BLOCK_TYPES.BRAND]: RecommendedBrand
 };
 
 const typeToRelationsMap = {

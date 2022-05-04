@@ -16,14 +16,18 @@ const props = defineProps({
     :to="{ name: 'ItemSearch', query: { brand: props.brand.id } }"
     class="brand-card"
   >
-    {{ props.brand.name }} ({{ props.brand.totalOfPublishedItems }})
+    {{ props.brand.name }} ( {{ props.brand.totalOfPublishedItems }} )
   </router-link>
 </template>
 
 <style lang="scss" scoped>
 .brand-card {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: solid 1px currentColor;
-  padding: var(--spacing-md);
+  padding: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  height: 100%;
 }
 </style>

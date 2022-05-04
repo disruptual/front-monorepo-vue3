@@ -16,3 +16,9 @@ defineProps({
     </dsp-swiper-item>
   </dsp-swiper>
 </template>
+
+<style lang="scss" scoped>
+.dsp-swiper-item {
+  width: calc((100% / 4.5) - var(--spacing-md));
+}
+</style>

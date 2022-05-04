@@ -16,14 +16,30 @@ const props = defineProps({
     :to="{ name: 'ItemSearch', params: { category: props.category.slug } }"
     class="category-card"
   >
-    {{ props.category.name }} ({{ props.category.totalOfPublishedItems }})
+    <dsp-flex direction="column" align="center" gap="xxs">
+      <span>
+        {{ props.category.name }}
+      </span>
+      <span class="category-root">
+        {{ props.category.root.name }}
+      </span>
+      <span>( {{ props.category.totalOfPublishedItems }} )</span>
+    </dsp-flex>
   </router-link>
 </template>
 
 <style lang="scss" scoped>
 .category-card {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: solid 1px currentColor;
-  padding: var(--spacing-md);
+  padding: var(--spacing-xs);
+  font-size: var(--font-size-md);
+  height: 100%;
+}
+
+.category-root {
+  font-size: var(--font-size-sm);
 }
 </style>
