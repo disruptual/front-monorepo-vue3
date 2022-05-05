@@ -3,7 +3,7 @@ export default { name: 'App' };
 </script>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useQueryClient } from 'vue-query';
 import { AppProvider, useHttp } from '@dsp/core';
@@ -14,7 +14,7 @@ import { DisruptualDevtools } from '@dsp/devtools';
 
 const isNavigating = ref(false);
 const shouldAnimate = ref(true);
-const { beforeEach } = useRouter();
+const { beforeEach, currentRoute } = useRouter();
 beforeEach((from, to) => {
   shouldAnimate.value = from.name !== to.name;
 });

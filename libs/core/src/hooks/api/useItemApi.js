@@ -1,5 +1,6 @@
 import { computed, unref } from 'vue';
 import { Item, ItemService } from '@dsp/business';
+import { merge } from 'lodash-es';
 import { deepUnref } from '@dsp/core/utils/helpers';
 
 import { useCollectionQuery } from '@dsp/core/hooks/useCollectionQuery';
@@ -64,11 +65,17 @@ export function useItemApi() {
 
       return useCollectionQuery(
         queryKey,
-        () =>
-          itemService.findAllByUserId(
+        ({ pageParam }) => {
+          const { requestOptions } = unref(options);
+          return itemService.findAllByUserId(
             unref(userId),
-            unref(options)?.requestOptions
-          ),
+            merge(requestOptions, {
+              params: {
+                page: pageParam?.page ?? 1
+              }
+            })
+          );
+        },
         queryOptions
       );
     },

@@ -33,7 +33,11 @@ const userItemsQuery = findAllByUserIdQuery(
 
 const context = {
   user,
-  userItems: computed(() => userItemsQuery.data.value)
+  userItems: computed(() => userItemsQuery.data.value),
+  queries: {
+    user: userQuery,
+    userItems: userItemsQuery
+  }
 };
 
 provide(USER_PROFILE_CONTEXT_KEY, context);
