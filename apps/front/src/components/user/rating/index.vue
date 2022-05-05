@@ -12,7 +12,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <dsp-flex gap="xs">
+  <dsp-flex gap="xxs">
     <dsp-icon
       v-for="i in 5"
       :key="i"

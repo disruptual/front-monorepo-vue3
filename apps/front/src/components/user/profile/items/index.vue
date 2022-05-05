@@ -6,18 +6,50 @@ export default { name: 'UserProfileInfos' };
 import { useUserProfile } from '../use-user-profile';
 import ItemGrid from '@/components/item/grid/index.vue';
 
-const { queries } = useUserProfile();
+const { user, userItems, queries } = useUserProfile();
 </script>
 
 <template>
   <dsp-section>
-    <dsp-section-heading>Ses articles</dsp-section-heading>
+    <dsp-section-heading class="user-profile-items__heading">
+      Ses articles
+    </dsp-section-heading>
 
-    <dsp-infinite-query-loader
-      v-slot="{ data: items }"
-      :query="queries.userItems"
-    >
-      <ItemGrid :items="items" />
+    <span class="user-profile-items__last-update">
+      Dernière mise à jour: {{ user.formatedLastItemUpdatedAt }}
+    </span>
+
+    <div class="user-profile-items__count">
+      {{ userItems.totalItems }} articles
+    </div>
+
+    <dsp-infinite-query-loader :query="queries.userItems">
+      <template #no-results>
+        {{ user.username }} Ne possède pas d'articles.
+      </template>
+
+      <template #default="{ data: items }">
+        <ItemGrid :items="items" />
+      </template>
     </dsp-infinite-query-loader>
   </dsp-section>
 </template>
+
+<style lang="scss" scoped>
+.user-profile-items__heading {
+  display: inline-block;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  margin-right: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+}
+
+.user-profile-items__last-update {
+  font-size: var(--font-size-sm);
+}
+
+.user-profile-items__count {
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-md);
+}
+</style>

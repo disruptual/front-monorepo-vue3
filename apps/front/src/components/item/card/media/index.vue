@@ -14,7 +14,11 @@ const { imageUrl } = useItemCard(props);
 </script>
 
 <template>
-  <dsp-grid columns="auto 1fr auto" rows="auto 1fr auto" justify="flex-start">
+  <dsp-grid
+    columns="minmax(auto, 50%) 1fr auto"
+    rows="auto 1fr auto"
+    justify="flex-start"
+  >
     <dsp-grid-item column="1 / -1" row="1 / -1">
       <router-link
         :to="{ name: 'ItemDetails', params: { slug: props.item.slug } }"

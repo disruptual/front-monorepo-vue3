@@ -12,7 +12,9 @@ defineProps({
 <template>
   <ul role="feed" class="user-grid">
     <li v-for="user in users" :key="user.id" role="article" tabindex="0">
-      <UserCard :user="user" />
+      <UserCard :user="user">
+        <slot :user="user" />
+      </UserCard>
     </li>
   </ul>
 </template>

@@ -19,9 +19,9 @@ const props = defineProps({
       </dsp-truncated-text>
       <UserRating :user="props.user" size="md" />
     </dsp-center>
-    <dsp-button class="user-card__link" is-full-width>
-      Voir le dressing
-    </dsp-button>
+    <div class="user-card__additional">
+      <slot />
+    </div>
   </dsp-surface>
 </template>
 
@@ -34,7 +34,7 @@ const props = defineProps({
   font-size: var(--font-size-lg);
 }
 
-.user-card__link {
+.user-card__additional {
   margin-top: var(--spacing-md);
 }
 </style>

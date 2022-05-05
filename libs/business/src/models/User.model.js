@@ -1,3 +1,5 @@
+import { formatDistanceToNow } from 'date-fns';
+import frLocale from 'date-fns/locale/fr';
 import { BaseModel } from './Base.model';
 import { USER_ROLES } from '@dsp/business/enums';
 import { Delivery } from './Delivery.model';
@@ -102,6 +104,22 @@ export class User extends BaseModel {
 
   get isMuted() {
     return !!this.silentModeActivatedAt;
+  }
+
+  get formatedLastConnectionAt() {
+    return formatDistanceToNow(new Date(this.lastConnectionAt), {
+      addSuffix: true,
+      includeSeconds: false,
+      locale: frLocale
+    });
+  }
+
+  get formatedLastItemUpdatedAt() {
+    return formatDistanceToNow(new Date(this.lastItemUpdatedAt), {
+      addSuffix: true,
+      includeSeconds: false,
+      locale: frLocale
+    });
   }
 
   hasDelivery(delivery) {

@@ -22,7 +22,14 @@ const is = computed(() => uiTypeToComponentMap[props.block.options.uiType]);
 
 <template>
   <div class="home-content-block-user">
-    <component :is="is" :users="props.data" />
+    <component :is="is" v-slot="{ user }" :users="props.data">
+      <dsp-button
+        :to="{ name: 'Profile', params: { slug: user.slug } }"
+        is-full-width
+      >
+        Voir le dressing
+      </dsp-button>
+    </component>
   </div>
 </template>
 

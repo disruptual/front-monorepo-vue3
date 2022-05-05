@@ -10,7 +10,7 @@ body {
   font-family: var(--font-body);
   background-color: var(--color-background);
   color: var(--dsp-ui-body-text-color);
-  font-size: var(--font-size-md);
+  font-size: 16px;
   width: var(--100-vw);
 }
 
@@ -37,7 +37,7 @@ button {
   --font-family-primary: Helvetica, Arial, sans serif;
   --font-family-secondary: Helvetica, Arial, sans serif;
 
-  --font-size-base: 16px;
+  --font-size-base: 1em;
 
   --font-size-ratio: 1.2;
   --font-size-sm: calc(var(--font-size-sm) / (var(--font-size-ratio)));
