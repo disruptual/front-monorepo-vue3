@@ -25,7 +25,7 @@ const columns = computed(() => (device.isMobile ? 1 : 'auto 1fr auto'));
           :to="{ query: { section: 'reviews' } }"
           class="user-profile-infos__reviews-link"
         >
-          Voir les XX avis
+          Voir les {{ user.reviewsReceived.totalItems }} avis
         </dsp-plain-button>
       </dsp-center>
 

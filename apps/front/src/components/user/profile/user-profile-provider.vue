@@ -16,7 +16,7 @@ const currentUserQuery = useCurrentUser();
 const userQuery = findBySlugQuery(
   computed(() => route.params.slug),
   {
-    relations: ['mainAddress'],
+    relations: ['mainAddress', 'reviewsReceived'],
     enabled: computed(() => !!route.params.slug)
   }
 );
