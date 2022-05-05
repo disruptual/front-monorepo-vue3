@@ -6,15 +6,14 @@ export default {
 
 <script setup>
 import logo from '../assets/logo.svg?url';
+import { useCssProperty } from '@dsp/ui';
 
-if (CSS.registerProperty) {
-  CSS.registerProperty({
-    name: '--progress',
-    syntax: '<percentage>',
-    inherits: false,
-    initialValue: '0%'
-  });
-}
+useCssProperty({
+  name: '--progress',
+  syntax: '<percentage>',
+  inherits: false,
+  initialValue: '0%'
+});
 </script>
 
 <template>

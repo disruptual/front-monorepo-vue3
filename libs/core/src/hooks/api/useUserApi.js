@@ -1,18 +1,25 @@
-import { computed } from 'vue';
+import { computed, unref } from 'vue';
 import { useMutation } from 'vue-query';
+import { deepUnref } from '../../utils';
 import { User, UserService } from '@dsp/business';
 import { useModelQuery } from '@dsp/core/hooks/useModelQuery';
 import { useCRUDApi } from '../useCRUDApi';
 
 export function useUserApi() {
   return useCRUDApi({ model: User, service: UserService }, userService => ({
-    findBySlugQuery(slug, { relations = [] } = {}) {
-      const queryKey = computed(() => `/users/slug/${slug}`);
+    findBySlugQuery(slug, options) {
+      const queryKey = computed(() => `/users/slug/${unref(slug)}`);
 
-      return useModelQuery(queryKey, () => userService.findBySlug(slug), {
+      const queryOptions = computed(() => ({
         model: User,
-        relations
-      });
+        ...deepUnref(options)
+      }));
+
+      return useModelQuery(
+        queryKey,
+        () => userService.findBySlug(unref(slug)),
+        queryOptions
+      );
     },
 
     muteMutation(options) {

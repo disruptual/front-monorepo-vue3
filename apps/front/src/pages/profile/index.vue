@@ -1,16 +1,12 @@
 <script setup>
-import { useCurrentUser } from '@dsp/core';
-
-const { isLoading, data: currentUser } = useCurrentUser();
+import UserProfileProvider from '@/components/user/profile/user-profile-provider.vue';
+import UserProfileInfos from '@/components/user/profile/infos/index.vue';
 </script>
 
 <template>
-  <div>
-    <h1>Profile page</h1>
-    <div v-if="isLoading">Loading...</div>
-
-    <div v-else>
-      <p>Hello, {{ currentUser.firstName }}</p>
-    </div>
-  </div>
+  <UserProfileProvider>
+    <dsp-container is-large>
+      <UserProfileInfos />
+    </dsp-container>
+  </UserProfileProvider>
 </template>

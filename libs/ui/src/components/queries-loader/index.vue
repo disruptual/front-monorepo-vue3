@@ -12,7 +12,9 @@ const isLoading = computed(() => {
   return props.queries.some(q => q.isLoading.value);
 });
 const error = computed(() => props.queries.some(q => q.isError.value));
-const isReady = computed(() => props.queries.every(q => q.data.value));
+const isReady = computed(() =>
+  props.queries.every(q => q.data.value || q.isIdle.value)
+);
 </script>
 
 <template>
