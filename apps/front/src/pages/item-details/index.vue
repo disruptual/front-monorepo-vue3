@@ -23,21 +23,25 @@ const device = useDevice();
     <dsp-container is-large>
       <dsp-grid
         class="item-details-page"
-        :columns="device.isMobile ? 1 : '60% 40%'"
+        :columns="device.isMobile ? 1 : '6fr 4fr'"
         gap="sm"
       >
         <dsp-grid-item>
           <ItemDetailsMedia />
         </dsp-grid-item>
+
         <dsp-grid-item>
           <ItemDetailsInfos />
         </dsp-grid-item>
+
         <dsp-grid-item :row="device.isMobile ? 4 : null">
           <ItemDetailsDressing />
         </dsp-grid-item>
+
         <dsp-grid-item :row="device.isMobile ? 3 : null">
           <ItemDetailsSeller class="item-details-page__seller" />
         </dsp-grid-item>
+
         <dsp-grid-item column="1 / -1">
           <ItemDetailsSimilarItems />
         </dsp-grid-item>
