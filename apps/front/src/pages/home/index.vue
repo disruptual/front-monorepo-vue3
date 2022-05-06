@@ -21,7 +21,7 @@ const carouselQuery = useCarouselApi().findAllQuery();
       </template>
     </dsp-query-loader>
 
-    <HomeBlocks />
+    <HomeBlocks class="home-page__blocks" />
   </div>
 </template>
 
@@ -29,6 +29,7 @@ const carouselQuery = useCarouselApi().findAllQuery();
 .home-page {
   min-height: 100vh;
 }
+
 .carousel-loader {
   animation: placeholderShimmer 1s;
   height: 320px;

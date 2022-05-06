@@ -86,8 +86,8 @@ const query = useCollectionQuery(queryUrl, () => http.get(queryUrl.value), {
   onSuccess() {
     // recommended blocks contain incomplete data from the API
     // for examples, recommended users are missing a lot of fields
-    // We want to avoid populating the query cache with those entities as it can cause issues when other pages request data with same url
-    // since some fields will be missing
+    // however, their uri will be from the related entity, ex: /users/123, instead of /recommanded_users/123
+    // this could cause some issue with automatic caching of entities with other pages since some fields will be missing
     // The easiest way is to override the onSuccess callback and just do nothing
   }
 });
@@ -159,6 +159,11 @@ const titleClass = computed(
   }
   footer {
     margin-top: var(--spacing-md);
+  }
+
+  @include not-desktop {
+    padding-left: var(--spacing-sm);
+    padding-right: var(--spacing-sm);
   }
 
   @include mobile-only {
