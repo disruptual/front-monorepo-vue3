@@ -74,7 +74,7 @@ export function useForm({
       return await onSubmit(values.value);
     } catch (err) {
       console.error(err);
-      onError(err);
+      onError(err, values.value);
       if (throwOnError) throw err;
     } finally {
       isSubmitting.value = false;

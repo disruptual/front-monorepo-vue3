@@ -14,6 +14,7 @@ const props = defineProps({
   modelValue: { type: null, required: true },
   field: { type: Object, default: () => ({ listeners: {}, errors: [] }) },
   label: { type: [String, null], default: null },
+  hint: { type: [String, null], default: null },
   ...schema.toProps()
 });
 const attrs = useAttrs();
@@ -62,6 +63,7 @@ const slotBindings = computed(() => ({
       />
     </slot>
 
+    <p v-if="props.hint" class="dsp-form-conrol__hint">{{ props.hint }}</p>
     <dsp-form-error
       v-for="(error, key) in field?.errors"
       :key="key"
@@ -82,5 +84,10 @@ const slotBindings = computed(() => ({
       color: v-bind('context.asteriskColor');
     }
   }
+}
+
+.dsp-form-conrol__hint {
+  margin: 0;
+  font-size: var(--font-size-sm);
 }
 </style>

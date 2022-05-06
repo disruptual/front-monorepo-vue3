@@ -5,5 +5,6 @@ export default createComponentSchema('HeaderCategoriesNav', types => ({
   activeColor: types.color('brand-500)'),
   align: types.oneOf(['left', 'center'], 'center'),
   hasMainsiteLink: types.boolean(false),
-  mainsiteUrl: types.string('http://disruptual.com')
+  mainsiteUrl: types.string('http://disruptual.com'),
+  hasIcons: types.boolean(true)
 }));

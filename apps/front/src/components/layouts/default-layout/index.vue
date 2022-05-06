@@ -54,6 +54,7 @@ const onHeaderResize = entries => {
   top: 0;
   width: 100%;
   z-index: 3;
+  box-shadow: var(--box-shadow-sm);
 }
 
 .default-layout__app-bar {

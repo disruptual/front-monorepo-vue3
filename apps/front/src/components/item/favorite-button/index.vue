@@ -83,7 +83,11 @@ const toggleFavorite = () => {
   <dsp-icon-button
     :icon="isFavorited ? 'heartFilled' : 'heartEmpty'"
     :title="
-      t(`itemCard.${isFavorited ? 'removeFromFavorites' : 'addToFavorites'}`)
+      t(
+        `itemFavoriteButton.${
+          isFavorited ? 'removeFromFavorites' : 'addToFavorites'
+        }`
+      )
     "
     class="item-favorite-button"
     is-plain

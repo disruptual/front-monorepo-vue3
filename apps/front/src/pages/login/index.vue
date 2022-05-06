@@ -15,10 +15,13 @@ const onSuccess = () => {
 </script>
 
 <template>
+  <dsp-section></dsp-section>
   <dsp-center class="login-page">
     <dsp-container is-small>
       <dsp-surface>
-        <h1>Connexion</h1>
+        <dsp-section-heading class="login-page__heading">
+          Connexion
+        </dsp-section-heading>
         <LoginForm @success="onSuccess" />
       </dsp-surface>
     </dsp-container>
@@ -28,5 +31,9 @@ const onSuccess = () => {
 <style scoped>
 .login-page {
   height: 100%;
+}
+
+.login-page__heading {
+  margin: 0;
 }
 </style>

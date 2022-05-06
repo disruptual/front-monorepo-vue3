@@ -40,19 +40,13 @@ const toggle = () => {
 
 const maybeReturnFocus = () => {
   if (!props.returnFocusOnClose) return;
-  console.log('should return focus');
   const children = getFocusableChildren(toggleButton.value);
+
   if (children.length) {
-    console.log('will focus', children[0]);
     children[0].focus();
   } else {
-    console.log('will focus', toggleButton.value);
     toggleButton.value?.focus?.();
   }
-
-  setTimeout(() => {
-    console.log(document.activeElement);
-  }, 1000);
 };
 
 const close = () => {
@@ -211,7 +205,6 @@ provide(CONTEXT_KEYS.DROPDOWN, { toggle, close });
 
 .menu {
   position: absolute;
-  top: 100%;
   z-index: var(--z-index-dropdown);
   width: max-content;
   background-color: var(--color-surface);
