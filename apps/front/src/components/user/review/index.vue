@@ -14,9 +14,9 @@ console.log(props.review);
 </script>
 
 <template>
-  <dsp-flex gap="sm" align="center" wrap="nowrap" class="user-review">
+  <dsp-flex gap="md" align="center" wrap="nowrap" class="user-review">
     <dsp-center gap="xs">
-      <dsp-avatar v-if="review?.sender" :user="review?.sender" size="xl" />
+      <dsp-avatar v-if="review?.sender" :user="review?.sender" size="lg" />
       <Rating :review="review" size="sm" />
     </dsp-center>
     <p class="user-review__content">{{ review.content }}</p>

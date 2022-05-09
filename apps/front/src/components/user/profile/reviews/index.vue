@@ -5,18 +5,18 @@ export default { name: 'UserProfileReviews' };
 <script setup>
 import { computed } from 'vue';
 import { useUserProfile } from '../use-user-profile';
+import { useI18n } from 'vue-i18n';
 import UserReview from '@/components/user/review/index.vue';
+const { t } = useI18n();
 const { user, userReviews, queries, myProfile } = useUserProfile();
-
-const title = computed(() =>
-  useUserProfile.myProfile ? 'Mes avis' : 'Ses avis'
-);
 </script>
 
 <template>
   <dsp-section>
     <dsp-section-heading class="user-profile-reviews__heading">
-      <span>{{ title }}</span>
+      <span>
+        {{ t(myProfile ? 'profile.myReviews' : 'profile.hisReviews') }}
+      </span>
     </dsp-section-heading>
 
     <div class="user-profile-reviews__list">

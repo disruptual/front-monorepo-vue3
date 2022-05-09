@@ -11,7 +11,6 @@ export class RecommendedUser extends BaseModel {
       Object.assign(this, this.user);
       this.id = id;
       this.userId = this.user.id;
-      delete this.user;
     }
   }
 }

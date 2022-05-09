@@ -11,7 +11,6 @@ export class RecommendedCategory extends BaseModel {
       Object.assign(this, this.category);
       this.id = id;
       this.categoryId = this.category.id;
-      delete this.category;
     }
   }
 }

@@ -11,7 +11,6 @@ export class RecommendedBrand extends BaseModel {
       Object.assign(this, this.brand);
       this.id = id;
       this.brandId = this.brand.id;
-      delete this.brand;
     }
   }
 }
