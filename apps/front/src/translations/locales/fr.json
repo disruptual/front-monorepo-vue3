@@ -5,6 +5,7 @@
   "cancel": "Annuler",
   "validate": "Valider",
   "platformName": "Disruptual",
+
   "form": {
     "errors": {
       "required": "Veuillez remplir ce champ",
@@ -15,8 +16,13 @@
       "pattern": "Ce champ doit ne possède pas la bonne forme",
       "isIn": "Ce champ doit faire partie des valeurs suivantes : {values}",
       "isNotIn": "Ce champ ne doit pas faire partie des valeurs suivantes : {values}",
-      "email": "Ce champ n'est pas une adresse email valide"
+      "email": "Ce champ n'est pas une adresse email valide",
+      "passwordMatch": "Les mots de passe ne correspondent pas.",
+      "containsUppercase": "Ce champ doit comporter au moins une majuscule",
+      "containsLowercase": "Ce champ doit comporter au moins une minuscule",
+      "containsNumber": "Ce champ doit comporter au moins un chiffre"
     }
   },
+
   "tooltips": { "formFieldIsRequired": "Ce champ est requis" }
 }
