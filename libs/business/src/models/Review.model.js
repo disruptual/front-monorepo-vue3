@@ -14,12 +14,12 @@ export class Review extends BaseModel {
       },
       {
         name: 'sender',
-        getUri: entity => entity._from,
+        getUri: entity => entity.from,
         model: User
       },
       {
         name: 'sendee',
-        getUri: entity => entity._to,
+        getUri: entity => entity.to,
         model: User
       }
     ];

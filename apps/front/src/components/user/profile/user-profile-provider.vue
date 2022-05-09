@@ -31,8 +31,9 @@ const userQuery = findBySlugQuery(
 const user = computed(() => {
   return userQuery.data.value || currentUserQuery.data.value;
 });
+
 const myProfile = computed(() => {
-  return userQuery.data.uri === currentUserQuery.data.uri;
+  return !route.params.slug;
 });
 
 const userItemsQuery = findAllByUserIdQuery(
