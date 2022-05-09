@@ -38,9 +38,11 @@ const myProfile = computed(() => {
             <UserProfileInfos />
           </dsp-container>
         </dsp-surface>
-        <dsp-container>
-          <UserProfileItems />
-        </dsp-container>
+        <dsp-surface>
+          <dsp-container>
+            <UserProfileItems />
+          </dsp-container>
+        </dsp-surface>
       </dsp-tab>
 
       <dsp-tab
