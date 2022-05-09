@@ -33,9 +33,9 @@ const { data: currentUser } = useCurrentUser();
 const { showError, showSuccess } = useToast();
 const userApi = useUserApi();
 const { mutateAsync: updateUser } = userApi.updateMutation({
-  onSuccess() {
+  onSuccess(data) {
     showSuccess(t('toasts.user.updateSuccess'));
-    emit('success');
+    emit('success', data);
   },
   onError(err) {
     console.error(err);
@@ -164,29 +164,31 @@ const ordersLink = computed(() => ({
 
   <dsp-smart-form v-if="isEditing" class="edit-mode" :form="form">
     <dsp-grid :columns="device.isDesktop ? 2 : 1">
-      <label for="username">{{ t('user.details.username') }}</label>
-      <dsp-smart-form-field
-        v-slot="slotProps"
-        name="username"
-        :initial-value="user.username"
-        :validators="usernameValidators"
-        :minlength="4"
-        :maxlength="30"
-        :mode="VALIDATION_MODES.ON_INPUT"
-        required
-      >
-        <dsp-input-text
-          id="username"
-          v-model="slotProps.field.value"
-          v-on="slotProps.field.listeners"
-        />
-        <dsp-form-error
-          v-for="(error, key) in slotProps.field?.errors"
-          :key="key"
-          class="errors"
-          :error="error"
-        />
-      </dsp-smart-form-field>
+      <template v-if="componentContext.hasUsername">
+        <label for="username">{{ t('user.details.username') }}</label>
+        <dsp-smart-form-field
+          v-slot="slotProps"
+          name="username"
+          :initial-value="user.username"
+          :validators="usernameValidators"
+          :minlength="4"
+          :maxlength="30"
+          :mode="VALIDATION_MODES.ON_INPUT"
+          required
+        >
+          <dsp-input-text
+            id="username"
+            v-model="slotProps.field.value"
+            v-on="slotProps.field.listeners"
+          />
+          <dsp-form-error
+            v-for="(error, key) in slotProps.field?.errors"
+            :key="key"
+            class="errors"
+            :error="error"
+          />
+        </dsp-smart-form-field>
+      </template>
 
       <label for="lastName">{{ t('user.details.lastName') }}</label>
       <dsp-smart-form-field
@@ -392,8 +394,10 @@ const ordersLink = computed(() => ({
   <dsp-flex v-else class="display-mode" justify="center">
     <dl>
       <dsp-grid :columns="device.isMobile ? 1 : 2">
-        <dt>{{ t('user.details.username') }}</dt>
-        <dd>{{ user.username }}</dd>
+        <template v-if="componentContext.hasUsername">
+          <dt>{{ t('user.details.username') }}</dt>
+          <dd>{{ user.username }}</dd>
+        </template>
 
         <dt>{{ t('user.details.lastName') }}</dt>
         <dd>{{ user.lastName }}</dd>

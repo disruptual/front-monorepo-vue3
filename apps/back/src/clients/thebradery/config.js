@@ -10,5 +10,8 @@ export default merge({}, defaultConfig, {
       stores: { isEnabled: false }
     }
   },
+  UserDetails: {
+    hasUsername: false
+  },
   DefaultLayoutHeader: { isLogoDisplayed: true }
 });
