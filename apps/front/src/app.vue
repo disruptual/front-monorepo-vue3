@@ -14,7 +14,7 @@ import { VueQueryDevTools } from 'vue-query/devtools';
 
 const isNavigating = ref(false);
 const shouldAnimate = ref(true);
-const { beforeEach, currentRoute } = useRouter();
+const { beforeEach } = useRouter();
 beforeEach((from, to) => {
   shouldAnimate.value = from.name !== to.name;
 });
@@ -24,10 +24,23 @@ const http = useHttp();
 const queryClient = useQueryClient();
 
 const queries = [
-  queryClient.prefetchInfiniteQuery('/carouels', () => http.get('/carousels')),
+  queryClient.prefetchInfiniteQuery('/categories?', () =>
+    http.get('/categories')
+  ),
+  queryClient.prefetchInfiniteQuery('/carousels', () => http.get('/carousels')),
   queryClient.prefetchInfiniteQuery('/blocs?', () => http.get('/blocs?'))
 ];
 Promise.all(queries).then(() => {
+  // This is normally done in the onSuccess default callback from useQuery
+  // However this callback is not called when using queryClient.preloadQuery
+  // // @FIXME find a better way to handle this ?
+  const categories = queryClient.getQueryData('/categories?');
+  categories.pages.forEach(page => {
+    page['hydra:member'].forEach(category => {
+      queryClient.setQueryData(category['@id'], category);
+    });
+  });
+
   isReady.value = true;
 });
 </script>

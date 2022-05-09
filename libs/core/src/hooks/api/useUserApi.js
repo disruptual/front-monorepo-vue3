@@ -68,6 +68,14 @@ export function useUserApi() {
         formValues => userService.credit(formValues),
         options
       );
+    },
+
+    checkUserExistsMutation(options) {
+      return useMutation(
+        'checkUserExists',
+        email => userService.checkExists(email),
+        options
+      );
     }
   }));
 }

@@ -46,4 +46,8 @@ export class UserService extends BaseCRUDService {
       }
     );
   }
+
+  checkExists(email) {
+    return this._http.post(`${this.endpoint}/exists`, { data: { email } });
+  }
 }

@@ -84,6 +84,7 @@ const menuToggleEvents = {
       as="ul"
       gap="lg"
       :justify="alignment"
+      wrap="nowrap"
       class="categories-nav__list"
     >
       <li
@@ -97,7 +98,10 @@ const menuToggleEvents = {
           @focus="selectCategory($event, category)"
         >
           <dsp-flex gap="sm" align="center">
-            <img v-if="category.picto" :src="category.picto" />
+            <img
+              v-if="category.picto && componentContext.hasIcons"
+              :src="category.picto"
+            />
             {{ category.name }}
           </dsp-flex>
         </router-link>
@@ -133,14 +137,18 @@ const menuToggleEvents = {
 <style lang="scss" scoped>
 .categories-nav {
   position: relative;
-  padding: var(--spacing-xs) var(--spacing-sm);
   background: v-bind('componentContext.backgroundColor');
 }
 
 .categories-nav__list {
+  padding: var(--spacing-xs) var(--spacing-sm);
   min-height: 1.25em;
-
+  padding: var(--spacing-sm);
   li {
+    text-align: center;
+    display: flex;
+    align-items: center;
+
     a {
       &.active {
         color: v-bind('componentContext.activeColor');
