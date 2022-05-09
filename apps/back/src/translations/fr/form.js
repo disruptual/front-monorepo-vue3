@@ -8,6 +8,7 @@ export default {
       maxlength: 'Ce champ doit comporter moins de {length} caractères',
       pattern: "Ce champ n'a pas la bonne forme",
       isIn: 'Ce champ doit inclure les valeurs suivantes : {values}',
+      isExist: 'La valeur du champ existe déjà',
       isNotIn: 'Ce champ ne doit pas inclure les valeurs suivantes : {values}',
       email: "Ce champ n'est pas une adresse email valide",
       passwordMatch: 'Les mots de passe ne correspondent pas.',
