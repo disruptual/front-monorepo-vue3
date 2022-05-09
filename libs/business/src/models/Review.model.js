@@ -1,3 +1,5 @@
+import { formatDistanceToNow } from 'date-fns';
+import frLocale from 'date-fns/locale/fr';
 import { BaseModel } from './Base.model';
 import { Order } from './Order.model';
 import { User } from './User.model';
@@ -21,5 +23,21 @@ export class Review extends BaseModel {
         model: User
       }
     ];
+  }
+
+  get formatedCreatedAt() {
+    return formatDistanceToNow(new Date(this.createdAt), {
+      addSuffix: true,
+      includeSeconds: false,
+      locale: frLocale
+    });
+  }
+
+  get formatedUpdatedAt() {
+    return formatDistanceToNow(new Date(this.updatedAt), {
+      addSuffix: true,
+      includeSeconds: false,
+      locale: frLocale
+    });
   }
 }

@@ -27,7 +27,6 @@ export function useCollectionQuery(key, fetcher, queryOptions = {}) {
       getNextPageParams = defaultGetNextPageParams,
       ...options
     } = unref(queryOptions);
-
     return {
       ...options,
       getNextPageParam: (lastPage, allPages) => {

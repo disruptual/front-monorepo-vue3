@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed, unref } from 'vue';
 import { Review, ReviewService } from '@dsp/business';
 import { useCRUDApi } from '../useCRUDApi';
 import { useCollectionQuery } from '../useCollectionQuery';
@@ -10,16 +10,21 @@ export function useReviewApi() {
       service: ReviewService
     },
     reviewService => ({
-      findAllReceivedByUserIdQuery(
-        userId,
-        { relations = [], requestOptions } = {}
-      ) {
-        const queryKey = computed(() => `/users/${userId}/reviews_tos`);
+      findAllReceivedByUserIdQuery(userId, options = {}) {
+        const queryKey = computed(() => `/users/${unref(userId)}/reviews_tos`);
 
+        const queryOptions = computed(() => {
+          const { relations = [], ...rest } = unref(options);
+          return {
+            model: Review,
+            relations,
+            ...rest
+          };
+        });
         return useCollectionQuery(
           queryKey,
-          () => reviewService.findAllByUserId(userId, requestOptions),
-          { model: Review, relations }
+          () => reviewService.findAllByUserId(unref(userId), options),
+          queryOptions
         );
       }
     })

@@ -1,5 +1,5 @@
 <script>
-export default { name: 'UserProfileInfos' };
+export default { name: 'UserProfileItems' };
 </script>
 
 <script setup>
@@ -22,16 +22,17 @@ const { user, userItems, queries } = useUserProfile();
     <div class="user-profile-items__count">
       {{ userItems.totalItems }} articles
     </div>
+    <div class="user-profile-items__grid">
+      <dsp-infinite-query-loader :query="queries.userItems">
+        <template #no-results>
+          {{ user.username }} Ne possède pas d'articles.
+        </template>
 
-    <dsp-infinite-query-loader :query="queries.userItems">
-      <template #no-results>
-        {{ user.username }} Ne possède pas d'articles.
-      </template>
-
-      <template #default="{ data: items }">
-        <ItemGrid :items="items" />
-      </template>
-    </dsp-infinite-query-loader>
+        <template #default="{ data: items }">
+          <ItemGrid :items="items" />
+        </template>
+      </dsp-infinite-query-loader>
+    </div>
   </dsp-section>
 </template>
 
@@ -51,5 +52,8 @@ const { user, userItems, queries } = useUserProfile();
 .user-profile-items__count {
   font-size: var(--font-size-sm);
   margin-bottom: var(--spacing-md);
+}
+.user-profile-items__grid {
+  margin: var(--spacing-md) 0;
 }
 </style>
