@@ -158,6 +158,12 @@ const onMute = async users => {
       is-highlightable
     />
     <DataTableColumn
+      name="username"
+      :label="t('dataTable.label.username')"
+      is-filterable
+      is-highlightable
+    />
+    <DataTableColumn
       name="lastName"
       :label="t('dataTable.label.lastname')"
       is-filterable
