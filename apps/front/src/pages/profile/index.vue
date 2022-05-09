@@ -4,6 +4,7 @@ import { computed } from 'vue';
 import UserProfileProvider from '@/components/user/profile/user-profile-provider.vue';
 import UserProfileInfos from '@/components/user/profile/infos/index.vue';
 import UserProfileItems from '@/components/user/profile/items/index.vue';
+import UserProfileReviews from '@/components/user/profile/reviews/index.vue';
 
 const { replace } = useRouter();
 const route = useRoute();
@@ -32,7 +33,13 @@ const activeTab = computed({
         </dsp-container>
       </dsp-tab>
 
-      <dsp-tab name="reviews" label="Ses avis">User reviews</dsp-tab>
+      <dsp-tab name="reviews" label="Ses avis">
+        <dsp-surface>
+          <dsp-container>
+            <UserProfileReviews />
+          </dsp-container>
+        </dsp-surface>
+      </dsp-tab>
     </dsp-tabs>
   </UserProfileProvider>
 </template>
