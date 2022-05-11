@@ -1,5 +1,6 @@
 import { createComponentSchema } from '@dsp/core';
 
 export default createComponentSchema('UserDetails', types => ({
-  isSSOCustomerIdDisplayed: types.boolean(false)
+  isSSOCustomerIdDisplayed: types.boolean(false),
+  hasUsername: types.boolean(true)
 }));

@@ -13,11 +13,12 @@ const device = useDevice();
 const { user } = useUserProfile();
 
 const columns = computed(() => (device.isMobile ? 1 : 'auto 1fr auto'));
+const gridGap = computed(() => (device.isMobile ? 'lg' : 'none'));
 </script>
 
 <template>
   <dsp-section>
-    <dsp-grid :columns="columns">
+    <dsp-grid :columns="columns" :gap="gridGap">
       <dsp-center gap="xs">
         <dsp-avatar :user="user" size="xl" />
         <UserRating :user="user" size="sm" />
@@ -67,8 +68,10 @@ const columns = computed(() => (device.isMobile ? 1 : 'auto 1fr auto'));
 
 .user-profile-infos__actions {
   min-width: 12em;
-  border-left: solid 1px var(--color-separator);
-  padding-left: var(--spacing-md);
+  @include not-mobile {
+    border-left: solid 1px var(--color-separator);
+    padding-left: var(--spacing-md);
+  }
 }
 
 .user-profile-infos__follower-count,

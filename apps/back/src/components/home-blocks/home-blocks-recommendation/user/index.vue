@@ -62,7 +62,7 @@ const updatePosition = (row, newPosition) => {
       :label="t('dataTable.label.avatar')"
     >
       <dsp-center style="flex: 1">
-        <dsp-avatar :user="row.user" />
+        <dsp-avatar :user="row" />
       </dsp-center>
     </DataTableColumn>
     <DataTableColumn name="user.slug" :label="t('dataTable.label.slug')" />

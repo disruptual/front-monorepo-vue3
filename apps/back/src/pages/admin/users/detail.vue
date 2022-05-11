@@ -40,6 +40,10 @@ const activeTab = computed({
     replace({ ...route, query: { section: value } });
   }
 });
+
+const onSuccess = ({ slug }) => {
+  replace({ ...route, params: { slug: slug } });
+};
 </script>
 
 <template>
@@ -51,7 +55,7 @@ const activeTab = computed({
       <dsp-tab :name="TABS.INFOS" :label="t(`user.details.tabs.${TABS.INFOS}`)">
         <dsp-container is-small>
           <dsp-surface>
-            <UserDetails :user="user" @success="query.refetch.value()" />
+            <UserDetails :user="user" @success="onSuccess($event)" />
           </dsp-surface>
         </dsp-container>
       </dsp-tab>

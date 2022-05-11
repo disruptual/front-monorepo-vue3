@@ -5,7 +5,7 @@ export default { name: 'UserDetails' };
 <script setup>
 import { ref, unref, computed } from 'vue';
 import { User, USER_ROLES } from '@dsp/business';
-import { useForm, useToast, useDevice } from '@dsp/ui';
+import { useForm, useToast, useDevice, VALIDATION_MODES } from '@dsp/ui';
 import { useI18n } from 'vue-i18n';
 import {
   useUserApi,
@@ -33,15 +33,17 @@ const { data: currentUser } = useCurrentUser();
 const { showError, showSuccess } = useToast();
 const userApi = useUserApi();
 const { mutateAsync: updateUser } = userApi.updateMutation({
-  onSuccess() {
+  onSuccess(data) {
     showSuccess(t('toasts.user.updateSuccess'));
-    emit('success');
+    emit('success', data);
   },
   onError(err) {
     console.error(err);
     showError(t('toasts.user.updateError'));
   }
 });
+
+const { mutateAsync: checkUserExists } = userApi.checkUserExistsMutation();
 
 const isEditing = ref(false);
 
@@ -106,6 +108,24 @@ const passwordConfirmValidators = [
   }
 ];
 
+const usernameValidators = [
+  {
+    name: 'isExist',
+    message: 'form.errors.isExist',
+    handler: async value => {
+      try {
+        if (value === props.user.username) {
+          return true;
+        }
+        await checkUserExists(value);
+        return false;
+      } catch (err) {
+        return true;
+      }
+    }
+  }
+];
+
 const formattedRoles = computed(() =>
   props.user.roles.map(role => t(`user.roles.${role}`)).join(' - ')
 );
@@ -144,6 +164,32 @@ const ordersLink = computed(() => ({
 
   <dsp-smart-form v-if="isEditing" class="edit-mode" :form="form">
     <dsp-grid :columns="device.isDesktop ? 2 : 1">
+      <template v-if="componentContext.hasUsername">
+        <label for="username">{{ t('user.details.username') }}</label>
+        <dsp-smart-form-field
+          v-slot="slotProps"
+          name="username"
+          :initial-value="user.username"
+          :validators="usernameValidators"
+          :minlength="4"
+          :maxlength="30"
+          :mode="VALIDATION_MODES.ON_INPUT"
+          required
+        >
+          <dsp-input-text
+            id="username"
+            v-model="slotProps.field.value"
+            v-on="slotProps.field.listeners"
+          />
+          <dsp-form-error
+            v-for="(error, key) in slotProps.field?.errors"
+            :key="key"
+            class="errors"
+            :error="error"
+          />
+        </dsp-smart-form-field>
+      </template>
+
       <label for="lastName">{{ t('user.details.lastName') }}</label>
       <dsp-smart-form-field
         v-slot="slotProps"
@@ -348,6 +394,11 @@ const ordersLink = computed(() => ({
   <dsp-flex v-else class="display-mode" justify="center">
     <dl>
       <dsp-grid :columns="device.isMobile ? 1 : 2">
+        <template v-if="componentContext.hasUsername">
+          <dt>{{ t('user.details.username') }}</dt>
+          <dd>{{ user.username }}</dd>
+        </template>
+
         <dt>{{ t('user.details.lastName') }}</dt>
         <dd>{{ user.lastName }}</dd>
 
