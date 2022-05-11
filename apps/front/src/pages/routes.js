@@ -33,7 +33,7 @@ export const routes = [
     }
   },
   {
-    path: '/profil/:slug?',
+    path: '/profile/:slug?',
     name: 'Profile',
     component: () => import('@/pages/profile/index.vue'),
     meta: {
