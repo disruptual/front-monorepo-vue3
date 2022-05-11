@@ -37,6 +37,7 @@ const props = defineProps({
   padding: var(--spacing-xs);
   font-size: var(--font-size-md);
   height: 100%;
+  min-width: 8em;
 }
 
 .category-root {
