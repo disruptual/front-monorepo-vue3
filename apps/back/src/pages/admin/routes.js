@@ -7,7 +7,7 @@ export default [
     name: 'AdminUsers',
     component: () => import('@/pages/admin/users/list.vue'),
     meta: {
-      // permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       isEnabled: config => config.features.admin.users.isEnabled,
       layout: layouts.default
     }
@@ -18,7 +18,7 @@ export default [
     component: () => import('@/pages/admin/users/detail.vue'),
     props: true,
     meta: {
-      // permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
+      permissions: [USER_ROLES.ADMIN, USER_ROLES.PROJECT_MANAGER],
       isEnabled: config => config.features.admin.users.isEnabled,
       layout: layouts.default
     }

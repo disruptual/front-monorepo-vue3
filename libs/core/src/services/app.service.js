@@ -27,7 +27,9 @@ export class DisruptualApp {
       history: createWebHistory(routerBase),
       routes: routes,
       scrollBehavior(to, from, savedPosition) {
-        if (!to.hash) return;
+        if (savedPosition) return savedPosition;
+        if (!to.hash) return { top: 0 };
+
         if (!from.name) {
           // wait until DOM is loaded
           return new Promise((resolve, reject) => {
@@ -36,6 +38,7 @@ export class DisruptualApp {
             }, 300);
           });
         }
+
         return { el: to.hash };
       }
     });

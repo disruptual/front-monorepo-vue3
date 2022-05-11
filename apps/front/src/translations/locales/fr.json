@@ -20,7 +20,8 @@
       "passwordMatch": "Les mots de passe ne correspondent pas.",
       "containsUppercase": "Ce champ doit comporter au moins une majuscule",
       "containsLowercase": "Ce champ doit comporter au moins une minuscule",
-      "containsNumber": "Ce champ doit comporter au moins un chiffre"
+      "containsNumber": "Ce champ doit comporter au moins un chiffre",
+      "usernameExists": "Ce pseudo est déjà utilisé"
     }
   },
 

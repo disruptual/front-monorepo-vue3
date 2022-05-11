@@ -4,12 +4,14 @@ export class FormField {
   constructor({
     mode = null,
     initialValue = null,
-    useInitialValueOnReset = true
+    useInitialValueOnReset = true,
+    debounceTimeout = 0
   } = {}) {
     this.mode = mode;
     this.initialValue = initialValue;
     this.validators = {};
     this.useInitialValueOnReset = useInitialValueOnReset;
+    this.debounceTimeout = debounceTimeout;
   }
 
   required(...args) {

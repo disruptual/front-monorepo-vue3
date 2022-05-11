@@ -1,5 +1,6 @@
-import { reactive } from 'vue';
+import { reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { debounce } from 'lodash-es';
 import { isUndefinedOrNull } from '@dsp/core';
 import { VALIDATION_MODES } from '@dsp/ui/utils/constants';
 
@@ -15,21 +16,27 @@ export function useFormField(definition) {
       Object.keys(definition.validators).map(k => [k, null])
     ),
     isValid: Object.keys(definition.validators).length === 0,
-    async validate() {
-      const { validators } = definition;
-      for (let key in validators) {
-        const { handler, message, ...validatorOptions } = validators[key];
-        const validationResult = await handler(field.value, validatorOptions);
-        const isError = !validationResult;
+    validate: debounce(
+      async () => {
+        const { validators } = definition;
+        for (let key in validators) {
+          const { handler, message, ...validatorOptions } = validators[key];
+          const validationResult = await handler(field.value, validatorOptions);
 
-        field.errors[key] = isError
-          ? t(message, { value: field.value, ...validatorOptions })
-          : null;
-      }
-      field.isValid = Object.values(field.errors).every(isUndefinedOrNull);
+          const isError = !validationResult;
 
-      return field;
-    },
+          field.errors[key] = isError
+            ? t(message, { value: field.value, ...validatorOptions })
+            : null;
+        }
+
+        field.isValid = Object.values(field.errors).every(isUndefinedOrNull);
+
+        return field;
+      },
+      definition.debounceTimeout || 0,
+      { trailing: true }
+    ),
     reset() {
       field.isDirty = false;
       field.isTouched = false;

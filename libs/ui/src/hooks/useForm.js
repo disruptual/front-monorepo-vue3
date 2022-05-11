@@ -20,7 +20,6 @@ export function useForm({
     if (fields.value[name]) {
       return;
     }
-
     fields.value[name] = useFormField({
       ...field,
       name: name,

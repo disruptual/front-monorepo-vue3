@@ -21,7 +21,8 @@ const props = defineProps({
   initialValue: { type: null, default: null },
   useInitialValueOnReset: { type: Boolean, default: true },
   mode: { type: String, default: null },
-  unregisterOnUnmount: { type: Boolean, default: true }
+  unregisterOnUnmount: { type: Boolean, default: true },
+  debounceTimeout: { type: Number, default: 0 }
 });
 const formContext = inject(CONTEXT_KEYS.FORM);
 
@@ -29,7 +30,8 @@ const buildField = () => {
   const field = new FormField({
     initialValue: props.initialValue,
     useInitialValueOnReset: props.useInitialValueOnReset,
-    mode: props.mode
+    mode: props.mode,
+    debounceTimeout: props.debounceTimeout
   });
   if (props.required) field.required();
   if (props.min) field.min(props.min);
