@@ -3,7 +3,7 @@ export default { name: 'DspDropdown' };
 </script>
 
 <script setup>
-import { nextTick, ref, unref, watch, provide, computed } from 'vue';
+import { nextTick, ref, unref, watch, provide, computed, Teleport } from 'vue';
 import { KEYBOARD } from '@dsp/core';
 import { vClickOutside } from '@dsp/ui/directives/clickOutside';
 import { vFocusOutside } from '@dsp/ui/directives/focusOutside';
@@ -165,7 +165,7 @@ provide(CONTEXT_KEYS.DROPDOWN, { toggle, close });
         <dsp-icon v-if="withToggleIcon" icon="caretDown" as="span" is-inline />
       </dsp-plain-button>
     </div>
-    <teleport v-if="isTeleport" :to="`#${hostID}`">
+    <component :is="isTeleport ? Teleport : 'div'" :to="`#${hostID}`">
       <component
         :is="as"
         v-if="isOpened"
@@ -178,22 +178,7 @@ provide(CONTEXT_KEYS.DROPDOWN, { toggle, close });
         <slot name="menu" />
       </component>
       <div v-if="props.returnFocusOnClose" tabindex="0" />
-    </teleport>
-
-    <template v-else>
-      <component
-        :is="as"
-        v-if="isOpened"
-        ref="menuElement"
-        v-click-outside="onClickOutside"
-        v-focus-outside="onFocusOutside"
-        class="menu"
-        @keydown="onKeyDown"
-      >
-        <slot name="menu" />
-      </component>
-      <div v-if="props.returnFocusOnClose" tabindex="0" />
-    </template>
+    </component>
   </div>
 </template>
 

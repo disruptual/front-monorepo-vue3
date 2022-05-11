@@ -12,5 +12,8 @@ export default merge({}, defaultConfig, {
     hasMainsiteLink: true,
     mainsiteUrl: 'https://laredoute.fr',
     activeColor: 'accent-500'
+  },
+  DspFormControl: {
+    asteriskColor: 'accent-500'
   }
 });

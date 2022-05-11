@@ -1,0 +1,12 @@
+{
+  "signUpFormOptins": {
+    "cgu": {
+      "label": "En vous inscrivant vous acceptez {link}",
+      "link": "les conditions générales d'utilisation. *"
+    },
+    "cguPSP": {
+      "label": "En vous inscrivant vous acceptez {link}",
+      "link": "les conditions générales d'utilisation de notre prestataire de paiement Mangopay. *"
+    }
+  }
+}

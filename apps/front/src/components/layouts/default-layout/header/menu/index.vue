@@ -19,7 +19,7 @@ const toggleUserMenu = () => {
 
 <template>
   <nav class="header-menu">
-    <dsp-flex as="ul" align="center">
+    <dsp-flex justify="flex-end" align="center" as="ul">
       <li v-if="!device.isMobile">
         <dsp-button :to="{ name: 'ItemCreation' }">Vendre</dsp-button>
       </li>
@@ -78,7 +78,9 @@ ul {
     align-items: center;
 
     &:first-child {
-      margin: 0 auto;
+      @include not-mobile {
+        margin: 0 auto;
+      }
     }
   }
 }

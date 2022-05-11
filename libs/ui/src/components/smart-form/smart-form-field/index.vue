@@ -22,7 +22,7 @@ const props = defineProps({
   useInitialValueOnReset: { type: Boolean, default: true },
   mode: { type: String, default: null },
   unregisterOnUnmount: { type: Boolean, default: true },
-  debounceTimeout: { type: Number, default: 0 }
+  validationDebounceTimeout: { type: Number, default: 0 }
 });
 const formContext = inject(CONTEXT_KEYS.FORM);
 
@@ -31,7 +31,7 @@ const buildField = () => {
     initialValue: props.initialValue,
     useInitialValueOnReset: props.useInitialValueOnReset,
     mode: props.mode,
-    debounceTimeout: props.debounceTimeout
+    debounceTimeout: props.validationDebounceTimeout
   });
   if (props.required) field.required();
   if (props.min) field.min(props.min);
