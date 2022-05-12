@@ -10,7 +10,10 @@ const { sellerItems } = useItemDetails();
 
 <template>
   <dsp-section>
-    <dsp-section-heading class="title">Sa boutique</dsp-section-heading>
+    <dsp-section-heading class="title">
+      Sa boutique
+      <span>({{ sellerItems.totalItems }} articles)</span>
+    </dsp-section-heading>
     <ItemGrid :items="sellerItems" />
     <dsp-center>
       <dsp-button style="width: 12rem">Voir tout</dsp-button>
@@ -18,8 +21,17 @@ const { sellerItems } = useItemDetails();
   </dsp-section>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .title {
   margin: 0;
+
+  @include mobile-only {
+    margin-top: var(--spacing-md);
+  }
+
+  span {
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-xs);
+  }
 }
 </style>

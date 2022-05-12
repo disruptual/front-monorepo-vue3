@@ -4,96 +4,92 @@ export default { name: 'ItemDetailsSeller' };
 
 <script setup>
 import { computed } from 'vue';
+import { useDevice } from '@dsp/ui';
 import Rating from '@/components/user/rating/index.vue';
 import { useItemDetails } from '../use-item-details';
 
 const { item } = useItemDetails();
 const seller = computed(() => item.value?.user);
+
+const device = useDevice();
 </script>
 
 <template>
-  <dsp-flex
-    direction="column"
-    justify="space-between"
-    align="flex-start"
-    class="item-details-seller"
-  >
-    <dsp-flex wrap="nowrap" gap="md">
+  <div class="item-details-seller">
+    <dsp-flex wrap="nowrap" gap="md" as="header">
       <dsp-flex align="center" justify="center" direction="column" gap="xs">
         <dsp-plain-button
-          class="seller-link"
           :to="{ name: 'Profile', params: { slug: seller.slug } }"
         >
-          <dsp-avatar class="avatar" :user="seller" size="lg" />
+          <dsp-avatar class="avatar" :user="seller" size="xl" />
         </dsp-plain-button>
         <Rating :user="seller" size="md" />
         <dsp-plain-button
           class="see-reviews"
           :to="{ name: 'Profile', params: { slug: seller.slug } }"
         >
-          voir les avis
+          Voir les {{ seller.reviewsReceived?.totalItems }} avis
         </dsp-plain-button>
       </dsp-flex>
 
       <dsp-flex class="infos" justify="flex-start" direction="column" gap="xs">
-        <dsp-plain-button
-          class="seller-link"
+        <router-link
           :to="{ name: 'Profile', params: { slug: seller.slug } }"
+          class="item-details-seller__username"
         >
-          <span>{{ seller.fullName }}</span>
-        </dsp-plain-button>
-        <dsp-flex gap="xs" align="flex-start" wrap="nowrap">
+          {{ seller.username }}
+        </router-link>
+        <dsp-flex gap="xs">
           <dsp-icon icon="mapDot" size="md" />
           <span>
             {{ seller?.mainAddress?.city }}
             {{ `(${seller?.mainAddress?.postalCode})` }}
           </span>
         </dsp-flex>
+        <p>{{ seller.content }}</p>
       </dsp-flex>
     </dsp-flex>
-    <hr class="separator" />
-    <dsp-flex wrap="nowrap">
+
+    <dsp-grid :columns="device.isDesktop ? '0.65fr 0.4fr' : 1" gap="xs">
       <dsp-flex>
-        <p>Derniere visite: il y a 38j</p>
-        <p>Derniere mise à jour: il y a 39j</p>
+        <dsp-flex align="center" wrap="nowrap" gap="sm">
+          <dsp-icon icon="clock" is-inline />
+          Derniere visite: {{ seller.formatedLastConnectionAt }}
+        </dsp-flex>
+        <dsp-flex align="center" wrap="nowrap" gap="sm">
+          <dsp-icon icon="clothesHanger" is-inline />
+          Derniere mise à jour: {{ seller.formatedLastItemUpdatedAt }}
+        </dsp-flex>
       </dsp-flex>
-      <dsp-flex class="actions" gap="md">
-        <dsp-button is-pill>Contacter</dsp-button>
-        <dsp-button>Ne plus suivre</dsp-button>
+      <dsp-flex direction="column" gap="md">
+        <dsp-button is-full-width>Contacter</dsp-button>
+        <dsp-button is-full-width>Ne plus suivre</dsp-button>
       </dsp-flex>
-    </dsp-flex>
-  </dsp-flex>
+    </dsp-grid>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 .see-reviews {
   padding: 0;
 }
-.actions {
-  .dsp-button {
-    width: 100%;
-  }
-}
+
 .item-details-seller {
   background-color: var(--color-brand-100);
   padding: var(--spacing-sm);
 
-  .seller-link {
-    justify-content: flex-start;
-    padding: 0;
+  > header {
+    padding-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    border-bottom: solid 1px var(--color-gray-400);
   }
 }
 
-.separator {
-  border: 1px solid var(--color-brand-200);
-  width: 100%;
-}
-.infos {
-  > * {
-    margin-bottom: var(--spacing-xs);
-  }
-}
 .avatar {
   justify-self: start;
+}
+
+.item-details-seller__username {
+  font-weight: var(--font-weight-bold);
 }
 </style>

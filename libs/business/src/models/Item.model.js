@@ -1,3 +1,5 @@
+import { formatDistanceToNow } from 'date-fns';
+import frLocale from 'date-fns/locale/fr';
 import { formatPrice, isDefined } from '@dsp/core';
 import { BaseModel } from './Base.model';
 import { Category } from './Category.model';
@@ -114,6 +116,14 @@ export class Item extends BaseModel {
 
   get seller() {
     return this.user;
+  }
+
+  get formatedUpdatedTimeAgo() {
+    return formatDistanceToNow(new Date(this.updated), {
+      addSuffix: true,
+      includeSeconds: false,
+      locale: frLocale
+    });
   }
 
   getDeliveries({ deliveries, deliveryPrices }) {

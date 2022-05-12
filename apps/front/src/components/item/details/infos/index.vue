@@ -27,14 +27,19 @@ const allowedDeliveries = computed(() => {
   <dsp-section>
     <dsp-flex direction="column" wrap="nowrap">
       <dsp-flex align="center" justify="space-between">
-        <dsp-section-heading>{{ item.title }}</dsp-section-heading>
+        <dsp-section-heading class="title">
+          {{ item.title }}
+        </dsp-section-heading>
         <ItemFavoriteButton :item="item" size="lg" />
       </dsp-flex>
-      <dl>
-        <p class="description">
-          {{ item.content }}
-        </p>
+      <p class="update-time">
+        Mise à jour il y a {{ item.formatedUpdatedTimeAgo }}
+      </p>
 
+      <p>
+        {{ item.content }}
+      </p>
+      <dl>
         <div class="price">
           {{ item.formatedPrice }}
           <div v-if="item.originalPrice" class="original-price">
@@ -43,27 +48,22 @@ const allowedDeliveries = computed(() => {
         </div>
 
         <dsp-flex gap="sm" class="field">
-          <dt>Marque</dt>
+          <dt>Marque :</dt>
           <dd>{{ item.brand?.name }}</dd>
         </dsp-flex>
 
         <dsp-flex gap="sm" class="field">
-          <dt>Taille</dt>
+          <dt>Taille :</dt>
           <dd>{{ item.size?.name }}</dd>
         </dsp-flex>
 
         <dsp-flex gap="sm" class="field">
-          <dt>Etat</dt>
+          <dt>Etat :</dt>
           <dd>{{ item.condition?.stateName }}</dd>
         </dsp-flex>
 
-        <dsp-flex gap="sm" class="field">
-          <dt>Mise à jour le</dt>
-          <dd>{{ item.updated }}</dd>
-        </dsp-flex>
-
         <dsp-flex gap="sm" class="field" align="center">
-          <dt>Livraison :</dt>
+          <dt>Modes de livraison :</dt>
           <dsp-flex as="dd" gap="lg">
             <DeliveryCard
               v-for="delivery in allowedDeliveries"
@@ -80,12 +80,18 @@ const allowedDeliveries = computed(() => {
 <style lang="scss" scoped>
 dl,
 dt,
+p,
 dd {
   margin: 0;
 }
 
-.description {
-  margin: 0;
+.title {
+  margin-bottom: 0;
+}
+
+.update-time {
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-md);
 }
 
 .price {

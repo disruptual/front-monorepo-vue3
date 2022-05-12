@@ -103,5 +103,21 @@ export const routes = [
     meta: {
       layout: lazyDefaultLayout
     }
+  },
+  {
+    path: '/contact',
+    name: 'Contact',
+    component: () => import('@/pages/contact/index.vue'),
+    meta: {
+      layout: lazyDefaultLayout
+    }
+  },
+  {
+    path: '/comment-ca-marche',
+    name: 'HowItWorks',
+    component: () => import('@/pages/howItWorks/index.vue'),
+    meta: {
+      layout: lazyDefaultLayout
+    }
   }
 ];

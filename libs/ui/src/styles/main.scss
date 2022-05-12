@@ -40,7 +40,7 @@ button {
   --font-size-base: 1em;
 
   --font-size-ratio: 1.2;
-  --font-size-sm: calc(var(--font-size-sm) / (var(--font-size-ratio)));
+  --font-size-xs: calc(var(--font-size-sm) / (var(--font-size-ratio)));
   --font-size-sm: calc(var(--font-size-md) / (var(--font-size-ratio)));
   --font-size-md: var(--font-size-base);
   --font-size-lg: calc(var(--font-size-md) * (var(--font-size-ratio)));

@@ -70,6 +70,7 @@ import handdelivery from './handdelivery.svg?component';
 import locationdelivery from './locationdelivery.svg?component';
 import lapostecolissimo from './lapostecolissimo.svg?component';
 import lapostecourriersuivi from './lapostecourriersuivi.svg?component';
+import clothesHanger from './clothesHanger.svg?component';
 
 export default {
   add,
@@ -94,6 +95,7 @@ export default {
   circleRegular,
   circleSolid,
   clock,
+  clothesHanger,
   cocolis,
   colissimo,
   columns,
