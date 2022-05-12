@@ -13,22 +13,14 @@ export class Notification extends BaseModel {
   }
 
   fromJSON(dto) {
-    const { '@id': uri, '@id': id, ...rest } = dto;
-
-    const [notificationId] = id.split('/').reverse();
-
-    const ctor = this.constructor.prototype.constructor;
-    const relationKeys = Object.keys(rest).filter(key => ctor.isRelation(key));
+    const uri = dto['@id'];
+    const [id] = uri.split('/').reverse();
 
     return {
+      ...super.fromJSON(dto),
+      relatedResourceUri: dto.uri,
       uri,
-      id: parseInt(notificationId),
-      ...Object.fromEntries(
-        relationKeys.map(k => {
-          return [k, null];
-        })
-      ),
-      ...mapKeys(rest, (value, key) => (ctor.isRelation(key) ? `_${key}` : key))
+      id
     };
   }
 }

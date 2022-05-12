@@ -3,51 +3,35 @@ export default { name: 'NotificationOrder' };
 </script>
 
 <script setup>
-import { Notification } from '@dsp/business';
-import { useNotificationApi, useCurrentUser } from '@dsp/core';
+import { computed } from 'vue';
+import { Order } from '@dsp/business';
+import { useCurrentUser, useModelQuery, useHttp } from '@dsp/core';
 import NotificationCard from '@/components/notification/card/index.vue';
+import { useNotification } from '../../use-notification';
 
-const props = defineProps({
-  notification: { type: Notification, required: true },
-  query: { type: Object, default: null }
-});
+const { notification, toggleMarkAsRead } = useNotification();
+
+const http = useHttp();
+
+const query = useModelQuery(
+  computed(() => notification.value.relatedResourceUri),
+  () => http.get(notification.value.relatedResourceUri),
+  computed(() => ({ model: Order }))
+);
 
 const { data: currentUser } = useCurrentUser();
 
-const { mutateAsync: updateNotification } = useNotificationApi().updateMutation(
-  {
-    onSuccess() {
-      props.query.refetch.value();
-    }
-  }
+const text = computed(
+  () => `notification translation for order ${query.data.value?.id}`
 );
-
-const toggleMarkAsRead = ({ id, read }) => {
-  updateNotification({
-    id,
-    entity: { read: !read }
-  });
-  props.query.refetch.value();
-};
-
-const actionsCard = notification => {
-  return [
-    {
-      label: notification.read ? 'Marquer comme non lue' : 'Marquer comme lue',
-      action: () => toggleMarkAsRead(notification)
-    }
-  ];
-};
 </script>
 
 <template>
   <NotificationCard
     :target="{}"
-    text="notification.translation"
+    :text="text"
     :date="notification.formatedCreatedAt"
-    :notification="notification"
-    :actions="actionsCard(notification)"
-    @navigate="toggleMarkAsRead(notification)"
+    @navigate="toggleMarkAsRead()"
   >
     <template #media>
       <dsp-avatar :user="currentUser" />

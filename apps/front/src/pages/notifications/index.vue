@@ -43,6 +43,11 @@ const notificationUnreadQuery = useNotificationApi().findAllByUserIdQuery(
     }
   }))
 );
+
+const onUpdate = () => {
+  notificationAllQuery.refetch.value();
+  notificationUnreadQuery.refetch.value();
+};
 </script>
 
 <template>
@@ -64,7 +69,7 @@ const notificationUnreadQuery = useNotificationApi().findAllByUserIdQuery(
                   >
                     <Notification
                       :notification="notification"
-                      :query="notificationAllQuery"
+                      @update="onUpdate"
                     />
                   </li>
                 </ul>
@@ -83,7 +88,7 @@ const notificationUnreadQuery = useNotificationApi().findAllByUserIdQuery(
                   >
                     <Notification
                       :notification="notification"
-                      :query="notificationUnreadQuery"
+                      @update="onUpdate"
                     />
                   </li>
                 </ul>

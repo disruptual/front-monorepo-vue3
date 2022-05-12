@@ -4,10 +4,9 @@ export default { name: 'NotificationCard' };
 
 <script setup>
 import { computed, ref } from 'vue';
-import { Notification } from '@dsp/business';
+import { useNotification } from '../use-notification';
 
 const props = defineProps({
-  notification: { type: Notification, required: true },
   target: { type: Object, required: true },
   text: { type: String, default: null },
   date: { type: String, default: null },
@@ -16,11 +15,12 @@ const props = defineProps({
 
 defineEmits(['navigate']);
 
-const isDropdownOpened = ref(false);
+const { notification, toggleMarkAsRead } = useNotification();
 
+const isDropdownOpened = ref(false);
 const classes = computed(() => {
   return [
-    !props.notification.read && 'notification-card--unread',
+    !notification.value.read && 'notification-card--unread',
     'notification-card'
   ];
 });
@@ -55,13 +55,21 @@ const classes = computed(() => {
       </slot>
     </router-link>
 
-    <dsp-dropdown v-model:isOpened="isDropdownOpened">
+    <dsp-dropdown v-model:isOpened="isDropdownOpened" :is-teleport="false">
       <template #toggle>
         <dsp-icon-button icon="ellipsisH" is-plain>test-button</dsp-icon-button>
       </template>
       <template #menu>
+        <dsp-dropdown-item>
+          <dsp-plain-button @click="toggleMarkAsRead">
+            {{
+              notification.read ? 'Marquer comme non lue' : 'Marquer comme lue'
+            }}
+          </dsp-plain-button>
+        </dsp-dropdown-item>
+
         <dsp-dropdown-item v-for="action in actions" :key="action.label">
-          <dsp-plain-button @click.stop="action.action">
+          <dsp-plain-button @click="action.action">
             {{ action.label }}
           </dsp-plain-button>
         </dsp-dropdown-item>

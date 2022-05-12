@@ -4,6 +4,7 @@ export default { name: 'NotificationDropdownMenu' };
 
 <script setup>
 import { computed, ref, useSlots } from 'vue';
+import { useQueryClient } from 'vue-query';
 import { NOTIFICATION_TABS as TABS } from '@/utils/constants';
 import { useNotificationApi, useCurrentUser } from '@dsp/core';
 import Notification from '@/components/notification/index.vue';
@@ -11,6 +12,7 @@ import Notification from '@/components/notification/index.vue';
 const slots = useSlots();
 
 const { data: currentUser } = useCurrentUser();
+const queryClient = useQueryClient();
 
 const notificationAllQuery = useNotificationApi().findAllByUserIdQuery(
   computed(() => currentUser.value.id),
@@ -23,6 +25,13 @@ const notificationAllQuery = useNotificationApi().findAllByUserIdQuery(
 );
 
 const activeTab = ref(TABS.ALL);
+
+const onUpdate = () => {
+  notificationAllQuery.refetch.value();
+  queryClient.invalidateQueries({
+    predicate: ({ queryKey }) => queryKey.includes('notifications?')
+  });
+};
 </script>
 
 <template>
@@ -38,10 +47,7 @@ const activeTab = ref(TABS.ALL);
               <slot name="firstItemList" />
             </li>
             <li v-for="notification in notifications" :key="notification.id">
-              <Notification
-                :notification="notification"
-                :query="notificationAllQuery"
-              />
+              <Notification :notification="notification" @update="onUpdate" />
             </li>
           </ul>
         </dsp-infinite-query-loader>
