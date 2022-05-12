@@ -29,3 +29,4 @@ export * from './useSizeApi';
 export * from './useOrderAddressApi';
 export * from './useConditionApi';
 export * from './useDeliveryPriceApi';
+export * from './useCartItemApi';
