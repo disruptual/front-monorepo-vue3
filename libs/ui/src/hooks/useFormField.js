@@ -7,6 +7,30 @@ import { VALIDATION_MODES } from '@dsp/ui/utils/constants';
 export function useFormField(definition) {
   const { t } = useI18n();
 
+  const validate = async () => {
+    const { validators } = definition;
+    for (let key in validators) {
+      const { handler, message, ...validatorOptions } = validators[key];
+      const validationResult = await handler(field.value, validatorOptions);
+
+      const isError = !validationResult;
+
+      field.errors[key] = isError
+        ? t(message, { value: field.value, ...validatorOptions })
+        : null;
+    }
+
+    field.isValid = Object.values(field.errors).every(isUndefinedOrNull);
+
+    return field;
+  };
+
+  const validateDebounced = debounce(
+    validate,
+    definition.debounceTimeout || 0,
+    { trailing: true }
+  );
+
   const field = reactive({
     name: definition.name,
     value: definition.initialValue ?? null,
@@ -16,27 +40,9 @@ export function useFormField(definition) {
       Object.keys(definition.validators).map(k => [k, null])
     ),
     isValid: Object.keys(definition.validators).length === 0,
-    validate: debounce(
-      async () => {
-        const { validators } = definition;
-        for (let key in validators) {
-          const { handler, message, ...validatorOptions } = validators[key];
-          const validationResult = await handler(field.value, validatorOptions);
 
-          const isError = !validationResult;
-
-          field.errors[key] = isError
-            ? t(message, { value: field.value, ...validatorOptions })
-            : null;
-        }
-
-        field.isValid = Object.values(field.errors).every(isUndefinedOrNull);
-
-        return field;
-      },
-      definition.debounceTimeout || 0,
-      { trailing: true }
-    ),
+    validate,
+    validateDebounced,
     reset() {
       field.isDirty = false;
       field.isTouched = false;
@@ -50,19 +56,19 @@ export function useFormField(definition) {
       input() {
         field.isTouched = true;
         if (definition.mode === VALIDATION_MODES.ON_INPUT) {
-          field.validate();
+          field.validateDebounced();
         }
       },
       blur() {
         field.isDirty = true;
         if (definition.mode === VALIDATION_MODES.ON_BLUR) {
-          field.validate();
+          field.validateDebounced();
         }
       },
       change() {
         field.isDirty = true;
         if (definition.mode === VALIDATION_MODES.ON_CHANGE) {
-          field.validate();
+          field.validateDebounced();
         }
       }
     }

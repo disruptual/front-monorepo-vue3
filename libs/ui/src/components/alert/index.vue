@@ -4,7 +4,6 @@ export default { name: 'DspAlert' };
 
 <script setup>
 import { useColorScheme } from '@dsp/ui/hooks';
-import { vReadableColor } from '@dsp/ui/directives/readableColor';
 
 const props = defineProps({
   colorScheme: { type: String, default: 'gray' },
@@ -15,7 +14,7 @@ const scheme = {
   bg: 200,
   text: 800,
   iconBg: 400,
-  icon: 700
+  icon: 800
 };
 
 const colors = useColorScheme(scheme, props);

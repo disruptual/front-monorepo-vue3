@@ -40,5 +40,10 @@ const props = defineProps({
   padding-right: var(--spacing-sm);
   border-radius: var(--border-radius-pill);
   max-width: 8em;
+  font-size: var(--font-size-sm);
+
+  .item-card__avatar {
+    --avatar-size-sm: 2em;
+  }
 }
 </style>

@@ -4,8 +4,9 @@ export default { name: 'ItemCardInfos' };
 
 <script setup>
 import { Item } from '@dsp/business';
+import ItemFavoriteButton from '@/components/item/favorite-button/index.vue';
 
-defineProps({
+const props = defineProps({
   item: { type: Item, required: true }
 });
 </script>
@@ -13,6 +14,7 @@ defineProps({
 <template>
   <dsp-flex justify="space-between" align="center">
     <div class="item-card-infos__price">{{ item.formatedPrice }}</div>
+    <ItemFavoriteButton :item="props.item" />
   </dsp-flex>
   <div class="item-card-infos__brand">
     {{ item.brand?.name }}

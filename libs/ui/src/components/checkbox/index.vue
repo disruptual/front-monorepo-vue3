@@ -44,7 +44,7 @@ const model = computed({
       />
       <dsp-icon icon="checkbox" size="md" class="check" />
     </div>
-    <label v-if="label" :for="id" class="label">
+    <label v-if="label || $slots.default" :for="id" class="label">
       <slot>{{ props.label }}</slot>
     </label>
   </div>

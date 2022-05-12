@@ -3,19 +3,29 @@ export default { name: 'ItemDetailsAction' };
 </script>
 
 <script setup>
-import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useRouter, useRoute } from 'vue-router';
+import { useDevice } from '@dsp/ui';
+import ItemBuyButton from '@/components/item/buy-button/index.vue';
+import { useItemDetails } from '../use-item-details';
 
-const props = defineProps({
-  //   props1: { type: String, required: false }
-});
-
-const { t } = useI18n();
-const { replace } = useRouter();
-const route = useRoute();
+const device = useDevice();
+const { item } = useItemDetails();
 </script>
 
 <template>
-  <div>ACTIONS</div>
+  <div>
+    <dsp-grid :columns="device.isMobile ? 1 : 2" gap="md">
+      <ItemBuyButton :item="item" />
+      <dsp-button is-outlined>Faire une offre</dsp-button>
+    </dsp-grid>
+    <dsp-plain-button class="item-details-action__report-button">
+      Signaler l'annonce
+    </dsp-plain-button>
+  </div>
 </template>
+
+<style scoped>
+.item-details-action__report-button {
+  text-decoration: underline;
+  padding-left: 0;
+}
+</style>

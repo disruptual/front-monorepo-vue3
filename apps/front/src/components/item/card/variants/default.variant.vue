@@ -4,8 +4,6 @@ export default { name: 'ItemCard' };
 
 <script setup>
 import { Item } from '@dsp/business';
-import { useItemCard } from '../use-item-card';
-import ItemFavoriteButton from '@/components/item/favorite-button/index.vue';
 import ItemCardInfos from '@/components/item/card/infos/index.vue';
 import ItemCardMedia from '@/components/item/card/media/index.vue';
 import ItemCardSeller from '@/components/item/card/seller/index.vue';
@@ -14,8 +12,6 @@ import ItemCardSizeTag from '@/components/item/card/size-tag/index.vue';
 const props = defineProps({
   item: { type: Item, required: true }
 });
-
-const { imageUrl } = useItemCard(props);
 </script>
 
 <template>
@@ -23,13 +19,6 @@ const { imageUrl } = useItemCard(props);
     <ItemCardMedia :item="props.item">
       <template #top-left>
         <ItemCardSeller :item="props.item" />
-      </template>
-
-      <template #top-right>
-        <ItemFavoriteButton
-          :item="props.item"
-          class="item-card__favorite-button"
-        />
       </template>
 
       <template #bottom-left>
@@ -52,10 +41,6 @@ const { imageUrl } = useItemCard(props);
 
 .item-card__infos {
   padding: var(--spacing-sm);
-}
-
-.item-card__favorite-button {
-  margin: var(--spacing-xs);
 }
 
 .item-card__size-tag {

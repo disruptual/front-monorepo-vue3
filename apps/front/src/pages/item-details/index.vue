@@ -32,6 +32,7 @@ const device = useDevice();
 
         <dsp-grid-item>
           <ItemDetailsInfos />
+          <ItemDetailsAction class="item-details-page__actions" />
         </dsp-grid-item>
 
         <dsp-grid-item :row="device.isMobile ? 4 : null">
@@ -54,10 +55,22 @@ const device = useDevice();
 .item-details-page {
   background-color: var(--color-surface);
   padding: var(--spacing-lg);
+
+  @include mobile-only {
+    padding: var(--spacing-sm);
+  }
 }
 
 .item-details-page__seller {
   position: sticky;
   top: var(--header-height);
+
+  @include mobile-only {
+    margin: calc(-1 * var(--spacing-sm));
+  }
+}
+
+.item-details-page__actions {
+  margin-top: var(--spacing-lg);
 }
 </style>
