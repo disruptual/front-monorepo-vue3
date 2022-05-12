@@ -13,7 +13,11 @@ export default defineConfig({
     vue(),
     viteESLint(),
     minifyHtml(),
-    svgLoader(),
+    svgLoader({
+      svgoConfig: {
+        multipass: true
+      }
+    }),
     injectHtml({
       injectData: {
         favicon16x16: `/src/clients/${process.env.CLIENT}/assets/favicons/favicon-16x16.png`,

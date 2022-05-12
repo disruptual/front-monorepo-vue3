@@ -70,18 +70,17 @@ const toggleMenu = isOpened => {
     popperInstance.value.destroy?.();
   }
 
-  if (isOpened) {
-    nextTick(async () => {
-      const { createPopper } = await import('@popperjs/core');
-      popperInstance.value = createPopper(
-        toggleButton.value,
-        menuElement.value,
-        { placement: 'bottom' }
-      );
+  if (!isOpened) return;
 
-      focusFirstElement();
+  nextTick(async () => {
+    const { createPopper } = await import('@popperjs/core');
+    if (!toggleButton.value || !menuElement.value) return;
+    popperInstance.value = createPopper(toggleButton.value, menuElement.value, {
+      placement: 'bottom'
     });
-  }
+
+    focusFirstElement();
+  });
 };
 
 const focusFirstElement = async () => {

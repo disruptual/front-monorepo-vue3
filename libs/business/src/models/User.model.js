@@ -9,6 +9,7 @@ import { Order } from './Order.model';
 import { Review } from './Review.model';
 import { Address } from './Address.model';
 import { Location } from './Location.model';
+import { Cart } from './Cart.model';
 
 export class User extends BaseModel {
   static get relations() {
@@ -37,6 +38,11 @@ export class User extends BaseModel {
         name: 'sales',
         getUri: entity => `${entity.uri}/sales`,
         model: Order
+      },
+      {
+        name: 'carts',
+        getUri: entity => `${entity.uri}/carts`,
+        model: Cart
       },
       {
         name: 'reviewsReceived',
