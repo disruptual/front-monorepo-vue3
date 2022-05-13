@@ -145,7 +145,7 @@ export default {
         'À envoyer',
       [ORDER_DELIVERY_STATES.PACKING_IN_PROGRESS]: 'À envoyer',
       [ORDER_DELIVERY_STATES.DEPOSIT_IN_MAILBOX_BY_SELLER_IN_PROGRESS]:
-        'Dépôt en boîte aux lettres en cours',
+        'En attente d’envoi courrier',
       [ORDER_DELIVERY_STATES.DEPOSIT_IN_RELAY_BY_SELLER_IN_PROGRESS]:
         'Dépôt en relais en cours',
       [ORDER_DELIVERY_STATE_TRANSITIONS.PACKAGE_NOT_DEPOSITED_BY_SELLER]:
