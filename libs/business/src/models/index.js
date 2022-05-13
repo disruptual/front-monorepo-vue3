@@ -37,4 +37,4 @@ export * from './RecommendedBrand.model';
 export * from './RecommendedCategory.model';
 export * from './FrontConfig.model';
 export * from './Size.model';
-export * from './OrderAddress.model';export * from './Condition.model';export * from './DeliveryPrice.model';
+export * from './OrderAddress.model';export * from './Condition.model';export * from './DeliveryPrice.model';export * from './SuperCart.model';

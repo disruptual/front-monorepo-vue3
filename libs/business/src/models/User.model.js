@@ -10,6 +10,7 @@ import { Review } from './Review.model';
 import { Address } from './Address.model';
 import { Location } from './Location.model';
 import { Cart } from './Cart.model';
+import { SuperCart } from './SuperCart.model';
 
 export class User extends BaseModel {
   static get relations() {
@@ -53,6 +54,11 @@ export class User extends BaseModel {
         name: 'reviewsGiven',
         getUri: entity => `${entity.uri}/reviews_froms`,
         model: Review
+      },
+      {
+        name: 'superCart',
+        getUri: entity => `${entity.uri}/super_cart`,
+        model: SuperCart
       },
       {
         name: 'mainAddress',

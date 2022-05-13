@@ -26,7 +26,7 @@ const refreshUserCarts = () =>
       queryKey.startsWith(`${currentUser.value.uri}/carts`)
   });
 
-const { mutateAsync: createCartItem } = createMutation({
+const { mutateAsync: createCartItem, ...rest } = createMutation({
   async onSuccess() {
     await refreshUserCarts();
     isLoading.value = false;
