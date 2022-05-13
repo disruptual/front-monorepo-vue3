@@ -9,7 +9,7 @@ import { makeRandomId } from '@dsp/core';
 const emit = defineEmits(['update:modelValue']);
 const props = defineProps({
   modelValue: {
-    type: Boolean,
+    type: [Boolean, null],
     required: true
   },
   id: { type: String, default: () => makeRandomId(6) },

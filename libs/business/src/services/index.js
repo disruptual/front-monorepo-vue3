@@ -31,3 +31,4 @@ export * from './Condition.service';
 export * from './DeliveryPrice.service';
 export * from './CartItem.service';
 export * from './Cart.service';
+export * from './Notification.service';

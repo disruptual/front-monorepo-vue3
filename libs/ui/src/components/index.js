@@ -49,3 +49,4 @@ export { default as DspMultiSelect } from './multi-select/index.vue';
 export { default as DspSection } from './section/index.vue';
 export { default as DspSectionHeading } from './section/section-heading/index.vue';
 export { default as DspQueriesLoader } from './queries-loader/index.vue';
+export { default as DspChipCount } from './chip-count/index.vue';

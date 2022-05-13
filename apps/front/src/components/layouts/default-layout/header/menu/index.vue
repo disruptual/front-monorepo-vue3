@@ -6,6 +6,7 @@ import { ref } from 'vue';
 import { useCurrentUser } from '@dsp/core';
 import { useDevice } from '@dsp/ui';
 import UserMenu from '@/components/user/menu/index.vue';
+import NotificationsDropdown from '@/components/notification/dropdown/index.vue';
 
 const device = useDevice();
 
@@ -24,13 +25,7 @@ const toggleUserMenu = () => {
         <dsp-button :to="{ name: 'ItemCreation' }">Vendre</dsp-button>
       </li>
       <li v-if="device.isDesktop && currentUser">
-        <dsp-icon-button
-          :to="{ name: 'Notifications' }"
-          icon="bell"
-          is-plain
-          size="lg"
-          aria-label="notifications"
-        />
+        <NotificationsDropdown />
       </li>
       <li v-if="device.isDesktop && currentUser">
         <dsp-icon-button
