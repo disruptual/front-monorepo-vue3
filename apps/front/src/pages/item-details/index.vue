@@ -13,6 +13,7 @@ import ItemDetailsSeller from '@/components/item/details/seller/index.vue';
 import ItemDetailsProvider from '@/components/item/details/item-details-provider.vue';
 import ItemDetailsDressing from '@/components/item/details/dressing/index.vue';
 import ItemDetailsSimilarItems from '@/components/item/details/similar-items/index.vue';
+import CartBottomPanel from '@/components/cart/bottom-panel/index.vue';
 
 const route = useRoute();
 const device = useDevice();
@@ -47,6 +48,7 @@ const device = useDevice();
           <ItemDetailsSimilarItems />
         </dsp-grid-item>
       </dsp-grid>
+      <CartBottomPanel />
     </dsp-container>
   </ItemDetailsProvider>
 </template>

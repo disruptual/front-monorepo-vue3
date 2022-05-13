@@ -20,12 +20,13 @@ const device = useDevice();
       <dsp-flex align="center" justify="center" direction="column" gap="xs">
         <dsp-plain-button
           :to="{ name: 'Profile', params: { slug: seller.slug } }"
+          class="item-details-seller__avatar-link"
         >
           <dsp-avatar class="avatar" :user="seller" size="xl" />
         </dsp-plain-button>
         <Rating :user="seller" size="md" />
         <dsp-plain-button
-          class="see-reviews"
+          class="item-details-seller__reviews-link"
           :to="{ name: 'Profile', params: { slug: seller.slug } }"
         >
           Voir les {{ seller.reviewsReceived?.totalItems }} avis
@@ -70,10 +71,6 @@ const device = useDevice();
 </template>
 
 <style lang="scss" scoped>
-.see-reviews {
-  padding: 0;
-}
-
 .item-details-seller {
   background-color: var(--color-brand-100);
   padding: var(--spacing-sm);
@@ -91,5 +88,14 @@ const device = useDevice();
 
 .item-details-seller__username {
   font-weight: var(--font-weight-bold);
+}
+
+.item-details-seller__reviews-link {
+  padding: 0;
+  font-size: var(--font-size-sm);
+}
+
+.item-details-seller__avatar-link {
+  padding: 0;
 }
 </style>

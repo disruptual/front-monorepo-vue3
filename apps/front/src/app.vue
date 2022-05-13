@@ -51,7 +51,6 @@ Promise.all(queries).then(() => {
       <AppLoading />
     </template>
 
-    <VueQueryDevTools />
     <dsp-toasts-container />
 
     <AppLoading v-if="!isReady" />
@@ -71,6 +70,7 @@ Promise.all(queries).then(() => {
       </router-view>
     </component>
   </AppProvider>
+  <!-- <VueQueryDevTools /> -->
   <!-- <DisruptualDevtools /> -->
 </template>
 

@@ -49,6 +49,10 @@ export class ToastService {
     return this.show(toast, 'success');
   }
 
+  showWarning(toast) {
+    return this.show(toast, 'warning');
+  }
+
   showError(toast) {
     return this.show(toast, 'error');
   }

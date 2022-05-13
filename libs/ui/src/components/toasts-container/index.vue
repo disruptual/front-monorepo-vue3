@@ -82,6 +82,11 @@ const icons = {
   --toast-color: var(--color-green-800);
 }
 
+.toast--warning {
+  --toast-bg-color: var(--color-orange-100);
+  --toast-color: var(--color-orange-800);
+}
+
 .toast--error {
   --toast-bg-color: var(--color-red-100);
   --toast-color: var(--color-red-700);

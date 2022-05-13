@@ -66,7 +66,7 @@ export function useBoundedModel(query, options) {
     debouncedBindQuery();
   };
 
-  const queriesDefinitions = computed(() => {
+  const relationQueriesDefinitions = computed(() => {
     return createQueries(instance.value, {
       queryClient: queryClient,
       fetcher: uri => http.get(uri),
@@ -75,10 +75,10 @@ export function useBoundedModel(query, options) {
     });
   });
 
-  useQueries(queriesDefinitions);
+  useQueries(relationQueriesDefinitions);
 
   const isRelationLoading = relationName => {
-    return queriesDefinitions.value
+    return relationQueriesDefinitions.value
       .filter(def => def.relation === relationName)
       .map(def => queryClient.getQueryState(def.queryKey))
       .filter(Boolean)

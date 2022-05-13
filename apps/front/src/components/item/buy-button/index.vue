@@ -3,15 +3,48 @@ export default { name: 'ItemBuyButton' };
 </script>
 
 <script setup>
-import { computed } from 'vue';
-import { useCurrentUser } from '@dsp/core';
+import { computed, ref } from 'vue';
+import { useQueryClient } from 'vue-query';
+import { useCurrentUser, useCartItemApi } from '@dsp/core';
 import { Item } from '@dsp/business';
+import ConnectedOnlyButton from '@/components/user/connected-only-button/index.vue';
 
 const props = defineProps({
   item: { type: Item, required: true }
 });
 
-const { data: currentUser } = useCurrentUser({ relations: ['carts'] });
+const { data: currentUser, isLoading: isCurrentUserLoading } = useCurrentUser({
+  relations: ['carts', 'carts.cartItems']
+});
+const { createMutation, deleteMutation } = useCartItemApi();
+const isLoading = ref(false);
+
+const queryClient = useQueryClient();
+const refreshUserCarts = () =>
+  queryClient.refetchQueries({
+    predicate: ({ queryKey }) =>
+      queryKey.startsWith(`${currentUser.value.uri}/carts`)
+  });
+
+const { mutateAsync: createCartItem } = createMutation({
+  async onSuccess() {
+    await refreshUserCarts();
+    isLoading.value = false;
+  },
+  onError() {
+    isLoading.value = false;
+  }
+});
+
+const { mutateAsync: deleteCartItem } = deleteMutation({
+  async onSuccess() {
+    await refreshUserCarts();
+    isLoading.value = false;
+  },
+  onError() {
+    isLoading.value = false;
+  }
+});
 
 const cartFromItemSeller = computed(() =>
   currentUser.value?.carts?.find(
@@ -19,17 +52,16 @@ const cartFromItemSeller = computed(() =>
   )
 );
 
-const isItemInCart = computed(() => {
-  if (!cartFromItemSeller.value) return false;
+const cartItem = computed(() => {
+  if (!cartFromItemSeller.value) return null;
 
-  // console.log(cartFromItemSeller.value);
-  return cartFromItemSeller.value.cartItems?.some(cartItem => {
+  return cartFromItemSeller.value.cartItems?.find(cartItem => {
     return cartItem._item === props.item.uri;
   });
 });
 
 const label = computed(() => {
-  if (isItemInCart.value) {
+  if (cartItem.value) {
     return 'Retirer du lot';
   }
   if (cartFromItemSeller.value) {
@@ -39,18 +71,32 @@ const label = computed(() => {
 });
 
 const onClick = () => {
-  if (isItemInCart.value) {
-    console.log('Retirer du lot');
+  if (!currentUser.value) return;
+
+  isLoading.value = true;
+  if (cartItem.value) {
+    return deleteCartItem(cartItem.value.id);
   }
   if (cartFromItemSeller.value) {
-    console.log('Ajouter au lot');
+    return createCartItem({
+      user: currentUser.value.uri,
+      item: props.item.uri
+    });
   }
-  return console.log('Acheter');
+
+  return createCartItem({
+    user: currentUser.value.uri,
+    item: props.item.uri
+  });
 };
 </script>
 
 <template>
-  <dsp-button :to="!currentUser && { name: 'Login' }" @click="onClick">
+  <ConnectedOnlyButton
+    :show-label-while-loading="!isCurrentUserLoading"
+    :is-loading="isLoading || isCurrentUserLoading"
+    @click="onClick"
+  >
     {{ label }}
-  </dsp-button>
+  </ConnectedOnlyButton>
 </template>
