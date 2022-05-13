@@ -9,8 +9,8 @@ import { NOTIFICATION_TABS as TABS } from '@/utils/constants';
 import Notification from '@/components/notification/index.vue';
 import { useNotifications } from '../../use-notifications';
 
-const { getNotificationsAllQuery } = useNotifications();
-const notificationsAllQuery = getNotificationsAllQuery();
+const { getAllNotificationsQuery } = useNotifications();
+const allNotificationsQuery = getAllNotificationsQuery();
 const queryClient = useQueryClient();
 
 const slots = useSlots();
@@ -29,7 +29,7 @@ const onUpdate = () => {
       <dsp-tab :name="TABS.ALL" label="Tout">
         <dsp-infinite-query-loader
           v-slot="{ data: notifications }"
-          :query="notificationsAllQuery"
+          :query="allNotificationsQuery"
         >
           <ul>
             <li

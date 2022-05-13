@@ -21,11 +21,14 @@ const activeTab = computed({
   }
 });
 
-const { notificationAllQuery, notificationUnreadQuery } = useNotifications();
+const { getAllNotificationsQuery, getUnReadNotificationsQuery } =
+  useNotifications();
+const allNotificationsQuery = getAllNotificationsQuery();
+const unReadNotificationsQuery = getUnReadNotificationsQuery();
 
 const onUpdate = () => {
-  notificationAllQuery.refetch.value();
-  notificationUnreadQuery.refetch.value();
+  allNotificationsQuery.refetch.value();
+  unReadNotificationsQuery.refetch.value();
 };
 </script>
 
@@ -39,7 +42,7 @@ const onUpdate = () => {
             <dsp-tab :name="TABS.ALL" label="Tout">
               <dsp-infinite-query-loader
                 v-slot="{ data: notifications }"
-                :query="notificationAllQuery"
+                :query="allNotificationsQuery"
               >
                 <ul>
                   <li
@@ -58,7 +61,7 @@ const onUpdate = () => {
             <dsp-tab :name="TABS.UNREAD" label="Non lues">
               <dsp-infinite-query-loader
                 v-slot="{ data: notifications }"
-                :query="notificationUnreadQuery"
+                :query="unReadNotificationsQuery"
               >
                 <ul>
                   <li

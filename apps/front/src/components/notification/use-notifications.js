@@ -4,7 +4,7 @@ import { useNotificationApi, useCurrentUser } from '@dsp/core';
 export const useNotifications = () => {
   const { data: currentUser } = useCurrentUser();
 
-  const getNotificationsUnreadQuery = () =>
+  const getUnReadNotificationsQuery = () =>
     useNotificationApi().findAllByUserIdQuery(
       computed(() => currentUser.value?.id),
       computed(() => ({
@@ -16,7 +16,7 @@ export const useNotifications = () => {
       }))
     );
 
-  const getNotificationsAllQuery = () =>
+  const getAllNotificationsQuery = () =>
     useNotificationApi().findAllByUserIdQuery(
       computed(() => currentUser.value?.id),
       computed(() => ({
@@ -26,7 +26,7 @@ export const useNotifications = () => {
         }
       }))
     );
-  const getNotificationsUnSeenQuery = () =>
+  const getUnSeenNotificationsQuery = () =>
     useNotificationApi().findAllByUserIdQuery(
       computed(() => currentUser.value?.id),
       computed(() => ({
@@ -41,9 +41,9 @@ export const useNotifications = () => {
   const updateManyMutationQuery = useNotificationApi().updateManyMutation();
 
   return {
-    getNotificationsUnreadQuery,
-    getNotificationsAllQuery,
-    getNotificationsUnSeenQuery,
+    getUnReadNotificationsQuery,
+    getAllNotificationsQuery,
+    getUnSeenNotificationsQuery,
     markAsViewed: notifications =>
       updateManyMutationQuery.mutateAsync(
         notifications

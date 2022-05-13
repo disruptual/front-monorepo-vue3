@@ -13,18 +13,18 @@ defineProps({
 
 const isOpened = ref(false);
 
-const { getNotificationsUnSeenQuery, markAsViewed } = useNotifications();
+const { getUnSeenNotificationsQuery, markAsViewed } = useNotifications();
 
-const notificationsUnSeenQuery = getNotificationsUnSeenQuery();
+const unSeenNotificationsQuery = getUnSeenNotificationsQuery();
 
 const notificationCount = computed(
-  () => notificationsUnSeenQuery.data.value?.totalItems
+  () => unSeenNotificationsQuery.data.value?.totalItems
 );
 
 watch(
   () => isOpened.value,
   newVal => {
-    if (newVal) markAsViewed(notificationsUnSeenQuery.data.value);
+    if (newVal) markAsViewed(unSeenNotificationsQuery.data.value);
   }
 );
 </script>
