@@ -20,7 +20,7 @@ const device = useDevice();
 </script>
 
 <template>
-  <ItemDetailsProvider :item-slug="route.params.slug">
+  <ItemDetailsProvider v-slot="{ cart }" :item-slug="route.params.slug">
     <dsp-container is-large>
       <dsp-grid
         class="item-details-page"
@@ -48,7 +48,8 @@ const device = useDevice();
           <ItemDetailsSimilarItems />
         </dsp-grid-item>
       </dsp-grid>
-      <CartBottomPanel />
+
+      <CartBottomPanel v-if="cart" :cart-id="cart.id" />
     </dsp-container>
   </ItemDetailsProvider>
 </template>

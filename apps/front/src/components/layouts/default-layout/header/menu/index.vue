@@ -76,12 +76,6 @@ ul {
   li {
     display: flex;
     align-items: center;
-
-    &:first-child {
-      @include not-mobile {
-        margin: 0 auto;
-      }
-    }
   }
 }
 </style>

@@ -27,7 +27,9 @@ const queries = [
   queryClient.prefetchInfiniteQuery('/categories?', () =>
     http.get('/categories')
   ),
-  queryClient.prefetchInfiniteQuery('/carousels', () => http.get('/carousels')),
+  queryClient.prefetchInfiniteQuery('/carousels?', () =>
+    http.get('/carousels')
+  ),
   queryClient.prefetchInfiniteQuery('/blocs?', () => http.get('/blocs?'))
 ];
 Promise.all(queries).then(() => {

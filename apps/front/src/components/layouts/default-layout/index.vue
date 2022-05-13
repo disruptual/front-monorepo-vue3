@@ -10,12 +10,20 @@ import DefaultLayoutAppBar from './app-bar/index.vue';
 
 const device = useDevice();
 const headerHeight = ref(null);
+const appBarHeight = ref(null);
 
 useCssVar('--header-height', headerHeight);
+useCssVar('--app-bar-height', appBarHeight);
 
 const onHeaderResize = entries => {
   for (let entry of entries) {
     headerHeight.value = `${entry.target.offsetHeight}px`;
+  }
+};
+
+const onAppBarResize = entries => {
+  for (let entry of entries) {
+    appBarHeight.value = `${entry.target.offsetHeight}px`;
   }
 };
 </script>
@@ -29,10 +37,13 @@ const onHeaderResize = entries => {
 
     <DefaultLayoutFooter />
 
-    <DefaultLayoutAppBar
+    <div
       v-if="device.isMobile"
+      v-on-resize="onAppBarResize"
       class="default-layout__app-bar"
-    />
+    >
+      <DefaultLayoutAppBar />
+    </div>
   </div>
 </template>
 
