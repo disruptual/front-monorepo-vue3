@@ -5,9 +5,9 @@ export default { name: 'NotificationsPage' };
 <script setup>
 import { computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { useNotificationApi, useCurrentUser } from '@dsp/core';
 import { NOTIFICATION_TABS as TABS } from '@/utils/constants';
 import Notification from '@/components/notification/index.vue';
+import { useNotifications } from '@/components/notification/use-notifications';
 
 const { replace } = useRouter();
 const route = useRoute();
@@ -21,28 +21,7 @@ const activeTab = computed({
   }
 });
 
-const { data: currentUser } = useCurrentUser();
-
-const notificationAllQuery = useNotificationApi().findAllByUserIdQuery(
-  computed(() => currentUser.value.id),
-  computed(() => ({
-    enabled: !!currentUser.value.id,
-    filters: {
-      'sort[createdAt]': 'desc'
-    }
-  }))
-);
-
-const notificationUnreadQuery = useNotificationApi().findAllByUserIdQuery(
-  computed(() => currentUser.value.id),
-  computed(() => ({
-    enabled: !!currentUser.value.id,
-    filters: {
-      read: false,
-      'sort[createdAt]': 'desc'
-    }
-  }))
-);
+const { notificationAllQuery, notificationUnreadQuery } = useNotifications();
 
 const onUpdate = () => {
   notificationAllQuery.refetch.value();
