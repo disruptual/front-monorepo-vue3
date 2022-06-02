@@ -6,7 +6,12 @@ export default { name: 'CardBlockEditor' };
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDevice } from '@dsp/ui';
-import { HOME_BLOCK_TYPES, HOME_BLOCK_QUERIES_BY_TYPE } from '@dsp/business';
+import {
+  HOME_BLOCK_TYPES,
+  HOME_BLOCK_QUERIES_BY_TYPE,
+  HOME_BLOCK_QUERIES_ONLY_CONNECTED,
+  HOME_BLOCK_USER_STATE_AUTH
+} from '@dsp/business';
 import { HOME_BLOCK_MAPPED_TYPE } from '@/utils/homeBlockDefinitions';
 
 import HomeBlocksFields from '@/components/home-blocks/home-blocks-fields/index.vue';
@@ -44,9 +49,23 @@ const queryOptions = computed(() =>
   }))
 );
 
-const fieldOptions = computed(
-  () => HOME_BLOCK_MAPPED_TYPE[props.fieldValue.type]
-);
+const fieldOptions = computed(() => {
+  if (!props.fieldValue.type || !props.fieldValue.query) return;
+
+  const mappedOptions = HOME_BLOCK_MAPPED_TYPE[props.fieldValue.type];
+
+  if (HOME_BLOCK_QUERIES_ONLY_CONNECTED.includes(props.fieldValue?.query)) {
+    return {
+      ...mappedOptions,
+      userStateAuth: {
+        ...mappedOptions.userStateAuth,
+        values: [HOME_BLOCK_USER_STATE_AUTH.CONNECTED]
+      }
+    };
+  }
+
+  return mappedOptions;
+});
 </script>
 
 <template>

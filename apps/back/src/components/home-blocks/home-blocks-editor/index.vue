@@ -8,7 +8,6 @@ import { nanoid } from 'nanoid';
 import { useI18n } from 'vue-i18n';
 import { useFrontConfigApi } from '@dsp/core';
 import { useForm, useToast, VALIDATION_MODES } from '@dsp/ui';
-import { HOME_BLOCK_OPTIONS_DEFAULTS } from '@/utils/homeBlockDefinitions';
 
 import HomeBlocksCard from '@/components/home-blocks/home-blocks-card/index.vue';
 
