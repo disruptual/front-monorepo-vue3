@@ -17,6 +17,17 @@ export const HOME_BLOCK_OPTIONS_DEFAULTS = {
   [HOME_BLOCK_TYPES.CATEGORY]: { title: {} }
 };
 
+const defaultOptions = {
+  userStateAuth: {
+    type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
+    values: [
+      HOME_BLOCK_USER_STATE_AUTH.CONNECTED,
+      HOME_BLOCK_USER_STATE_AUTH.NOT_CONNECTED,
+      HOME_BLOCK_USER_STATE_AUTH.BOTH
+    ]
+  }
+};
+
 export const HOME_BLOCK_MAPPED_TYPE = {
   name: {
     type: HOME_BLOCK_PROPERTY_TYPES.STRING
@@ -34,6 +45,7 @@ export const HOME_BLOCK_MAPPED_TYPE = {
     type: HOME_BLOCK_PROPERTY_TYPES.ENUM
   },
   [HOME_BLOCK_TYPES.ITEM]: {
+    ...defaultOptions,
     backgroundColor: {
       type: HOME_BLOCK_PROPERTY_TYPES.COLOR
     },
@@ -73,17 +85,10 @@ export const HOME_BLOCK_MAPPED_TYPE = {
     uiType: {
       type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
       values: [HOME_BLOCK_UI_TYPES.GRID, HOME_BLOCK_UI_TYPES.SWIPER]
-    },
-    userStateAuth: {
-      type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
-      values: [
-        HOME_BLOCK_USER_STATE_AUTH.CONNECTED,
-        HOME_BLOCK_USER_STATE_AUTH.NOT_CONNECTED,
-        HOME_BLOCK_USER_STATE_AUTH.BOTH
-      ]
     }
   },
   [HOME_BLOCK_TYPES.BRAND]: {
+    ...defaultOptions,
     backgroundColor: {
       type: HOME_BLOCK_PROPERTY_TYPES.COLOR
     },
@@ -111,17 +116,10 @@ export const HOME_BLOCK_MAPPED_TYPE = {
     uiType: {
       type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
       values: [HOME_BLOCK_UI_TYPES.GRID, HOME_BLOCK_UI_TYPES.SWIPER]
-    },
-    userStateAuth: {
-      type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
-      values: [
-        HOME_BLOCK_USER_STATE_AUTH.CONNECTED,
-        HOME_BLOCK_USER_STATE_AUTH.NOT_CONNECTED,
-        HOME_BLOCK_USER_STATE_AUTH.BOTH
-      ]
     }
   },
   [HOME_BLOCK_TYPES.USER]: {
+    ...defaultOptions,
     backgroundColor: {
       type: HOME_BLOCK_PROPERTY_TYPES.COLOR
     },
@@ -149,17 +147,10 @@ export const HOME_BLOCK_MAPPED_TYPE = {
     uiType: {
       type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
       values: [HOME_BLOCK_UI_TYPES.GRID, HOME_BLOCK_UI_TYPES.SWIPER]
-    },
-    userStateAuth: {
-      type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
-      values: [
-        HOME_BLOCK_USER_STATE_AUTH.CONNECTED,
-        HOME_BLOCK_USER_STATE_AUTH.NOT_CONNECTED,
-        HOME_BLOCK_USER_STATE_AUTH.BOTH
-      ]
     }
   },
   [HOME_BLOCK_TYPES.CATEGORY]: {
+    ...defaultOptions,
     backgroundColor: {
       type: HOME_BLOCK_PROPERTY_TYPES.COLOR
     },
@@ -186,14 +177,6 @@ export const HOME_BLOCK_MAPPED_TYPE = {
     uiType: {
       type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
       values: [HOME_BLOCK_UI_TYPES.GRID, HOME_BLOCK_UI_TYPES.SWIPER]
-    },
-    userStateAuth: {
-      type: HOME_BLOCK_PROPERTY_TYPES.ENUM,
-      values: [
-        HOME_BLOCK_USER_STATE_AUTH.CONNECTED,
-        HOME_BLOCK_USER_STATE_AUTH.NOT_CONNECTED,
-        HOME_BLOCK_USER_STATE_AUTH.BOTH
-      ]
     }
   }
 };
