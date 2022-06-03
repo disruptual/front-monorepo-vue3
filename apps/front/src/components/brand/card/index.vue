@@ -23,6 +23,7 @@ const props = defineProps({
 <style lang="scss" scoped>
 .brand-card {
   display: flex;
+  text-align: center;
   justify-content: center;
   align-items: center;
   border: solid 1px currentColor;

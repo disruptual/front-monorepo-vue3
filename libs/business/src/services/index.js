@@ -32,3 +32,4 @@ export * from './DeliveryPrice.service';
 export * from './CartItem.service';
 export * from './Cart.service';
 export * from './SuperCart.service';
+export * from './Notification.service';
