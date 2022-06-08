@@ -43,3 +43,8 @@ export const CONTACT_STATUSES = {
   DONE: 'online',
   NOT_DONE: 'pending'
 };
+
+export const LOCATION_CHECK_TYPES = {
+  PDF: 'pdf',
+  QR_CODE: 'qrcode'
+};

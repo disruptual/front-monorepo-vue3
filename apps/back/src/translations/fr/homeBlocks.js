@@ -20,6 +20,7 @@ export default {
         position: 'Emplacement'
       },
       uiType: "Type d'affichage",
+      userStateAuth: 'Affichage du bloc selon authentification',
       backgroundColor: 'Couleur'
     },
 
@@ -41,7 +42,8 @@ export default {
       POPULAR_BRANDS: 'Marques populaires',
       RECOMMENDED_CATEGORIES: 'Top catégories',
       RECOMMENDED_POPULAR_CATEGORIES: 'Top catégories et populaires',
-      POPULAR_CATEGORIES: 'Catégories populaires'
+      POPULAR_CATEGORIES: 'Catégories populaires',
+      FAVORITES_ITEMS: 'Annonces favorites'
     }
   }
 };
