@@ -10,5 +10,8 @@ export default merge({}, defaultConfig, {
     }
   },
   DefaultLayoutHeader: { isLogoDisplayed: true },
+  UserDetails: {
+    isSSOCustomerIdDisplayed: true
+  },
   logo
 });
