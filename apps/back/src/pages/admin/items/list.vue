@@ -22,7 +22,7 @@ useBreadCrumbs('Annonces');
 const { t } = useI18n();
 const { showError } = useToast();
 
-const defaultFilter = { display: 'all', 'sort[updated]': 'desc' };
+const defaultFilter = { display: 'all', 'sort[created]': 'desc' };
 const filters = ref({ ...defaultFilter });
 const onFilterChange = newFilters => {
   filters.value = { ...newFilters, ...defaultFilter };
@@ -30,7 +30,7 @@ const onFilterChange = newFilters => {
 
 const { findAllQuery, updateManyMutation } = useItemApi();
 const query = findAllQuery({
-  relations: ['user', 'mainMedia', 'category  '],
+  relations: ['user', 'mainMedia', 'category'],
   filters
 });
 const { mutate: updateItems } = updateManyMutation({

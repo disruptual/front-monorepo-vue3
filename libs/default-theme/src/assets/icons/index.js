@@ -71,6 +71,7 @@ import locationdelivery from './locationdelivery.svg?component';
 import lapostecolissimo from './lapostecolissimo.svg?component';
 import lapostecourriersuivi from './lapostecourriersuivi.svg?component';
 import clothesHanger from './clothesHanger.svg?component';
+import checkDouble from './checkDouble.svg?component';
 
 export default {
   add,
@@ -88,6 +89,7 @@ export default {
   chart,
   checkbox,
   checkboxLight,
+  checkDouble,
   chevronDown,
   chevronLeft,
   chevronRight,
