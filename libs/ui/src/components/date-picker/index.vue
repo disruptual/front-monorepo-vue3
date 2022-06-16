@@ -10,7 +10,9 @@ import {
   getDate,
   getMonth,
   getYear,
-  isEqual
+  isEqual,
+  isBefore,
+  isAfter
 } from 'date-fns';
 import frLocale from 'date-fns/locale/fr';
 import { getMonthMatrix } from '@dsp/ui/utils/getMonthMatrix';
@@ -20,7 +22,9 @@ import { vReadableColor } from '@dsp/ui/directives/readableColor';
 const props = defineProps({
   modelValue: { type: [Date, null], required: true },
   isTeleport: { type: Boolean, default: false },
-  datetime: { type: Boolean, default: false }
+  datetime: { type: Boolean, default: false },
+  min: { type: Date, default: null },
+  max: { type: Date, default: null }
 });
 const emit = defineEmits(['update:modelValue']);
 
@@ -57,8 +61,16 @@ const calendar = computed(() =>
   }).flat()
 );
 
-const getCalendarCellLabel = d => getDate(d);
-const isCellDisabled = d => !d || getMonth(d) !== getMonth(state.internalValue);
+const getCalendarCellLabel = d => (d ? getDate(d) : '');
+
+const isCellDisabled = d => {
+  if (!d) return true;
+  if (props.min && isBefore(d, props.min)) return true;
+  if (props.max && isAfter(d, props.max)) return true;
+
+  return getMonth(d) !== getMonth(state.internalValue);
+};
+
 const onCellClick = d => {
   emit('update:modelValue', d);
   if (!props.datetime) {
@@ -74,6 +86,7 @@ const inputValue = computed(() =>
 
 const isActive = d =>
   d &&
+  props.modelValue &&
   isEqual(
     new Date(format(props.modelValue || new Date(), 'MM-dd-yyyy')),
     new Date(format(d, 'MM-dd-yyyy'))
@@ -191,7 +204,7 @@ const updateMinutes = minutes => {
     padding: var(--spacing-sm);
 
     &:disabled {
-      opacity: 0;
+      opacity: 0.3;
     }
 
     &:hover,
