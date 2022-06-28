@@ -177,5 +177,23 @@
         "deployTag": "PREPROD"
       }
     }
+  },
+
+  "clozen": {
+    "name": "CLOZEN",
+    "environments": {
+      "SANDBOX": {
+        "ip": "35.180.145.31",
+        "branch": "dev",
+        "sshArguments": " ",
+        "deployTag": "SANDBOX"
+      },
+      "RECETTE": {
+        "ip": "35.180.145.6",
+        "branch": "master",
+        "sshArguments": "-o StrictHostKeyChecking=no ",
+        "deployTag": "PREPROD"
+      }
+    }
   }
 }

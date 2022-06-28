@@ -527,6 +527,58 @@ pipeline {
 								    }
 								}
 								
+
+								stage ('ADMIN CLOZEN Deployment SANDBOX') {
+								    when {
+								      allOf {
+								        tag "back-SANDBOX-*"
+								      }
+								    }
+								    steps{
+								        sshagent(credentials : ['CLOZEN_SANDBOX']) {
+								            sh """ssh -v   ubuntu@35.180.145.31 << EOF
+								            cd /home/ubuntu/api/app/back/files &&
+								            git reset HEAD --hard &&
+								            git checkout dev &&
+								            git pull origin dev &&
+								            cd /home/ubuntu/api &&
+								            docker-compose up -d --build back &&
+								            exit
+								            EOF
+								            """
+								        }
+								        sshagent(credentials : ['CLOZEN_SANDBOX']) {
+								            sh """curl -s -d 'payload={"channel": "#notifications", "text": "Publication ADMIN - CLOZEN SANDBOX"}' 'https://hooks.slack.com/services/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'"""
+								        }
+								    }
+								}
+								
+
+								stage ('ADMIN CLOZEN Deployment RECETTE') {
+								    when {
+								      allOf {
+								        tag "back-PREPROD-*"
+								      }
+								    }
+								    steps{
+								        sshagent(credentials : ['CLOZEN_RECETTE']) {
+								            sh """ssh -v -o StrictHostKeyChecking=no  ubuntu@35.180.145.6 << EOF
+								            cd /home/ubuntu/api/app/back/files &&
+								            git reset HEAD --hard &&
+								            git checkout master &&
+								            git pull origin master &&
+								            cd /home/ubuntu/api &&
+								            docker-compose up -d --build back &&
+								            exit
+								            EOF
+								            """
+								        }
+								        sshagent(credentials : ['CLOZEN_RECETTE']) {
+								            sh """curl -s -d 'payload={"channel": "#notifications", "text": "Publication ADMIN - CLOZEN RECETTE"}' 'https://hooks.slack.com/services/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'"""
+								        }
+								    }
+								}
+								
             }
         }
     }
