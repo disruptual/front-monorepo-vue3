@@ -5,6 +5,11 @@ export class CarouselEditor {
   constructor({ settings }) {
     this.settings = settings;
     this.settings.carouselItems = this.settings.carouselItems ?? [];
+    this.settings.carouselItems.forEach(carouselItem => {
+      if (!carouselItem.carouselItemSettings) {
+        carouselItem.carouselItemSettings = {};
+      }
+    });
     this.selectedSlideId = this.desktopSlides[0]?.id;
     this.createdIds = [];
     this.deletedIds = [];
@@ -93,6 +98,7 @@ export class CarouselEditor {
       textPositionY: 1,
       textPositionYEnd: 3,
       textHasAnOverlay: true,
+      carouselItemSettings: {},
       position: this.currentSlides.length,
       desktop: isDesktop,
       carousel: this.settings.uri,

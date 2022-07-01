@@ -39,18 +39,19 @@ const undoFileUpload = () => {
 
 const overlayBackgroundColor = computed({
   get() {
-    if (!model.selectedSlide.overlayBackgroundColor)
+    if (!model.selectedSlide.carouselItemSettings.overlayBackgroundColor)
       return defaultOverlayBackgroundColor;
 
-    const { r, g, b } = model.selectedSlide.overlayBackgroundColor;
+    const { r, g, b } =
+      model.selectedSlide.carouselItemSettings.overlayBackgroundColor;
 
     return r && g && b ? chroma({ r, g, b }) : defaultOverlayBackgroundColor;
   },
   set: debounce(hex => {
-    if (!model.selectedSlide.overlayBackgroundColor) {
-      model.selectedSlide.overlayBackgroundColor = {};
+    if (!model.selectedSlide.carouselItemSettings.overlayBackgroundColor) {
+      model.selectedSlide.carouselItemSettings.overlayBackgroundColor = {};
     }
-    const { overlayBackgroundColor } = model.selectedSlide;
+    const { overlayBackgroundColor } = model.selectedSlide.carouselItemSettings;
     const newColor = chroma(hex);
     overlayBackgroundColor.r = newColor.get('rgb.r');
     overlayBackgroundColor.g = newColor.get('rgb.g');
@@ -60,27 +61,27 @@ const overlayBackgroundColor = computed({
 
 const overlayAlpha = computed({
   get() {
-    return model.selectedSlide.overlayBackgroundColor
-      ? model.selectedSlide.overlayBackgroundColor.a
+    return model.selectedSlide.carouselItemSettings.overlayBackgroundColor
+      ? model.selectedSlide.carouselItemSettings.overlayBackgroundColor.a
       : defaultOverlayOpacity;
   },
   set: debounce(alpha => {
-    if (!model.selectedSlide.overlayBackgroundColor) {
-      model.selectedSlide.overlayBackgroundColor = {};
+    if (!model.selectedSlide.carouselItemSettings.overlayBackgroundColor) {
+      model.selectedSlide.carouselItemSettings.overlayBackgroundColor = {};
     }
-    const { overlayBackgroundColor } = model.selectedSlide;
+    const { overlayBackgroundColor } = model.selectedSlide.carouselItemSettings;
     overlayBackgroundColor.a = alpha;
   }, 100)
 });
 
 const overlayTextColor = computed({
   get() {
-    return model.selectedSlide.overlayTextColor
-      ? model.selectedSlide.overlayTextColor
+    return model.selectedSlide.carouselItemSettings.overlayTextColor
+      ? model.selectedSlide.carouselItemSettings.overlayTextColor
       : '#ffffff';
   },
   set: debounce(color => {
-    model.selectedSlide.overlayTextColor = color;
+    model.selectedSlide.carouselItemSettings.overlayTextColor = color;
   }, 100)
 });
 </script>
@@ -182,8 +183,8 @@ const overlayTextColor = computed({
           />
           <span class="center">
             {{
-              model.selectedSlide.overlayBackgroundColor?.a ||
-              defaultOverlayOpacity
+              model.selectedSlide.carouselItemSettings.overlayBackgroundColor
+                ?.a || defaultOverlayOpacity
             }}
           </span>
         </dsp-form-control>
