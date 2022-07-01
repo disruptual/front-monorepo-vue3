@@ -3,14 +3,18 @@ export default { name: 'CarouselEditorSlidesManager' };
 </script>
 
 <script setup>
-import { inject } from 'vue';
+import { inject, computed } from 'vue';
+import { debounce } from 'lodash-es';
 import { CONTEXT_KEYS, CAROUSEL_FILE_MAX_SIZE } from '@/utils/constants';
 import { useToast } from '@dsp/ui';
 import { useFileReader } from '@dsp/core';
+import chroma from 'chroma-js';
 
 const { model } = inject(CONTEXT_KEYS.CAROUSEL);
 const { showError } = useToast();
 const [, { readAsDataURL }] = useFileReader();
+const defaultOverlayOpacity = '0.5';
+const defaultOverlayBackgroundColor = '#000000';
 
 const onFileSelected = async ([newFile]) => {
   const fileSizeInMo = (newFile.size / 1024 / 1024).toFixed(4);
@@ -32,6 +36,53 @@ const onFileSelected = async ([newFile]) => {
 const undoFileUpload = () => {
   model.newMedias[model.selectedSlideId] = null;
 };
+
+const overlayBackgroundColor = computed({
+  get() {
+    if (!model.selectedSlide.overlayBackgroundColor)
+      return defaultOverlayBackgroundColor;
+
+    const { r, g, b } = model.selectedSlide.overlayBackgroundColor;
+
+    return r && g && b ? chroma({ r, g, b }) : defaultOverlayBackgroundColor;
+  },
+  set: debounce(hex => {
+    if (!model.selectedSlide.overlayBackgroundColor) {
+      model.selectedSlide.overlayBackgroundColor = {};
+    }
+    const { overlayBackgroundColor } = model.selectedSlide;
+    const newColor = chroma(hex);
+    overlayBackgroundColor.r = newColor.get('rgb.r');
+    overlayBackgroundColor.g = newColor.get('rgb.g');
+    overlayBackgroundColor.b = newColor.get('rgb.b');
+  }, 100)
+});
+
+const overlayAlpha = computed({
+  get() {
+    return model.selectedSlide.overlayBackgroundColor
+      ? model.selectedSlide.overlayBackgroundColor.a
+      : defaultOverlayOpacity;
+  },
+  set: debounce(alpha => {
+    if (!model.selectedSlide.overlayBackgroundColor) {
+      model.selectedSlide.overlayBackgroundColor = {};
+    }
+    const { overlayBackgroundColor } = model.selectedSlide;
+    overlayBackgroundColor.a = alpha;
+  }, 100)
+});
+
+const overlayTextColor = computed({
+  get() {
+    return model.selectedSlide.overlayTextColor
+      ? model.selectedSlide.overlayTextColor
+      : '#ffffff';
+  },
+  set: debounce(color => {
+    model.selectedSlide.overlayTextColor = color;
+  }, 100)
+});
 </script>
 
 <template>
@@ -82,6 +133,63 @@ const undoFileUpload = () => {
     class="mt-sm"
     label="Afficher un overlay derrière le texte"
   />
+  <div class="mt-sm">
+    <fieldset>
+      <legend>Overlay</legend>
+      <dsp-flex gap="lg" justify="space-evenly">
+        <dsp-form-control
+          v-slot="{ on, ...formControlProps }"
+          v-model="overlayTextColor"
+          label="Couleur de la police"
+        >
+          <input
+            v-model="overlayTextColor"
+            class="center"
+            type="color"
+            v-bind="formControlProps"
+            v-on="on"
+          />
+        </dsp-form-control>
+        <dsp-form-control
+          v-if="model.selectedSlide.textHasAnOverlay"
+          v-slot="{ on, ...formControlProps }"
+          v-model="overlayBackgroundColor"
+          label="Couleur de fond"
+        >
+          <input
+            v-model="overlayBackgroundColor"
+            class="center"
+            type="color"
+            v-bind="formControlProps"
+            v-on="on"
+          />
+        </dsp-form-control>
+        <dsp-form-control
+          v-if="model.selectedSlide.textHasAnOverlay"
+          v-slot="{ on, ...formControlProps }"
+          v-model="overlayAlpha"
+          label="Opacité"
+        >
+          <input
+            v-model="overlayAlpha"
+            class="center"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            v-bind="formControlProps"
+            v-on="on"
+          />
+          <span class="center">
+            {{
+              model.selectedSlide.overlayBackgroundColor?.a ||
+              defaultOverlayOpacity
+            }}
+          </span>
+        </dsp-form-control>
+      </dsp-flex>
+    </fieldset>
+  </div>
   <dsp-flex gap="sm" align="center" class="mt-sm">
     <dsp-input-file label="Changer l'image" @change="onFileSelected" />
     <dsp-button
@@ -98,5 +206,13 @@ const undoFileUpload = () => {
 <style lang="scss" scoped>
 .mt-sm {
   margin-top: var(--spacing-sm);
+}
+
+.overlay-settings {
+  max-width: 80%;
+}
+
+.center {
+  align-self: center;
 }
 </style>

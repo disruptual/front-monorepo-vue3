@@ -47,15 +47,29 @@ export const usePreviewStyle = ({ isExpanded, model, containerWidth }) => {
     () => CAROUSEL_CTA_ALIGNMENTS[model.settings.textAlign]
   );
 
-  const overlay = computed(() =>
-    model.selectedSlide?.textHasAnOverlay ? 'rgba(0,0,0,0.5)' : 'transparent'
-  );
+  const backgroundColor = computed(() => {
+    const { overlayBackgroundColor = {} } = model.selectedSlide;
+    const { r = '0', g = '0', b = '0', a = '0.5' } = overlayBackgroundColor;
+
+    return `rgba(${r},${g},${b},${a})`;
+  });
+
+  const overlayBackgroundColor = computed(() => {
+    return model.selectedSlide?.textHasAnOverlay
+      ? backgroundColor.value
+      : 'transparent';
+  });
+
+  const overlayColor = computed(() => {
+    return model.selectedSlide?.overlayTextColor || 'white';
+  });
 
   return {
     height,
     sizes,
     background,
     ctaAlign,
-    overlay
+    overlayBackgroundColor,
+    overlayColor
   };
 };

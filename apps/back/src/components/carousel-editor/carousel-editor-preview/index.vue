@@ -201,10 +201,10 @@ watch(
   font-size: 16px;
   grid-column: var(--x) / var(--x-end);
   grid-row: var(--y) / var(--y-end);
-  color: white;
+  color: v-bind('previewStyle.overlayColor.value');
   text-align: v-bind('model.settings.textAlign');
   padding: var(--spacing-md);
-  background-color: v-bind('previewStyle.overlay.value');
+  background-color: v-bind('previewStyle.overlayBackgroundColor.value');
 
   p {
     margin: 0;
@@ -263,7 +263,7 @@ watch(
   margin-top: auto;
   padding: v-bind('previewStyle.sizes.value.ctaPadding');
   background: transparent;
-  border: solid 1px white;
+  border: solid 1px v-bind('previewStyle.overlayColor.value');
   color: inherit;
   align-self: v-bind('previewStyle.ctaAlign.value');
   font-size: v-bind('previewStyle.sizes.value.fontSize');
