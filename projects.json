@@ -35,24 +35,6 @@
     }
   },
 
-  "ghanty": {
-    "name": "GHANTY",
-    "environments": {
-      "SANDBOX": {
-        "ip": "15.188.171.229",
-        "branch": "dev",
-        "sshArguments": " ",
-        "deployTag": "SANDBOX"
-      },
-      "RECETTE": {
-        "ip": "15.236.61.180",
-        "branch": "master",
-        "sshArguments": "-o StrictHostKeyChecking=no ",
-        "deployTag": "PREPROD"
-      }
-    }
-  },
-
   "redoute": {
     "name": "LAREDOUTE",
     "environments": {
@@ -64,24 +46,6 @@
       },
       "RECETTE": {
         "ip": "35.180.220.38",
-        "branch": "master",
-        "sshArguments": "-o StrictHostKeyChecking=no ",
-        "deployTag": "PREPROD"
-      }
-    }
-  },
-
-  "ca": {
-    "name": "CA",
-    "environments": {
-      "SANDBOX": {
-        "ip": "13.36.41.6",
-        "branch": "dev",
-        "sshArguments": " ",
-        "deployTag": "SANDBOX"
-      },
-      "RECETTE": {
-        "ip": "35.181.30.106",
         "branch": "master",
         "sshArguments": "-o StrictHostKeyChecking=no ",
         "deployTag": "PREPROD"

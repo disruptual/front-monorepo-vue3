@@ -112,58 +112,6 @@ pipeline {
 								}
 								
 
-								stage ('ADMIN GHANTY Deployment SANDBOX') {
-								    when {
-								      allOf {
-								        tag "back-SANDBOX-*"
-								      }
-								    }
-								    steps{
-								        sshagent(credentials : ['GHANTY_SANDBOX']) {
-								            sh """ssh -v   ubuntu@15.188.171.229 << EOF
-								            cd /home/ubuntu/api/app/back/files &&
-								            git reset HEAD --hard &&
-								            git checkout dev &&
-								            git pull origin dev &&
-								            cd /home/ubuntu/api &&
-								            docker-compose up -d --build back &&
-								            exit
-								            EOF
-								            """
-								        }
-								        sshagent(credentials : ['GHANTY_SANDBOX']) {
-								            sh """curl -s -d 'payload={"channel": "#notifications", "text": "Publication ADMIN - GHANTY SANDBOX"}' 'https://hooks.slack.com/services/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'"""
-								        }
-								    }
-								}
-								
-
-								stage ('ADMIN GHANTY Deployment RECETTE') {
-								    when {
-								      allOf {
-								        tag "back-PREPROD-*"
-								      }
-								    }
-								    steps{
-								        sshagent(credentials : ['GHANTY_RECETTE']) {
-								            sh """ssh -v -o StrictHostKeyChecking=no  ubuntu@15.236.61.180 << EOF
-								            cd /home/ubuntu/api/app/back/files &&
-								            git reset HEAD --hard &&
-								            git checkout master &&
-								            git pull origin master &&
-								            cd /home/ubuntu/api &&
-								            docker-compose up -d --build back &&
-								            exit
-								            EOF
-								            """
-								        }
-								        sshagent(credentials : ['GHANTY_RECETTE']) {
-								            sh """curl -s -d 'payload={"channel": "#notifications", "text": "Publication ADMIN - GHANTY RECETTE"}' 'https://hooks.slack.com/services/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'"""
-								        }
-								    }
-								}
-								
-
 								stage ('ADMIN LAREDOUTE Deployment SANDBOX') {
 								    when {
 								      allOf {
@@ -211,58 +159,6 @@ pipeline {
 								        }
 								        sshagent(credentials : ['LAREDOUTE_RECETTE']) {
 								            sh """curl -s -d 'payload={"channel": "#notifications", "text": "Publication ADMIN - LAREDOUTE RECETTE"}' 'https://hooks.slack.com/services/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'"""
-								        }
-								    }
-								}
-								
-
-								stage ('ADMIN CA Deployment SANDBOX') {
-								    when {
-								      allOf {
-								        tag "back-SANDBOX-*"
-								      }
-								    }
-								    steps{
-								        sshagent(credentials : ['CA_SANDBOX']) {
-								            sh """ssh -v   ubuntu@13.36.41.6 << EOF
-								            cd /home/ubuntu/api/app/back/files &&
-								            git reset HEAD --hard &&
-								            git checkout dev &&
-								            git pull origin dev &&
-								            cd /home/ubuntu/api &&
-								            docker-compose up -d --build back &&
-								            exit
-								            EOF
-								            """
-								        }
-								        sshagent(credentials : ['CA_SANDBOX']) {
-								            sh """curl -s -d 'payload={"channel": "#notifications", "text": "Publication ADMIN - CA SANDBOX"}' 'https://hooks.slack.com/services/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'"""
-								        }
-								    }
-								}
-								
-
-								stage ('ADMIN CA Deployment RECETTE') {
-								    when {
-								      allOf {
-								        tag "back-PREPROD-*"
-								      }
-								    }
-								    steps{
-								        sshagent(credentials : ['CA_RECETTE']) {
-								            sh """ssh -v -o StrictHostKeyChecking=no  ubuntu@35.181.30.106 << EOF
-								            cd /home/ubuntu/api/app/back/files &&
-								            git reset HEAD --hard &&
-								            git checkout master &&
-								            git pull origin master &&
-								            cd /home/ubuntu/api &&
-								            docker-compose up -d --build back &&
-								            exit
-								            EOF
-								            """
-								        }
-								        sshagent(credentials : ['CA_RECETTE']) {
-								            sh """curl -s -d 'payload={"channel": "#notifications", "text": "Publication ADMIN - CA RECETTE"}' 'https://hooks.slack.com/services/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'"""
 								        }
 								    }
 								}
