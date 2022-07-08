@@ -74,6 +74,13 @@ const getStepTranslationVariables = step => {
     maxDate: step.getMaxDate(props.order.delivery)
   };
 };
+
+const getTranslationKey = step => {
+  const baseKey = `order.status.${step.status}`;
+  const keyWithDelivery = `order.status.${props.order.delivery?.tag}.${step.status}`;
+
+  return te(keyWithDelivery) ? keyWithDelivery : baseKey;
+};
 </script>
 
 <template>
@@ -88,7 +95,7 @@ const getStepTranslationVariables = step => {
           <span class="step__date">
             {{ step.formatCreated('d MMM yyyy à HH:mm') }}
           </span>
-          <span>{{ t(`order.status.${step.status}`) }}</span>
+          <span>{{ t(getTranslationKey(step)) }}</span>
         </dsp-truncated-text>
         <dsp-loading-button
           v-if="currentUser.isProjectManager && index !== 0"
