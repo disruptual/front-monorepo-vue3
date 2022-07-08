@@ -49,7 +49,7 @@ export const usePreviewStyle = ({ isExpanded, model, containerWidth }) => {
 
   const backgroundColor = computed(() => {
     const { overlayBackgroundColor = {} } =
-      model.selectedSlide.carouselItemSettings;
+      model.selectedSlide?.carouselItemSettings;
     const { r = '0', g = '0', b = '0', a = '0.5' } = overlayBackgroundColor;
 
     return `rgba(${r},${g},${b},${a})`;
@@ -63,7 +63,7 @@ export const usePreviewStyle = ({ isExpanded, model, containerWidth }) => {
 
   const overlayColor = computed(() => {
     return (
-      model.selectedSlide.carouselItemSettings?.overlayTextColor || 'white'
+      model.selectedSlide?.carouselItemSettings?.overlayTextColor || 'white'
     );
   });
 
