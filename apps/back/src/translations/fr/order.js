@@ -164,7 +164,10 @@ export default {
       [ORDER_PROBLEM_STATE_TRANSITIONS.PROBLEM_IS_SOLVED_BY_CUSTOMER_SERVICE]:
         'Litige résolu',
       [ORDER_PROBLEM_STATE_TRANSITIONS.PROBLEM_IS_SOLVED_AUTOMATICALLY]:
-        'Litige résolu'
+        'Litige résolu',
+      [DELIVERY_MODES.LAPOSTE_COLISSIMO]: {
+        [ORDER_DELIVERY_STATES.PACKAGE_RECOVER_BY_BUYER_IN_PROGRESS]: 'Livrée'
+      }
     },
     store: {
       invalidMessages: {

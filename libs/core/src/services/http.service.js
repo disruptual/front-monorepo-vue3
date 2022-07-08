@@ -22,7 +22,7 @@ export class HttpService {
   }
 
   async makeRequest(url, config) {
-    this.logger.debug(`${config.method.toUpperCase()}${url}`);
+    // this.logger.debug(`${config.method.toUpperCase()}${url}`);
     const { cancel, token } = CancelToken.source();
 
     const promise = this.axios(url, { cancelToken: token, ...config });
