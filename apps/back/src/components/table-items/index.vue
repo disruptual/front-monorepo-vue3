@@ -4,6 +4,7 @@ export default { name: 'TableItems' };
 
 <script setup>
 import { useI18n } from 'vue-i18n';
+import { useCurrency } from '@dsp/core';
 
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
@@ -13,6 +14,7 @@ defineProps({
 });
 
 const { t } = useI18n();
+const { formatPrice } = useCurrency();
 </script>
 
 <template>
@@ -54,7 +56,7 @@ const { t } = useI18n();
       name="price"
       :label="t('dataTable.label.price')"
     >
-      {{ row.formatedPrice }}
+      {{ formatPrice(row.price) }}
     </DataTableColumn>
 
     <DataTableColumn

@@ -5,12 +5,13 @@ export default { name: 'ItemDetailsInfos' };
 <script setup>
 import { computed, watch, unref } from 'vue';
 import { Item } from '@dsp/business';
-import { deepUnref } from '@dsp/core';
+import { deepUnref, useCurrency } from '@dsp/core';
 import ItemFavoriteButton from '../../favorite-button/index.vue';
 import DeliveryCard from '@/components/delivery/card/index.vue';
 import { useItemDetails } from '../use-item-details';
 
 const { item, deliveries, deliveryPrices } = useItemDetails();
+const { formatPrice } = useCurrency();
 
 const allowedDeliveries = computed(() => {
   return item.value.getDeliveries(
@@ -41,9 +42,9 @@ const allowedDeliveries = computed(() => {
       </p>
       <dl>
         <div class="price">
-          {{ item.formatedPrice }}
+          {{ formatPrice(item.price) }}
           <div v-if="item.originalPrice" class="original-price">
-            {{ item.formatedOriginalPrice }}
+            {{ formatPrice(item.originalPrice) }}
           </div>
         </div>
 

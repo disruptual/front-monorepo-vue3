@@ -44,14 +44,6 @@ export class Item extends BaseModel {
     ];
   }
 
-  get formatedPrice() {
-    return formatPrice(this.price);
-  }
-
-  get formatedOriginalPrice() {
-    return formatPrice(this.originalPrice);
-  }
-
   get isPublished() {
     return this.publicationState === ITEM_PUBLICATION_STATES.PUBLISHED;
   }

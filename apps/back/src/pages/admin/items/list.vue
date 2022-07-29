@@ -5,7 +5,7 @@ export default { name: 'AdminItemsListPage' };
 <script setup>
 import { ref } from 'vue';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
-import { useItemApi } from '@dsp/core';
+import { useItemApi, useCurrency } from '@dsp/core';
 import { useI18n } from 'vue-i18n';
 import {
   ITEM_PUBLICATION_STATES,
@@ -21,6 +21,8 @@ import DataTableRowAction from '@/components/data-table/data-table-row-action/in
 useBreadCrumbs('Annonces');
 const { t } = useI18n();
 const { showError } = useToast();
+
+const { formatPrice } = useCurrency();
 
 const defaultFilter = { display: 'all', 'sort[created]': 'desc' };
 const filters = ref({ ...defaultFilter });
@@ -159,10 +161,13 @@ const onRepublish = rows => {
     />
 
     <DataTableColumn
-      name="formatedPrice"
+      v-slot="{ row }"
+      name="price"
       :label="t('dataTable.label.price')"
       width="80"
-    />
+    >
+      {{ formatPrice(row.price) }}
+    </DataTableColumn>
 
     <DataTableColumn
       v-slot="{ row }"

@@ -27,6 +27,12 @@ export default {
     },
     eventStore: {
       isEnabled: false
+    },
+    currency: {
+      shouldRoundIntegerValues: true,
+      currency: 'EUR',
+      locale: 'fr-FR',
+      symbol: '€'
     }
   },
   logo

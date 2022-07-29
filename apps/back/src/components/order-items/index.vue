@@ -4,7 +4,7 @@ export default { name: 'OrderItems' };
 
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { useOrderItemApi } from '@dsp/core';
+import { useOrderItemApi, useCurrency } from '@dsp/core';
 import { useRouter } from 'vue-router';
 
 import DataTable from '@/components/data-table/index.vue';
@@ -16,6 +16,7 @@ const props = defineProps({
 
 const { t } = useI18n();
 const { push } = useRouter();
+const { formatPrice } = useCurrency();
 
 const query = useOrderItemApi().findAllByOrderIdQuery(props.orderId, {
   relations: ['item', 'item.mainMedia', 'item.category']
@@ -69,7 +70,7 @@ const query = useOrderItemApi().findAllByOrderIdQuery(props.orderId, {
       :label="t('dataTable.label.price')"
       width="120"
     >
-      {{ row.item?.formatedPrice }}
+      {{ formatPrice(row.item?.price) }}
     </DataTableColumn>
 
     <DataTableColumn
