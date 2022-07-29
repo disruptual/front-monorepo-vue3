@@ -11,5 +11,6 @@ export default merge({}, defaultConfig, {
       locale: 'de-CH',
       symbol: 'CHF'
     }
-  }
+  },
+  DefaultLayoutHeader: { isLogoDisplayed: true }
 });
