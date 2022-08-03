@@ -372,58 +372,6 @@ pipeline {
 								}
 								
 
-								stage ('ADMIN PICWIC Deployment SANDBOX') {
-								    when {
-								      allOf {
-								        tag "back-SANDBOX-*"
-								      }
-								    }
-								    steps{
-								        sshagent(credentials : ['PICWIC_SANDBOX']) {
-								            sh """ssh -v   ubuntu@15.236.187.203 << EOF
-								            cd /home/ubuntu/api/app/back/files &&
-								            git reset HEAD --hard &&
-								            git checkout dev &&
-								            git pull origin dev &&
-								            cd /home/ubuntu/api &&
-								            docker-compose up -d --build back &&
-								            exit
-								            EOF
-								            """
-								        }
-								        sshagent(credentials : ['PICWIC_SANDBOX']) {
-								            sh """curl -s -d 'payload={"channel": "#notifications", "text": "Publication ADMIN - PICWIC SANDBOX"}' 'https://hooks.slack.com/services/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'"""
-								        }
-								    }
-								}
-								
-
-								stage ('ADMIN PICWIC Deployment RECETTE') {
-								    when {
-								      allOf {
-								        tag "back-PREPROD-*"
-								      }
-								    }
-								    steps{
-								        sshagent(credentials : ['PICWIC_RECETTE']) {
-								            sh """ssh -v -o StrictHostKeyChecking=no  ubuntu@35.181.18.85 << EOF
-								            cd /home/ubuntu/api/app/back/files &&
-								            git reset HEAD --hard &&
-								            git checkout master &&
-								            git pull origin master &&
-								            cd /home/ubuntu/api &&
-								            docker-compose up -d --build back &&
-								            exit
-								            EOF
-								            """
-								        }
-								        sshagent(credentials : ['PICWIC_RECETTE']) {
-								            sh """curl -s -d 'payload={"channel": "#notifications", "text": "Publication ADMIN - PICWIC RECETTE"}' 'https://hooks.slack.com/services/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'"""
-								        }
-								    }
-								}
-								
-
 								stage ('ADMIN CLOZEN Deployment SANDBOX') {
 								    when {
 								      allOf {

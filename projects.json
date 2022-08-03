@@ -125,24 +125,6 @@
     }
   },
 
-  "picwpic": {
-    "name": "PICWIC",
-    "environments": {
-      "SANDBOX": {
-        "ip": "15.236.187.203",
-        "branch": "dev",
-        "sshArguments": " ",
-        "deployTag": "SANDBOX"
-      },
-      "RECETTE": {
-        "ip": "35.181.18.85",
-        "branch": "master",
-        "sshArguments": "-o StrictHostKeyChecking=no ",
-        "deployTag": "PREPROD"
-      }
-    }
-  },
-
   "clozen": {
     "name": "CLOZEN",
     "environments": {
