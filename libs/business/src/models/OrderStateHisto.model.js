@@ -74,6 +74,7 @@ export class OrderStateHisto extends BaseModel {
   }
 
   get status() {
+    if (this.isCancelled) return this.orderStateTransition;
     if (this.isFinished) return this.orderState;
     if (this.isSolvedProblem) return this.problemStateTransition;
 

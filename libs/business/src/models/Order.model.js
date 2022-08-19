@@ -113,6 +113,7 @@ export class Order extends BaseModel {
         ORDER_STATE_TRANSITIONS.CANCEL_AUTOMATIC,
         ORDER_STATE_TRANSITIONS.CANCEL_AUTOMATIC_BY_DISTRIBUTED,
         ORDER_STATE_TRANSITIONS.LOST_PACKAGE,
+        ORDER_STATE_TRANSITIONS.DELIVERY_CANCELLED,
         ORDER_STATE_TRANSITIONS.SELLER_RECOVERY,
         ORDER_STATE_TRANSITIONS.TO_GIVE_TO_AN_ASSOCIATION
       ].includes(this.orderStateTransition) ||
@@ -272,6 +273,13 @@ export class Order extends BaseModel {
     }
   }
 
+  get isUncancellable() {
+    return (
+      this.isEnded &&
+      this.orderStateTransition === ORDER_STATE_TRANSITIONS.DELIVERY_CANCELLED
+    );
+  }
+
   get isRecoverableBySeller() {
     if (!this.orderItems) return false;
     if (this.isRecoveryDateExpired) return false;
@@ -321,13 +329,12 @@ export class Order extends BaseModel {
     const index = this.orderStatehistory.findIndex(
       o => o.orderState === 'DELIVERY_IN_PROGRESS'
     );
-    const change = this.orderStatehistory.some(
-      o => o.orderState === 'DELIVERY_IN_PROGRESS'
-    );
+    if (index === -1) return this.orderStatehistory;
+
     const result = this.orderStatehistory.slice();
     result.splice(index, 1, ...this.orderDeliveryStateHistory);
-    if (change) return result;
-    else return this.orderStatehistory;
+
+    return result;
   }
   get locationStoreType() {
     return this.warehouseLocation?.id !== this.location?.id
@@ -432,6 +439,8 @@ export class Order extends BaseModel {
     };
   }
   get nextTransition() {
+    if (this.isCancelled && !this.isUncancellable) return null;
+
     return this.nextTransitions[this.delivery.tag][this.deliveryState];
   }
 }

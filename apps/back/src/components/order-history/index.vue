@@ -3,11 +3,13 @@ export default { name: 'OrderHistory' };
 </script>
 
 <script setup>
-import { Order } from '@dsp/business';
+import { Order, ORDER_STATE_TRANSITIONS } from '@dsp/business';
 import { useI18n } from 'vue-i18n';
 import { useOrderApi } from '@dsp/core';
 import { useCurrentUser } from '@dsp/core';
 import { useToast } from '@dsp/ui';
+import { computed } from 'vue';
+import { useQueryClient } from 'vue-query';
 
 const props = defineProps({
   order: { type: Order, required: true }
@@ -16,11 +18,28 @@ const emit = defineEmits(['rollback', 'forward']);
 const { t, te } = useI18n();
 const { data: currentUser } = useCurrentUser();
 const { showError } = useToast();
+const queryClient = useQueryClient();
 
-const { rollbackMutation, forwardMutation } = useOrderApi();
-const { mutateAsync: rollback, isLoading: isRollbackLoading } =
-  rollbackMutation();
-const { mutateAsync: forward, isLoading: isForwardLoading } = forwardMutation();
+const {
+  rollbackMutation,
+  forwardMutation,
+  finalizeCancelledMutation,
+  cancelFinalizedMutation
+} = useOrderApi();
+const { mutateAsync: rollback, isLoading: isRollbacking } = rollbackMutation();
+const { mutateAsync: forward, isLoading: isForwarding } = forwardMutation();
+const { mutate: finalizeCancelled, isLoading: isFinalizing } =
+  finalizeCancelledMutation({
+    onSuccess(response) {
+      queryClient.setQueryData(props.order.uri, response);
+    }
+  });
+const { mutate: cancelFinalized, isLoading: isCancelling } =
+  cancelFinalizedMutation({
+    onSuccess(response) {
+      queryClient.setQueryData(props.order.uri, response);
+    }
+  });
 
 const onRollback = async step => {
   try {
@@ -38,12 +57,18 @@ const onRollback = async step => {
 
 const onForward = async () => {
   try {
-    await forward({
-      id: props.order.id,
-      deliveryTag: props.order.delivery.tag,
-      transition: props.order.nextTransition
-    });
-    emit('forward');
+    if (props.order.isUncancellable) {
+      finalizeCancelled(props.order.id);
+    } else if (props.order.isFinished) {
+      cancelFinalized(props.order.id);
+    } else {
+      await forward({
+        id: props.order.id,
+        deliveryTag: props.order.delivery.tag,
+        transition: props.order.nextTransition
+      });
+      emit('forward');
+    }
   } catch (err) {
     console.error(err);
     showError(t('toasts.orderHistory.forwardError'));
@@ -81,6 +106,27 @@ const getTranslationKey = step => {
 
   return te(keyWithDelivery) ? keyWithDelivery : baseKey;
 };
+
+const canForward = computed(
+  () =>
+    props.order.nextTransition ||
+    props.order.isUncancellable ||
+    props.order.isFinished
+);
+
+const forwardLabel = computed(() => {
+  if (props.order.isUncancellable) return t('orderHistory.finalizeCancelled');
+  if (props.order.isFinished) return t('orderHistory.cancelFinalized');
+
+  return t('orderHistory.next');
+});
+
+const forwardColor = computed(() => {
+  if (props.order.isUncancellable) return 'green';
+  if (props.order.isFinished) return 'red';
+
+  return 'brand';
+});
 </script>
 
 <template>
@@ -95,27 +141,33 @@ const getTranslationKey = step => {
           <span class="step__date">
             {{ step.formatCreated('d MMM yyyy à HH:mm') }}
           </span>
-          <span>{{ t(getTranslationKey(step)) }}</span>
+          <span>
+            {{ t(getTranslationKey(step)) }}
+          </span>
         </dsp-truncated-text>
-        <dsp-loading-button
-          v-if="currentUser.isProjectManager && index !== 0"
-          left-icon="reset"
-          :disabled="!step.isRollbackable(order)"
-          is-outlined
-          :is-loading="isRollbackLoading"
-          @click="onRollback(step)"
-        >
-          <span class="button-label">{{ t('orderHistory.previous') }}</span>
-        </dsp-loading-button>
-        <dsp-loading-button
-          v-else-if="currentUser.isProjectManager"
-          :disabled="!order.nextTransition"
-          left-icon="fastForward"
-          :is-loading="isForwardLoading"
-          @click="onForward"
-        >
-          <span class="button-label">{{ t('orderHistory.next') }}</span>
-        </dsp-loading-button>
+
+        <template v-if="currentUser.isProjectManager">
+          <dsp-loading-button
+            v-if="index !== 0"
+            left-icon="reset"
+            :disabled="!step.isRollbackable(order)"
+            is-outlined
+            :is-loading="isRollbacking"
+            @click="onRollback(step)"
+          >
+            <span class="button-label">{{ t('orderHistory.previous') }}</span>
+          </dsp-loading-button>
+          <dsp-loading-button
+            v-else
+            :disabled="!canForward"
+            left-icon="fastForward"
+            :is-loading="isForwarding || isCancelling || isFinalizing"
+            :color-scheme="forwardColor"
+            @click="onForward"
+          >
+            <span class="button-label">{{ forwardLabel }}</span>
+          </dsp-loading-button>
+        </template>
       </dsp-flex>
       <div class="step__description">{{ getStepDescription(step) }}</div>
     </li>
@@ -147,7 +199,7 @@ li {
 
 button {
   @include not-mobile {
-    width: 12em;
+    width: 15em;
   }
 }
 </style>

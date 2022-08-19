@@ -13,6 +13,8 @@ export default {
       "Il n'est pas possible de revenir en arrière dans l'état d'une commande si celle-ci est finalisée ou qu'elle a subi un litige. Il est également impossible de revenir avant la validation de la commande par le vendeur.",
     next: "Avancer l'état",
     previous: "Revenir à l'état",
+    finalizeCancelled: 'Finaliser (annulée)',
+    cancelFinalized: 'Annuler la commande',
     [DELIVERY_MODES.COLISSIMO]: {
       [ORDER_DELIVERY_STATES.DELIVERED]: {
         description:

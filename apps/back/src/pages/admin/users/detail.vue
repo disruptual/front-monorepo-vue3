@@ -41,7 +41,7 @@ const activeTab = computed({
   }
 });
 
-const onSuccess = ({ slug }) => {
+const onUpdateSuccess = ({ slug }) => {
   replace({ ...route, params: { slug: slug } });
 };
 </script>
@@ -55,7 +55,7 @@ const onSuccess = ({ slug }) => {
       <dsp-tab :name="TABS.INFOS" :label="t(`user.details.tabs.${TABS.INFOS}`)">
         <dsp-container is-small>
           <dsp-surface>
-            <UserDetails :user="user" @success="onSuccess($event)" />
+            <UserDetails :user="user" @success="onUpdateSuccess($event)" />
           </dsp-surface>
         </dsp-container>
       </dsp-tab>

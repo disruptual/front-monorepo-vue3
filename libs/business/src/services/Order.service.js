@@ -58,4 +58,16 @@ export class OrderService extends BaseCRUDService {
   cancelDispute(orderId) {
     return this._http.get(`/orders/${orderId}/remove-dispute`);
   }
+
+  finalizeCancelled(orderId) {
+    return this._http.post(`/orders/${orderId}/finalize_cancelled`, {
+      data: {}
+    });
+  }
+
+  cancelFinalized(orderId) {
+    return this._http.post(`/orders/${orderId}/cancel_finalized`, {
+      data: {}
+    });
+  }
 }

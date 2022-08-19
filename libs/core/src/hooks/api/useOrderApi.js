@@ -50,6 +50,22 @@ export function useOrderApi() {
         id => orderService.cancelDispute(id),
         requestOptions
       );
+    },
+
+    finalizeCancelledMutation(requestOptions) {
+      return useMutation(
+        `finalizeCancelled`,
+        id => orderService.finalizeCancelled(id),
+        requestOptions
+      );
+    },
+
+    cancelFinalizedMutation(requestOptions) {
+      return useMutation(
+        `cancelFinalized`,
+        id => orderService.cancelFinalized(id),
+        requestOptions
+      );
     }
   }));
 }
