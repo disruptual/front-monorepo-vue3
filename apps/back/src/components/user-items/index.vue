@@ -4,7 +4,7 @@ export default { name: 'UserItems' };
 
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { useItemApi } from '@dsp/core';
+import { useItemApi, useCurrency } from '@dsp/core';
 import DataTable from '@/components/data-table/index.vue';
 import DataTableColumn from '@/components/data-table/data-table-column/index.vue';
 const props = defineProps({
@@ -12,6 +12,7 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
+const { formatPrice } = useCurrency();
 
 const query = useItemApi().findAllByUserIdQuery(props.userId);
 </script>
@@ -55,7 +56,7 @@ const query = useItemApi().findAllByUserIdQuery(props.userId);
       name="price"
       :label="t('dataTable.label.price')"
     >
-      {{ row.formatedPrice }}
+      {{ formatPrice(row.price) }}
     </DataTableColumn>
 
     <DataTableColumn

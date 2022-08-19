@@ -4,7 +4,10 @@ export default { name: 'ItemCardInfos' };
 
 <script setup>
 import { Item } from '@dsp/business';
+import { useCurrency } from '@dsp/core';
 import ItemFavoriteButton from '@/components/item/favorite-button/index.vue';
+
+const { formatPrice } = useCurrency();
 
 const props = defineProps({
   item: { type: Item, required: true }
@@ -13,7 +16,7 @@ const props = defineProps({
 
 <template>
   <dsp-flex justify="space-between" align="center">
-    <div class="item-card-infos__price">{{ item.formatedPrice }}</div>
+    <div class="item-card-infos__price">{{ formatPrice(item.price) }}</div>
     <ItemFavoriteButton :item="props.item" />
   </dsp-flex>
   <div class="item-card-infos__brand">

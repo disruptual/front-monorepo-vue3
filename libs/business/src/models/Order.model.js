@@ -91,10 +91,8 @@ export class Order extends BaseModel {
     ];
   }
 
-  get formatedPrice() {
-    const price = this.totalPrice + this.serviceFeeAmount + this.deliveryPrice;
-
-    return formatPrice(price);
+  get price() {
+    return this.totalPrice + this.serviceFeeAmount + this.deliveryPrice;
   }
 
   get isEnded() {

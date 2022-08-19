@@ -5,7 +5,7 @@ export default { name: 'AdminOrdersListPage' };
 <script setup>
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useOrderApi, useDeliveryApi } from '@dsp/core';
+import { useOrderApi, useDeliveryApi, useCurrency } from '@dsp/core';
 import { ORDER_STATES } from '@dsp/business';
 import { useBreadCrumbs } from '@/hooks/useBreadcrumbs';
 import { DATATABLE_COLUMN_TYPES } from '@/utils/constants';
@@ -17,6 +17,7 @@ import DataTableColumn from '@/components/data-table/data-table-column/index.vue
 useBreadCrumbs('Commandes');
 
 const { t } = useI18n();
+const { formatPrice } = useCurrency();
 const filters = ref({});
 
 const onFilterChange = ({ created, ...newFilters }) => {
@@ -157,12 +158,15 @@ const getStatusClass = order => ({
     </DataTableColumn>
 
     <DataTableColumn
-      name="formatedPrice"
+      v-slot="{ row }"
+      name="price"
       :label="t('dataTable.label.price')"
       width="150"
       :type="DATATABLE_COLUMN_TYPES.NUMBER"
       is-highlightable
-    />
+    >
+      {{ formatPrice(row.price) }}
+    </DataTableColumn>
 
     <DataTableColumn
       v-slot="{ row }"

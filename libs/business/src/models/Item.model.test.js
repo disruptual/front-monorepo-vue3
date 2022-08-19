@@ -5,12 +5,6 @@ import {
 } from '../enums/item.enums';
 
 describe('ItemModel', () => {
-  it('should return formatedPrice', () => {
-    const item = new Item({ price: 10.5 });
-
-    expect(item.formatedPrice).toBe('10,50€');
-  });
-
   it('should be published', () => {
     const item = new Item({
       publicationState: ITEM_PUBLICATION_STATES.PUBLISHED
